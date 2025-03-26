@@ -13,9 +13,4 @@ class WorkType extends Model
 
     protected $fillable = ['name', 'order_type'];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        dd($this->getTable()); // Debugging table name
-    }
 }
