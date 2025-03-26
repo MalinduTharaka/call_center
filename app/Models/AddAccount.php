@@ -13,9 +13,4 @@ class AddAccount extends Model
 
     protected $fillable = ['name', 'code', 'email', 'phone', 'password'];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        dd($this->getTable()); // Debugging table name
-    }
 }
