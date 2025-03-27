@@ -41,12 +41,12 @@
 
             <!-- Topbar Search Form -->
             <div class="app-search d-none d-lg-block">
-                <form>
+                {{-- <form>
                     <div class="input-group">
                         <input type="search" class="form-control" placeholder="Search...">
                         <span class="ri-search-line search-icon text-muted"></span>
                     </div>
-                </form>
+                </form> --}}
             </div>
         </div>
 
@@ -64,7 +64,7 @@
                 </div>
             </li>
 
-            <li class="dropdown">
+            {{-- <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     <img src="{{ asset('assets/images/flags/us.jpg')}}" alt="user-image" class="me-0 me-sm-1" height="12">
@@ -98,7 +98,7 @@
                     </a>
 
                 </div>
-            </li>
+            </li> --}}
 
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"

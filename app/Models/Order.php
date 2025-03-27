@@ -45,7 +45,9 @@ class Order extends Model
         'designer_id',
         'invoice',
         'due_date',
-        'user_id'
+        'user_id',
+        'old_new',
+        'add_acc_id',
     ];
 
     /**
