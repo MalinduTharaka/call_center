@@ -11,7 +11,7 @@
                 <div class="col-md-8">
                     <div class="card-body p-0">
                         <button class="btn w-100 h-100 text-start p-3" data-bs-toggle="modal" data-bs-target="#boostingmodel">
-                            <h5 class="card-title mb-0">Boosting</h5>
+                            <h5 class="card-title mb-0">Boostinggg</h5>
                         </button>
                     </div> <!-- end card-body-->
                 </div> <!-- end col -->
