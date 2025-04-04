@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Slip extends Model
+class Invoice extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Slip extends Model
      *
      * @var string
      */
-    protected $table = 'slips';
+    protected $table = 'invoices';
 
     /**
      * The attributes that are mass assignable.
@@ -22,16 +22,16 @@ class Slip extends Model
      * @var array
      */
     protected $fillable = [
-        'order_id',
-        'slip_path',
-        'bank',
+        'date',
+        'inv',
+        'contact',
+        'order_id1',
+        'order_id2',
+        'order_id3',
+        'total',
+        'status',
+        'amt1',
+        'amt2',
+        'amt3',
     ];
-
-    /**
-     * Get the order associated with the slip.
-     */
-    public function order()
-    {
-        return $this->belongsTo(Order::class);
-    }
 }

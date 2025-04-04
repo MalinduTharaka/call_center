@@ -32,6 +32,7 @@ class User extends Authenticatable
         'contact',
         'nic',
         'password',
+        'cc_num'
     ];
 
     /**
@@ -67,4 +68,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function callCenter()
+    {
+        return $this->belongsTo(CallCenter::class, 'cc_num');
+    }
+
 }
