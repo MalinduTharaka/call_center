@@ -34,7 +34,9 @@ class Order extends Model
         'payment_status',
         'cash',
         'advertiser_id',
-        'package_id',
+        'package_amt',
+        'service',
+        'tax',
         'amount',
         'advance',
         'details',
@@ -45,7 +47,10 @@ class Order extends Model
         'designer_id',
         'invoice',
         'due_date',
-        'user_id'
+        'user_id',
+        'old_new',
+        'add_acc_id',
+        'fb_fee',
     ];
 
     /**
