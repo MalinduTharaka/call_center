@@ -139,7 +139,7 @@
                                                 <label for="payment_type" class="form-label">Payment Type</label>
                                                 <select id="payment_type" class="form-select" name="payment_type">
                                                     <option value="completed" selected>Complete</option>
-                                                    <option value="partial">Installment</option>
+                                                    <option value="partial">Advance</option>
                                                 </select>
                                             </div>
                                         </div>

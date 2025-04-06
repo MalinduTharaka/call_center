@@ -30,6 +30,7 @@ class Invoice extends Model
         'order_id3',
         'total',
         'status',
+        'due_date',
         'amt1',
         'amt2',
         'amt3',
