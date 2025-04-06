@@ -30,14 +30,22 @@ Route::middleware([
     Route::put('/orders/video/update/{id}', [OrderConroller::class, 'updateVideoOrders'])->name('orders.update.video');
 
     //Work Type Routes
-    Route::get('/work-types', [WorkTypeController::class, 'index']);
+    Route::get('/work-types', [WorkTypeController::class, 'index'])->name('work-types.index');
+    Route::post('/store/work-types', [WorkTypeController::class, 'store'])->name('work-types.store');
+    Route::get('/work-types/{id}/edit', [WorkTypeController::class, 'edit'])->name('work-types.edit');
+    Route::put('/work-types/{workType}', [WorkTypeController::class, 'update'])->name('work-types.update');
+    Route::delete('/work-types/{workType}', [WorkTypeController::class, 'destroy'])->name('work-types.destroy');
+    
 
     //Add Account Routes
     Route::get('/add-account', [AddAccountController::class, 'index']);
+    Route::post('/store/add-account', [AddAccountController::class, 'store'])->name('account.store');
+    Route::get('/add-account/{id}/edit', [AddAccountController::class, 'edit'])->name('account.edit');
+    Route::put('/add-account/{id}', [AddAccountController::class, 'update'])->name('account.update');
+    Route::delete('/add-account/{id}', [AddAccountController::class, 'destroy'])->name('account.destroy');
 
     //Package Routes
     Route::get('/packages', [PackageController::class, 'index']);
-
 
     //Invoice Routes
     Route::get('/invoice-ads/{id}', [InvoiceController::class, 'invoiceads'])->name('invoiceads');
