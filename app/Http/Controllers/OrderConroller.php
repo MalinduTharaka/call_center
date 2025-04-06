@@ -500,7 +500,11 @@ class OrderConroller extends Controller
             // $orders->update(['payment_status' => $request->payment_status]);
         }
 
-        return redirect()->back()->with('success', 'Order updated successfully!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Order #'.$id.' updated successfully!', // Customized message
+            'data' => $order
+        ]);
     }
 
     public function updateDesignsOrders(Request $request, $id)

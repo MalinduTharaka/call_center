@@ -22,6 +22,7 @@ class Invoice extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'date',
         'inv',
         'contact',
@@ -30,6 +31,8 @@ class Invoice extends Model
         'order_id3',
         'total',
         'status',
+        'due_date',
+        'notifi_status',
         'amt1',
         'amt2',
         'amt3',
