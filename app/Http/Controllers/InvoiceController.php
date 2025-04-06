@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\InvoiceId;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -14,20 +15,23 @@ class InvoiceController extends Controller
 {
     public function invoicesolo($id){
         $order = Order::findOrFail($id);
-        return view('call_center.invoice-solo', compact('order'));
+        $invoices = Invoice::all();
+        return view('call_center.invoice-solo', compact('order', 'invoices'));
     }
 
     public function invoicetwo($id1, $id2){
         $order1 = Order::findOrFail($id1);
         $order2 = Order::findOrFail($id2);
-        return view('call_center.invoice-two', compact('order1', 'order2'));
+        $invoices = Invoice::all();
+        return view('call_center.invoice-two', compact('order1', 'order2', 'invoices'));
     }
 
     public function invoiceall($id1, $id2, $id3){
         $order1 = Order::findOrFail($id1);
         $order2 = Order::findOrFail($id2);
         $order3 = Order::findOrFail($id3);
-        return view('call_center.invoice-all', compact('order1', 'order2', 'order3'));
+        $invoices = Invoice::all();
+        return view('call_center.invoice-all', compact('order1', 'order2', 'order3', 'invoices'));
     }
 
     public function new_invoice(Request $request)
@@ -62,7 +66,9 @@ class InvoiceController extends Controller
                 'date' => today(),
             ]);
             $inv_id = $inv->id;
-            return view('call_center.invoice-solo', compact('order', 'inv_id'));
+
+            $invoices = Invoice::all();
+            return view('call_center.invoice-solo', compact('order', 'inv_id', 'invoices'));
         }
         // Scenario 2: Only order_type2 is checked
         elseif (!$orderType1 && $orderType2 && !$orderType3) {
@@ -83,7 +89,9 @@ class InvoiceController extends Controller
                 'date' => today(),
             ]);
             $inv_id = $inv->id;
-            return view('call_center.invoice-solo', compact('order', 'inv_id'));
+
+            $invoices = Invoice::all();
+            return view('call_center.invoice-solo', compact('order', 'inv_id', 'invoices'));
         }
         // Scenario 3: Only order_type3 is checked
         elseif (!$orderType1 && !$orderType2 && $orderType3) {
@@ -107,7 +115,9 @@ class InvoiceController extends Controller
                 'date' => today(),
             ]);
             $inv_id = $inv->id;
-            return view('call_center.invoice-solo', compact('order', 'inv_id'));
+
+            $invoices = Invoice::all();
+            return view('call_center.invoice-solo', compact('order', 'inv_id', 'invoices'));
         }
         // Scenario 4: order_type1 and order_type2 are checked
         elseif ($orderType1 && $orderType2 && !$orderType3) {
@@ -148,7 +158,9 @@ class InvoiceController extends Controller
                 'date' => today(),
             ]);
             $inv_id = $inv->id;
-            return view('call_center.invoice-two', compact('order1', 'order2', 'inv_id'));
+
+            $invoices = Invoice::all();
+            return view('call_center.invoice-two', compact('order1', 'order2', 'inv_id', 'invoices'));
         }
         // Scenario 5: order_type1 and order_type3 are checked
         elseif ($orderType1 && !$orderType2 && $orderType3) {
@@ -193,7 +205,9 @@ class InvoiceController extends Controller
                 'date' => today(),
             ]);
             $inv_id = $inv->id;
-            return view('call_center.invoice-two', compact('order1', 'order2', 'inv_id'));
+
+            $invoices = Invoice::all();
+            return view('call_center.invoice-two', compact('order1', 'order2', 'inv_id', 'invoices'));
         }
         // Scenario 6: order_type2 and order_type3 are checked
         elseif (!$orderType1 && $orderType2 && $orderType3) {
@@ -233,7 +247,8 @@ class InvoiceController extends Controller
             ]);
             $inv_id = $inv->id;
 
-            return view('call_center.invoice-two', compact('order1', 'order2', 'inv_id'));
+            $invoices = Invoice::all();
+            return view('call_center.invoice-two', compact('order1', 'order2', 'inv_id', 'invoices'));
         }
         // Scenario 7: All three order types are checked
         elseif ($orderType1 && $orderType2 && $orderType3) {
@@ -292,10 +307,26 @@ class InvoiceController extends Controller
                 'date' => today(),
             ]);
             $inv_id = $inv->id;
-            return view('call_center.invoice-all', compact('order1', 'order2', 'order3', 'inv_id'));
+
+            $invoices = Invoice::all();
+            return view('call_center.invoice-all', compact('order1', 'order2', 'order3', 'inv_id', 'invoices'));
         }
 
         return redirect()->back()->with('error', 'No order type selected.');
     }
 
+
+    public function markAsRead(Request $request)
+    {
+        $invoice = Invoice::find($request->invoice_id);
+
+        if ($invoice) {
+            $invoice->notifi_status = 'read';
+            $invoice->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
 }

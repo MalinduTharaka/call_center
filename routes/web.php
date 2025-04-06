@@ -8,6 +8,7 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\WorkTypeController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Invoice;
 
 Route::get('/', function () {
     return Auth::check() ? redirect()->route('dashboard') : redirect()->route('login');
@@ -18,7 +19,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
+    Route::get('/dashboard', function () { $invoices = Invoice::all(); return view('dashboard', compact('invoices')); })->name('dashboard');
 
     //Order Routes
     Route::get('/new/orders', [OrderConroller::class, 'index']);
@@ -53,6 +54,10 @@ Route::middleware([
     Route::post('/slip/update', [SlipController::class, 'store'])->name('upload.slip');
 
     Route::get('/orders/get-order-types/{inv}', [OrderConroller::class, 'getOrderTypes']);
+
+    //Notification Routes
+    Route::post('/invoice/mark-read', [InvoiceController::class, 'markAsRead'])->name('invoice.markRead');
+
 });
 
 

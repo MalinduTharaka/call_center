@@ -67,7 +67,8 @@
             {{-- <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
-                    <img src="{{ asset('assets/images/flags/us.jpg')}}" alt="user-image" class="me-0 me-sm-1" height="12">
+                    <img src="{{ asset('assets/images/flags/us.jpg')}}" alt="user-image" class="me-0 me-sm-1"
+                        height="12">
                     <span class="align-middle d-none d-lg-inline-block">English</span> <i
                         class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i>
                 </a>
@@ -75,32 +76,32 @@
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('assets/images/flags/germany.jpg')}}" alt="user-image" class="me-1" height="12"> <span
-                            class="align-middle">German</span>
+                        <img src="{{ asset('assets/images/flags/germany.jpg')}}" alt="user-image" class="me-1"
+                            height="12"> <span class="align-middle">German</span>
                     </a>
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('assets/images/flags/italy.jpg')}}" alt="user-image" class="me-1" height="12"> <span
-                            class="align-middle">Italian</span>
+                        <img src="{{ asset('assets/images/flags/italy.jpg')}}" alt="user-image" class="me-1"
+                            height="12"> <span class="align-middle">Italian</span>
                     </a>
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('assets/images/flags/spain.jpg')}}" alt="user-image" class="me-1" height="12"> <span
-                            class="align-middle">Spanish</span>
+                        <img src="{{ asset('assets/images/flags/spain.jpg')}}" alt="user-image" class="me-1"
+                            height="12"> <span class="align-middle">Spanish</span>
                     </a>
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('assets/images/flags/russia.jpg')}}" alt="user-image" class="me-1" height="12"> <span
-                            class="align-middle">Russian</span>
+                        <img src="{{ asset('assets/images/flags/russia.jpg')}}" alt="user-image" class="me-1"
+                            height="12"> <span class="align-middle">Russian</span>
                     </a>
 
                 </div>
             </li> --}}
 
-            <li class="dropdown notification-list">
+            {{-- <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     <i class="ri-mail-line fs-22"></i>
@@ -129,8 +130,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <div class="notify-icon">
-                                            <img src="{{ asset('assets/images/users/avatar-1.jpg')}}" class="img-fluid rounded-circle"
-                                                alt="" />
+                                            <img src="{{ asset('assets/images/users/avatar-1.jpg')}}"
+                                                class="img-fluid rounded-circle" alt="" />
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 text-truncate ms-2">
@@ -150,8 +151,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <div class="notify-icon">
-                                            <img src="{{ asset('assets/images/users/avatar-2.jpg')}}" class="img-fluid rounded-circle"
-                                                alt="" />
+                                            <img src="{{ asset('assets/images/users/avatar-2.jpg')}}"
+                                                class="img-fluid rounded-circle" alt="" />
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 text-truncate ms-2">
@@ -170,8 +171,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <div class="notify-icon">
-                                            <img src="{{ asset('assets/images/users/avatar-3.jpg')}}" class="img-fluid rounded-circle"
-                                                alt="" />
+                                            <img src="{{ asset('assets/images/users/avatar-3.jpg')}}"
+                                                class="img-fluid rounded-circle" alt="" />
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 text-truncate ms-2">
@@ -190,8 +191,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <div class="notify-icon">
-                                            <img src="{{ asset('assets/images/users/avatar-4.jpg')}}" class="img-fluid rounded-circle"
-                                                alt="" />
+                                            <img src="{{ asset('assets/images/users/avatar-4.jpg')}}"
+                                                class="img-fluid rounded-circle" alt="" />
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 text-truncate ms-2">
@@ -211,8 +212,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0">
                                         <div class="notify-icon">
-                                            <img src="{{ asset('assets/images/users/avatar-5.jpg')}}" class="img-fluid rounded-circle"
-                                                alt="" />
+                                            <img src="{{ asset('assets/images/users/avatar-5.jpg')}}"
+                                                class="img-fluid rounded-circle" alt="" />
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 text-truncate ms-2">
@@ -232,40 +233,184 @@
                     </a>
 
                 </div>
-            </li>
+            </li> --}}
+
+            @php
+                $unreadInvoicesCount = $invoices->filter(function ($invoice) {
+                    return $invoice->user_id == Auth::id()
+                        && $invoice->status == 'pending'
+                        && $invoice->notifi_status == 'unread'
+                        && $invoice->due_date == \Carbon\Carbon::today()->toDateString();
+                })->count();
+            @endphp
+
+            @php
+                $user = Auth::user(); // Get the authenticated user
+
+                // If the user is an admin, count all invoices that match the conditions
+                $totalInvoices = $invoices->filter(function ($invoice) use ($user) {
+                    return ($user->role == 'admin' || $invoice->user_id == $user->id) &&
+                        $invoice->status == 'pending' &&
+                        $invoice->notifi_status == 'unread' &&
+                        $invoice->due_date == \Carbon\Carbon::today()->toDateString();
+                })->count();
+            @endphp
+
 
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     <i class="ri-notification-3-line fs-22"></i>
-                    <span class="noti-icon-badge badge text-bg-pink">3</span>
+                    <span class="noti-icon-badge badge text-bg-pink">
+                        @if (Auth::user()->role == 'admin')
+                            {{ $totalInvoices }}
+                        @else
+                            {{ $unreadInvoicesCount }}
+                        @endif
+                    </span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
+
+                <style>
+                    .custom-dropdown-width {
+                        width: 400px;
+                        /* Adjust this value to your desired width */
+                    }
+
+                    .reduced-height {
+                        padding: 4px 12px; 
+                        height: 40px;
+                    }
+                </style>
+                <div
+                    class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0 custom-dropdown-width">
                     <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
                         <div class="row align-items-center">
                             <div class="col">
                                 <h6 class="m-0 fs-16 fw-semibold"> Notification</h6>
                             </div>
-                            <div class="col-auto">
-                                <a href="javascript: void(0);" class="text-dark text-decoration-underline">
-                                    <small>Clear All</small>
-                                </a>
-                            </div>
+
                         </div>
                     </div>
 
-                    <div style="max-height: 300px;" data-simplebar>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <div class="notify-icon bg-primary-subtle">
-                                <i class="mdi mdi-comment-account-outline text-primary"></i>
-                            </div>
-                            <p class="notify-details">Caleb Flakelar commented on Admin
-                                <small class="noti-time">1 min ago</small>
-                            </p>
-                        </a>
+                    <div style="max-height: 500px;" data-simplebar>
 
-                        <!-- item-->
+                        @foreach ($invoices as $invoice)
+                            @if (Auth::user()->role == 'admin')
+                                @if ($invoice->status == 'pending' && $invoice->notifi_status == 'unread' && $invoice->due_date == \Carbon\Carbon::today()->toDateString())
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item" id="invoice-{{ $invoice->id }}">
+                                        <div class="d-flex justify-content-between w-100">
+                                            <div class="d-flex">
+                                                <div class="notify-icon bg-pink-subtle">
+                                                    <i class="mdi mdi-comment-account-outline text-pink"></i>
+                                                </div>
+                                                <p class="notify-details mb-0 ml-2">
+                                                    Invoice ID : {{ $invoice->inv }}
+                                                    <small class="noti-time">Onvoice placed date : {{ $invoice->date }}</small>
+                                                    <small class="noti-time">Contact : {{ $invoice->contact }}</small>
+                                                    <small class="noti-time">Total : Rs.{{ $invoice->total }}</small>
+                                                    <small class="noti-time">Paid :
+                                                        Rs.{{ ($invoice->amt1 + $invoice->amt2 + $invoice->amt3) }}</small>
+                                                    <small class="noti-time">Balance :
+                                                        Rs.{{ $invoice->total - ($invoice->amt1 + $invoice->amt2 + $invoice->amt3) }}
+                                                    </small>
+                                                </p>
+                                            </div>
+                                            <!-- Mark as Read Button -->
+                                            {{-- <button class="mark-as-read btn btn-success btn-sm tooltips reduced-height"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Mark as read"
+                                                data-id="{{ $invoice->id }}">
+                                                <i class="ri-check-double-fill"></i>
+                                            </button> --}}
+                                        </div>
+                                    </a>
+                                    <hr>
+                                @endif
+                            @elseif($invoice->user_id == Auth::user()->id)
+                                @if ($invoice->status == 'pending' && $invoice->notifi_status == 'unread' && $invoice->due_date == \Carbon\Carbon::today()->toDateString())
+                                    <!-- item-->
+                                    <a href="javascript:void(0);" class="dropdown-item notify-item" id="invoice-{{ $invoice->id }}">
+                                        <div class="d-flex justify-content-between w-100">
+                                            <div class="d-flex">
+                                                <div class="notify-icon bg-pink-subtle">
+                                                    <i class="mdi mdi-comment-account-outline text-pink"></i>
+                                                </div>
+                                                <p class="notify-details mb-0 ml-2">
+                                                    Invoice ID : {{ $invoice->inv }}
+                                                    <small class="noti-time">Onvoice placed date : {{ $invoice->date }}</small>
+                                                    <small class="noti-time">Contact : {{ $invoice->contact }}</small>
+                                                    <small class="noti-time">Total : Rs.{{ $invoice->total }}</small>
+                                                    <small class="noti-time">Paid :
+                                                        Rs.{{ ($invoice->amt1 + $invoice->amt2 + $invoice->amt3) }}</small>
+                                                    <small class="noti-time">Balance :
+                                                        Rs.{{ $invoice->total - ($invoice->amt1 + $invoice->amt2 + $invoice->amt3) }}
+                                                    </small>
+                                                </p>
+                                            </div>
+                                            <!-- Mark as Read Button -->
+                                            <button class="mark-as-read btn btn-success btn-sm tooltips reduced-height"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Mark as read"
+                                                data-id="{{ $invoice->id }}">
+                                                <i class="ri-check-double-fill"></i>
+                                            </button>
+                                        </div>
+                                    </a>
+
+                                    <hr>
+                                @endif
+                            @endif
+                        @endforeach
+
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                // Mark as Read button click handler
+                                $('.mark-as-read').click(function () {
+                                    var invoiceId = $(this).data('id');
+
+                                    // Send AJAX request to update the notify_status
+                                    $.ajax({
+                                        url: '{{ route("invoice.markRead") }}', // Define this route
+                                        method: 'POST',
+                                        data: {
+                                            _token: '{{ csrf_token() }}', // Include CSRF token for security
+                                            invoice_id: invoiceId,
+                                        },
+                                        success: function (response) {
+                                            if (response.success) {
+                                                // Find the invoice item by ID and update the UI
+                                                var invoiceItem = $('#invoice-' + invoiceId);
+                                                invoiceItem.find('.notify-details').append(' (Read)');
+                                                invoiceItem.find('.mark-as-read').prop('disabled', true);
+                                                invoiceItem.find('.notify-icon').css('background-color', '#f0f0f0');
+
+                                                // Update the counter: get the current counter value, decrement it, and update the UI
+                                                var counterElement = $('.noti-icon-badge');
+                                                var currentCount = parseInt(counterElement.text());
+                                                if (currentCount > 0) {
+                                                    counterElement.text(currentCount - 1);
+                                                }
+
+                                                // Optionally, hide the notification after a short delay
+                                                setTimeout(function () {
+                                                    invoiceItem.fadeOut();
+                                                }, 1000);
+                                            } else {
+                                                alert('Error marking as read');
+                                            }
+                                        },
+
+                                        error: function () {
+                                            alert('There was an error. Please try again.');
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+
+
+
+                        {{-- <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <div class="notify-icon bg-warning-subtle">
                                 <i class="mdi mdi-account-plus text-warning"></i>
@@ -320,7 +465,7 @@
                     <a href="javascript:void(0);"
                         class="dropdown-item text-center text-primary text-decoration-underline fw-bold notify-item border-top border-light py-2">
                         View All
-                    </a>
+                    </a> --}}
 
                 </div>
             </li>
@@ -341,15 +486,16 @@
                 <a class="nav-link dropdown-toggle arrow-none nav-user" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                    <span class="account-user-avatar">
-                        <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" width="32" class="rounded-circle">
-                    </span>
+                        <span class="account-user-avatar">
+                            <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" width="32"
+                                class="rounded-circle">
+                        </span>
                     @endif
                     <span class="d-lg-block d-none">
                         <h5 class="my-0 fw-normal">{{ Auth::user()->name }}<i
                                 class="ri-arrow-down-s-line d-none d-sm-inline-block align-middle"></i></h5>
                     </span>
-                    
+
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                     <!-- item-->
@@ -384,8 +530,8 @@
                     <!-- item-->
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
-                        <a href="#" class="dropdown-item" 
-                           onclick="event.preventDefault(); this.closest('form').submit();">
+                        <a href="#" class="dropdown-item"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
                             <i class="ri-logout-box-line fs-18 align-middle me-1"></i>
                             <span>Logout</span>
                         </a>

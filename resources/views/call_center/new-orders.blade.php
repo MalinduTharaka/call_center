@@ -1088,9 +1088,9 @@
                             <div class="tab-pane tab-panebtn" id="basictab1">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="table-responsive" style="height: 600px; overflow-y: auto;">
+                                        <div class="table-responsive">
                                             <table class="table table-hover table-centered table-bordered border-primary mb-0">
-                                                <thead class="table-dark sticky-top">
+                                                <thead class="table-dark">
                                                     <tr>
                                                         <th>Date</th>
                                                         <th>C/E</th>
