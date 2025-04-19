@@ -36,283 +36,90 @@ class InvoiceController extends Controller
 
     public function new_invoice(Request $request)
     {
-        // Retrieve order type values from the request.
-        $orderType1 = $request->has('order_type1');
-        $orderType2 = $request->has('order_type2');
-        $orderType3 = $request->has('order_type3');
+        // Determine selected order types
+        $selectedTypes = [];
+        if ($request->has('order_type1'))
+            $selectedTypes[] = 'boosting';
+        if ($request->has('order_type2'))
+            $selectedTypes[] = 'designs';
+        if ($request->has('order_type3'))
+            $selectedTypes[] = 'video';
 
-        // Scenario 1: Only order_type1 is checked
-        if ($orderType1 && !$orderType2 && !$orderType3) {
-            $order = [
+        if (empty($selectedTypes)) {
+            return redirect()->back()->with('error', 'No order type selected.');
+        }
+
+        // Collect entries for each selected type
+        $boostingEntries = $request->input('boosting', []);
+        $designEntries = $request->input('design', []);
+        $videoEntries = $request->input('video', []);
+
+        // Prepare order data arrays
+        $boostingOrders = [];
+        $designOrders = [];
+        $videoOrders = [];
+
+        foreach ($boostingEntries as $entry) {
+            $boostingOrders[] = [
                 'order_type' => 'boosting',
                 'date' => now(),
                 'cro' => auth()->user()->id,
                 'old_new' => 'new',
                 'name' => $request->name,
                 'contact' => $request->contact,
-                'work_type' => 'boosting',
-                'work_status' => 'pending',
-                'package_amt' => $request->package_amt,
-                'service' => $request->service,
-                'tax' => $request->tax,
-                'payment_status' => $request->payment_statusb,
-                'cash' => $request->cashb,
-                'advance' => $request->advanceb,
-                'amount' => $request->amountb,
-                'page' => $request->pageb,
-                'details' => $request->detailsb,
+                'work_type' => $entry['work_type'] ?? '',
+                'package_amt' => $entry['package_amt'] ?? 0,
+                'service' => $entry['service'] ?? '',
+                'tax' => $entry['tax'] ?? 0,
             ];
-            $inv = InvoiceId::create([
-                'date' => today(),
-            ]);
-            $inv_id = $inv->id;
-
-            $invoices = Invoice::all();
-            return view('call_center.invoice-solo', compact('order', 'inv_id', 'invoices'));
         }
-        // Scenario 2: Only order_type2 is checked
-        elseif (!$orderType1 && $orderType2 && !$orderType3) {
-            $order = [
+
+        foreach ($designEntries as $entry) {
+            $designOrders[] = [
                 'order_type' => 'designs',
                 'date' => now(),
                 'cro' => auth()->user()->id,
                 'name' => $request->name,
                 'contact' => $request->contact,
-                'work_type' => 'design',
-                'work_status' => 'pending',
-                'payment_status' => $request->payment_statusa,
-                'cash' => $request->casha,
-                'advance' => $request->advancea,
-                'amount' => $request->amounta,
+                'work_type' => $entry['work_type'] ?? '',
+                'amount' => $entry['amount'] ?? 0,
             ];
-            $inv = InvoiceId::create([
-                'date' => today(),
-            ]);
-            $inv_id = $inv->id;
-
-            $invoices = Invoice::all();
-            return view('call_center.invoice-solo', compact('order', 'inv_id', 'invoices'));
         }
-        // Scenario 3: Only order_type3 is checked
-        elseif (!$orderType1 && !$orderType2 && $orderType3) {
-            $order = [
+
+        foreach ($videoEntries as $entry) {
+            $videoOrders[] = [
                 'order_type' => 'video',
                 'date' => now(),
                 'cro' => auth()->user()->id,
                 'name' => $request->name,
                 'contact' => $request->contact,
-                'work_type' => 'video',
-                'work_status' => 'pending',
-                'payment_status' => $request->payment_statusv,
-                'cash' => $request->cashv,
-                'advance' => $request->advancev,
-                'amount' => $request->amountv,
-                'our_amount' => $request->our_amountv,
-                'script' => $request->scriptv,
-                'shoot' => 'pending',
+                'work_type' => $entry['style'] ?? '',
+                'amount' => $entry['amount'] ?? 0,
+                'time' => $entry['time'] ?? 0,
             ];
-            $inv = InvoiceId::create([
-                'date' => today(),
-            ]);
-            $inv_id = $inv->id;
-
-            $invoices = Invoice::all();
-            return view('call_center.invoice-solo', compact('order', 'inv_id', 'invoices'));
-        }
-        // Scenario 4: order_type1 and order_type2 are checked
-        elseif ($orderType1 && $orderType2 && !$orderType3) {
-            $order1 = [
-                'order_type' => 'boosting',
-                'date' => now(),
-                'cro' => auth()->user()->id,
-                'old_new' => 'new',
-                'name' => $request->name,
-                'contact' => $request->contact,
-                'work_type' => 'boosting',
-                'work_status' => 'pending',
-                'package_amt' => $request->package_amt,
-                'service' => $request->service,
-                'tax' => $request->tax,
-                'payment_status' => $request->payment_statusb,
-                'cash' => $request->cashb,
-                'advance' => $request->advanceb,
-                'amount' => $request->amountb,
-                'page' => $request->pageb,
-                'details' => $request->detailsb,
-            ];
-
-            $order2 = [
-                'order_type' => 'designs',
-                'date' => now(),
-                'cro' => auth()->user()->id,
-                'name' => $request->name,
-                'contact' => $request->contact,
-                'work_type' => 'design',
-                'work_status' => 'pending',
-                'payment_status' => $request->payment_statusa,
-                'cash' => $request->casha,
-                'advance' => $request->advancea,
-                'amount' => $request->amounta,
-            ];
-            $inv = InvoiceId::create([
-                'date' => today(),
-            ]);
-            $inv_id = $inv->id;
-
-            $invoices = Invoice::all();
-            return view('call_center.invoice-two', compact('order1', 'order2', 'inv_id', 'invoices'));
-        }
-        // Scenario 5: order_type1 and order_type3 are checked
-        elseif ($orderType1 && !$orderType2 && $orderType3) {
-            $order1 = [
-                'order_type' => 'boosting',
-                'date' => now(),
-                'cro' => auth()->user()->id,
-                'old_new' => 'new',
-                'name' => $request->name,
-                'contact' => $request->contact,
-                'work_type' => 'boosting',
-                'work_status' => 'pending',
-                'package_amt' => $request->package_amt,
-                'service' => $request->service,
-                'tax' => $request->tax,
-                'payment_status' => $request->payment_statusb,
-                'cash' => $request->cashb,
-                'advance' => $request->advanceb,
-                'amount' => $request->amountb,
-                'page' => $request->pageb,
-                'details' => $request->detailsb,
-            ];
-
-            $order2 = [
-                'order_type' => 'video',
-                'date' => now(),
-                'cro' => auth()->user()->id,
-                'name' => $request->name,
-                'contact' => $request->contact,
-                'work_type' => 'video',
-                'work_status' => 'pending',
-                'payment_status' => $request->payment_statusv,
-                'cash' => $request->cashv,
-                'advance' => $request->advancev,
-                'amount' => $request->amountv,
-                'our_amount' => $request->our_amountv,
-                'script' => $request->scriptv,
-                'shoot' => 'pending',
-            ];
-
-            $inv = InvoiceId::create([
-                'date' => today(),
-            ]);
-            $inv_id = $inv->id;
-
-            $invoices = Invoice::all();
-            return view('call_center.invoice-two', compact('order1', 'order2', 'inv_id', 'invoices'));
-        }
-        // Scenario 6: order_type2 and order_type3 are checked
-        elseif (!$orderType1 && $orderType2 && $orderType3) {
-
-            $order1 = [
-                'order_type' => 'designs',
-                'date' => now(),
-                'cro' => auth()->user()->id,
-                'name' => $request->name,
-                'contact' => $request->contact,
-                'work_type' => 'design',
-                'work_status' => 'pending',
-                'payment_status' => $request->payment_statusa,
-                'cash' => $request->casha,
-                'advance' => $request->advancea,
-                'amount' => $request->amounta,
-            ];
-
-            $order2 = [
-                'order_type' => 'video',
-                'date' => now(),
-                'cro' => auth()->user()->id,
-                'name' => $request->name,
-                'contact' => $request->contact,
-                'work_type' => 'video',
-                'work_status' => 'pending',
-                'payment_status' => $request->payment_statusv,
-                'cash' => $request->cashv,
-                'advance' => $request->advancev,
-                'amount' => $request->amountv,
-                'our_amount' => $request->our_amountv,
-                'script' => $request->scriptv,
-                'shoot' => 'pending',
-            ];
-            $inv = InvoiceId::create([
-                'date' => today(),
-            ]);
-            $inv_id = $inv->id;
-
-            $invoices = Invoice::all();
-            return view('call_center.invoice-two', compact('order1', 'order2', 'inv_id', 'invoices'));
-        }
-        // Scenario 7: All three order types are checked
-        elseif ($orderType1 && $orderType2 && $orderType3) {
-
-            $order1 = [
-                'order_type' => 'boosting',
-                'date' => now(),
-                'cro' => auth()->user()->id,
-                'old_new' => 'new',
-                'name' => $request->name,
-                'contact' => $request->contact,
-                'work_type' => 'boosting',
-                'work_status' => 'pending',
-                'package_amt' => $request->package_amt,
-                'service' => $request->service,
-                'tax' => $request->tax,
-                'payment_status' => $request->payment_statusb,
-                'cash' => $request->cashb,
-                'advance' => $request->advanceb,
-                'amount' => $request->amountb,
-                'page' => $request->pageb,
-                'details' => $request->detailsb,
-            ];
-
-            $order2 = [
-                'order_type' => 'designs',
-                'date' => now(),
-                'cro' => auth()->user()->id,
-                'name' => $request->name,
-                'contact' => $request->contact,
-                'work_type' => 'design',
-                'work_status' => 'pending',
-                'payment_status' => $request->payment_statusa,
-                'cash' => $request->casha,
-                'advance' => $request->advancea,
-                'amount' => $request->amounta,
-            ];
-
-            $order3 = [
-                'order_type' => 'video',
-                'date' => now(),
-                'cro' => auth()->user()->id,
-                'name' => $request->name,
-                'contact' => $request->contact,
-                'work_type' => 'video',
-                'work_status' => 'pending',
-                'payment_status' => $request->payment_statusv,
-                'cash' => $request->cashv,
-                'advance' => $request->advancev,
-                'amount' => $request->amountv,
-                'our_amount' => $request->our_amountv,
-                'script' => $request->scriptv,
-                'shoot' => 'pending',
-            ];
-            $inv = InvoiceId::create([
-                'date' => today(),
-            ]);
-            $inv_id = $inv->id;
-
-            $invoices = Invoice::all();
-            return view('call_center.invoice-all', compact('order1', 'order2', 'order3', 'inv_id', 'invoices'));
         }
 
-        return redirect()->back()->with('error', 'No order type selected.');
+        // Create invoice ID
+        $inv = InvoiceId::create(['date' => today()]);
+        $inv_id = $inv->id;
+
+        // Prepare data for view
+        $data = [
+            'inv_id' => $inv_id,
+            'invoices' => Invoice::all(),
+            'boostingOrders' => $boostingOrders,
+            'designOrders' => $designOrders,
+            'videoOrders' => $videoOrders,
+        ];
+
+        // Determine which view to render based on selected types count
+        $view = match (count($selectedTypes)) {
+            1 => 'invoice-solo',
+            2 => 'invoice-two',
+            default => 'invoice-all',
+        };
+
+        return view("call_center.$view", $data);
     }
 
 

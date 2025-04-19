@@ -50,7 +50,7 @@
                                     <option value="">Select Category</option>
                                     <option value="boosting">Boosting</option>
                                     <option value="video">Video</option>
-                                    <option value="design">Design</option>
+                                    <option value="designs">Design</option>
 
                                 </select>
                             </div>

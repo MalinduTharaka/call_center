@@ -38,6 +38,7 @@ class Order extends Model
         'service',
         'tax',
         'amount',
+        'video_time',
         'advance',
         'details',
         'add_acc',

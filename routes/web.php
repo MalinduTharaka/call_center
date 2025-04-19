@@ -30,7 +30,7 @@ Route::middleware([
     Route::post('/order/store/solo', [OrderConroller::class, 'store_solo'])->name('order.store.solo');
     Route::post('/order/store/two', [OrderConroller::class, 'store_two'])->name('order.store.two');
     Route::post('/order/store/all', [OrderConroller::class, 'store_all'])->name('order.store.all');
-    Route::put('/orders/boosting/update/{id}', [OrderConroller::class, 'updateBoostingOrders'])->name('orders.update');
+    Route::put('/orders/boosting/update/{id}', [OrderConroller::class, 'updateBoostingOrders'])->name('orders.updateBoostingOrders');
     Route::put('/orders/designs/update/{id}', [OrderConroller::class, 'updateDesignsOrders'])->name('orders.update.designs');
     Route::put('/orders/video/update/{id}', [OrderConroller::class, 'updateVideoOrders'])->name('orders.update.video');
 

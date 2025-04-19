@@ -35,13 +35,6 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="/orders" class="side-nav-link">
-                    <i class="ri-dashboard-3-line"></i>
-                    <span> Orders </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
                 <a href="/new/orders" class="side-nav-link">
                     <i class="ri-dashboard-3-line"></i>
                     <span> New Orders </span>
@@ -49,23 +42,9 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="/add-account" class="side-nav-link">
-                    <i class="ri-dashboard-3-line"></i>
-                    <span> Add Accounts </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="/packages" class="side-nav-link">
-                    <i class="ri-dashboard-3-line"></i>
-                    <span> Packages </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
                 <a href="/work-types" class="side-nav-link">
                     <i class="ri-dashboard-3-line"></i>
-                    <span> Work Types </span>
+                    <span> Setings </span>
                 </a>
             </li>
 

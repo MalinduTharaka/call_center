@@ -20,10 +20,10 @@ class AddAccountController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return view('create_account');
-    }
+    // public function create()
+    // {
+    //     return view('create_account');
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -54,11 +54,11 @@ class AddAccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
-    {
-        $addAccount = AddAccount::findOrFail($id);
-        return view('edit_account', compact('addAccount'));
-    }
+    // public function edit($id)
+    // {
+    //     $addAccount = AddAccount::findOrFail($id);
+    //     return view('edit_account', compact('addAccount'));
+    // }
 
     /**
      * Update the specified resource in storage.

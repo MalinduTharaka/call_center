@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AddAccount extends Model
+class AddCenter extends Model
 {
     use HasFactory;
 
-    protected $table = 'add_accounts';
+    protected $table = 'add_centers';
 
-    protected $fillable = ['name', 'code', 'email', 'phone', 'password'];
-
+    protected $fillable = ['name'];
 }
