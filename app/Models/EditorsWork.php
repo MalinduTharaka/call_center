@@ -15,4 +15,9 @@ class EditorsWork extends Model
         'amount',
         'date',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -9,4 +9,9 @@ class ActorsWork extends Model
     protected $table = 'actors_works';
 
     protected $fillable = ['user_id', 'work_type', 'note', 'amount', 'date'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

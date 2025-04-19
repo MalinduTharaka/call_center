@@ -28,7 +28,15 @@ class WorkTypeController extends Controller
             'order_type' => 'required|string|max:255',
         ]);
 
-        WorkType::create($request->all());
+        $workType = WorkType::create($request->all());
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Work Type created successfully.',
+                'data' => $workType,
+            ]);
+        }
 
         return redirect()->route('work-types.index')->with('success', 'Work Type created successfully.');
     }

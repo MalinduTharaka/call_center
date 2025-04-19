@@ -42,6 +42,37 @@
             </li>
 
             <li class="side-nav-item">
+                <a href="/video-editors-work" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Video Editors </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="/actors-work" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Actors </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="/cro-work" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> CRO Work </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="/video-editors-work" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Video Editors </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="/workDone" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Work Done </span>
+                </a>
+            </li>
+            
+            <li class="side-nav-item">
                 <a href="/work-types" class="side-nav-link">
                     <i class="ri-dashboard-3-line"></i>
                     <span> Setings </span>

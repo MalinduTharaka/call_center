@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\ActorsWorkDoneController;
 use App\Http\Controllers\AddAccountController;
+use App\Http\Controllers\CroWorkDoneController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderConroller;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\SlipController;
+use App\Http\Controllers\VideoEditorsWorkDoneController;
+use App\Http\Controllers\WorkDoneController;
 use App\Http\Controllers\WorkTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Invoice;
@@ -19,7 +23,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () { $invoices = Invoice::all(); return view('dashboard', compact('invoices')); })->name('dashboard');
+    Route::get('/dashboard', function () {
+        $invoices = Invoice::all();
+        return view('dashboard', compact('invoices'));
+    })->name('dashboard');
 
     //Order Routes
     Route::get('/new/orders', [OrderConroller::class, 'index']);
@@ -40,7 +47,7 @@ Route::middleware([
     Route::get('/work-types/{id}/edit', [WorkTypeController::class, 'edit'])->name('work-types.edit');
     Route::put('/work-types/{workType}', [WorkTypeController::class, 'update'])->name('work-types.update');
     Route::delete('/work-types/{workType}', [WorkTypeController::class, 'destroy'])->name('work-types.destroy');
-    
+
 
     //Add Account Routes
     Route::get('/add-account', [AddAccountController::class, 'index']);
@@ -66,7 +73,26 @@ Route::middleware([
     //Notification Routes
     Route::post('/invoice/mark-read', [InvoiceController::class, 'markAsRead'])->name('invoice.markRead');
 
+    //workDone Routes
+    Route::get('/workDone', [WorkDoneController::class, 'index']);
+
+    //Editors Work CRUD
+    Route::get('/video-editors-work', [VideoEditorsWorkDoneController::class, 'index'])->name('video.editors.index');
+    Route::post('/video-editors-work/store', [VideoEditorsWorkDoneController::class, 'store'])->name('video.editors.store');
+    Route::post('/video-editors-work/update/{editorsWork}', [VideoEditorsWorkDoneController::class, 'update'])->name('video.editors.update');
+    Route::delete('/video-editors-work/delete/{editorsWork}', [VideoEditorsWorkDoneController::class, 'destroy'])->name('video.editors.destroy');
+
+    // Actors Work CRUD
+    Route::get('/actors-work', [ActorsWorkDoneController::class, 'index'])->name('actor.work.index');
+    Route::post('/actors-work/store', [ActorsWorkDoneController::class, 'store'])->name('actor.work.store');
+    Route::post('/actors-work/update/{actorsWork}', [ActorsWorkDoneController::class, 'update'])->name('actor.work.update');
+    Route::delete('/actors-work/delete/{actorsWork}', [ActorsWorkDoneController::class, 'destroy'])->name('actor.work.destroy');
+
+    Route::get('/cro-work', [CroWorkDoneController::class, 'index'])->name('cro.work.index');
+
 });
+
+
 
 
 

@@ -149,3 +149,28 @@
         </div>
     </div>
 @endsection
+
+<script>
+    $(document).ready(function () {
+        $('#createWorkTypeForm').on('submit', function (e) {
+            e.preventDefault();
+
+            let form = $(this);
+            let url = form.attr('action');
+            let data = form.serialize();
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: data,
+                success: function (response) {
+                    location.reload(); // Refresh page on success
+                },
+                error: function (xhr) {
+                    let errors = xhr.responseJSON.errors;
+                    alert(Object.values(errors).join("\n"));
+                }
+            });
+        });
+    });
+</script>
