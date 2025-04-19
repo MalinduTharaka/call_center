@@ -6,6 +6,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderConroller;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\SlipController;
+use App\Http\Controllers\UpdateCenterController;
 use App\Http\Controllers\WorkTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Invoice;
@@ -65,6 +66,9 @@ Route::middleware([
 
     //Notification Routes
     Route::post('/invoice/mark-read', [InvoiceController::class, 'markAsRead'])->name('invoice.markRead');
+
+    //Update Center Routes
+    Route::get('/update-center', [UpdateCenterController::class, 'index']);
 
 });
 

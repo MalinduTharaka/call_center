@@ -49,7 +49,7 @@ class SlipController extends Controller
         // 4) Completed payment path
         if ($request->payment_type === 'completed') {
             Order::where('invoice', $request->inv)
-                 ->update(['payment_status' => 'done', 'advance' => 0]);
+                 ->update(['payment_status' => 'done', 'advance' => 0, 'ps' => '1']);
 
             Invoice::where('inv', $request->inv)
                    ->firstOrFail()
@@ -78,6 +78,8 @@ class SlipController extends Controller
         // Update due_date on invoice
         $invoice->due_date = Carbon::today()->addDays((int)$request->due_date);
         $invoice->save();
+
+        Order::where('invoice', $request->inv)->update(['ps' => '1']);
 
         // Fetch all related orders
         $orders       = Order::where('invoice', $request->inv)->get();

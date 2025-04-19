@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ActorsWork extends Model
+class Attendance extends Model
 {
     use HasFactory;
-    protected $table = 'actors_works';
+    protected $table = 'attendances';
 
-    protected $fillable = ['user_id', 'work_type', 'note', 'amount', 'date'];
+    protected $fillable = ['user_id', 'date', 'arr_time', 'leave_time'];
 }

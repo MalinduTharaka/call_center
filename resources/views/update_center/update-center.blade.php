@@ -1,74 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-        <style>
-            .btn-disabled {
-                opacity: 0.5;
-                pointer-events: none;
-            }
-
-            .bg-light-red {
-                background-color: rgb(255, 11, 32) !important;
-            }
-        </style>
-
-        <div class="row mt-2">
-            <div class="col-sm-3">
-            </div> <!-- end col-->
-            <div class="col-sm-6">
-                <div class="card card-body">
-                    <button data-bs-toggle="modal" data-bs-target="#combinemodel" class="btn btn-primary">Add Order</button>
-                </div> <!-- end card-->
-            </div> <!-- end col-->
-            <div class="col-sm-3">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div>
-                                <!-- Static Backdrop modal -->
-                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#slipupload">
-                                    Slip Upload
-                                </button>
-                            </div> <!-- btn list -->
-
-                            <!-- Modal -->
-                            @include('includes.slip-upload')
-
-
-                        </div> <!-- end card-body -->
-                    </div> <!-- end card-->
-                </div> <!-- end col -->
-            </div>
-        </div> <!-- end col-->
-
-            <!-- Modal Combine -->
-            @include('includes.new-order-model')
-            <!-- end modal-->
-        </div>
-
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert" style="color: #155724; background-color: #d4edda; border-color: #c3e6cb;">
-                <strong>Success!</strong> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb;">
-                <strong>Error!</strong> {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        <script>
-            setTimeout(function () {
-                let alerts = document.querySelectorAll('.alert');
-                alerts.forEach(alert => {
-                    let bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
-                });
-            }, 4000); // Auto-dismiss after 4 seconds
-        </script>
 
         <div class="row">
             <div class="col-12">
@@ -134,12 +66,12 @@
                                                                 <th>Details</th>
                                                                 <th>Add<br/>Link</th>
                                                                 <th>slip</th>
-                                                                <th>Action</th>
+                                                                {{-- <th>Action</th> --}}
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($orders as $order)
-                                                                @if (Auth::user()->cc_num == $order->cro && $order->ps == '1' && $order->order_type == 'boosting')
+                                                                @if ($order->ps == '1' && $order->order_type == 'boosting')
 
                                                                     <tr class="fw-semibold" data-order-id="{{ $order->id }}">
                                                                         <form action="/orders/boosting/update/{{ $order->id }}" method="post">
@@ -168,17 +100,12 @@
                                                                             <input type="text" name="name" class="form-control edit-mode" value="{{ $order->name }}">
                                                                         </td>
                                                                         <td>
-                                                                            <span class="badge fs-5 display-mode
+                                                                            <span class="badge fs-5
                                                                                 @if($order->old_new == 'old') bg-primary
                                                                                 @elseif($order->old_new == 'new') bg-warning
                                                                                 @endif">
                                                                                 {{ $order->old_new}}
                                                                             </span>
-                                                                            <select name="old_new" class="form-select edit-mode">
-                                                                                <option value="" selected>Select</option>
-                                                                                <option value="old" @if($order->old_new == 'old') selected @endif>old</option>
-                                                                                <option value="new" @if($order->old_new == 'new') selected @endif>new</option>
-                                                                            </select>
                                                                         </td>
                                                                         <td>
                                                                             <span class="display-mode">{{$order->contact}}</span>
@@ -272,10 +199,10 @@
                                                                         <td>
                                                                             @include('includes.slip-view')
                                                                         </td>
-                                                                        <td>
+                                                                        {{-- <td>
                                                                             <button type="button" class="btn btn-primary edit-btn">Edit</button>
                                                                             <button type="button" class="btn btn-primary done-btnb">Done</button>
-                                                                        </td>
+                                                                        </td> --}}
                                                                     </form>
                                                                     </tr>
                                                                 @endif
@@ -312,12 +239,12 @@
                                                                 <th>Amount</th>
                                                                 <th>Advance</th>
                                                                 <th>Slip</th>
-                                                                <th>Action</th>
+                                                                {{-- <th>Action</th> --}}
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                         @foreach ($orders as $order)
-                                                        @if (Auth::user()->cc_num == $order->cro && $order->ps == '1' && $order->order_type == 'designs')
+                                                        @if ($order->ps == '1' && $order->order_type == 'designs')
 
                                                                 <tr data-order-id="{{ $order->id }}">
                                                                     <form action="/orders/designs/update/{{ $order->id }}" method="post">
@@ -410,10 +337,10 @@
                                                                     <td>
                                                                         @include('includes.slip-view')
                                                                     </td>
-                                                                    <td>
+                                                                    {{-- <td>
                                                                         <button type="button" class="btn btn-primary edit-btn">Edit</button>
                                                                         <button type="button" class="btn btn-primary done-btnd">Done</button>
-                                                                    </td>
+                                                                    </td> --}}
                                                                 </form>
                                                                 </tr>
 
@@ -456,12 +383,12 @@
                                                             <th>Designer</th>
                                                             <th>Advance</th>
                                                             <th>Slip</th>
-                                                            <th>Action</th>
+                                                            {{-- <th>Action</th> --}}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($orders as $order)
-                                                        @if (Auth::user()->cc_num == $order->cro && $order->ps == '1' && $order->order_type == 'video')
+                                                        @if ($order->ps == '1' && $order->order_type == 'video')
                                                             <tr data-order-id="{{ $order->id }}">
                                                                 <form action="/orders/video/update/{{ $order->id }}" method="post">
                                                                     @csrf
@@ -606,10 +533,10 @@
                                                                     <td>
                                                                         @include('includes.slip-view')
                                                                     </td>
-                                                                    <td>
+                                                                    {{-- <td>
                                                                         <button type="button" class="btn btn-primary edit-btn display-mode">Edit</button>
                                                                         <button type="button" class="btn btn-primary done-btnv edit-mode">Done</button>
-                                                                    </td>
+                                                                    </td> --}}
                                                                 </form>
                                                             </tr>
                                                         @endif                      
@@ -642,99 +569,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <script>
-                                        document.addEventListener('DOMContentLoaded', function () {
-                                            let currentlyEditingRow = null;
-
-                                            // Close edit mode when clicking outside
-                                            document.addEventListener('click', function (e) {
-                                                if (!currentlyEditingRow) return;
-
-                                                const clickedInside = currentlyEditingRow.contains(e.target) ||
-                                                    e.target.classList.contains('edit-btn');
-
-                                                if (!clickedInside) {
-                                                    currentlyEditingRow.classList.remove('editing');
-                                                    currentlyEditingRow = null;
-                                                }
-                                            });
-
-                                            // Edit button handler
-                                            document.querySelectorAll('.edit-btn').forEach(button => {
-                                                button.addEventListener('click', function (e) {
-                                                    e.stopPropagation();
-                                                    if (currentlyEditingRow) {
-                                                        currentlyEditingRow.classList.remove('editing');
-                                                    }
-                                                    const row = this.closest('tr');
-                                                    row.classList.add('editing');
-                                                    currentlyEditingRow = row;
-                                                });
-                                            });
-
-                                            // Generic done button handler
-                                            function handleDoneButton(endpoint) {
-                                                return function (e) {
-                                                    e.stopPropagation();
-                                                    const row = this.closest('tr');
-                                                    submitForm(row, endpoint);
-                                                }
-                                            }
-
-                                            // Assign handlers to all done buttons
-                                            document.querySelectorAll('.done-btnb').forEach(btn => {
-                                                btn.addEventListener('click', handleDoneButton('boosting'));
-                                            });
-                                            document.querySelectorAll('.done-btnd').forEach(btn => {
-                                                btn.addEventListener('click', handleDoneButton('designs'));
-                                            });
-                                            document.querySelectorAll('.done-btnv').forEach(btn => {
-                                                btn.addEventListener('click', handleDoneButton('video'));
-                                            });
-
-                                            // Form submission function
-                                            function submitForm(row, endpoint) {
-                                                const orderId = row.dataset.orderId;
-                                                const formData = new FormData(row.querySelector('form'));
-
-                                                fetch(`/orders/${endpoint}/update/${orderId}`, {
-                                                    method: 'POST',
-                                                    headers: {
-                                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                                                        'X-Requested-With': 'XMLHttpRequest'
-                                                    },
-                                                    body: formData
-                                                })
-                                                    .then(response => {
-                                                        if (!response.ok) throw new Error(response.statusText);
-                                                        return response.json();
-                                                    })
-                                                    .then(data => {
-                                                        row.classList.remove('editing');
-                                                        currentlyEditingRow = null;
-                                                        showAlert('Updated successfully', 'success');
-                                                        setTimeout(() => location.reload(), 1500);
-                                                    })
-                                                    .catch(error => {
-                                                        console.error('Error:', error);
-                                                        showAlert('Update failed', 'danger');
-                                                    });
-                                            }
-
-                                            // Alert functions
-                                            function showAlert(message, type) {
-                                                const alertBox = document.createElement('div');
-                                                alertBox.className = `alert alert-${type} alert-dismissible fade show`;
-                                                alertBox.innerHTML = `
-                                                <strong>${type.charAt(0).toUpperCase() + type.slice(1)}!</strong> ${message}
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                            `;
-
-                                                document.body.prepend(alertBox);
-                                                setTimeout(() => alertBox.remove(), 3000);
-                                            }
-                                        });
-                                    </script>
                                 </div> <!-- tab-content -->
                             </div> <!-- end #basicwizard-->
                     </div> <!-- end card-body -->
@@ -781,7 +615,7 @@
             });
         </script>
 
-    <!-- Add this JavaScript at the end of your existing script -->
+        <!-- Add this JavaScript at the end of your existing script -->
     <script>
         // Search functionality
         document.querySelectorAll('.search-btn').forEach(button => {
