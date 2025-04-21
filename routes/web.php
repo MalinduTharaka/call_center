@@ -37,7 +37,12 @@ Route::middleware([
 
     //Package Routes
     Route::get('/packages', [PackageController::class, 'index']);
+    Route::post  ('/packages/store',[PackageController::class, 'storepkg']) ->name('packages.store');
 
+    Route::put   ('/packages/update', [PackageController::class, 'updatepkg']) ->name('packages.update');
+
+    // delete
+    Route::delete('/packages/delete/{id}', [PackageController::class, 'deletepkg']) ->name('packages.delete');
 
     //Invoice Routes
     Route::get('/invoice-ads/{id}', [InvoiceController::class, 'invoiceads'])->name('invoiceads');
