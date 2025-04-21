@@ -110,7 +110,7 @@
                         <tr>
                             <td>Rs{{ number_format($package->package_amount, 2) }}</td>
                             <td>Rs{{ number_format($package->tax, 2) }}</td>
-                            <td>{{ $package->service }}</td>
+                            <td>Rs{{ $package->service }}</td>
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm editBtn"
                                         data-id="{{ $package->id }}"
