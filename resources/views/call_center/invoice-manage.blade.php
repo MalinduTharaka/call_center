@@ -13,8 +13,8 @@
                         <thead class="table-purple">
                             <tr>
                                 <th>INV</th>
-                                <th>Call Center</th>
                                 <th>CRO</th>
+                                <th>Call Center</th>
                                 <th>Conatct</th>
                                 <th>Due Date</th>
                                 <th>Total</th>
@@ -28,6 +28,7 @@
                                 <tr>
                                     <td>{{ $invoice->inv }}</td>
                                     <td>{{ $invoice->user->name ?? 'N/A' }}</td>
+                                    <td>{{ $invoice->callCenter->cc_name ?? 'N/A' }}</td>
                                     <td>{{ $invoice->contact }}</td>
                                     <td>{{ $invoice->due_date }}</td>
                                     <td>{{ $invoice->total }}</td>
