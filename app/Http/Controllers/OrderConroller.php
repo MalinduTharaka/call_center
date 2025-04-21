@@ -39,6 +39,7 @@ class OrderConroller extends Controller
         'inv' => $request->inv,
         'total' => $request->total,
         'user_id' => Auth::id(),
+        'cc_num' => Auth::user()->cc_num,
     ]);
 
     // Update the InvoiceId status to 'submitted'
@@ -84,6 +85,7 @@ class OrderConroller extends Controller
             'inv' => $request->inv,
             'total' => $request->total,
             'user_id' => Auth::id(),
+            'cc_num' => Auth::user()->cc_num,
         ]);
     
         // Update invoice ID status
@@ -130,6 +132,7 @@ class OrderConroller extends Controller
             'inv' => $request->inv,
             'total' => $request->total,
             'user_id' => Auth::id(),
+            'cc_num' => Auth::user()->cc_num,
         ]);
     
         // Update invoice ID status correctly

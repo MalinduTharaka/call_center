@@ -13,6 +13,7 @@
                         <thead class="table-purple">
                             <tr>
                                 <th>INV</th>
+                                <th>Call Center</th>
                                 <th>CRO</th>
                                 <th>Conatct</th>
                                 <th>Due Date</th>
