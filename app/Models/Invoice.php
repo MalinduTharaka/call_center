@@ -37,4 +37,9 @@ class Invoice extends Model
         'amt2',
         'amt3',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

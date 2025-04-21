@@ -55,6 +55,27 @@
                 </a>
             </li>
 
+            <li class="side-nav-item">
+                <a href="/employees/centers" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Call Centers/Add Centers </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="/users/manage" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> User Manage </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="/invoices/manage" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Invoices </span>
+                </a>
+            </li>
+
             {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
                     <i class="ri-pages-line"></i>

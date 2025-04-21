@@ -73,28 +73,22 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4 class="header-title mb-0"> Orders</h4>
-                    </div>
                     <div class="card-body">
                             <div id="basicwizard">
 
-                                <ul class="nav nav-pills nav-justified form-wizard-header mb-4">
+                                <ul class="nav nav-tabs nav-justified nav-bordered mb-3">
                                     <li class="nav-item">
                                         <a href="#basictab1" class="nav-link rounded-0 py-2"> 
-                                            <i class="ri-account-circle-line fw-normal fs-20 align-middle me-1"></i>
                                             <span class="d-none d-sm-inline">Boosting</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#basictab2" class="nav-link rounded-0 py-2">
-                                            <i class="ri-profile-line fw-normal fs-20 align-middle me-1"></i>
                                             <span class="d-none d-sm-inline">Designs</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#basictab3" class="nav-link rounded-0 py-2">
-                                            <i class="ri-check-double-line fw-normal fs-20 align-middle me-1"></i>
                                             <span class="d-none d-sm-inline">Video</span>
                                         </a>
                                     </li>

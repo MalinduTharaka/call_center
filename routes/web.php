@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\AddAccountController;
+use App\Http\Controllers\AssignEmployeesController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceManageController;
 use App\Http\Controllers\OrderConroller;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\UpdateCenterController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Invoice;
@@ -69,6 +72,26 @@ Route::middleware([
 
     //Update Center Routes
     Route::get('/update-center', [UpdateCenterController::class, 'index']);
+
+
+    //Centers Routes
+    Route::get('/employees/centers', [AssignEmployeesController::class, 'index']);
+    Route::post('/store/cc', [AssignEmployeesController::class, 'storecc']);
+    Route::post('/store/ac', [AssignEmployeesController::class, 'storeac']);
+    Route::put('/edit/cc/{id}', [AssignEmployeesController::class, 'updatecc']);
+    Route::put('/edit/ac/{id}', [AssignEmployeesController::class, 'updateac']);
+    Route::delete('/delete/cc/{id}', [AssignEmployeesController::class, 'deletecc']);
+    Route::delete('/elete/ac/{id}', [AssignEmployeesController::class, 'deleteac']);
+
+    //User Manage Routes
+    Route::get('/users/manage', [UserController::class, 'index'])->name('users.index');
+    Route::post('/store/user', [UserController::class, 'store'])->name('users.store');
+    Route::put('/assign/user/{id}', [UserController::class, 'assignUser'])->name('users.assign');
+    Route::delete('/delete/user/{id}', [UserController::class, 'deleteUser'])->name('users.destroy');
+    Route::put('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+
+    //Invoice Manage Routes
+    Route::get('/invoices/manage', [InvoiceManageController::class, 'index'])->name('invoices.index');
 
 });
 
