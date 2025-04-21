@@ -99,6 +99,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th>Full</th>
                         <th>Package Amount</th>
                         <th>Tax</th>
                         <th>Service</th>
@@ -108,6 +109,7 @@
                 <tbody>
                     @foreach($packages as $package)
                         <tr>
+                            <td>Rs{{ number_format($package->full, 2) }}</td>
                             <td>Rs{{ number_format($package->package_amount, 2) }}</td>
                             <td>Rs{{ number_format($package->tax, 2) }}</td>
                             <td>Rs{{ $package->service }}</td>
