@@ -92,6 +92,7 @@ Route::middleware([
 
     //Invoice Manage Routes
     Route::get('/invoices/manage', [InvoiceManageController::class, 'index'])->name('invoices.index');
+    Route::get('/invoice/view/{inv}', [InvoiceManageController::class, 'invoiceView'])->name('invoices.view');
 
 });
 

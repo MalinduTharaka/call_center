@@ -31,7 +31,6 @@ class OrderConroller extends Controller
     }
 
     public function store_solo(Request $request){
-        // Create the invoice record using the common details from the form
     // Create the invoice
     $invoice = Invoice::create([
         'date' => $request->date,
@@ -169,7 +168,6 @@ class OrderConroller extends Controller
         return redirect('/new/orders')->with('success', 'Order created successfully');
     }
     
-    
     public function updateBoostingOrders(Request $request, $id)
     {
         $order = Order::findOrFail($id);
@@ -214,7 +212,6 @@ class OrderConroller extends Controller
 
         return response()->json(['success' => 'Order updated successfully!']);
     }
-
 
     public function getOrderTypes($inv)
     {

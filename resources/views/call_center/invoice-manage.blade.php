@@ -33,14 +33,15 @@
                                     <td>{{ $invoice->due_date }}</td>
                                     <td>{{ $invoice->total }}</td>
                                     <td>{{ ($invoice->amt1+$invoice->amt2+$invoice->amt3) }}</td>
-                                    <td></td>
+                                    <td>
+                                        <a href="{{ route('invoices.view', $invoice->inv) }}" class="btn btn-primary">View</a>
+                                    </td>
                                     <td></td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div> <!-- end table-responsive-->
-
             </div> <!-- end card body-->
         </div> <!-- end card -->
     </div><!-- end col-->

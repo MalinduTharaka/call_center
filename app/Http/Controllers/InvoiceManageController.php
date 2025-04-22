@@ -6,15 +6,30 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Slip;
 use App\Models\User;
+use DB;
 use Illuminate\Http\Request;
 
 class InvoiceManageController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $user = User::all();
         $invoices = Invoice::all();
         $orders = Order::all();
         $slips = Slip::all();
         return view('call_center.invoice-manage', compact('user', 'invoices', 'orders', 'slips'));
     }
+
+    // app/Http/Controllers/InvoiceManageController.php
+public function invoiceView($inv)
+{
+    $invoices = Invoice::all();
+    $orders = Order::where('invoice', $inv)
+        ->select('order_type', 'invoice', 'date', 'name', 'contact', 'work_type', 'video_time', 'package_amt', 'service', 'tax', 'amount')
+        ->get();
+    
+    return view('call_center.invoice-view', compact('orders', 'invoices'));
+}
+
+
 }
