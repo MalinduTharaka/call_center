@@ -87,7 +87,7 @@
             return $item->work_type . '|' . $item->package_amt . '|' . ($item->order_type === 'video' ? $item->video_time : '');
         })->map(function($group) {
             return (object) [
-                'work_type' => $group->first()->work_type,
+                'work_type_id' => $group->first()->work_type_id,
                 'order_type' => $group->first()->order_type,
                 'unit_price' => $group->first()->package_amt ?? $group->first()->amount,
                 'count' => $group->count(),
@@ -121,7 +121,11 @@
             @foreach($groupedOrders as $item)
                 <tr>
                     <td>{{ ucfirst($item->order_type) }}</td>
-                    <td>{{ $item->work_type }}</td>
+                    @foreach ($work_types as $work_type)
+                        @if ($work_type->id == $item->work_type_id)
+                            <td>{{ $work_type->name }}</td>
+                        @endif
+                    @endforeach<td>{{ $item->work_type_id }}</td>
                     <td>{{ $item->count }}</td>
                     @if($hasVideo)
                         <td>{{ $item->time ?? '—' }}</td>

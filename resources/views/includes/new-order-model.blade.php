@@ -106,7 +106,7 @@
                                                             <select name="boosting[0][work_type]" class="form-select">
                                                                 @foreach ($work_types as $work_type)
                                                                     @if ($work_type->order_type == 'boosting')
-                                                                        <option value="{{ $work_type->name }}">
+                                                                        <option value="{{ $work_type->id }}">
                                                                             {{ $work_type->name }}
                                                                         </option>
                                                                     @endif
@@ -133,7 +133,7 @@
                                                         <select name="design[0][work_type]" class="form-select">
                                                             @foreach ($work_types as $work_type)
                                                                 @if ($work_type->order_type == 'designs')
-                                                                    <option value="{{ $work_type->name }}">
+                                                                    <option value="{{ $work_type->id }}">
                                                                         {{ $work_type->name }}
                                                                     </option>
                                                                 @endif
@@ -181,7 +181,7 @@
                                                         <select name="video[0][style]" class="form-select">
                                                             @foreach ($work_types as $work_type)
                                                                 @if ($work_type->order_type == 'video')
-                                                                    <option value="{{ $work_type->name }}">
+                                                                    <option value="{{ $work_type->id }}">
                                                                         {{ $work_type->name }}
                                                                     </option>
                                                                 @endif

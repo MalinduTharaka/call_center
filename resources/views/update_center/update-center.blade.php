@@ -11,22 +11,19 @@
                     <div class="card-body">
                             <div id="basicwizard">
 
-                                <ul class="nav nav-pills nav-justified form-wizard-header mb-4">
+                                <ul class="nav nav-tabs nav-justified nav-bordered mb-3">
                                     <li class="nav-item">
                                         <a href="#basictab1" class="nav-link rounded-0 py-2"> 
-                                            <i class="ri-account-circle-line fw-normal fs-20 align-middle me-1"></i>
                                             <span class="d-none d-sm-inline">Boosting</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#basictab2" class="nav-link rounded-0 py-2">
-                                            <i class="ri-profile-line fw-normal fs-20 align-middle me-1"></i>
                                             <span class="d-none d-sm-inline">Designs</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#basictab3" class="nav-link rounded-0 py-2">
-                                            <i class="ri-check-double-line fw-normal fs-20 align-middle me-1"></i>
                                             <span class="d-none d-sm-inline">Video</span>
                                         </a>
                                     </li>
@@ -113,9 +110,9 @@
                                                                         </td>
                                                                         <td>
                                                                             <span class="badge fs-5 display-mode
-                                                                                @if(!$order->work_type == '') bg-dark
+                                                                                @if(!$order->workType->name == '') bg-dark
                                                                                 @endif">
-                                                                                {{ $order->work_type }}
+                                                                                {{ $order->workType->name }}
                                                                             </span>
                                                                             <select name="work_type" class="form-select edit-mode">
                                                                                 <option value="" selected>Select</option>
@@ -278,9 +275,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
-                                                                            @if(!$order->work_type == '') bg-dark
+                                                                            @if(!$order->workType->name == '') bg-dark
                                                                             @endif">
-                                                                            {{ $order->work_type }}
+                                                                            {{ $order->workType->name }}
                                                                         </span>
                                                                         <select name="work_type" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
@@ -430,10 +427,10 @@
                                                                         <input type="text" name="our_amount" class="form-control edit-mode" value="{{ $order->our_amount }}">
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode 
-                                                                            @if(!$order->work_type == '') bg-dark
+                                                                        <span class="badge fs-5 display-mode
+                                                                            @if(!$order->workType->name == '') bg-dark
                                                                             @endif">
-                                                                            {{ $order->work_type }}
+                                                                            {{ $order->workType->name }}
                                                                         </span>
                                                                         <select name="work_type" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>

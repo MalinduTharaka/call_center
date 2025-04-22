@@ -28,7 +28,7 @@ class Order extends Model
         'name',
         'contact',
         'cro',
-        'work_type',
+        'work_type_id',
         'page',
         'work_status',
         'payment_status',
@@ -83,6 +83,10 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function workType()
+    {
+        return $this->belongsTo(WorkType::class, 'work_type_id');
     }
 
     // Add any additional methods or scopes here

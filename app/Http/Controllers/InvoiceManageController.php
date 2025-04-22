@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Slip;
 use App\Models\User;
+use App\Models\WorkType;
 use DB;
 use Illuminate\Http\Request;
 
@@ -23,12 +24,13 @@ class InvoiceManageController extends Controller
     // app/Http/Controllers/InvoiceManageController.php
 public function invoiceView($inv)
 {
+    $work_types = WorkType::all();
     $invoices = Invoice::all();
     $orders = Order::where('invoice', $inv)
-        ->select('order_type', 'invoice', 'date', 'name', 'contact', 'work_type', 'video_time', 'package_amt', 'service', 'tax', 'amount')
+        ->select('order_type', 'invoice', 'date', 'name', 'contact', 'work_type_id', 'video_time', 'package_amt', 'service', 'tax', 'amount')
         ->get();
     
-    return view('call_center.invoice-view', compact('orders', 'invoices'));
+    return view('call_center.invoice-view', compact('orders', 'invoices', 'work_types'));
 }
 
 

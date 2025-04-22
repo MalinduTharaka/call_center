@@ -97,7 +97,11 @@
                 @foreach($boostingOrders as $order)
                     <tr>
                         <td>Boosting</td>
-                        <td>{{ $order['work_type'] }}</td>
+                        @foreach ($work_types as $work_type)
+                            @if ($work_type->id == $order['work_type'])
+                                <td>{{ $work_type->name }}</td>
+                            @endif
+                        @endforeach
                         <td data-price="{{ $order['package_amt'] }}">{{ number_format($order['package_amt'], 2) }}</td>
                         <td class="text-right total">{{ number_format($order['package_amt'], 2) }}</td>
                     </tr>
@@ -106,7 +110,11 @@
                 @foreach($designOrders as $order)
                     <tr>
                         <td>Design</td>
-                        <td>{{ $order['work_type'] }}</td>
+                        @foreach ($work_types as $work_type)
+                            @if ($work_type->id == $order['work_type'])
+                                <td>{{ $work_type->name }}</td>
+                            @endif
+                        @endforeach
                         <td data-price="{{ $order['amount'] }}">{{ number_format($order['amount'], 2) }}</td>
                         <td class="text-right total">{{ number_format($order['amount'], 2) }}</td>
                     </tr>
@@ -115,7 +123,11 @@
                 @foreach($videoOrders as $order)
                     <tr>
                         <td>Video</td>
-                        <td>{{ $order['work_type'] }}</td>
+                        @foreach ($work_types as $work_type)
+                            @if ($work_type->id == $order['work_type'])
+                                <td>{{ $work_type->name }}</td>
+                            @endif
+                        @endforeach
                         <td class="border" data-time="{{ $order['time'] }}">{{ $order['time'] }}</td>
                         <td data-price="{{ $order['amount'] }}">{{ number_format($order['amount'], 2) }}</td>
                         <td class="text-right total">{{ number_format($order['amount'], 2) }}</td>

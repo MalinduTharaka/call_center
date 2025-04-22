@@ -8,6 +8,7 @@ use App\Models\Slip;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class SlipController extends Controller
 {
@@ -51,9 +52,11 @@ class SlipController extends Controller
             Order::where('invoice', $request->inv)
                  ->update(['payment_status' => 'done', 'advance' => 0, 'ps' => '1']);
 
+            $tv = Invoice::where('inv', $request->inv)->sum('total');
+
             Invoice::where('inv', $request->inv)
                    ->firstOrFail()
-                   ->update(['status' => 'paid']);
+                   ->update(['status' => 'paid', 'amt1' => $tv, 'amt2' => Null , 'amt3' => Null]);
 
             return back()->with('success', 'Payment slip uploaded and marked complete.')->with('slip_path', $path);
         }

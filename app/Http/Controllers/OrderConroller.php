@@ -54,7 +54,7 @@ class OrderConroller extends Controller
             'name' => $request->name,
             'contact' => $request->contact,
             'invoice' => $request->inv,
-            'work_type' => $orderData['work_type'],
+            'work_type_id' => $orderData['work_type'],
         ];
 
         // Set fields based on order type
@@ -100,7 +100,7 @@ class OrderConroller extends Controller
                 'name' => $request->name,
                 'contact' => $request->contact,
                 'invoice' => $request->inv,
-                'work_type' => $orderData['work_type'],
+                'work_type_id' => $orderData['work_type'],
             ];
     
             // Add type-specific fields
@@ -147,7 +147,7 @@ class OrderConroller extends Controller
                 'name' => $request->name,
                 'contact' => $request->contact,
                 'invoice' => $request->inv,
-                'work_type' => $orderData['work_type'],
+                'work_type_id' => $orderData['work_type'],
             ];
     
             if ($orderData['order_type'] === 'boosting') {

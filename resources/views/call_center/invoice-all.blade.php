@@ -187,7 +187,11 @@
                         @foreach($boostGroups as $item)
                             <tr>
                                 <td>Boosting</td>
-                                <td>{{ $item->work_type }}</td>
+                                @foreach ($work_types as $work_type)
+                                    @if ($work_type->id == $item->work_type)
+                                        <td class="border">{{ $work_type->name }}</td>
+                                    @endif
+                                @endforeach
                                 <td>{{ $item->count }}</td>
                                 @if ($videoGroups->isNotEmpty())
                                 <td>—</td> @endif
@@ -203,7 +207,11 @@
                         @foreach($designGroups as $item)
                             <tr>
                                 <td>Design</td>
-                                <td>{{ $item->work_type }}</td>
+                                @foreach ($work_types as $work_type)
+                                    @if ($work_type->id == $item->work_type)
+                                        <td class="border">{{ $work_type->name }}</td>
+                                    @endif
+                                @endforeach
                                 <td>{{ $item->count }}</td>
                                 @if ($videoGroups->isNotEmpty())
                                 <td>—</td> @endif
@@ -219,7 +227,11 @@
                         @foreach($videoGroups as $item)
                             <tr>
                                 <td>Video</td>
-                                <td>{{ $item->work_type }}</td>
+                                @foreach ($work_types as $work_type)
+                                    @if ($work_type->id == $item->work_type)
+                                        <td class="border">{{ $work_type->name }}</td>
+                                    @endif
+                                @endforeach
                                 <td>{{ $item->count }}</td>
                                 <td data-time="{{ $item->time }}">{{ $item->time }}</td>
                                 <td data-price="{{ $item->unit_price * $item->count }}">

@@ -161,7 +161,11 @@
                     @foreach($boostingOrders as $order)
                         <tr>
                             <td class="border">Boosting</td>
-                            <td class="border">{{ $order['work_type'] }}</td>
+                            @foreach ($work_types as $work_type)
+                                @if ($work_type->id == $order['work_type'])
+                                    <td class="border">{{ $work_type->name }}</td>
+                                @endif
+                            @endforeach
                             @if($videoOrders)
                                 <td class="border">—</td>
                             @endif
@@ -175,7 +179,11 @@
                     @foreach($designOrders as $order)
                         <tr>
                             <td class="border">Design</td>
-                            <td class="border">{{ $order['work_type'] }}</td>
+                            @foreach ($work_types as $work_type)
+                                @if ($work_type->id == $order['work_type'])
+                                    <td class="border">{{ $work_type->name }}</td>
+                                @endif
+                            @endforeach
                             @if($videoOrders)
                                 <td class="border">—</td>
                             @endif
@@ -189,7 +197,11 @@
                     @foreach($videoOrders as $order)
                         <tr>
                             <td class="border">Video</td>
-                            <td class="border">{{ $order['work_type'] }}</td>
+                            @foreach ($work_types as $work_type)
+                                @if ($work_type->id == $order['work_type'])
+                                    <td class="border">{{ $work_type->name }}</td>
+                                @endif
+                            @endforeach
                             @if($videoOrders)
                                 <td class="border" data-time="{{ $order['time'] }}">{{ $order['time'] }}</td>
                             @endif

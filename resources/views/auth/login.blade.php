@@ -3,13 +3,28 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Log In | Wishwa Ads</title>
+    <title>Log In | WishwaAds</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully responsive admin theme..." name="description" />
+    <meta content="A fully responsive admin theme which can be used to build CRM, CMS, ERP etc." name="description" />
     <meta content="Techzaa" name="author" />
+
+    <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('logos/wishwaads.jpg') }}">
-    <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" />
+
+    <!-- Theme Config Js -->
+    <script src="{{ asset('assets/js/config.js') }}"></script>
+
+    <!-- App css -->
+    <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
+    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <style>
+        .hidden {
+            display: none !important;
+        }
+    </style>
+
+
 </head>
 
 <body class="authentication-bg position-relative">
@@ -19,52 +34,46 @@
                 <div class="col-xxl-8 col-lg-10">
                     <div class="card overflow-hidden">
                         <div class="row g-0">
+                            <!-- Left Image -->
                             <div class="col-lg-6 d-none d-lg-block p-2">
-                                <img src="{{ asset('logos/wishwaads.jpg') }}" class="img-fluid rounded h-100" alt="">
+                                <img src="{{ asset('logos/wishwaads.jpg') }}" alt="" class="img-fluid rounded h-100">
                             </div>
+
+                            <!-- Right Form -->
                             <div class="col-lg-6">
                                 <div class="d-flex flex-column h-100">
+
                                     <div class="p-4 my-auto">
                                         <h4 class="fs-20">Sign In</h4>
-                                        <p class="text-muted mb-3">Enter your email and password to access your account.</p>
+                                        <p class="text-muted mb-3">Enter your email and password to access your account.
+                                        </p>
 
-                                        <!-- Laravel login form -->
-                                        <form method="POST" action="{{ route('login') }}">
+                                        <!-- Validation Errors -->
+                                        <x-validation-errors class="mb-3 alert alert-danger" />
+
+                                        @if(session('status'))
+                                            <div class="mb-3 alert alert-success">
+                                                {{ session('status') }}
+                                            </div>
+                                        @endif
+
+                                        <form method="POST" action="{{ route('login') }}" id="loginForm"
+                                            style="display: none;">
                                             @csrf
-
-                                            <!-- Validation Errors -->
-                                            @if ($errors->any())
-                                                <div class="alert alert-danger">
-                                                    <ul class="mb-0">
-                                                        @foreach ($errors->all() as $error)
-                                                            <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endif
-
-                                            @if(session('status'))
-                                                <div class="alert alert-success mb-3">
-                                                    {{ session('status') }}
-                                                </div>
-                                            @endif
-
                                             <div class="mb-3">
-                                                <label for="emailaddress" class="form-label">Email address</label>
-                                                <input class="form-control" type="email" name="email" id="emailaddress"
-                                                       value="{{ old('email') }}" required autofocus>
+                                                <label for="email" class="form-label">Email address</label>
+                                                <input class="form-control" type="email" name="email" id="email"
+                                                    value="{{ old('email') }}" required autofocus
+                                                    placeholder="Enter your email">
                                             </div>
 
                                             <div class="mb-3">
+                                                <a href="{{ route('password.request') }}" class="text-muted float-end">
+                                                    <small>Forgot your password?</small>
+                                                </a>
                                                 <label for="password" class="form-label">Password</label>
-                                                <input class="form-control" type="password" name="password" id="password" required>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" name="remember" id="checkbox-signin">
-                                                    <label class="form-check-label" for="checkbox-signin">Remember me</label>
-                                                </div>
+                                                <input class="form-control" type="password" name="password"
+                                                    id="password" required placeholder="Enter your password">
                                             </div>
 
                                             <div class="mb-0 text-start">
@@ -73,25 +82,81 @@
                                                 </button>
                                             </div>
                                         </form>
-
                                     </div>
                                 </div>
                             </div> <!-- end col -->
                         </div>
                     </div>
-                </div> <!-- end row -->
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer footer-alt fw-medium text-center">
         <span class="text-dark">
-            <script>document.write(new Date().getFullYear())</script> © WishwaAds - By NMRL
+            <script>document.write(new Date().getFullYear())</script> © WishwaAds | by NMRL
         </span>
     </footer>
 
+    <!-- Access Code Popup -->
+    <div id="codePopup" class="modal d-flex align-items-center justify-content-center" tabindex="-1"
+        style="background-color: rgba(0, 0, 0, 0.75); display: none;">
+        <div class="bg-white p-4 rounded shadow text-center" style="min-width: 300px;">
+
+            <h5 class="mb-3">Enter Access Code</h5>
+            <input type="password" id="accessCode" class="form-control mb-3" placeholder="Enter code">
+            <button onclick="verifyCode()" class="btn btn-primary w-100">OK</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
     <script src="{{ asset('assets/js/app.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            axios.get('/check-device')  // Get device verification status from server
+                .then(response => {
+                    if (response.data.verified) {
+                        document.getElementById("codePopup").classList.add("hidden");
+                        document.getElementById("loginForm").style.display = "block";
+                    } else {
+                        // If not verified, show the popup
+                        document.getElementById("codePopup").style.display = "flex";
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
+        });
+
+
+        function verifyCode() {
+            let code = document.getElementById("accessCode").value.trim();
+
+            if (!code) {
+                alert("Please enter the code!");
+                return;
+            }
+
+            axios.post('/verify-device', { code: code })
+                .then(response => {
+                    console.log("Response from verify-device:", response.data);
+                    if (response.data.success) {
+                        alert("Access granted!");
+                        document.getElementById("codePopup").classList.add("hidden");
+                        document.getElementById("loginForm").style.display = "block";
+
+                    } else {
+                        alert("Invalid code!");
+                    }
+                }).catch(error => {
+                    alert("Verification failed!");
+                    console.error(error);
+                });
+        }
+
+    </script>
 </body>
 
 </html>
