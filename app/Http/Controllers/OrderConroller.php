@@ -39,6 +39,7 @@ class OrderConroller extends Controller
         'total' => $request->total,
         'user_id' => Auth::id(),
         'cc_num' => Auth::user()->cc_num,
+        'type' => $request->type,
     ]);
 
     // Update the InvoiceId status to 'submitted'
@@ -55,6 +56,7 @@ class OrderConroller extends Controller
             'contact' => $request->contact,
             'invoice' => $request->inv,
             'work_type_id' => $orderData['work_type'],
+            'uid' => Auth::id(),
         ];
 
         // Set fields based on order type
@@ -85,6 +87,7 @@ class OrderConroller extends Controller
             'total' => $request->total,
             'user_id' => Auth::id(),
             'cc_num' => Auth::user()->cc_num,
+            'type' => $request->type
         ]);
     
         // Update invoice ID status
@@ -101,6 +104,7 @@ class OrderConroller extends Controller
                 'contact' => $request->contact,
                 'invoice' => $request->inv,
                 'work_type_id' => $orderData['work_type'],
+                'uid' => Auth::id(),
             ];
     
             // Add type-specific fields
@@ -132,6 +136,7 @@ class OrderConroller extends Controller
             'total' => $request->total,
             'user_id' => Auth::id(),
             'cc_num' => Auth::user()->cc_num,
+            'type' => $request->type
         ]);
     
         // Update invoice ID status correctly
@@ -148,6 +153,7 @@ class OrderConroller extends Controller
                 'contact' => $request->contact,
                 'invoice' => $request->inv,
                 'work_type_id' => $orderData['work_type'],
+                'uid' => Auth::id(),
             ];
     
             if ($orderData['order_type'] === 'boosting') {

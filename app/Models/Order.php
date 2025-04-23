@@ -28,6 +28,7 @@ class Order extends Model
         'name',
         'contact',
         'cro',
+        'uid',
         'work_type_id',
         'page',
         'work_status',
@@ -87,6 +88,14 @@ class Order extends Model
     public function workType()
     {
         return $this->belongsTo(WorkType::class, 'work_type_id');
+    }
+    public function croUser()
+    {
+        return $this->belongsTo(CallCenter::class, 'cro');
+    }
+    public function plUser()
+    {
+        return $this->belongsTo(User::class, 'uid');
     }
 
     // Add any additional methods or scopes here

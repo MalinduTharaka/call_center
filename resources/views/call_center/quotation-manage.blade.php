@@ -12,33 +12,32 @@
                         <table class="table table-centered mb-0 table-bordered border-primary">
                             <thead class="table-purple">
                                 <tr>
-                                    <th>INV</th>
+                                    <th>QOT</th>
                                     <th>CRO</th>
                                     <th>Call Center</th>
                                     <th>Conatct</th>
-                                    <th>Due Date</th>
                                     <th>Total</th>
-                                    <th>Paid</th>
                                     <th>View</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($invoices as $invoice)
-                                    @if ($invoice->type == 0)
+                                    @if ($invoice->type == 1)
                                         <tr>
                                             <td>{{ $invoice->inv }}</td>
                                             <td>{{ $invoice->user->name ?? 'N/A' }}</td>
                                             <td>{{ $invoice->callCenter->cc_name ?? 'N/A' }}</td>
                                             <td>{{ $invoice->contact }}</td>
-                                            <td>{{ $invoice->due_date }}</td>
                                             <td>{{ $invoice->total }}</td>
-                                            <td>{{ ($invoice->amt1 + $invoice->amt2 + $invoice->amt3) }}</td>
                                             <td>
-                                                <a href="{{ route('invoices.view', $invoice->inv) }}"
+                                                <a href=""
                                                     class="btn btn-primary">View</a>
                                             </td>
-                                            <td></td>
+                                            <td>
+                                                <a href="{{ route('qutToInv', $invoice->inv) }}"
+                                                    class="btn btn-primary">Turn To Invoice</a>
+                                            </td>
                                         </tr>
                                     @endif
 

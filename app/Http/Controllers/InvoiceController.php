@@ -116,6 +116,7 @@ class InvoiceController extends Controller
             'designOrders' => $designOrders,
             'videoOrders' => $videoOrders,
             'work_types' => $work_types,
+            'type' => $request->type,
         ];
 
         

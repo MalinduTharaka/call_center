@@ -44,6 +44,8 @@
                                                         <thead class="table-dark">
                                                             <tr>
                                                                 <th>Date</th>
+                                                                <th>CC</th>
+                                                                <th>CRO</th>
                                                                 <th>C/E</th>
                                                                 <th>Invoice</th>
                                                                 <th>Name<br/>Company</th>
@@ -75,6 +77,8 @@
                                                                             @csrf
                                                                             @method('put')
                                                                         <td>{{ $order->date }}</td>
+                                                                        <td>{{ $order->croUser->cc_name }}</td>
+                                                                        <td>{{ $order->plUser->name }}</td>
                                                                         <td>
                                                                             <span class="badge fs-5 display-mode
                                                                                 @if($order->ce == 'c') bg-primary
@@ -225,6 +229,8 @@
                                                         <thead class="table-dark">
                                                             <tr>
                                                                 <th>Date</th>
+                                                                <th>CC</th>
+                                                                <th>CRO</th>
                                                                 <th>C/E</th>
                                                                 <th>Invoice</th>
                                                                 <th>Name<br/>Company</th>
@@ -248,6 +254,8 @@
                                                                         @csrf
                                                                         @method('put')
                                                                     <td>{{$order->date}}</td>
+                                                                    <td>{{ $order->croUser->cc_name }}</td>
+                                                                    <td>{{ $order->plUser->name }}</td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
                                                                             @if($order->ce == 'c') bg-primary
@@ -364,6 +372,8 @@
                                                     <thead class="table-dark">
                                                         <tr>
                                                             <th>Date</th>
+                                                            <th>CC</th>
+                                                            <th>CRO</th>
                                                             <th>C/E</th>
                                                             <th>Invoice</th>
                                                             <th>Name<br/>Company</th>
@@ -393,6 +403,8 @@
                                                                     <td>
                                                                         <span>{{$order->date}}</span>
                                                                     </td>
+                                                                    <td>{{ $order->croUser->cc_name }}</td>
+                                                                    <td>{{ $order->plUser->name }}</td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode 
                                                                             @if($order->ce == 'c') bg-primary

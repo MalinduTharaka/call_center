@@ -9,6 +9,16 @@
             <div class="modal-body">
                 <form action="/new_invoice" method="post">
                     @csrf
+
+                    <div class="form-check form-switch mb-3">
+                        <!-- Hidden input ensures a default value of 0 is sent when unchecked -->
+                        <input type="hidden" name="type" value="0">
+                        <!-- This input will override the value when checked -->
+                        <input type="checkbox" class="form-check-input" id="customSwitch1" name="type" value="1">
+                        <label class="form-check-label" for="customSwitch1">Turn on to create quotation</label>
+                    </div>
+                    
+
                     <div class="mt-2">
                         <div class="form-check form-check-inline">
                             <input type="checkbox" id="checkbox-boosting" name="order_type1" class="form-check-input">

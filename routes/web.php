@@ -7,6 +7,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceManageController;
 use App\Http\Controllers\OrderConroller;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\QuotationManageController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\UpdateCenterController;
 use App\Http\Controllers\UserController;
@@ -99,6 +100,11 @@ Route::middleware([
     //Invoice Manage Routes
     Route::get('/invoices/manage', [InvoiceManageController::class, 'index'])->name('invoices.index');
     Route::get('/invoice/view/{inv}', [InvoiceManageController::class, 'invoiceView'])->name('invoices.view');
+
+    //Quotation Manage Routes
+    Route::get('/quotation/manage', [QuotationManageController::class, 'index'])->name('quotation.index');
+    Route::get('/quotation/view/{inv}', [QuotationManageController::class, 'quotationView'])->name('quotation.view');
+    Route::get('/qutToInv/{inv}', [QuotationManageController::class, 'qutToInv'])->name('qutToInv');
 
 });
 

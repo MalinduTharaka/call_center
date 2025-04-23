@@ -40,6 +40,7 @@
         <input type="hidden" name="inv" value="bdv{{ $inv_id }}">
         <input type="hidden" name="inv_no" value="{{ $inv_id }}">
         <input type="hidden" name="total" id="total_due">
+        <input type="hidden" name="type" value="{{ $type }}">
 
         @php
             $totalTax = collect($boostingOrders)->sum('tax');
@@ -102,11 +103,19 @@
                     <!-- Invoice Info -->
                     <div class="col-md-4 mt-4 mt-md-0">
                         <div class="border-bottom pb-2 mb-2 border-primary">
-                            <h1 class="h3 font-weight-bold text-uppercase text-dark mb-0">INVOICE</h1>
+                            <h2 class="h1 font-weight-bold text-uppercase text-muted mb-0">
+                                @if ($type == 0)
+                                    INVOICE
+                                @elseif ($type == 1)
+                                    QUOTATION
+                                @else
+                                    INVOICE
+                                @endif
+                            </h2>
                         </div>
                         <div class="text-md-right">
                             <dl class="row mb-0">
-                                <dt class="col-sm-6 text-md-right small">Invoice #:</dt>
+                                <dt class="col-sm-6 text-md-right small">ID #:</dt>
                                 <dd class="col-sm-6 text-md-left small">bdv{{ $inv_id }}</dd>
 
                                 <dt class="col-sm-6 text-md-right small">Date:</dt>
@@ -272,7 +281,13 @@
                 </table>
 
                 <div class="text-muted small border-top pt-3 mt-3">
-                    <p>Payment is due within 30 days of receipt.</p>
+                    @if ($type == 0)
+                        <p class="text-muted small">Payment is due within 30 days.</p>
+                    @elseif ($type == 1)
+                        <p class="text-muted small">quotation is due within 30 days.</p>
+                    @else
+                        <p class="text-muted small">Payment is due within 30 days.</p>
+                    @endif
                 </div>
             </div>
 

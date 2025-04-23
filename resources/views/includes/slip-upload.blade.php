@@ -14,7 +14,7 @@
                         <select id="invop" class="form-select select2" name="inv">
                             <option value="" disabled selected>Search Invoice...</option>
                             @foreach ($invoices as $invoice)
-                                @if ($invoice->status == 'pending')
+                                @if ($invoice->status == 'pending' && $invoice->type == 0)
                                     @php
                                         // Gather just the fields we need for each order on this invoice
                                         $orderDetails = $orders

@@ -55,7 +55,7 @@
             <!-- Invoice Info -->
             <div class="col-md-4 mt-4 mt-md-0">
                 <div class="border-bottom pb-2 mb-2 border-primary">
-                    <h1 class="h3 font-weight-bold text-uppercase text-dark mb-0">INVOICE</h1>
+                    <h1 class="h3 font-weight-bold text-uppercase text-dark mb-0">QUOTATION</h1>
                 </div>
                 <div class="text-md-right">
                     <dl class="row mb-0">

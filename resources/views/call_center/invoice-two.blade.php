@@ -38,6 +38,7 @@
         <input type="text" name="inv" value="@if (!empty($boostingOrders))b @elseif (!empty($designOrders))d @else v @endif{{ $inv_id }}" hidden>
         <input type="hidden" name="inv_no" value="{{ $inv_id }}">
         <input type="hidden" name="total" id="total_due">
+        <input type="hidden" name="type" value="{{ $type }}">
 
         <div class="container mx-auto p-4 bg-white shadow rounded border font-sans" style="max-width: 800px;">
             <!-- Header Section -->
@@ -99,11 +100,19 @@
                     <!-- Right Column - Invoice Info -->
                     <div class="col-4 text-right">
                         <div class="border-bottom pb-2 mb-2 border-primary">
-                            <h2 class="h1 font-weight-bold text-uppercase text-muted mb-0">INVOICE</h2>
+                            <h2 class="h1 font-weight-bold text-uppercase text-muted mb-0">
+                                @if ($type == 0)
+                                    INVOICE
+                                @elseif ($type == 1)
+                                    QUOTATION
+                                @else
+                                    INVOICE
+                                @endif
+                            </h2>
                         </div>
                         <div class="pt-1">
                             <p class="mb-1 small">
-                                <span class="font-weight-bold">Invoice #:</span>
+                                <span class="font-weight-bold">ID #:</span>
                                 @if(count($boostingOrders) > 0 && count($designOrders) > 0)
                                     bd
                                 @elseif(count($boostingOrders) > 0 && count($videoOrders) > 0)
@@ -235,7 +244,13 @@
 
             <!-- Footer -->
             <div class="text-muted small border-top pt-3 mt-3">
-                <p>Payment is due within 30 days of receipt.</p>
+                @if ($type == 0)
+                    <p class="text-muted small">Payment is due within 30 days.</p>
+                @elseif ($type == 1)
+                    <p class="text-muted small">quotation is due within 30 days.</p>
+                @else
+                    <p class="text-muted small">Payment is due within 30 days.</p>
+                @endif
             </div>
         </div>
 

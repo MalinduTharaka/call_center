@@ -23,6 +23,7 @@ class Invoice extends Model
      */
     protected $fillable = [
         'user_id',
+        'type',
         'cc_num',
         'date',
         'inv',

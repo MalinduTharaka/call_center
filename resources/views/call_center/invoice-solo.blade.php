@@ -41,6 +41,7 @@
     <input type="text" name="contact" id="contact" value="{{ $boostingOrders[0]['contact'] ?? $designOrders[0]['contact'] ?? $videoOrders[0]['contact'] ?? '' }}" hidden>
     <input type="hidden" name="date" value="{{ \Carbon\Carbon::now()->toDateString() }}">
     <input type="text" name="name" id="name" value="{{ $boostingOrders[0]['name'] ?? $designOrders[0]['name'] ?? $videoOrders[0]['name'] ?? '' }}" >
+    <input type="hidden" name="type" value="{{ $type }}">
 
     {{-- Invoice Container --}}
     <div class="container mx-auto p-4 bg-white shadow rounded border font-sans" style="max-width: 800px;">
@@ -66,9 +67,17 @@
             </div>
             <div class="col-4 text-right">
                 <div class="border-bottom pb-2 mb-2 border-primary">
-                    <h2 class="h1 font-weight-bold text-uppercase text-muted mb-0">INVOICE</h2>
+                    <h2 class="h1 font-weight-bold text-uppercase text-muted mb-0">
+                        @if ($type == 0)
+                            INVOICE
+                        @elseif ($type == 1)
+                            QUOTATION
+                        @else
+                            INVOICE
+                        @endif
+                    </h2>
                 </div>
-                <p class="mb-1 small"><strong>Invoice #:</strong> {{ !empty($boostingOrders) ? 'b' : (!empty($designOrders) ? 'd' : 'v') }}{{ $inv_id }}</p>
+                <p class="mb-1 small"><strong>ID #:</strong> {{ !empty($boostingOrders) ? 'b' : (!empty($designOrders) ? 'd' : 'v') }}{{ $inv_id }}</p>
                 <p class="mb-0 small"><strong>Date:</strong> {{ now()->format('Y-m-d H:i:s') }}</p>
             </div>
         </div>
@@ -157,8 +166,14 @@
             </tbody>
         </table>
         
-
-        <p class="text-muted small">Payment is due within 30 days.</p>
+        @if ($type == 0)
+            <p class="text-muted small">Payment is due within 30 days.</p>
+        @elseif ($type == 1)
+            <p class="text-muted small">quotation is due within 30 days.</p>
+        @else
+            <p class="text-muted small">Payment is due within 30 days.</p>
+        @endif
+        
     </div>
 
     <div class="text-center d-print-none mt-4">
