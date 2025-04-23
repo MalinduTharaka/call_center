@@ -97,6 +97,10 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'uid');
     }
+    public function advertiser()
+    {
+        return $this->belongsTo(User::class, 'advertiser_id');
+    }
 
     // Add any additional methods or scopes here
 }

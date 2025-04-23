@@ -61,6 +61,12 @@
                     <span> Update Center </span>
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a href="/advertisers/manage" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Advertise </span>
+                </a>
+            </li>
 
             <li class="side-nav-item">
                 <a href="/employees/centers" class="side-nav-link">

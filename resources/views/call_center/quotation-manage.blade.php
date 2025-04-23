@@ -31,7 +31,7 @@
                                             <td>{{ $invoice->contact }}</td>
                                             <td>{{ $invoice->total }}</td>
                                             <td>
-                                                <a href=""
+                                                <a href="{{ route('quotation.view', $invoice->inv) }}"
                                                     class="btn btn-primary">View</a>
                                             </td>
                                             <td>

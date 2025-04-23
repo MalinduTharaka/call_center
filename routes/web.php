@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddAccountController;
+use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\AssignEmployeesController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InvoiceController;
@@ -105,6 +106,10 @@ Route::middleware([
     Route::get('/quotation/manage', [QuotationManageController::class, 'index'])->name('quotation.index');
     Route::get('/quotation/view/{inv}', [QuotationManageController::class, 'quotationView'])->name('quotation.view');
     Route::get('/qutToInv/{inv}', [QuotationManageController::class, 'qutToInv'])->name('qutToInv');
+
+    //Advertiser Routes
+    Route::get('/advertisers/manage', [AdvertiserController::class, 'index'])->name('advertisers.index');
+    Route::put('/advertisers/update/{id}', [AdvertiserController::class, 'updateAdv'])->name('advertisers.update');
 
 });
 
