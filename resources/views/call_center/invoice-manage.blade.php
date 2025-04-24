@@ -20,7 +20,6 @@
                                     <th>Total</th>
                                     <th>Paid</th>
                                     <th>View</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,7 +37,6 @@
                                                 <a href="{{ Str::startsWith($invoice->inv, 'OR') ? route('invoices.viewOR', $invoice->inv) : route('invoices.view', $invoice->inv) }}"
                                                     class="btn btn-primary">View</a>
                                             </td>
-                                            <td></td>
                                         </tr>
                                     @endif
 
