@@ -197,16 +197,20 @@ class OrderConroller extends Controller
         $order = Order::findOrFail($id);
         $order->update($request->all()); // Updates all fields from the request
 
+        event(new DesignersPaymentsUpdateEvent($id));
+
         if($request->payment_status == 'pending' || $request->payment_status == 'partial' || $request->payment_status == 'rejected'){
             $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
             $invoice->update(['status' => 'pending']);
             // $orders = Order::where('invoice', $request->inv)->firstOrFail();
             // $orders->update(['payment_status' => $request->payment_status]);
         }
+        
 
         return response()->json(['success' => 'Order updated successfully!']);
 
-        DesignersPaymentsUpdateEvent::dispatch($id);
+        
+
     }
 
     public function updateVideoOrders(Request $request, $id)

@@ -318,6 +318,7 @@
                                                     <table class="table table-hover table-centered table-bordered border-primary mb-0">
                                                         <thead class="table-dark">
                                                             <tr>
+                                                                <th>Id</th>
                                                                 <th>Date</th>
                                                                 <th>C/E</th>
                                                                 <th>Invoice</th>
@@ -341,6 +342,7 @@
                                                                     <form action="/orders/designs/update/{{ $order->id }}" method="post">
                                                                         @csrf
                                                                         @method('put')
+                                                                    <td>{{$order->id}}</td>
                                                                     <td>{{$order->date}}</td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode

@@ -29,8 +29,8 @@ class DesignersPaymentUpdateListner
             PostDesignersWork::create([
                 'user_id'  => $order->designer_id,
                 'order_id' => $order->id,
-                'amount'   => optional($order->workType->desidesignPayment)->amount ?? 0,
-                'month'    => Carbon::now()->format('F'),
+                'amount'   => $order->workType->designPayment->amount,
+                'month'    => Carbon::now(),
             ]);
 
             \Log::info("PostDesignersWork created for order ID: {$order->id}");

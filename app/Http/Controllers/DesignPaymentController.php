@@ -12,7 +12,7 @@ class DesignPaymentController extends Controller
     public function index()
     {
         $invoices = Invoice::all();
-        $payments  = DesignPayment::with('workType')->get();
+        $payments  = DesignPayment::all();
         $workTypes = WorkType::where('order_type','designs')->get();
 
         return view('call_center.design-payment', compact('payments', 'workTypes','invoices'));

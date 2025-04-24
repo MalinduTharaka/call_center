@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('contact')->nullable();
             $table->string('cro')->nullable();
-            $table->foreignId('work_type_id')->nullable();
+            $table->string('work_type')->nullable();
             $table->string('page')->nullable();
             $table->string('work_status')->nullable();
             $table->string('payment_status')->nullable();

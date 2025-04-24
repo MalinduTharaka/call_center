@@ -11,5 +11,8 @@ class DesignPayment extends Model
         'amount',
     ];
 
-   
+   public function workType()
+   {
+    return $this->belongsTo(WorkType::class,'work_type_id');
+   }
 }
