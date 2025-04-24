@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\InvoiceId;
+use App\Models\WorkType;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
@@ -16,14 +17,16 @@ class InvoiceController extends Controller
     public function invoicesolo($id){
         $order = Order::findOrFail($id);
         $invoices = Invoice::all();
-        return view('call_center.invoice-solo', compact('order', 'invoices'));
+        $work_types = WorkType::all();
+        return view('call_center.invoice-solo', compact('order', 'invoices', 'work_types'));
     }
 
     public function invoicetwo($id1, $id2){
         $order1 = Order::findOrFail($id1);
         $order2 = Order::findOrFail($id2);
         $invoices = Invoice::all();
-        return view('call_center.invoice-two', compact('order1', 'order2', 'invoices'));
+        $work_types = WorkType::all();
+        return view('call_center.invoice-two', compact('order1', 'order2', 'invoices', 'work_types'));
     }
 
     public function invoiceall($id1, $id2, $id3){
@@ -31,7 +34,8 @@ class InvoiceController extends Controller
         $order2 = Order::findOrFail($id2);
         $order3 = Order::findOrFail($id3);
         $invoices = Invoice::all();
-        return view('call_center.invoice-all', compact('order1', 'order2', 'order3', 'invoices'));
+        $work_types = WorkType::all();
+        return view('call_center.invoice-all', compact('order1', 'order2', 'order3', 'invoices', 'work_types'));
     }
 
     public function new_invoice(Request $request)
@@ -103,6 +107,7 @@ class InvoiceController extends Controller
         $inv = InvoiceId::create(['date' => today()]);
         $inv_id = $inv->id;
 
+        $work_types = WorkType::all();
         // Prepare data for view
         $data = [
             'inv_id' => $inv_id,
@@ -110,7 +115,11 @@ class InvoiceController extends Controller
             'boostingOrders' => $boostingOrders,
             'designOrders' => $designOrders,
             'videoOrders' => $videoOrders,
+            'work_types' => $work_types,
+            'type' => $request->type,
         ];
+
+        
 
         // Determine which view to render based on selected types count
         $view = match (count($selectedTypes)) {

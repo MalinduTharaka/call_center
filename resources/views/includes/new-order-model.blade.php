@@ -9,6 +9,16 @@
             <div class="modal-body">
                 <form action="/new_invoice" method="post">
                     @csrf
+
+                    <div class="form-check form-switch mb-3">
+                        <!-- Hidden input ensures a default value of 0 is sent when unchecked -->
+                        <input type="hidden" name="type" value="0">
+                        <!-- This input will override the value when checked -->
+                        <input type="checkbox" class="form-check-input" id="customSwitch1" name="type" value="1">
+                        <label class="form-check-label" for="customSwitch1">Turn on to create quotation</label>
+                    </div>
+                    
+
                     <div class="mt-2">
                         <div class="form-check form-check-inline">
                             <input type="checkbox" id="checkbox-boosting" name="order_type1" class="form-check-input">
@@ -106,13 +116,14 @@
                                                             <select name="boosting[0][work_type]" class="form-select">
                                                                 @foreach ($work_types as $work_type)
                                                                     @if ($work_type->order_type == 'boosting')
-                                                                        <option value="{{ $work_type->name }}">
+                                                                        <option value="{{ $work_type->id }}">
                                                                             {{ $work_type->name }}
                                                                         </option>
                                                                     @endif
                                                                 @endforeach
                                                             </select>
                                                         </div>
+                                                        <button type="button" class="btn btn-sm btn-danger remove-boosting">Remove</button>
                                                     </div>
                                                 </div>
                                                 <hr class="my-3">
@@ -133,7 +144,7 @@
                                                         <select name="design[0][work_type]" class="form-select">
                                                             @foreach ($work_types as $work_type)
                                                                 @if ($work_type->order_type == 'designs')
-                                                                    <option value="{{ $work_type->name }}">
+                                                                    <option value="{{ $work_type->id }}">
                                                                         {{ $work_type->name }}
                                                                     </option>
                                                                 @endif
@@ -145,6 +156,9 @@
                                                         <input type="text" name="design[0][amount]"
                                                             class="form-control">
                                                     </div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <button type="button" class="btn btn-sm btn-danger remove-design">Remove</button>
                                                 </div>
                                                 <hr class="my-3">
                                             </div>
@@ -181,13 +195,16 @@
                                                         <select name="video[0][style]" class="form-select">
                                                             @foreach ($work_types as $work_type)
                                                                 @if ($work_type->order_type == 'video')
-                                                                    <option value="{{ $work_type->name }}">
+                                                                    <option value="{{ $work_type->id }}">
                                                                         {{ $work_type->name }}
                                                                     </option>
                                                                 @endif
                                                             @endforeach
                                                         </select>
                                                     </div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <button type="button" class="btn btn-sm btn-danger remove-video">Remove</button>
                                                 </div>
                                                 <hr class="my-3">
                                             </div>
@@ -258,6 +275,18 @@
                                                 applyServiceLogic();
                                             });
 
+                                            // Remove boosting group
+                                            document.addEventListener('click', function(e) {
+                                                if (e.target && e.target.classList.contains('remove-boosting')) {
+                                                    const group = e.target.closest('.boosting-group');
+                                                    if (document.querySelectorAll('.boosting-group').length > 1) {
+                                                        group.remove();
+                                                    } else {
+                                                        alert('You need to have at least one boosting option.');
+                                                    }
+                                                }
+                                            });
+
                                             let designIndex = 0;
                                             document.querySelector('.add-design').addEventListener('click', function () {
                                                 designIndex++;
@@ -266,12 +295,36 @@
                                                 document.querySelector('.design-container').appendChild(clone);
                                             });
 
+                                            // Remove design group
+                                            document.addEventListener('click', function(e) {
+                                                if (e.target && e.target.classList.contains('remove-design')) {
+                                                    const group = e.target.closest('.design-group');
+                                                    if (document.querySelectorAll('.design-group').length > 1) {
+                                                        group.remove();
+                                                    } else {
+                                                        alert('You need to have at least one design option.');
+                                                    }
+                                                }
+                                            });
+
                                             let videoIndex = 0;
                                             document.querySelector('.add-video').addEventListener('click', function () {
                                                 videoIndex++;
                                                 const clone = document.querySelector('.video-group').cloneNode(true);
                                                 clone.innerHTML = clone.innerHTML.replace(/\[0\]/g, `[${videoIndex}]`);
                                                 document.querySelector('.video-container').appendChild(clone);
+                                            });
+
+                                            // Remove video group
+                                            document.addEventListener('click', function(e) {
+                                                if (e.target && e.target.classList.contains('remove-video')) {
+                                                    const group = e.target.closest('.video-group');
+                                                    if (document.querySelectorAll('.video-group').length > 1) {
+                                                        group.remove();
+                                                    } else {
+                                                        alert('You need to have at least one video option.');
+                                                    }
+                                                }
                                             });
 
                                             // Package Selection Logic

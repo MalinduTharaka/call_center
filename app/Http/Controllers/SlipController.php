@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\OtherOrder;
 use App\Models\Slip;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class SlipController extends Controller
 {
@@ -51,9 +53,11 @@ class SlipController extends Controller
             Order::where('invoice', $request->inv)
                  ->update(['payment_status' => 'done', 'advance' => 0, 'ps' => '1']);
 
+            $tv = Invoice::where('inv', $request->inv)->sum('total');
+
             Invoice::where('inv', $request->inv)
                    ->firstOrFail()
-                   ->update(['status' => 'paid']);
+                   ->update(['status' => 'paid', 'amt1' => $tv, 'amt2' => Null , 'amt3' => Null]);
 
             return back()->with('success', 'Payment slip uploaded and marked complete.')->with('slip_path', $path);
         }
@@ -185,5 +189,91 @@ class SlipController extends Controller
         }
 
         return back()->with('success', 'Partial payment slip uploaded successfully.')->with('slip_path', $path);
+    }
+
+    public function storeOR(Request $request)
+    {
+        // 1) Validate incoming request
+        $request->validate([
+            'slip'          => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'inv'           => 'required|exists:invoices,inv',
+            'bank'          => 'required|string',
+            'payment_type'  => 'required|in:completed,partial',
+            'advance'       => 'nullable|array',
+            'advance.*'     => 'nullable|numeric|min:0',
+            'due_date'      => 'required_if:payment_type,partial|integer|min:1|max:365',
+        ]);
+
+        // 2) Ensure the invoice exists
+        $invoice = Invoice::where('inv', $request->inv)->first();
+        if (! $invoice) {
+            return back()->with('error', 'Invoice not found.');
+        }
+
+        // 3) Handle slip upload
+        if (! $request->hasFile('slip') || ! $request->file('slip')->isValid()) {
+            return back()->with('error', 'File upload failed or no file provided.');
+        }
+        $path = $request->file('slip')->store('slips', 'public');
+        Slip::create([
+            'order_id'  => $request->inv,
+            'slip_path' => $path,
+            'bank'      => $request->bank,
+        ]);
+
+        // 4) Completed payment path
+        if ($request->payment_type === 'completed') {
+            OtherOrder::where('invoice_id', $request->inv)
+                      ->update([
+                          'payment_status' => 'done',
+                          'advance'        => 0,
+                          'ps'             => '1'
+                      ]);
+
+            $invoice->update([
+                'status' => 'paid',
+                'amt1'   => $invoice->total,
+                'amt2'   => null,
+                'amt3'   => null,
+            ]);
+
+            return back()->with('success', 'Payment slip uploaded and marked complete.')->with('slip_path', $path);
+        }
+
+        // 5) Partial payment path
+        $advances = collect($request->advance ?? [])->values();
+
+        // Assign next available amt slot on invoice
+        $sumAdvance = $advances->sum();
+        if (! $invoice->amt1) {
+            $invoice->amt1 = $sumAdvance;
+        } elseif (! $invoice->amt2) {
+            $invoice->amt2 = $sumAdvance;
+        } else {
+            $invoice->amt3 = $sumAdvance;
+        }
+        $invoice->due_date = Carbon::today()->addDays((int)$request->due_date);
+        $invoice->save();
+
+        // Mark all OtherOrders as in-process of payment slip
+        OtherOrder::where('invoice_id', $request->inv)
+                  ->update(['ps' => '1']);
+
+        // Fetch all related other-orders
+        $orders = OtherOrder::where('invoice_id', $request->inv)
+                             ->orderBy('id')
+                             ->get();
+
+        // 6) Store each advance input exactly to corresponding OtherOrder
+        foreach ($orders as $index => $order) {
+            $advValue = $advances->get($index, 0);
+            $order->advance        = $advValue;
+            $order->payment_status = 'partial';
+            $order->save();
+        }
+
+        return back()
+               ->with('success', 'Partial payment slip uploaded successfully.')
+               ->with('slip_path', $path);
     }
 }

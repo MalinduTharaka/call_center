@@ -3,20 +3,22 @@
     <!-- Brand Logo Light -->
     <a href="index.html" class="logo logo-light">
         <span class="logo-lg">
-            <img src="{{ asset('assets/images/logo.png')}}" alt="logo">
+            <img src="{{ asset('logos/wishwaads.jpg')}}" alt="logo" style="height: 60px; width: auto;">
+
         </span>
         <span class="logo-sm">
-            <img src="{{ asset('assets/images/logo-sm.png')}}" alt="small logo">
+            <img src="{{ asset('logos/wishwaads.jpg')}}" alt="small logo">
         </span>
     </a>
 
     <!-- Brand Logo Dark -->
     <a href="index.html" class="logo logo-dark">
         <span class="logo-lg">
-            <img src="{{ asset('assets/images/logo-dark.png')}}" alt="dark logo">
+            <img src="{{ asset('logos/wishwaads.jpg')}}" alt="logo" style="height: 60px; width: auto;">
+
         </span>
         <span class="logo-sm">
-            <img src="{{ asset('assets/images/logo-sm.png')}}" alt="small logo">
+            <img src="{{ asset('logos/wishwaads.jpg')}}" alt="small logo">
         </span>
     </a>
 
@@ -38,6 +40,19 @@
                 <a href="/new/orders" class="side-nav-link">
                     <i class="ri-dashboard-3-line"></i>
                     <span> New Orders </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="/other_orders" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Other Orders </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="/packages" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Packages </span>
                 </a>
             </li>
 
@@ -103,6 +118,40 @@
                 <a href="/update-center" class="side-nav-link">
                     <i class="ri-dashboard-3-line"></i>
                     <span> Update Center </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="/advertisers/manage" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Advertise </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="/employees/centers" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Call Centers/Add Centers </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="/users/manage" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> User Manage </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="/invoices/manage" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Invoices </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="/quotation/manage" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Quotation </span>
                 </a>
             </li>
 

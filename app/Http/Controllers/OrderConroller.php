@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\DesignersPaymentsUpdateEvent;
 use App\Models\Invoice;
 use App\Models\InvoiceId;
+use App\Models\OtherOrder;
 use App\Models\VideoPkg;
 use App\Models\WorkType;
 use Illuminate\Support\Facades\Auth;
@@ -28,17 +29,20 @@ class OrderConroller extends Controller
         $invoices = Invoice::all();
         $work_types = WorkType::all();
         $video_pkgs = VideoPkg::all();
-        return view('call_center.new-orders', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs'));
+        $other_orders = OtherOrder::all();
+        return view('call_center.new-orders', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs', 'other_orders'));
     }
 
     public function store_solo(Request $request){
-        // Create the invoice record using the common details from the form
     // Create the invoice
     $invoice = Invoice::create([
         'date' => $request->date,
         'contact' => $request->contact,
         'inv' => $request->inv,
         'total' => $request->total,
+        'user_id' => Auth::id(),
+        'cc_num' => Auth::user()->cc_num,
+        'type' => $request->type,
     ]);
 
     // Update the InvoiceId status to 'submitted'
@@ -54,7 +58,8 @@ class OrderConroller extends Controller
             'name' => $request->name,
             'contact' => $request->contact,
             'invoice' => $request->inv,
-            'work_type' => $orderData['work_type'],
+            'work_type_id' => $orderData['work_type'],
+            'uid' => Auth::id(),
         ];
 
         // Set fields based on order type
@@ -83,6 +88,9 @@ class OrderConroller extends Controller
             'contact' => $request->contact,
             'inv' => $request->inv,
             'total' => $request->total,
+            'user_id' => Auth::id(),
+            'cc_num' => Auth::user()->cc_num,
+            'type' => $request->type
         ]);
     
         // Update invoice ID status
@@ -98,7 +106,8 @@ class OrderConroller extends Controller
                 'name' => $request->name,
                 'contact' => $request->contact,
                 'invoice' => $request->inv,
-                'work_type' => $orderData['work_type'],
+                'work_type_id' => $orderData['work_type'],
+                'uid' => Auth::id(),
             ];
     
             // Add type-specific fields
@@ -128,6 +137,9 @@ class OrderConroller extends Controller
             'contact' => $request->contact,
             'inv' => $request->inv,
             'total' => $request->total,
+            'user_id' => Auth::id(),
+            'cc_num' => Auth::user()->cc_num,
+            'type' => $request->type
         ]);
     
         // Update invoice ID status correctly
@@ -143,7 +155,8 @@ class OrderConroller extends Controller
                 'name' => $request->name,
                 'contact' => $request->contact,
                 'invoice' => $request->inv,
-                'work_type' => $orderData['work_type'],
+                'work_type_id' => $orderData['work_type'],
+                'uid' => Auth::id(),
             ];
     
             if ($orderData['order_type'] === 'boosting') {
@@ -163,7 +176,6 @@ class OrderConroller extends Controller
     
         return redirect('/new/orders')->with('success', 'Order created successfully');
     }
-    
     
     public function updateBoostingOrders(Request $request, $id)
     {
@@ -211,7 +223,6 @@ class OrderConroller extends Controller
 
         return response()->json(['success' => 'Order updated successfully!']);
     }
-
 
     public function getOrderTypes($inv)
     {

@@ -23,6 +23,8 @@ class Invoice extends Model
      */
     protected $fillable = [
         'user_id',
+        'type',
+        'cc_num',
         'date',
         'inv',
         'contact',
@@ -37,4 +39,14 @@ class Invoice extends Model
         'amt2',
         'amt3',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function callCenter()
+    {
+        return $this->belongsTo(CallCenter::class, 'cc_num');
+    }
+
 }

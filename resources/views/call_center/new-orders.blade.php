@@ -14,6 +14,18 @@
 
         <div class="row mt-2">
             <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#otherorder">
+                            Other Order
+                        </button>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#otherorderslip">
+                            Other Order Slip
+                        </button>
+                    </div>
+                    @include('includes.other-order-model')
+                    @include('includes.slip-upload-other-order')
+                </div>
             </div> <!-- end col-->
             <div class="col-sm-6">
                 <div class="card card-body">
@@ -33,8 +45,6 @@
 
                             <!-- Modal -->
                             @include('includes.slip-upload')
-
-
                         </div> <!-- end card-body -->
                     </div> <!-- end card-->
                 </div> <!-- end col -->
@@ -67,34 +77,28 @@
                     let bsAlert = new bootstrap.Alert(alert);
                     bsAlert.close();
                 });
-            }, 4000); // Auto-dismiss after 4 seconds
+            }, 2000); // Auto-dismiss after 4 seconds
         </script>
 
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4 class="header-title mb-0"> Orders</h4>
-                    </div>
                     <div class="card-body">
                             <div id="basicwizard">
 
-                                <ul class="nav nav-pills nav-justified form-wizard-header mb-4">
+                                <ul class="nav nav-tabs nav-justified nav-bordered mb-3">
                                     <li class="nav-item">
                                         <a href="#basictab1" class="nav-link rounded-0 py-2"> 
-                                            <i class="ri-account-circle-line fw-normal fs-20 align-middle me-1"></i>
                                             <span class="d-none d-sm-inline">Boosting</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#basictab2" class="nav-link rounded-0 py-2">
-                                            <i class="ri-profile-line fw-normal fs-20 align-middle me-1"></i>
                                             <span class="d-none d-sm-inline">Designs</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#basictab3" class="nav-link rounded-0 py-2">
-                                            <i class="ri-check-double-line fw-normal fs-20 align-middle me-1"></i>
                                             <span class="d-none d-sm-inline">Video</span>
                                         </a>
                                     </li>
@@ -160,8 +164,7 @@
                                                                             </select>
                                                                         </td>
                                                                         <td>
-                                                                            <span class="display-mode">{{ $order->invoice }}</span>
-                                                                            <input type="text" name="inv" class="form-control edit-mode" value="{{ $order->invoice }}" hidden>
+                                                                            <span>{{ $order->invoice }}</span>
                                                                         </td>
                                                                         <td>
                                                                             <span class="display-mode">{{$order->name}}</span>
@@ -186,21 +189,29 @@
                                                                         </td>
                                                                         <td>
                                                                             <span class="badge fs-5 display-mode
-                                                                                @if(!$order->work_type == '') bg-dark
+                                                                                @if(!$order->workType->name == '') bg-dark
                                                                                 @endif">
-                                                                                {{ $order->work_type }}
+                                                                                {{ $order->workType->name }}
                                                                             </span>
-                                                                            <select name="work_type" class="form-select edit-mode">
+                                                                            <select name="work_type_id" class="form-select edit-mode">
                                                                                 <option value="" selected>Select</option>
                                                                                 @foreach ($work_types as $work_type)
                                                                                     @if ($work_type->order_type == 'boosting')
-                                                                                    <option value="{{$work_type->name}}" @if($order->work_type == $work_type->name) selected @endif>{{$work_type->name}}</option>
+                                                                                    <option value="{{$work_type->id}}" @if($order->work_type_id == $work_type->id) selected @endif>{{$work_type->name}}</option>
                                                                                     @endif
                                                                                 @endforeach
                                                                             </select>
                                                                         </td>
-
-                                                                        <td><span class="badge fs-5 bg-dark">{{ $order->page }}</span></td>
+                                                                        <td>
+                                                                            <span class="badge fs-5 bg-dark">{{ $order->page }}</span>
+                                                                            <select name="page" class="form-select edit-mode">
+                                                                                <option value="" selected>Select</option>
+                                                                                <option value="new" @if($order->ce == 'new') selected @endif>new</option>
+                                                                                <option value="our" @if($order->ce == 'our') selected @endif>our</option>
+                                                                                <option value="existing" @if($order->ce == 'existing') selected @endif>existing
+                                                                                </option>
+                                                                            </select>
+                                                                        </td>
                                                                         <td>
                                                                             <span class="badge fs-5 display-mode
                                                                                 @if($order->work_status == 'done') bg-primary
@@ -247,7 +258,11 @@
                                                                                 <option value="0" @if($order->cash == 0) selected @endif>none cash payment</option>
                                                                             </select>
                                                                         </td>
-                                                                        <td>{{ $order->advertiser_id }}</td>
+                                                                        <td>
+                                                                            <span class="badge bg-dark fs-5">
+                                                                                {{ $order->advertiser->name ?? 'N/A' }}
+                                                                            </span>
+                                                                        </td>
                                                                         <td>{{ $order->package_amt }}</td>
                                                                         <td>{{ $order->service }}</td>
                                                                         <td>{{ $order->tax }}</td>
@@ -259,10 +274,13 @@
                                                                             @endif
                                                                         </td>
                                                                         <td>
-                                                                            <span class="display-mode">{{$order->advance}}</span>
-                                                                            <input type="number" class="form-control edit-mode" name="advance" value="{{$order->advance}}">
+                                                                            <span>{{$order->advance}}</span>
                                                                         </td>
-                                                                        <td>{{ $order->details }}</td>
+                                                                        <td>
+                                                                            <span class="display-mode">{{ $order->details }}</span>
+                                                                            <input type="text" name="details" class="form-control edit-mode"
+                                                                                value="{{ $order->details }}">
+                                                                        </td>
                                                                         <td>
                                                                             <a href="{{ $order->add_acc_id }}" target="_blank">
                                                                                 {{ $order->add_acc_id }}
@@ -351,15 +369,15 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
-                                                                            @if(!$order->work_type == '') bg-dark
+                                                                            @if(!$order->workType->name == '') bg-dark
                                                                             @endif">
-                                                                            {{ $order->work_type }}
+                                                                            {{ $order->workType->name }}
                                                                         </span>
-                                                                        <select name="work_type" class="form-select edit-mode">
+                                                                        <select name="work_type_id" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'designs')
-                                                                                <option value="{{$work_type->name}}" @if($order->work_type == $work_type->name) selected @endif>{{$work_type->name}}</option>
+                                                                                <option value="{{$work_type->id}}" @if($order->work_type_id == $work_type->id) selected @endif>{{$work_type->name}}</option>
                                                                                 @endif
                                                                             @endforeach
                                                                         </select>
@@ -400,12 +418,10 @@
                                                                     </td>
                                                                     <td>{{$order->designer_id}}</td>
                                                                     <td>
-                                                                        <span class="display-mode">{{$order->amount}}</span>
-                                                                        <input type="text" name="amount" class="form-control edit-mode" value="{{ $order->amount }}">
+                                                                        <span >{{$order->amount}}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="display-mode">{{$order->advance}}</span>
-                                                                        <input type="number" class="form-control edit-mode" name="advance" value="{{$order->advance}}">
+                                                                        <span>{{$order->advance}}</span>
                                                                     </td>
                                                                     <td>
                                                                         @include('includes.slip-view')
@@ -495,24 +511,23 @@
                                                                         <input type="text" name="contact" class="form-control edit-mode" value="{{ $order->contact }}">
                                                                     </td>
                                                                     <td>
-                                                                        <span class="display-mode">{{$order->amount}}</span>
-                                                                        <input type="text" name="amount" class="form-control edit-mode" value="{{ $order->amount }}">
+                                                                        <span>{{$order->amount}}</span>
                                                                     </td>
                                                                     <td>
                                                                         <span class="display-mode">{{$order->our_amount}}</span>
                                                                         <input type="text" name="our_amount" class="form-control edit-mode" value="{{ $order->our_amount }}">
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode 
-                                                                            @if(!$order->work_type == '') bg-dark
+                                                                        <span class="badge fs-5 display-mode
+                                                                            @if(!$order->workType->name == '') bg-dark
                                                                             @endif">
-                                                                            {{ $order->work_type }}
+                                                                            {{ $order->workType->name }}
                                                                         </span>
-                                                                        <select name="work_type" class="form-select edit-mode">
+                                                                        <select name="work_type_id" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'video')
-                                                                                <option value="{{$work_type->name}}" @if($order->work_type == $work_type->name) selected @endif>{{$work_type->name}}</option>
+                                                                                <option value="{{$work_type->id}}" @if($order->work_type_id == $work_type->id) selected @endif>{{$work_type->name}}</option>
                                                                                 @endif
                                                                             @endforeach
                                                                         </select>
@@ -600,8 +615,7 @@
                                                                     </td>
                                                                     <td>{{$order->designer_id}}</td>
                                                                     <td>
-                                                                        <span class="display-mode">{{$order->advance}}</span>
-                                                                        <input type="number" class="form-control edit-mode" name="advance" value="{{$order->advance}}">
+                                                                        <span>{{$order->advance}}</span>
                                                                     </td>
                                                                     <td>
                                                                         @include('includes.slip-view')

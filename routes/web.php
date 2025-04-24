@@ -5,15 +5,21 @@ use App\Http\Controllers\AddAccountController;
 use App\Http\Controllers\CroWorkDoneController;
 use App\Http\Controllers\DesignersWorkDoneController;
 use App\Http\Controllers\DesignPaymentController;
+use App\Http\Controllers\AdvertiserController;
+use App\Http\Controllers\AssignEmployeesController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceManageController;
 use App\Http\Controllers\OrderConroller;
+use App\Http\Controllers\OtherOrderController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\QuotationManageController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\TargetController;
 use App\Http\Controllers\VideoEditorsWorkDoneController;
 use App\Http\Controllers\WorkDoneController;
 use App\Http\Controllers\UpdateCenterController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Invoice;
@@ -33,7 +39,7 @@ Route::middleware([
     })->name('dashboard');
 
     //Order Routes
-    Route::get('/new/orders', [OrderConroller::class, 'index']);
+    Route::get('/new/orders', [OrderConroller::class, 'index'])->name('new.orders');
     // Route::post('/store/boosting', [OrderConroller::class, 'storeB']);
     // Route::post('/store/designs', [OrderConroller::class, 'storeA']);
     // Route::post('/store/video', [OrderConroller::class, 'storeV']);
@@ -62,6 +68,12 @@ Route::middleware([
 
     //Package Routes
     Route::get('/packages', [PackageController::class, 'index']);
+    Route::post  ('/packages/store',[PackageController::class, 'storepkg']) ->name('packages.store');
+
+    Route::put   ('/packages/update', [PackageController::class, 'updatepkg']) ->name('packages.update');
+
+    // delete
+    Route::delete('/packages/delete/{id}', [PackageController::class, 'deletepkg']) ->name('packages.delete');
 
     //Invoice Routes
     // Route::get('/invoice-solo/{id}', [InvoiceController::class, 'invoicesolo'])->name('invoicesolo');
@@ -79,6 +91,45 @@ Route::middleware([
 
     //Update Center Routes
     Route::get('/update-center', [UpdateCenterController::class, 'index']);
+
+
+    //Centers Routes
+    Route::get('/employees/centers', [AssignEmployeesController::class, 'index']);
+    Route::post('/store/cc', [AssignEmployeesController::class, 'storecc']);
+    Route::post('/store/ac', [AssignEmployeesController::class, 'storeac']);
+    Route::put('/edit/cc/{id}', [AssignEmployeesController::class, 'updatecc']);
+    Route::put('/edit/ac/{id}', [AssignEmployeesController::class, 'updateac']);
+    Route::delete('/delete/cc/{id}', [AssignEmployeesController::class, 'deletecc']);
+    Route::delete('/elete/ac/{id}', [AssignEmployeesController::class, 'deleteac']);
+
+    //User Manage Routes
+    Route::get('/users/manage', [UserController::class, 'index'])->name('users.index');
+    Route::post('/store/user', [UserController::class, 'store'])->name('users.store');
+    Route::put('/assign/user/{id}', [UserController::class, 'assignUser'])->name('users.assign');
+    Route::delete('/delete/user/{id}', [UserController::class, 'deleteUser'])->name('users.destroy');
+    Route::put('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+
+    //Invoice Manage Routes
+    Route::get('/invoices/manage', [InvoiceManageController::class, 'index'])->name('invoices.index');
+    Route::get('/invoice/view/{inv}', [InvoiceManageController::class, 'invoiceView'])->name('invoices.view');
+
+    //Quotation Manage Routes
+    Route::get('/quotation/manage', [QuotationManageController::class, 'index'])->name('quotation.index');
+    Route::get('/quotation/view/{inv}', [QuotationManageController::class, 'quotationView'])->name('quotation.view');
+    Route::get('/qutToInv/{inv}', [QuotationManageController::class, 'qutToInv'])->name('qutToInv');
+
+    //Advertiser Routes
+    Route::get('/advertisers/manage', [AdvertiserController::class, 'index'])->name('advertisers.index');
+    Route::put('/advertisers/update/{id}', [AdvertiserController::class, 'updateAdv'])->name('advertisers.update');
+
+    //Other Order Routes
+    Route::get('/other_orders', [OtherOrderController::class, 'index']);
+    Route::post('/other_invoice', [OtherOrderController::class, 'otherInvoice']);
+    Route::post('/other_invoice/store', [OtherOrderController::class, 'storeOI'])->name('store.ot');
+    Route::put('/other_order/update/{id}', [OtherOrderController::class, 'updateOI']);
+    Route::post('/storeor/slip', [SlipController::class, 'storeOR'])->name('storeor');
+    Route::get('/invoice/view/or/{inv}', [InvoiceManageController::class, 'invoiceViewOR'])->name('invoices.viewOR');
+    Route::get('/quotation/view/or/{inv}', [QuotationManageController::class, 'quotationViewOR'])->name('quotation.viewOR');
 
 
     //workDone Routes
