@@ -52,6 +52,7 @@ class Order extends Model
         'old_new',
         'add_acc_id',
         'fb_fee',
+        'ps',
     ];
 
     /**
