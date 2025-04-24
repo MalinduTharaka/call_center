@@ -9,6 +9,7 @@ use App\Http\Controllers\InvoiceManageController;
 use App\Http\Controllers\OrderConroller;
 use App\Http\Controllers\OtherOrderController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuotationManageController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\UpdateCenterController;
@@ -122,6 +123,8 @@ Route::middleware([
     Route::get('/quotation/view/or/{inv}', [QuotationManageController::class, 'quotationViewOR'])->name('quotation.viewOR');
 
 
+    //Profile Routes
+    Route::get('/profile', [ProfileController::class,'index']);
 });
 
 
