@@ -7,6 +7,7 @@ use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceManageController;
 use App\Http\Controllers\OrderConroller;
+use App\Http\Controllers\OtherOrderController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\QuotationManageController;
 use App\Http\Controllers\SlipController;
@@ -28,7 +29,7 @@ Route::middleware([
     Route::get('/dashboard', function () { $invoices = Invoice::all(); return view('dashboard', compact('invoices')); })->name('dashboard');
 
     //Order Routes
-    Route::get('/new/orders', [OrderConroller::class, 'index']);
+    Route::get('/new/orders', [OrderConroller::class, 'index'])->name('new.orders');
     // Route::post('/store/boosting', [OrderConroller::class, 'storeB']);
     // Route::post('/store/designs', [OrderConroller::class, 'storeA']);
     // Route::post('/store/video', [OrderConroller::class, 'storeV']);
@@ -110,6 +111,16 @@ Route::middleware([
     //Advertiser Routes
     Route::get('/advertisers/manage', [AdvertiserController::class, 'index'])->name('advertisers.index');
     Route::put('/advertisers/update/{id}', [AdvertiserController::class, 'updateAdv'])->name('advertisers.update');
+
+    //Other Order Routes
+    Route::get('/other_orders', [OtherOrderController::class, 'index']);
+    Route::post('/other_invoice', [OtherOrderController::class, 'otherInvoice']);
+    Route::post('/other_invoice/store', [OtherOrderController::class, 'storeOI'])->name('store.ot');
+    Route::put('/other_order/update/{id}', [OtherOrderController::class, 'updateOI']);
+    Route::post('/storeor/slip', [SlipController::class, 'storeOR'])->name('storeor');
+    Route::get('/invoice/view/or/{inv}', [InvoiceManageController::class, 'invoiceViewOR'])->name('invoices.viewOR');
+    Route::get('/quotation/view/or/{inv}', [QuotationManageController::class, 'quotationViewOR'])->name('quotation.viewOR');
+
 
 });
 

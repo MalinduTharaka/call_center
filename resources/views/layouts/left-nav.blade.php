@@ -40,6 +40,12 @@
                     <span> New Orders </span>
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a href="/other_orders" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Other Orders </span>
+                </a>
+            </li>
 
             <li class="side-nav-item">
                 <a href="/packages" class="side-nav-link">

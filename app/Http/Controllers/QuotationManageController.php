@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\OtherOrder;
 use App\Models\Slip;
 use App\Models\User;
 use App\Models\WorkType;
@@ -31,6 +32,17 @@ class QuotationManageController extends Controller
 
         return view('call_center.quotation-view', compact('orders', 'invoices', 'work_types'));
     }
+
+    public function quotationViewOR($inv)
+{
+    $work_types = WorkType::all();
+    $invoices = Invoice::all();
+    $orders = OtherOrder::where('invoice_id', $inv)
+        ->select('work_type', 'invoice_id', 'date', 'name', 'contact', 'note', 'amount')
+        ->get();
+    
+    return view('call_center.invoice-view-or', compact('orders', 'invoices', 'work_types'));
+}
 
     public function qutToInv($inv){
         $invoice = Invoice::where('inv', $inv)->firstOrFail(); // Get the actual invoice instance

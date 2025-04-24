@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\InvoiceId;
+use App\Models\OtherOrder;
 use App\Models\VideoPkg;
 use App\Models\WorkType;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,8 @@ class OrderConroller extends Controller
         $invoices = Invoice::all();
         $work_types = WorkType::all();
         $video_pkgs = VideoPkg::all();
-        return view('call_center.new-orders', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs'));
+        $other_orders = OtherOrder::all();
+        return view('call_center.new-orders', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs', 'other_orders'));
     }
 
     public function store_solo(Request $request){

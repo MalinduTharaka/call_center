@@ -14,6 +14,18 @@
 
         <div class="row mt-2">
             <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#otherorder">
+                            Other Order
+                        </button>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#otherorderslip">
+                            Other Order Slip
+                        </button>
+                    </div>
+                    @include('includes.other-order-model')
+                    @include('includes.slip-upload-other-order')
+                </div>
             </div> <!-- end col-->
             <div class="col-sm-6">
                 <div class="card card-body">
@@ -33,8 +45,6 @@
 
                             <!-- Modal -->
                             @include('includes.slip-upload')
-
-
                         </div> <!-- end card-body -->
                     </div> <!-- end card-->
                 </div> <!-- end col -->

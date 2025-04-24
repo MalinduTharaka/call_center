@@ -35,7 +35,7 @@
                                             <td>{{ $invoice->total }}</td>
                                             <td>{{ ($invoice->amt1 + $invoice->amt2 + $invoice->amt3) }}</td>
                                             <td>
-                                                <a href="{{ route('invoices.view', $invoice->inv) }}"
+                                                <a href="{{ Str::startsWith($invoice->inv, 'OR') ? route('invoices.viewOR', $invoice->inv) : route('invoices.view', $invoice->inv) }}"
                                                     class="btn btn-primary">View</a>
                                             </td>
                                             <td></td>
