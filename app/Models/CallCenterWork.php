@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TargetStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,19 @@ class CallCenterWork extends Model
         'order_count',
         'month',
         'complete_date',
-        'target',
+        'target_id',
     ];
+
+    protected $casts = [
+        'status' => TargetStatusEnum::class,
+    ];
+
+    public function target()
+    {
+        return $this->belongsTo(Target::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

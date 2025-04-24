@@ -13,4 +13,8 @@ class WorkType extends Model
 
     protected $fillable = ['name', 'order_type'];
 
+    public function designPayment()
+    {
+        return $this->hasOne(\App\Models\DesignPayment::class, 'work_type_id');
+    }
 }

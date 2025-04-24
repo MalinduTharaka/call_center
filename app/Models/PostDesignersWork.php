@@ -16,4 +16,15 @@ class PostDesignersWork extends Model
         'amount',
         'month',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(\App\Models\Order::class);
+    }
+
 }

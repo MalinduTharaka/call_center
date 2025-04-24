@@ -9,23 +9,29 @@
         <table class="table table-bordered table-striped">
             <thead class="table-light">
                 <tr>
-                    <th>#</th>
-                    <th>User ID</th>
-                    <th>Order Count</th>
-                    <th>Month</th>
-                    <th>Complete Date</th>
-                    <th>Target</th>
+                    <th class="text-center">#</th>
+                    <th class="text-center">User</th>
+                    <th class="text-center">Order Count</th>
+                    <th class="text-center">Orders Type</th>
+                    <th class="text-center">Month Starting from 1st</th>
+                    <th class="text-center">Target Status</th>
+                    <th class="text-center">Target Complete Date</th>
+                    <th class="text-center">Target</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($callCenterWorks as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->user_id }}</td>
+                        <td>{{ $item->user->name }}</td>
                         <td>{{ $item->order_count }}</td>
+                        <td>{{ $item->target->target_category }}</td>
                         <td>{{ $item->month }}</td>
+                        <td class="text-center">
+                            <span class="badge bg-{{ $item->status->color() }}">{{ $item->status->toString() }}</span>
+                        </td>
                         <td>{{ $item->complete_date }}</td>
-                        <td>{{ $item->target }}</td>
+                        <td>{{ $item->target->target }}</td>
                     </tr>
                 @empty
                     <tr>

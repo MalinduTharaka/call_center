@@ -66,9 +66,29 @@
                 </a>
             </li>
             <li class="side-nav-item">
+                <a href="/designer-work" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Designers Work </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
                 <a href="/workDone" class="side-nav-link">
                     <i class="ri-dashboard-3-line"></i>
                     <span> Work Done </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="/design‑payments" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Design Payments </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="/targets" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Target page </span>
                 </a>
             </li>
             

@@ -3,11 +3,14 @@
 use App\Http\Controllers\ActorsWorkDoneController;
 use App\Http\Controllers\AddAccountController;
 use App\Http\Controllers\CroWorkDoneController;
+use App\Http\Controllers\DesignersWorkDoneController;
+use App\Http\Controllers\DesignPaymentController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderConroller;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\SlipController;
+use App\Http\Controllers\TargetController;
 use App\Http\Controllers\VideoEditorsWorkDoneController;
 use App\Http\Controllers\WorkDoneController;
 use App\Http\Controllers\UpdateCenterController;
@@ -77,7 +80,7 @@ Route::middleware([
     //Update Center Routes
     Route::get('/update-center', [UpdateCenterController::class, 'index']);
 
-});
+
     //workDone Routes
     Route::get('/workDone', [WorkDoneController::class, 'index']);
 
@@ -93,7 +96,24 @@ Route::middleware([
     Route::post('/actors-work/update/{actorsWork}', [ActorsWorkDoneController::class, 'update'])->name('actor.work.update');
     Route::delete('/actors-work/delete/{actorsWork}', [ActorsWorkDoneController::class, 'destroy'])->name('actor.work.destroy');
 
+    // Target CRUD
+    Route::get('/targets', [TargetController::class, 'index'])->name('target.index');
+    Route::post('/targets/store', [TargetController::class, 'store'])->name('target.store');
+    Route::post('/targets/update/{target}', [TargetController::class, 'update'])->name('target.update');
+    Route::delete('/targets/delete/{target}', [TargetController::class, 'destroy'])->name('target.destroy');
+
+    // Design payment CRUD
+    Route::get('/design‑payments', [DesignPaymentController::class, 'index'])->name('design.payments.index');
+    Route::post('/design‑payments/store', [DesignPaymentController::class, 'store'])->name('design.payments.store');
+    Route::post('/design‑payments/update/{designPayment}', [DesignPaymentController::class, 'update'])->name('design.payments.update');
+    Route::delete('/design‑payments/delete/{designPayment}', [DesignPaymentController::class, 'destroy'])->name('design.payments.destroy');
+
+    // Designers work done
+    Route::get('/designer-work', [DesignersWorkDoneController::class, 'index'])->name('designer.work.index');
+
     Route::get('/cro-work', [CroWorkDoneController::class, 'index'])->name('cro.work.index');
+
+    
 
 });
 

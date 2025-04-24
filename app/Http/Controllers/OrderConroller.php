@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DesignersPaymentsUpdateEvent;
 use App\Models\Invoice;
 use App\Models\InvoiceId;
 use App\Models\VideoPkg;
@@ -192,6 +193,8 @@ class OrderConroller extends Controller
         }
 
         return response()->json(['success' => 'Order updated successfully!']);
+
+        DesignersPaymentsUpdateEvent::dispatch($id);
     }
 
     public function updateVideoOrders(Request $request, $id)
