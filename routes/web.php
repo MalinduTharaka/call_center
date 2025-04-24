@@ -13,6 +13,7 @@ use App\Http\Controllers\InvoiceManageController;
 use App\Http\Controllers\OrderConroller;
 use App\Http\Controllers\OtherOrderController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuotationManageController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\TargetController;
@@ -132,6 +133,7 @@ Route::middleware([
     Route::get('/quotation/view/or/{inv}', [QuotationManageController::class, 'quotationViewOR'])->name('quotation.viewOR');
 
 
+
     //workDone Routes
     Route::get('/workDone', [WorkDoneController::class, 'index']);
 
@@ -164,11 +166,9 @@ Route::middleware([
 
     Route::get('/cro-work', [CroWorkDoneController::class, 'index'])->name('cro.work.index');
 
-    
-
+    //Profile Routes
+    Route::get('/profile', [ProfileController::class,'index']);
 });
-
-
 
 
 
