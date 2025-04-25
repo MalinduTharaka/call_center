@@ -48,7 +48,7 @@
                         <ul class="nav nav-underline nav-justified gap-0">
                             <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab"
                                     data-bs-target="#aboutme" type="button" role="tab"
-                                    aria-controls="home" aria-selected="true" href="#aboutme">User Activity</a>
+                                    aria-controls="home" aria-selected="true" href="#aboutme">User Profile</a>
                             </li>
                             @if (Auth::user()->role == 'cro')
                                 <li class="nav-item">
