@@ -13,100 +13,92 @@
         }
     </style>
 
-<style>
-    /* shared card-button base */
-    .card-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 1 1 0;
-      min-height: 120px;
-      border-radius: 12px;
-      padding: 1rem;
-      font-size: 1.1rem;
-      font-weight: 500;
-      cursor: pointer;
-      text-align: center;
-      transition: transform .15s ease;
-      margin: .5rem;
-      position: relative;
-      border: none;
-    }
-    .card-btn:hover {
-      transform: translateY(-2px);
-    }
-  
-    /* light style (like your left example) */
-    .card-btn.light {
-      background-color: #101859;
-      color: #fff;
-    }
-    .card-btn.light .icon {
-      position: absolute;
-      top: 12px; right: 12px;
-      font-size: 1.2rem;
-    }
-  
-    /* dark style (like your right example) */
-    .card-btn.dark {
-      background-color: #101859;
-      color: #fff;
-    }
-    .card-btn.dark .icon {
-      font-size: 1.5rem;
-      margin-right: 8px;
-    }
-  
-    .btn-container {
-      display: flex;
-      flex-wrap: wrap;
-    }
-  </style>
-  
-  <div class="row mt-2">
-    <!-- first section: Add Order + Slip Upload -->
-    <div class="col-sm-6">
-      <div class="btn-container">
-        <button type="button"
-                class="card-btn light"
-                data-bs-toggle="modal"
-                data-bs-target="#combinemodel">
-          <span class="icon">↗︎</span>
-          Add Order
-        </button>
-  
-        <button type="button"
-                class="card-btn light"
-                data-bs-toggle="modal"
-                data-bs-target="#slipupload">
-          <span class="icon">↗︎</span>
-          Slip Upload
-        </button>
-      </div>
+    <style>
+        /* shared card-button base */
+        .card-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1 1 0;
+            min-height: 120px;
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            transition: transform .15s ease;
+            margin: .5rem;
+            position: relative;
+            border: none;
+        }
+
+        .card-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* light style (like your left example) */
+        .card-btn.light {
+            background-color: #101859;
+            color: #fff;
+        }
+
+        .card-btn.light .icon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 1.2rem;
+        }
+
+        /* dark style (like your right example) */
+        .card-btn.dark {
+            background-color: #101859;
+            color: #fff;
+        }
+
+        .card-btn.dark .icon {
+            font-size: 1.5rem;
+            margin-right: 8px;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+
+    <div class="row mt-2">
+        <!-- first section: Add Order + Slip Upload -->
+        <div class="col-sm-6">
+            <div class="btn-container">
+                <button type="button" class="card-btn light" data-bs-toggle="modal" data-bs-target="#combinemodel">
+                    <span class="icon">↗︎</span>
+                    Add Order
+                </button>
+
+                <button type="button" class="card-btn light" data-bs-toggle="modal" data-bs-target="#slipupload">
+                    <span class="icon">↗︎</span>
+                    Slip Upload
+                </button>
+            </div>
+        </div>
+
+        <!-- second section: Other Order + Other Slip Upload -->
+        <div class="col-sm-6">
+            <div class="btn-container">
+                <button type="button" class="card-btn dark" data-bs-toggle="modal" data-bs-target="#otherorder">
+                    <span class="icon">▶︎</span>
+                    Other Order
+                </button>
+
+                <button type="button" class="card-btn dark" data-bs-toggle="modal" data-bs-target="#otherorderslip">
+                    <span class="icon">▶︎</span>
+                    Other Slip Upload
+                </button>
+            </div>
+        </div>
     </div>
-  
-    <!-- second section: Other Order + Other Slip Upload -->
-    <div class="col-sm-6">
-      <div class="btn-container">
-        <button type="button"
-                class="card-btn dark"
-                data-bs-toggle="modal"
-                data-bs-target="#otherorder">
-          <span class="icon">▶︎</span>
-          Other Order
-        </button>
-  
-        <button type="button"
-                class="card-btn dark"
-                data-bs-toggle="modal"
-                data-bs-target="#otherorderslip">
-          <span class="icon">▶︎</span>
-          Other Slip Upload
-        </button>
-      </div>
-    </div>
-  </div>
-  
+
 
     <!-- Modal Combine -->
     @include('includes.new-order-model')
@@ -217,9 +209,9 @@
                                                                     <td>{{ $order->date }}</td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
-                                                                                                @if($order->ce == 'c') bg-primary
-                                                                                                @elseif($order->ce == 'e') bg-danger
-                                                                                                @endif">
+                                                                                                            @if($order->ce == 'c') bg-primary
+                                                                                                            @elseif($order->ce == 'e') bg-danger
+                                                                                                            @endif">
                                                                             {{ $order->ce}}
                                                                         </span>
                                                                         <select name="ce" class="form-select edit-mode">
@@ -243,9 +235,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
-                                                                                                @if($order->old_new == 'old') bg-primary
-                                                                                                @elseif($order->old_new == 'new') bg-warning
-                                                                                                @endif">
+                                                                                                            @if($order->old_new == 'old') bg-primary
+                                                                                                            @elseif($order->old_new == 'new') bg-warning
+                                                                                                            @endif">
                                                                             {{ $order->old_new}}
                                                                         </span>
                                                                         <select name="old_new" class="form-select edit-mode">
@@ -264,8 +256,8 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
-                                                                                                @if(!$order->workType->name == '') bg-dark
-                                                                                                @endif">
+                                                                                                            @if(!$order->workType->name == '') bg-dark
+                                                                                                            @endif">
                                                                             {{ $order->workType->name }}
                                                                         </span>
                                                                         <select name="work_type_id" class="form-select edit-mode">
@@ -294,11 +286,11 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
-                                                                                                @if($order->work_status == 'done') bg-primary
-                                                                                                @elseif($order->work_status == 'pending') bg-danger
-                                                                                                @elseif($order->work_status == 'send to customer') bg-warning
-                                                                                                @elseif($order->work_status == 'send to designer') bg-dark
-                                                                                                @endif">
+                                                                                                            @if($order->work_status == 'done') bg-primary
+                                                                                                            @elseif($order->work_status == 'pending') bg-danger
+                                                                                                            @elseif($order->work_status == 'send to customer') bg-warning
+                                                                                                            @elseif($order->work_status == 'send to designer') bg-dark
+                                                                                                            @endif">
                                                                             {{ $order->work_status }}
                                                                         </span>
                                                                         <select name="work_status" class="form-select edit-mode">
@@ -318,11 +310,11 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
-                                                                                                @if($order->payment_status == 'done') bg-primary
-                                                                                                @elseif($order->payment_status == 'pending') bg-danger
-                                                                                                @elseif($order->payment_status == 'rejected') bg-warning
-                                                                                                @elseif($order->payment_status == 'partial') bg-warning
-                                                                                                @endif">
+                                                                                                            @if($order->payment_status == 'done') bg-primary
+                                                                                                            @elseif($order->payment_status == 'pending') bg-danger
+                                                                                                            @elseif($order->payment_status == 'rejected') bg-warning
+                                                                                                            @elseif($order->payment_status == 'partial') bg-warning
+                                                                                                            @endif">
                                                                             {{ $order->payment_status }}
                                                                         </span>
                                                                         <select name="payment_status" class="form-select edit-mode">
@@ -342,9 +334,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5  display-mode
-                                                                                                @if($order->cash == 1.00) bg-warning bg-gradient
-                                                                                                @elseif ($order->cash == 0.00) text-dark
-                                                                                                @endif">
+                                                                                                            @if($order->cash == 1.00) bg-warning bg-gradient
+                                                                                                            @elseif ($order->cash == 0.00) text-dark
+                                                                                                            @endif">
                                                                             {{ $order->cash == 1.00 ? 'Cash' : 'None Cash' }}
                                                                         </span>
                                                                         <select name="cash" class="form-select edit-mode">
@@ -445,9 +437,9 @@
                                                                 <td>{{$order->date}}</td>
                                                                 <td>
                                                                     <span class="badge fs-5 display-mode
-                                                                                            @if($order->ce == 'c') bg-primary
-                                                                                            @elseif($order->ce == 'e') bg-danger
-                                                                                            @endif">
+                                                                                                        @if($order->ce == 'c') bg-primary
+                                                                                                        @elseif($order->ce == 'e') bg-danger
+                                                                                                        @endif">
                                                                         {{ $order->ce}}
                                                                     </span>
                                                                     <select name="ce" class="form-select edit-mode">
@@ -475,8 +467,8 @@
                                                                 </td>
                                                                 <td>
                                                                     <span class="badge fs-5 display-mode
-                                                                                            @if(!$order->workType->name == '') bg-dark
-                                                                                            @endif">
+                                                                                                        @if(!$order->workType->name == '') bg-dark
+                                                                                                        @endif">
                                                                         {{ $order->workType->name }}
                                                                     </span>
                                                                     <select name="work_type_id" class="form-select edit-mode">
@@ -492,11 +484,11 @@
                                                                 </td>
                                                                 <td>
                                                                     <span class="badge fs-5 display-mode
-                                                                                            @if($order->work_status == 'done') bg-primary
-                                                                                            @elseif($order->work_status == 'pending') bg-danger
-                                                                                            @elseif($order->work_status == 'send to customer') bg-warning
-                                                                                            @elseif($order->work_status == 'send to designer') bg-dark
-                                                                                            @endif">
+                                                                                                        @if($order->work_status == 'done') bg-primary
+                                                                                                        @elseif($order->work_status == 'pending') bg-danger
+                                                                                                        @elseif($order->work_status == 'send to customer') bg-warning
+                                                                                                        @elseif($order->work_status == 'send to designer') bg-dark
+                                                                                                        @endif">
                                                                         {{ $order->work_status }}
                                                                     </span>
                                                                     <select name="work_status" class="form-select edit-mode">
@@ -515,11 +507,11 @@
                                                                 </td>
                                                                 <td>
                                                                     <span class="badge fs-5 display-mode
-                                                                                            @if($order->payment_status == 'done') bg-primary
-                                                                                            @elseif($order->payment_status == 'pending') bg-danger
-                                                                                            @elseif($order->payment_status == 'rejected') bg-warning
-                                                                                            @elseif($order->payment_status == 'partial') bg-warning
-                                                                                            @endif">
+                                                                                                        @if($order->payment_status == 'done') bg-primary
+                                                                                                        @elseif($order->payment_status == 'pending') bg-danger
+                                                                                                        @elseif($order->payment_status == 'rejected') bg-warning
+                                                                                                        @elseif($order->payment_status == 'partial') bg-warning
+                                                                                                        @endif">
                                                                         {{ $order->payment_status }}
                                                                     </span>
                                                                     <select name="payment_status" class="form-select edit-mode">
@@ -611,9 +603,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode 
-                                                                                            @if($order->ce == 'c') bg-primary
-                                                                                            @elseif($order->ce == 'e') bg-danger
-                                                                                            @endif">
+                                                                                                        @if($order->ce == 'c') bg-primary
+                                                                                                        @elseif($order->ce == 'e') bg-danger
+                                                                                                        @endif">
                                                                             {{ $order->ce}}
                                                                         </span>
                                                                         <select name="ce" class="form-select edit-mode">
@@ -652,8 +644,8 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
-                                                                                            @if(!$order->workType->name == '') bg-dark
-                                                                                            @endif">
+                                                                                                        @if(!$order->workType->name == '') bg-dark
+                                                                                                        @endif">
                                                                             {{ $order->workType->name }}
                                                                         </span>
                                                                         <select name="work_type_id" class="form-select edit-mode">
@@ -669,11 +661,11 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode 
-                                                                                            @if($order->script == 'done') bg-primary
-                                                                                            @elseif($order->script == 'pending') bg-danger
-                                                                                            @elseif($order->script == 'send to customer') bg-warning
-                                                                                            @elseif($order->script == 'send to designer') bg-dark
-                                                                                            @endif">
+                                                                                                        @if($order->script == 'done') bg-primary
+                                                                                                        @elseif($order->script == 'pending') bg-danger
+                                                                                                        @elseif($order->script == 'send to customer') bg-warning
+                                                                                                        @elseif($order->script == 'send to designer') bg-dark
+                                                                                                        @endif">
                                                                             {{ $order->script }}
                                                                         </span>
                                                                         <select name="script" class="form-select edit-mode">
@@ -692,11 +684,11 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode 
-                                                                                            @if($order->shoot == 'done') bg-primary
-                                                                                            @elseif($order->shoot == 'pending') bg-danger
-                                                                                            @elseif($order->shoot == 'send to customer') bg-warning
-                                                                                            @elseif($order->shoot == 'send to designer') bg-dark
-                                                                                            @endif">
+                                                                                                        @if($order->shoot == 'done') bg-primary
+                                                                                                        @elseif($order->shoot == 'pending') bg-danger
+                                                                                                        @elseif($order->shoot == 'send to customer') bg-warning
+                                                                                                        @elseif($order->shoot == 'send to designer') bg-dark
+                                                                                                        @endif">
                                                                             {{ $order->shoot }}
                                                                         </span>
                                                                         <select name="shoot" class="form-select edit-mode">
@@ -716,11 +708,11 @@
                                                                     <td><span>{{$order->video_time}}</span></td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode 
-                                                                                            @if($order->work_status == 'done') bg-primary
-                                                                                            @elseif($order->work_status == 'pending') bg-danger
-                                                                                            @elseif($order->work_status == 'send to customer') bg-warning
-                                                                                            @elseif($order->work_status == 'send to designer') bg-dark
-                                                                                            @endif">
+                                                                                                        @if($order->work_status == 'done') bg-primary
+                                                                                                        @elseif($order->work_status == 'pending') bg-danger
+                                                                                                        @elseif($order->work_status == 'send to customer') bg-warning
+                                                                                                        @elseif($order->work_status == 'send to designer') bg-dark
+                                                                                                        @endif">
                                                                             {{ $order->work_status }}
                                                                         </span>
                                                                         <select name="work_status" class="form-select edit-mode">
@@ -740,11 +732,11 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode 
-                                                                                            @if($order->payment_status == 'done') bg-primary
-                                                                                            @elseif($order->payment_status == 'pending') bg-danger
-                                                                                            @elseif($order->payment_status == 'rejected') bg-warning
-                                                                                            @elseif($order->payment_status == 'partial') bg-warning
-                                                                                            @endif">
+                                                                                                        @if($order->payment_status == 'done') bg-primary
+                                                                                                        @elseif($order->payment_status == 'pending') bg-danger
+                                                                                                        @elseif($order->payment_status == 'rejected') bg-warning
+                                                                                                        @elseif($order->payment_status == 'partial') bg-warning
+                                                                                                        @endif">
                                                                             {{ $order->payment_status }}
                                                                         </span>
                                                                         <select name="payment_status" class="form-select edit-mode">
@@ -764,9 +756,9 @@
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode 
-                                                                                            @if($order->cash == 1.00) bg-warning bg-gradient
-                                                                                            @elseif ($order->cash == 0.00) text-dark
-                                                                                            @endif">
+                                                                                                        @if($order->cash == 1.00) bg-warning bg-gradient
+                                                                                                        @elseif ($order->cash == 0.00) text-dark
+                                                                                                        @endif">
                                                                             {{ $order->cash == 1.00 ? 'Cash' : 'None Cash' }}
                                                                         </span>
                                                                         <select name="cash" class="form-select edit-mode">
@@ -905,9 +897,9 @@
                                             const alertBox = document.createElement('div');
                                             alertBox.className = `alert alert-${type} alert-dismissible fade show`;
                                             alertBox.innerHTML = `
-                                                        <strong>${type.charAt(0).toUpperCase() + type.slice(1)}!</strong> ${message}
-                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                                    `;
+                                                            <strong>${type.charAt(0).toUpperCase() + type.slice(1)}!</strong> ${message}
+                                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                        `;
 
                                             document.body.prepend(alertBox);
                                             setTimeout(() => alertBox.remove(), 3000);
@@ -1006,5 +998,5 @@
         }
     </script>
 
-    
+
 @endsection

@@ -74,6 +74,12 @@
                 </a>
             </li>
             <li class="side-nav-item">
+                <a href="/designers" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Designers </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
                 <a href="/designer-work" class="side-nav-link">
                     <i class="ri-dashboard-3-line"></i>
                     <span> Designers Work </span>

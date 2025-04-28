@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActorsWorkDoneController;
 use App\Http\Controllers\AddAccountController;
 use App\Http\Controllers\CroWorkDoneController;
+use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\DesignersWorkDoneController;
 use App\Http\Controllers\DesignPaymentController;
 use App\Http\Controllers\AdvertiserController;
@@ -168,6 +169,10 @@ Route::middleware([
 
     //Profile Routes
     Route::get('/profile', [ProfileController::class,'index']);
+
+    //Designer Routes
+    Route::get('/designers', [DesignerController::class,'index']);
+    Route::put('/orders/update/designers/{id}', [DesignerController::class, 'updareDesigner'])->name('orders.update.designer');
 });
 
 

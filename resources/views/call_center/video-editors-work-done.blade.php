@@ -26,7 +26,9 @@
                                 <th>Duration</th>
                                 <th>Amount</th>
                                 <th>Date</th>
-                                <th style="width: 160px;">Actions</th>
+                                @if (Auth::user()->role !== 'vde')
+                                    <th style="width: 160px;">Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -38,6 +40,7 @@
                                 <td>{{ $entry->duration }}</td>
                                 <td>Rs. {{ number_format($entry->amount, 2) }}</td>
                                 <td>{{ $entry->date }}</td>
+                                @if (Auth::user()->role !== 'vde')
                                 <td>
                                     <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $entry->id }}">
                                         Edit
@@ -101,8 +104,8 @@
                                             </form>
                                         </div>
                                     </div>
-
                                 </td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
