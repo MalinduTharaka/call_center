@@ -1,37 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="header-title">Manage Work Types</h4>
+            <p class="text-muted mb-0">
+                Create and manage different work types and their order categories.
+            </p>
+        </div>
+        <div class="card-body">
 
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show position-fixed top-1 end-0 m-3" role="alert"
-                    style="z-index: 1050;">
-                    {{ session('success') }}
-                </div>
-
-                <script>
-                    setTimeout(() => {
-                        const alert = document.querySelector('.alert');
-                        if (alert) {
-                            alert.classList.remove('show');
-                            alert.classList.add('fade');
-                        }
-                    }, 3000);
-                </script>
-            @endif
-
-
-            {{-- Page Header --}}
-            <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
-                <h1>Work Types</h1>
-                <a href="#" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#createWorkTypeModal">Create</a>
-            </div>
+            {{-- Create Work Type Button --}}
+            <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createWorkTypeModal">Create</a>
 
             {{-- Create Work Type Modal --}}
-            <div class="modal fade" id="createWorkTypeModal" tabindex="-1" aria-labelledby="createWorkTypeModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="createWorkTypeModal" tabindex="-1" aria-labelledby="createWorkTypeModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <form action="{{ route('work-types.store') }}" method="POST" class="modal-content">
                         @csrf
@@ -50,8 +34,7 @@
                                     <option value="">Select Category</option>
                                     <option value="boosting">Boosting</option>
                                     <option value="video">Video</option>
-                                    <option value="designs">Design</option>
-
+                                    <option value="design">Design</option>
                                 </select>
                             </div>
                         </div>
@@ -63,9 +46,9 @@
                 </div>
             </div>
 
-            {{-- Table --}}
+            {{-- Work Types Table --}}
             <div class="table-responsive">
-                <table class="table  table-striped">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -81,64 +64,48 @@
                                 <td>{{ $worktype->name }}</td>
                                 <td>{{ $worktype->order_type }}</td>
                                 <td>
-                                    {{-- Edit Button --}}
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editModal{{ $worktype->id }}">Edit</button>
+                                    <!-- Edit Button -->
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $worktype->id }}">Edit</button>
 
-                                    {{-- Delete Button --}}
-                                    <form action="{{ route('work-types.destroy', $worktype->id) }}" method="POST"
-                                        style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Are you sure you want to delete this work type?')">Delete</button>
-                                    </form>
-
-                                    {{-- Edit Modal --}}
-                                    <div class="modal fade" id="editModal{{ $worktype->id }}" tabindex="-1"
-                                        aria-labelledby="editModalLabel{{ $worktype->id }}" aria-hidden="true">
+                                    <!-- Edit Modal -->
+                                    <div class="modal fade" id="editModal{{ $worktype->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $worktype->id }}" aria-hidden="true">
                                         <div class="modal-dialog">
-                                            <form action="{{ route('work-types.update', $worktype->id) }}" method="POST"
-                                                class="modal-content">
+                                            <form action="{{ route('work-types.update', $worktype->id) }}" method="POST" class="modal-content">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel{{ $worktype->id }}">Edit
-                                                        Work Type</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                    <h5 class="modal-title" id="editModalLabel{{ $worktype->id }}">Edit Work Type</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="form-group mb-3">
                                                         <label for="name">Work Type Name</label>
-                                                        <input type="text" class="form-control" name="name"
-                                                            value="{{ $worktype->name }}" required>
+                                                        <input type="text" class="form-control" name="name" value="{{ $worktype->name }}" required>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="order_type">Order Type</label>
                                                         <select class="form-control" name="order_type" required>
                                                             <option value="">Select Category</option>
-                                                            <option value="boosting"
-                                                                {{ $worktype->order_type == 'boosting' ? 'selected' : '' }}>
-                                                                Boosting</option>
-                                                            <option value="video"
-                                                                {{ $worktype->order_type == 'video' ? 'selected' : '' }}>
-                                                                Video</option>
-                                                            <option value="design"
-                                                                {{ $worktype->order_type == 'design' ? 'selected' : '' }}>
-                                                                Design</option>
+                                                            <option value="boosting" {{ $worktype->order_type == 'boosting' ? 'selected' : '' }}>Boosting</option>
+                                                            <option value="video" {{ $worktype->order_type == 'video' ? 'selected' : '' }}>Video</option>
+                                                            <option value="design" {{ $worktype->order_type == 'design' ? 'selected' : '' }}>Design</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     <button type="submit" class="btn btn-primary">Update</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
 
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('work-types.destroy', $worktype->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this work type?')">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -148,29 +115,18 @@
 
         </div>
     </div>
+</div>
 @endsection
 
 <script>
+    // Handling the success alert
     $(document).ready(function () {
-        $('#createWorkTypeForm').on('submit', function (e) {
-            e.preventDefault();
-
-            let form = $(this);
-            let url = form.attr('action');
-            let data = form.serialize();
-
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: data,
-                success: function (response) {
-                    location.reload(); // Refresh page on success
-                },
-                error: function (xhr) {
-                    let errors = xhr.responseJSON.errors;
-                    alert(Object.values(errors).join("\n"));
-                }
-            });
-        });
+        setTimeout(() => {
+            const alert = document.querySelector('.alert');
+            if (alert) {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+            }
+        }, 3000);
     });
 </script>

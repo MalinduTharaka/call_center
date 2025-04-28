@@ -8,7 +8,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Payment Slips</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Payment Slips Other Orders</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/storeor/slip" method="post" enctype="multipart/form-data">

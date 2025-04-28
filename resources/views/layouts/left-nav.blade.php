@@ -55,13 +55,6 @@
                     <span> Packages </span>
                 </a>
             </li>
-
-            <li class="side-nav-item">
-                <a href="/video-editors-work" class="side-nav-link">
-                    <i class="ri-dashboard-3-line"></i>
-                    <span> Video Editors </span>
-                </a>
-            </li>
             <li class="side-nav-item">
                 <a href="/actors-work" class="side-nav-link">
                     <i class="ri-dashboard-3-line"></i>
@@ -86,13 +79,6 @@
                     <span> Designers Work </span>
                 </a>
             </li>
-            <li class="side-nav-item">
-                <a href="/workDone" class="side-nav-link">
-                    <i class="ri-dashboard-3-line"></i>
-                    <span> Work Done </span>
-                </a>
-            </li>
-
             <li class="side-nav-item">
                 <a href="/design‑payments" class="side-nav-link">
                     <i class="ri-dashboard-3-line"></i>
