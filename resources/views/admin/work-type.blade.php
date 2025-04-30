@@ -34,7 +34,7 @@
                                     <option value="">Select Category</option>
                                     <option value="boosting">Boosting</option>
                                     <option value="video">Video</option>
-                                    <option value="design">Design</option>
+                                    <option value="designs">Design</option>
                                 </select>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                                             <option value="">Select Category</option>
                                                             <option value="boosting" {{ $worktype->order_type == 'boosting' ? 'selected' : '' }}>Boosting</option>
                                                             <option value="video" {{ $worktype->order_type == 'video' ? 'selected' : '' }}>Video</option>
-                                                            <option value="design" {{ $worktype->order_type == 'design' ? 'selected' : '' }}>Design</option>
+                                                            <option value="designs" {{ $worktype->order_type == 'design' ? 'selected' : '' }}>Design</option>
                                                         </select>
                                                     </div>
                                                 </div>

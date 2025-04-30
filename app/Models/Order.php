@@ -47,6 +47,7 @@ class Order extends Model
         'script',
         'shoot',
         'designer_id',
+        'd_img',
         'invoice',
         'due_date',
         'user_id',

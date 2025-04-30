@@ -173,6 +173,7 @@ Route::middleware([
     //Designer Routes
     Route::get('/designers', [DesignerController::class,'index']);
     Route::put('/orders/update/designers/{id}', [DesignerController::class, 'updareDesigner'])->name('orders.update.designer');
+    Route::put('/design/upload/{id}', [DesignerController::class, 'DesignImageUpload'])->name('design.upload');
 });
 
 

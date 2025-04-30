@@ -10,6 +10,7 @@ use App\Models\Slip;
 use App\Models\User;
 use App\Models\WorkType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DesignerController extends Controller
 {
@@ -30,7 +31,25 @@ class DesignerController extends Controller
         $order->update($request->all()); // Updates all fields from the request
 
         event(new DesignersPaymentsUpdateEvent($id));
-        
+
         return redirect()->back()->with('success', 'Order Updated Successfully');
     }
+
+    public function DesignImageUpload(Request $request, $id)
+    {
+        $request->validate([
+            'slip' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $order = Order::findOrFail($id);
+        $image = $request->file('slip');
+        $imagePath = $image->store('designs', 'public');
+
+        // Save the image path to the order
+        $order->d_img = $imagePath;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Design image uploaded successfully.');
+    }
+
 }
