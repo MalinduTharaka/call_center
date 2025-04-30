@@ -114,6 +114,9 @@ Route::middleware([
     //Invoice Manage Routes
     Route::get('/invoices/manage', [InvoiceManageController::class, 'index'])->name('invoices.index');
     Route::get('/invoice/view/{inv}', [InvoiceManageController::class, 'invoiceView'])->name('invoices.view');
+    Route::post('/invoices/{invoice}/duplicate', [InvoiceController::class, 'duplicate'])->name('invoices.duplicate');
+
+
 
     //Quotation Manage Routes
     Route::get('/quotation/manage', [QuotationManageController::class, 'index'])->name('quotation.index');

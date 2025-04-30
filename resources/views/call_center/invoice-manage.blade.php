@@ -20,6 +20,7 @@
                                     <th>Total</th>
                                     <th>Paid</th>
                                     <th>View</th>
+                                    <th>Duplicate</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,6 +37,12 @@
                                             <td>
                                                 <a href="{{ Str::startsWith($invoice->inv, 'OR') ? route('invoices.viewOR', $invoice->inv) : route('invoices.view', $invoice->inv) }}"
                                                     class="btn btn-primary">View</a>
+                                            </td>
+                                            <td>
+                                                <form action="{{ route('invoices.duplicate', $invoice) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary">Duplicate</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endif

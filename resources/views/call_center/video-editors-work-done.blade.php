@@ -4,10 +4,12 @@
 <div class="container">
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
+            @if (Auth::user()->role !== 'vde')
             <h4 class="mb-0">Video Editors Work Entries</h4>
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">
                 + Add Work Entry
             </button>
+            @endif
         </div>
 
         <div class="card-body">

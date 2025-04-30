@@ -32,23 +32,19 @@
                     </div>
                 </div>
                 <!-- Contact Info - Original Position -->
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <div class="d-flex flex-wrap">
-                            <p class="mb-1 small text-muted mr-3">
-                                <i class="fas fa-map-marker-alt mr-1"></i>
-                                No.151, Ward City Shopping Complex, Gampaha
-                            </p>
-                            <p class="mb-1 small text-muted mr-3">
-                                <i class="fas fa-phone mr-1"></i>
-                                077 1855 1910
-                            </p>
-                            <p class="mb-1 small text-muted">
-                                <i class="fas fa-envelope mr-1"></i>
-                                info.studiowishwa@gmail.com
-                            </p>
-                        </div>
-                    </div>
+                <div class="mt-3">
+                    <p class="mb-1 small text-muted">
+                        <i class="fas fa-map-marker-alt mr-1"></i>
+                        No.151, Ward City Shopping Complex, Gampaha
+                    </p>
+                    <p class="mb-1 small text-muted">
+                        <i class="fas fa-phone mr-1"></i>
+                        077 1855 1910
+                    </p>
+                    <p class="mb-1 small text-muted">
+                        <i class="fas fa-envelope mr-1"></i>
+                        info.studiowishwa@gmail.com
+                    </p>
                 </div>
             </div>
 

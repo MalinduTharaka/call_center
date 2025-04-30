@@ -4,10 +4,12 @@
 <div class="container">
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center">
+            @if (Auth::user()->role !== 'act')
             <h4 class="mb-0">Actors Work Entries</h4>
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">
                 + Add Entry
             </button>
+            @endif
         </div>
 
         <div class="card-body">
@@ -29,7 +31,9 @@
                             <th>Note</th>
                             <th>Amount</th>
                             <th>Date</th>
+                            @if (Auth::user()->role !== 'act')
                             <th style="width: 140px;">Actions</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -41,6 +45,7 @@
                             <td>{{ $entry->note }}</td>
                             <td>Rs. {{ number_format($entry->amount, 2) }}</td>
                             <td>{{ $entry->date }}</td>
+                            @if (Auth::user()->role !== 'act')
                             <td>
                                 <button class="btn btn-info btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $entry->id }}">
                                     Edit
@@ -105,6 +110,7 @@
                                 </div>
 
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>
