@@ -177,12 +177,31 @@
 
                     @if(!empty($boostingOrders))
                         <tr>
-                            <td colspan="4" class="text-right">Tax</td>
+                            <td colspan="4" class="text-right">Verified Ad account fee & tax</td>
                             <td class="text-right" id="tax-amount">{{ number_format($taxTotal, 2) }}</td>
                         </tr>
                         <tr>
-                            <td colspan="4" class="text-right">Service</td>
+                            <td colspan="4" class="text-right">Boosting service charge</td>
                             <td class="text-right" id="service-amount">{{ number_format($serviceTotal, 2) }}</td>
+                        </tr>
+                    @endif
+                    @php
+                    // Count how many boosting orders have service == 0
+                    $discountCount = collect($boostingOrders)
+                        ->where('service', 0)
+                        ->count();
+
+                    // Each “free” service line becomes a Rs.1,000 discount
+                    $discountAmount = $discountCount * 1000;
+                    @endphp
+                    @if($discountCount > 0)
+                        <tr class="text-danger">
+                            <td colspan="4" class="border text-right">
+                                Discount ({{ $discountCount }})
+                            </td>
+                            <td class="border text-right">
+                                {{ number_format($discountAmount, 2) }}
+                            </td>
                         </tr>
                     @endif
 

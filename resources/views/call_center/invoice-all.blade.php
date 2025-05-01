@@ -88,18 +88,6 @@
                                      style="max-height:80px;">
                             </div>
                         </div>
-                        {{-- <div class="col-sm-6">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('logos/wishwavideo.jpg') }}"
-                                     alt="Studio Wishwa Logo"
-                                     class="img-fluid mr-3"
-                                     style="max-height:80px;">
-                                <div>
-                                    <h2 class="h5 font-weight-bold text-danger mb-0">STUDIO WISHWA</h2>
-                                    <p class="text-muted mb-0 small">Feel The Quality Of Professionals</p>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                     <div class="mt-3">
                         <p class="mb-1 small text-muted">
@@ -228,16 +216,37 @@
                 </tr>
                 @if($totalTax>0)
                     <tr>
-                        <td colspan="{{ $colSpan }}" class="border text-right">Tax</td>
+                        <td colspan="{{ $colSpan }}" class="border text-right">Verified Ad account fee & tax</td>
                         <td class="border text-right" id="tax-amount">{{ number_format($totalTax,2) }}</td>
                     </tr>
                 @endif
                 @if($totalService>0)
                     <tr>
-                        <td colspan="{{ $colSpan }}" class="border text-right">Service</td>
+                        <td colspan="{{ $colSpan }}" class="border text-right">Boosting service charge</td>
                         <td class="border text-right" id="service-amount">{{ number_format($totalService,2) }}</td>
                     </tr>
                 @endif
+                @php
+                    // Count how many boosting orders have service == 0
+                    $discountCount = collect($boostingOrders)
+                        ->where('service', 0)
+                        ->count();
+
+                    // Each “free” service line becomes a Rs.1,000 discount
+                    $discountAmount = $discountCount * 1000;
+                @endphp
+                @if($discountCount > 0)
+                    <tr class="text-danger">
+                        <td colspan="{{ $colSpan }}" class="border text-right">
+                            Discount ({{ $discountCount }})
+                        </td>
+                        <td class="border text-right">
+                            {{ number_format($discountAmount, 2) }}
+                        </td>
+                    </tr>
+                @endif
+            
+
                 <tr class="font-weight-bold">
                     <td colspan="{{ $colSpan }}" class="border text-right">Total Due</td>
                     <td class="border text-right">Rs.<span class="tt-due"></span></td>

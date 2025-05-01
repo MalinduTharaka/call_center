@@ -18,20 +18,17 @@
                             @if (!$hasVideo && $hasOther)
                                 {{-- Only non-video orders: show 1st image --}}
                                 <div class="d-flex align-items-center">
-                                    <img src="{{ asset('logos/WishwaAds.png') }}" alt="Wishwa Ads Logo" class="print-logo"
-                                        style="max-height: 80px; width: 400px;">
+                                    <img src="{{ asset('logos/WishwaAds.png') }}" alt="Wishwa Ads Logo" class="print-logo" style="max-height: 80px; width: 400px;">
                                 </div>
                             @elseif ($hasVideo && !$hasOther)
                                 {{-- Only video orders: show 2nd image --}}
                                 <div class="d-flex align-items-center">
-                                    <img src="{{ asset('logos/Studio.png') }}" alt="Studio Logo" class="print-logo"
-                                        style="max-height: 80px; width: 400px;">
+                                    <img src="{{ asset('logos/Studio.png') }}" alt="Studio Logo" class="print-logo" style="max-height: 80px; width: 400px;">
                                 </div>
                             @elseif ($hasVideo && $hasOther)
                                 {{-- Both video and other types: show 3rd image --}}
                                 <div class="d-flex align-items-center">
-                                    <img src="{{ asset('logos/WishwaAdsStudio.png') }}" alt="Wishwa Ads Studio Logo" class="print-logo"
-                                        style="max-height: 80px; width: 400px;">
+                                    <img src="{{ asset('logos/WishwaAdsStudio.png') }}" alt="Wishwa Ads Studio Logo" class="print-logo" style="max-height: 80px; width: 400px;">
                                 </div>
                             @endif
                         </div>
@@ -62,8 +59,7 @@
                             <dt class="col-sm-6 text-md-right small">ID #:</dt>
                             <dd class="col-sm-6 text-md-left small">{{ $orders->first()->invoice ?? 'N/A' }}</dd>
                             <dt class="col-sm-6 text-md-right small">Date:</dt>
-                            <dd class="col-sm-6 text-md-left small">{{ $orders->first()->date ?? now()->format('Y-m-d') }}
-                            </dd>
+                            <dd class="col-sm-6 text-md-left small">{{ $orders->first()->date ?? now()->format('Y-m-d') }}</dd>
                         </dl>
                     </div>
                 </div>
@@ -79,14 +75,12 @@
             </div>
             <div class="mb-3 text-right">
                 <p class="text-muted small mb-0">ID #: {{ $orders->first()->invoice ?? 'N/A' }}</p>
-                <p class="text-muted small mb-0">Date:
-                    {{ $orders->first()->date->format('Y-m-d') ?? now()->format('Y-m-d') }}
-                </p>
+                <p class="text-muted small mb-0">Date: {{ $orders->first()->date->format('Y-m-d') ?? now()->format('Y-m-d') }}</p>
             </div>
         </div>
 
         @php
-            // Group truly identical orders (same work_type, order_type, unit_price, video_time) and count them.
+            // Group truly identical orders and count them
             $groupedOrders = $orders
                 ->groupBy(function ($item) {
                     return implode('|', [
@@ -100,19 +94,26 @@
                     $first = $group->first();
                     return (object) [
                         'work_type_id' => $first->work_type_id,
-                        'order_type' => $first->order_type,
-                        'unit_price' => $first->package_amt ?? $first->amount,
-                        'count' => $group->count(),
-                        'tax' => $group->sum('tax'),
-                        'service' => $group->sum('service'),
-                        'time' => $first->video_time ?? null,
+                        'order_type'   => $first->order_type,
+                        'unit_price'   => $first->package_amt ?? $first->amount,
+                        'count'        => $group->count(),
+                        'tax'          => $group->sum('tax'),
+                        'service'      => $group->sum('service'),
+                        'time'         => $first->video_time ?? null,
                     ];
                 });
 
-            $totalTax = $groupedOrders->sum('tax');
+            $totalTax     = $groupedOrders->sum('tax');
             $totalService = $groupedOrders->sum('service');
+
+            // Calculate discount for boosting orders with service = 0
+            $boostingDiscountCount = $orders->filter(function ($order) {
+                return $order->order_type === 'boosting' && $order->service == 0;
+            })->count();
+            $discountAmount = $boostingDiscountCount * 1000;
+
             $hasVideo = $groupedOrders->contains('order_type', 'video');
-            $colSpan = $hasVideo ? 5 : 4;
+            $colSpan  = $hasVideo ? 5 : 4;
         @endphp
 
         <!-- Invoice Table -->
@@ -123,7 +124,8 @@
                     <th>Description</th>
                     <th>Count</th>
                     @if($hasVideo)
-                    <th>Time</th>@endif
+                        <th>Time</th>
+                    @endif
                     <th>Price</th>
                     <th class="text-right">Total</th>
                 </tr>
@@ -139,7 +141,8 @@
                         </td>
                         <td>{{ $item->count }}</td>
                         @if($hasVideo)
-                        <td>{{ $item->time ?? '—' }}</td>@endif
+                            <td>{{ $item->time ?? '—' }}</td>
+                        @endif
                         <td data-price="{{ $item->unit_price * $item->count }}">
                             {{ number_format($item->unit_price, 2) }}
                         </td>
@@ -158,18 +161,21 @@
                 @if($totalTax > 0)
                     <tr>
                         <td colspan="{{ $colSpan }}" class="border text-right">Tax</td>
-                        <td class="border text-right" id="tax-amount">
-                            {{ number_format($totalTax, 2) }}
-                        </td>
+                        <td class="border text-right" id="tax-amount">{{ number_format($totalTax, 2) }}</td>
                     </tr>
                 @endif
 
                 @if($totalService > 0)
                     <tr>
                         <td colspan="{{ $colSpan }}" class="border text-right">Service</td>
-                        <td class="border text-right" id="service-amount">
-                            {{ number_format($totalService, 2) }}
-                        </td>
+                        <td class="border text-right" id="service-amount">{{ number_format($totalService, 2) }}</td>
+                    </tr>
+                @endif
+
+                @if($discountAmount > 0)
+                    <tr>
+                        <td colspan="{{ $colSpan }}" class="border text-right">Discount</td>
+                        <td class="border text-right" id="discount-amount">{{ number_format($discountAmount, 2) }}</td>
                     </tr>
                 @endif
 
@@ -203,7 +209,6 @@
             </tr>
         </table>
 
-
     </div>
     <!-- Print Button -->
     <div class="d-print-none mt-2 text-center">
@@ -222,19 +227,19 @@
                 background: white !important;
                 color: black !important;
             }
-            .col-sm-6, 
-    .col-md-8 {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-    }
+            .col-sm-6,
+            .col-md-8 {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+            }
 
-    /* Ensure the image itself stretches */
-    .print-logo {
-        width: 100% !important;
-        height: auto !important;
-        max-height: none !important;
-        display: block;
-    }
+            /* Ensure the image itself stretches */
+            .print-logo {
+                width: 100% !important;
+                height: auto !important;
+                max-height: none !important;
+                display: block;
+            }
 
             .header-logo img {
                 width: 100% !important;
@@ -299,10 +304,15 @@
             document.querySelectorAll('[data-price]').forEach(cell => {
                 subtotal += parseFloat(cell.dataset.price) || 0;
             });
+
             const tax = {{ $totalTax }};
             const service = {{ $totalService }};
+            const discount = {{ $discountAmount }};
+
+            const totalDue = subtotal + tax + service - discount;
+
             document.querySelector('.ab-total').textContent = subtotal.toFixed(2);
-            document.querySelector('.tt-due').textContent = (subtotal + tax + service).toFixed(2);
+            document.querySelector('.tt-due').textContent = totalDue.toFixed(2);
         }
     </script>
 @endsection
