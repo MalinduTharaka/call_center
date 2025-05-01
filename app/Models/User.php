@@ -33,7 +33,9 @@ class User extends Authenticatable
         'nic',
         'password',
         'cc_num',
-        'ac_num'
+        'ac_num',
+        'from_date',
+        'to_date'
     ];
 
     /**

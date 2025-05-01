@@ -113,6 +113,7 @@ Route::middleware([
     Route::put('/assign/user/{id}', [UserController::class, 'assignUser'])->name('users.assign');
     Route::delete('/delete/user/{id}', [UserController::class, 'deleteUser'])->name('users.destroy');
     Route::put('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::put('/update/date/range/{id}', [UserController::class, 'dateRange'])->name('users.dateRange');
 
     //Invoice Manage Routes
     Route::get('/invoices/manage', [InvoiceManageController::class, 'index'])->name('invoices.index');

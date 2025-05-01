@@ -79,4 +79,11 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'User updated successfully.');
     }
 
+    public function dateRange(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return redirect()->back()->with('success', 'Date Range Added.');
+    }
+
 }

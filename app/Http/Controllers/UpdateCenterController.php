@@ -10,13 +10,20 @@ use App\Models\Slip;
 use App\Models\User;
 use App\Models\VideoPkg;
 use App\Models\WorkType;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UpdateCenterController extends Controller
 {
     public function index(){
-        $orders = Order::all();
+        $user = Auth::user();
+
+        // 2. Parse their from_date/to_date (and optionally normalize to full days)
+        $from = Carbon::parse($user->from_date)->startOfDay();
+        $to   = Carbon::parse($user->to_date)->endOfDay();
+
+        $orders = Order::whereBetween('date', [$from, $to])->get();
         $packages = Package::all();
         $users = User::all();
         $slips = Slip::all();
