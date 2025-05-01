@@ -27,8 +27,6 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
-            <li class="side-nav-title">Main</li>
-
             @if (Auth::user()->role == 'admin')
                 <li class="side-nav-item">
                     <a href="/dashboard" class="side-nav-link">
@@ -68,7 +66,7 @@
                             <li class="side-nav-item">
                                 <a href="/quotation/manage" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Quotation </span>
+                                    <span> Quotations </span>
                                 </a>
                             </li>
                             <li class="side-nav-item">
@@ -94,19 +92,21 @@
                             <li class="side-nav-item">
                                 <a href="/designers" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Designers </span>
+                                    <span> Designer </span>
                                 </a>
                             </li>
-                            <li class="side-nav-item">
-                                <a href="/update-center" class="side-nav-link">
-                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Update Centers </span>
-                                </a>
-                            </li>
+                           
                             <li class="side-nav-item">
                                 <a href="/advertisers/manage" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Advertisers </span>
+                                    <span> Advertiser </span>
+                                </a>
+                            </li>
+
+                            <li class="side-nav-item">
+                                <a href="/update-center" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Update Center </span>
                                 </a>
                             </li>
                         </ul>
@@ -205,55 +205,87 @@
                                 </a>
                             </li>
 
+                            <li class="side-nav-item">
+                                <a href="/time-slots" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span>Video Time Slots </span>
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
                 </li>
             @elseif (Auth::user()->role == 'cro')
+
                 <li class="side-nav-item">
                     <a href="/dashboard" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Dashboard </span>
                     </a>
                 </li>
+
                 <li class="side-nav-item">
-                    <a href="/new/orders" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> New Orders </span>
+                    <a data-bs-toggle="collapse" href="#sidebarCroOrder" aria-expanded="false" aria-controls="sidebarCroOrder" class="side-nav-link">
+                        <i class="ri-survey-line"></i>
+                        <span> Orders </span>
+                        <span class="menu-arrow"></span>
                     </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/other_orders" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Other Orders </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/packages" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span>Manage Boosting Packages </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/work-types" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Manage Work Types </span>
-                    </a>
+                    <div class="collapse" id="sidebarCroOrder">
+                        <ul class="side-nav-second-level">
+                            <li class="side-nav-item">
+                                <a href="/new/orders" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> New Orders </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
+                                <a href="/other_orders" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Other Orders </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
+                                <a href="/invoices/manage" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Invoices </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
+                                <a href="/quotation/manage" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Quotation </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 <li class="side-nav-item">
-                    <a href="/invoices/manage" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Invoices </span>
+                    <a data-bs-toggle="collapse" href="#sidebarCroSetting" aria-expanded="false" aria-controls="sidebarCroSetting" class="side-nav-link">
+                        <i class="ri-pencil-ruler-2-line"></i>
+                        <span> Settings </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <div class="collapse" id="sidebarCroSetting">
+                        <ul class="side-nav-second-level">
+                            <li class="side-nav-item">
+                                <a href="/packages" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span>Manage Boosting Packages </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
+                                <a href="/work-types" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Manage Work Types </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
-
-                <li class="side-nav-item">
-                    <a href="/quotation/manage" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Quotation </span>
-                    </a>
-                </li>
+                
             @elseif (Auth::user()->role == 'uca')
+            
                 <li class="side-nav-item">
                     <a href="/update-center" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
@@ -276,14 +308,14 @@
                 <li class="side-nav-item">
                     <a href="/advertisers/manage" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> Advertise </span>
+                        <span> Advertiser </span>
                     </a>
                 </li>
             @elseif (Auth::user()->role == 'dsg')
                 <li class="side-nav-item">
                     <a href="/designers" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> Designers </span>
+                        <span> Designer </span>
                     </a>
                 </li>
             @elseif (Auth::user()->role == 'vde')
@@ -294,122 +326,167 @@
                     </a>
                 </li>
             @elseif (Auth::user()->role == 'acc')
-                <li class="side-nav-item">
-                    <a href="/dashboard" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Dashboard </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/accountant" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> New Orders </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/other_orders" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Other Orders </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/packages" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span>Manage Boosting Packages </span>
-                    </a>
-                </li>
 
-                <li class="side-nav-item">
-                    <a href="/actors-work" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Actors </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/cro-work" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> CRO Work </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/video-editors-work" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Video Editors </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/designers" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Designers </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/designer-work" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Designers Work </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/design‑payments" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Manage Design Payments </span>
-                    </a>
-                </li>
+            <li class="side-nav-item">
+                <a href="/dashboard" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Dashboard </span>
+                </a>
+            </li>
 
-                <li class="side-nav-item">
-                    <a href="/targets" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Manage Targets </span>
-                    </a>
-                </li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarAccOrders" aria-expanded="false" aria-controls="sidebarAccOrders" class="side-nav-link">
+                    <i class="ri-survey-line"></i>
+                    <span> Orders </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarAccOrders">
+                    <ul class="side-nav-second-level">
+                        <li class="side-nav-item">
+                            <a href="/accountant" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> New Orders </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/other_orders" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Other Orders </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/invoices/manage" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Invoices </span>
+                            </a>
+                        </li>
+        
+                        <li class="side-nav-item">
+                            <a href="/quotation/manage" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Quotation </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+  
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarAccProfile" aria-expanded="false" aria-controls="sidebarAccProfile" class="side-nav-link">
+                    <i class="ri-table-line"></i>
+                    <span> Profiles </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarAccProfile">
+                    <ul class="side-nav-second-level">
+                        <li class="side-nav-item">
+                            <a href="/designers" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Designer </span>
+                            </a>
+                        </li>
+                    
+                        <li class="side-nav-item">
+                            <a href="/update-center" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Update Center </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/advertisers/manage" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Advertiser </span>
+                            </a>
+                        </li>
+                      
+                    </ul>
+                </div>
+            </li>
 
-                <li class="side-nav-item">
-                    <a href="/work-types" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Manage Work Types </span>
-                    </a>
-                </li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarAccWork" aria-expanded="false" aria-controls="sidebarAccWork" class="side-nav-link">
+                    <i class="ri-briefcase-line"></i>
+                    <span> User Work </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarAccWork">
+                    <ul class="side-nav-second-level">
+                        <li class="side-nav-item">
+                            <a href="/actors-work" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Actors Work </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/cro-work" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> CRO Work </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/video-editors-work" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Video Editors Work</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/designer-work" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Designers Work </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
-                <li class="side-nav-item">
-                    <a href="/update-center" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Update Center </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/advertisers/manage" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Advertise </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
-                    <a href="/employees/centers" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Call Centers/Add Centers </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
-                    <a href="/users/manage" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span>Manage Users </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
-                    <a href="/invoices/manage" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Invoices </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
-                    <a href="/quotation/manage" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Quotation </span>
-                    </a>
-                </li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarAccSettings" aria-expanded="false" aria-controls="sidebarAccSettings" class="side-nav-link">
+                    <i class="ri-pencil-ruler-2-line"></i>
+                    <span> Settings </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarAccSettings">
+                    <ul class="side-nav-second-level">
+                        <li class="side-nav-item">
+                            <a href="/users/manage" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span>Users</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/employees/centers" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span> Call Centers/Add Centers </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/packages" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span>Boosting Packages </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/design‑payments" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span>Design Payments </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/targets" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span>Targets </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="/work-types" class="side-nav-link">
+                                {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                <span>Work Types </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+                
             @elseif (Auth::user()->role == 'act')
                 <li class="side-nav-item">
                     <a href="/actors-work" class="side-nav-link">

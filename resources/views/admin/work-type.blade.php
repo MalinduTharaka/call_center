@@ -1,18 +1,18 @@
 @extends('layouts.app')
-
 @section('content')
-<div class="col-xl-12">
+<div class="col-xl-12 mt-2">
     <div class="card">
-        <div class="card-header">
-            <h4 class="header-title">Manage Work Types</h4>
-            <p class="text-muted mb-0">
-                Create and manage different work types and their order categories.
-            </p>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="header-title mb-0">Manage Work Types</h4>
+                <small class="text-muted">Create and manage different work types and their order categories.</small>
+            </div>
+            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#createWorkTypeModal">
+                + Create
+            </button>
         </div>
+        
         <div class="card-body">
-
-            {{-- Create Work Type Button --}}
-            <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createWorkTypeModal">Create</a>
 
             {{-- Create Work Type Modal --}}
             <div class="modal fade" id="createWorkTypeModal" tabindex="-1" aria-labelledby="createWorkTypeModalLabel" aria-hidden="true">
@@ -104,7 +104,7 @@
                                     <form action="{{ route('work-types.destroy', $worktype->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this work type?')">Delete</button>
+                                        {{-- <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this work type?')">Delete</button> --}}
                                     </form>
                                 </td>
                             </tr>

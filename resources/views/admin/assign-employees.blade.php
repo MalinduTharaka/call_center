@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="col-xl-12">
+<div class="col-xl-12 mt-2">
     <div class="card">
         <div class="card-header">
-            <h4 class="header-title">Tabs Bordered Justified</h4>
+            <h4 class="header-title">Manage Call Centers</h4>
             <p class="text-muted mb-0">
-                Manage Call Centers and Add Centers using tabs.
+                Create and manage call centers.
             </p>
         </div>
         <div class="card-body">
@@ -54,7 +54,7 @@
                                         <td>{{ $call_center->cc_name }}</td>
                                         <td>
                                             <!-- Edit Button -->
-                                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCallCenterModal{{ $call_center->id }}">Edit</button>
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCallCenterModal{{ $call_center->id }}">Edit</button>
 
                                             <!-- Edit Modal -->
                                             <div class="modal fade" id="editCallCenterModal{{ $call_center->id }}" tabindex="-1">
@@ -84,7 +84,7 @@
                                             <form action="/delete/cc/{{ $call_center->id }}" method="post" class="d-inline">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-warning">Delete</button>
+                                                {{-- <button type="submit" class="btn btn-warning">Delete</button> --}}
                                             </form>
                                         </td>
                                     </tr>
