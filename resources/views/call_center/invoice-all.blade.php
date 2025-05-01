@@ -76,7 +76,7 @@
     <div class="container mx-auto p-4 bg-white shadow rounded border font-sans" style="max-width:800px;">
 
         <!-- Header -->
-        <div class="border-bottom pb-4 mb-4">
+        <div class="border-bottom pb-4 mb-2">
             <div class="row">
                 <div class="col-md-8">
                     <div class="row align-items-center">
@@ -140,7 +140,7 @@
         </div>
 
         <!-- Bill To -->
-        <div class="pb-3 mb-3 d-flex justify-content-between">
+        <div class="pb-2 mb-2 d-flex justify-content-between">
             <div>
                 <h2 class="h5 font-weight-semibold text-secondary">Bill To:</h2>
                 <p class="text-dark">
@@ -157,7 +157,7 @@
         </div>
 
         <!-- Items Table -->
-        <table class="table table-bordered mb-5">
+        <table class="table table-bordered mb-2">
             <thead class="thead-light">
                 <tr>
                     <th>Type</th>
@@ -250,23 +250,42 @@
         </table>
 
         <!-- Footer Note -->
-        <div class="text-muted small border-top pt-3 mt-3">
+        <div class="text-muted small border-top pt-3 mt-2">
             @if($type==1)
                 <p>Quotation valid for 30 days.</p>
             @else
                 <p>Payment is due within 30 days of receipt.</p>
             @endif
         </div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>Commercial Bank<br>
+                    ACCOUNT NUMBER - 1000620243<br>
+                    NAME - WISHWA ADS TEAM<br>
+                    COMMERCIAL BANK<br>
+                    GANEMULLA BRANCH</p>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>BOC<br>
+                    ACCOUNT NUMBER - 1425126<br>
+                    NAME - W C C WISHWAJITH<br>
+                    Bank of Ceylon ( BOC )<br>
+                    GAMPAHA BRANCH</p>
+                </td>
+            </tr>
+        </table>
 
-        <!-- Actions -->
-        <div class="d-print-none mt-4 text-center">
-            <button type="submit" class="btn btn-info mr-2">
-                <i class="fas fa-check mr-1"></i> Submit
-            </button>
-            <button type="button" onclick="window.print()" class="btn btn-primary">
-                <i class="fas fa-print mr-1"></i> Print
-            </button>
-        </div>
+        
+    </div>
+    <!-- Actions -->
+    <div class="d-print-none mt-4 text-center">
+        <button type="submit" class="btn btn-info mr-2">
+            <i class="fas fa-check mr-1"></i> Submit
+        </button>
+        <button type="button" onclick="window.print()" class="btn btn-primary">
+            <i class="fas fa-print mr-1"></i> Print
+        </button>
     </div>
 </form>
 

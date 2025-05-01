@@ -10,9 +10,11 @@
     @endif
 
     <!-- Create Button -->
+    @if (Auth::user()->role !== 'dsg' && Auth::user()->role !== 'acc')
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
         + Add Payment
     </button>
+    @endif
 
     <!-- Payments Table -->
     <div class="card shadow-sm">

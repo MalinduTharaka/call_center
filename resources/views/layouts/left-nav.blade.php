@@ -233,12 +233,6 @@
                         <span>Manage Boosting Packages </span>
                     </a>
                 </li>
-                <li class="side-nav-item">
-                    <a href="/work-types" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Manage Work Types </span>
-                    </a>
-                </li>
 
                 <li class="side-nav-item">
                     <a href="/invoices/manage" class="side-nav-link">
@@ -272,6 +266,12 @@
                         <span> Video Editors </span>
                     </a>
                 </li>
+                <li class="side-nav-item">
+                    <a href="/actors-work" class="side-nav-link">
+                        <i class="ri-dashboard-3-line"></i>
+                        <span> Actors Work </span>
+                    </a>
+                </li>
             @elseif (Auth::user()->role == 'adv')
                 <li class="side-nav-item">
                     <a href="/advertisers/manage" class="side-nav-link">
@@ -303,19 +303,13 @@
                 <li class="side-nav-item">
                     <a href="/accountant" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> New Orders </span>
+                        <span>Orders </span>
                     </a>
                 </li>
                 <li class="side-nav-item">
-                    <a href="/other_orders" class="side-nav-link">
+                    <a href="/accountant/or" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Other Orders </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/packages" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span>Manage Boosting Packages </span>
                     </a>
                 </li>
 
@@ -338,12 +332,6 @@
                     </a>
                 </li>
                 <li class="side-nav-item">
-                    <a href="/designers" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Designers </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
                     <a href="/designer-work" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Designers Work </span>
@@ -353,47 +341,6 @@
                     <a href="/design‑payments" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Manage Design Payments </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
-                    <a href="/targets" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Manage Targets </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
-                    <a href="/work-types" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Manage Work Types </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
-                    <a href="/update-center" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Update Center </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/advertisers/manage" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Advertise </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
-                    <a href="/employees/centers" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Call Centers/Add Centers </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
-                    <a href="/users/manage" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span>Manage Users </span>
                     </a>
                 </li>
 

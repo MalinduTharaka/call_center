@@ -24,6 +24,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Order ID</th>
+                                <th>Client Name</th>
                                 <th>Work Status</th>
                                 <th>User</th>
                                 <th>Work Type</th>
@@ -40,6 +41,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $entry->order_id }}</td>
+                                <td>{{ $entry->Order->name ?? '-' }}</td>
                                 <td>{{ $entry->Order->work_status ?? '-' }}</td>
                                 <td>{{ $entry->user->name ?? '-' }}</td>
                                 <td>{{ $entry->work_type }}</td>

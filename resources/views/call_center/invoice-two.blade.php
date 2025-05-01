@@ -40,7 +40,7 @@
 
     <div class="container mx-auto p-4 bg-white shadow rounded border font-sans" style="max-width: 800px;">
         <!-- Header Section -->
-        <div class="border-bottom pb-4 mb-4">
+        <div class="border-bottom pb-4 mb-2">
             <div class="row">
                 <!-- Company Info -->
                 <div class="col-md-8">
@@ -80,11 +80,11 @@
                         </p>
                         <p class="mb-1 small text-muted">
                             <i class="fas fa-phone mr-1"></i>
-                            077 1855 1910
+                            077 1855 191
                         </p>
                         <p class="mb-1 small text-muted">
                             <i class="fas fa-envelope mr-1"></i>
-                            info.studiowishwa@gmail.com
+                            info@wishwaads.com
                         </p>
                     </div>
                 </div>
@@ -117,13 +117,13 @@
         </div>
 
         <!-- Customer Details -->
-        <div class="pb-3 mb-3 d-flex justify-content-between">
+        <div class="pb-2 mb-2 d-flex justify-content-between">
             <div class="mb-3">
                 <h2 class="h5 font-weight-semibold text-secondary">Bill To:</h2>
                 <p class="text-dark">{{ $boostingOrders[0]['name'] ?? $designOrders[0]['name'] ?? $videoOrders[0]['name'] ?? '' }}</p>
                 <p class="text-muted small">Phone: {{ $boostingOrders[0]['contact'] ?? $designOrders[0]['contact'] ?? $videoOrders[0]['contact'] ?? '' }}</p>
             </div>
-            <div class="mb-3 text-right">
+            <div class="mb-2 text-right">
                 <p class="text-muted small mb-0">{{ $type == 1 ? 'Quotation' : 'Invoice' }} #: 
                     @if(count($boostingOrders) > 0 && count($designOrders) > 0)
                         bd
@@ -138,7 +138,7 @@
         </div>
 
         <!-- Invoice Table -->
-        <table class="table table-bordered mb-5">
+        <table class="table table-bordered mb-2">
             <thead class="thead-light">
                 <tr>
                     <th>Type</th>
@@ -232,6 +232,24 @@
         <div class="text-muted small border-top pt-3 mt-3">
             <p>{{ $type == 1 ? 'Quotation valid for 30 days.' : 'Payment is due within 30 days of receipt.' }}</p>
         </div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>Commercial Bank<br>
+                    ACCOUNT NUMBER - 1000620243<br>
+                    NAME - WISHWA ADS TEAM<br>
+                    COMMERCIAL BANK<br>
+                    GANEMULLA BRANCH</p>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>BOC<br>
+                    ACCOUNT NUMBER - 1425126<br>
+                    NAME - W C C WISHWAJITH<br>
+                    Bank of Ceylon ( BOC )<br>
+                    GAMPAHA BRANCH</p>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <!-- Form Actions -->

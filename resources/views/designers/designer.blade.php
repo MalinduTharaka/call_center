@@ -90,9 +90,6 @@
                         <th>Work<br>Status</th>
                         <th>Payment</th>
                         <th>Designer</th>
-                        <th>Amount</th>
-                        <th>Advance</th>
-                        <th>Slip</th>
                         <th>Upload Design</th>
                         <th>Design</th>
                         <th>Action</th>
@@ -156,9 +153,6 @@
                                         </span>
                                     </td>
                                     <td>{{ $order->designer_id }}</td>
-                                    <td>{{ $order->amount }}</td>
-                                    <td>{{ $order->advance }}</td>
-                                    <td>@include('includes.slip-view')</td>
                                     <!-- Button in the table cell -->
                                     <td>
                                         <button type="button" data-bs-toggle="modal" class="btn btn-info"

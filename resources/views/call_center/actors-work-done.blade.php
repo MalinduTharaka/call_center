@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center">
-            @if (Auth::user()->role !== 'act')
+            @if (Auth::user()->role !== 'act' && Auth::user()->role !== 'acc')
             <h4 class="mb-0">Actors Work Entries</h4>
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">
                 + Add Entry

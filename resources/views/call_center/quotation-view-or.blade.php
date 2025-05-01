@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row align-items-center">
-                    <div class="col-sm-6 mb-4 mb-sm-0">
+                    <div class="col-sm-6 mb-2 mb-sm-0">
                         <div class="d-flex align-items-center">
                             <img src="{{ asset('logos/wishwaads.jpg') }}" alt="Wishwa Ads Logo"
                                  class="img-fluid mr-3" style="max-height: 80px; width: auto;">
@@ -28,24 +28,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-3">
+                <div class="mt-2">
                     <p class="mb-1 small text-muted">
                         <i class="fas fa-map-marker-alt mr-1"></i>
                         No.151, Ward City Shopping Complex, Gampaha
                     </p>
                     <p class="mb-1 small text-muted">
                         <i class="fas fa-phone mr-1"></i>
-                        077 1855 1910
+                        077 1855 191
                     </p>
                     <p class="mb-1 small text-muted">
                         <i class="fas fa-envelope mr-1"></i>
-                        info.studiowishwa@gmail.com
+                        info@wishwaads.com
                     </p>
                 </div>
             </div>
 
             <!-- Invoice Info -->
-            <div class="col-md-4 mt-4 mt-md-0">
+            <div class="col-md-4 mt-2 mt-md-0">
                 <div class="border-bottom pb-2 mb-2 border-primary">
                     <h1 class="h3 font-weight-bold text-uppercase text-dark mb-0">QUOTATION</h1>
                 </div>
@@ -62,7 +62,7 @@
     </div>
 
     <!-- Customer Info -->
-    <div class="pb-3 mb-3 d-flex justify-content-between">
+    <div class="pb-3 mb-2 d-flex justify-content-between">
         <div class="mb-3">
             <h2 class="h5 font-weight-semibold text-secondary">Bill To:</h2>
             <p class="text-dark">{{ $orders->first()->name ?? 'N/A' }}</p>
@@ -89,7 +89,7 @@
     @endphp
 
     <!-- Invoice Table -->
-    <table class="table table-bordered mb-5">
+    <table class="table table-bordered mb-2">
         <thead class="thead-light">
             <tr>
                 <th>Type</th>
@@ -117,18 +117,36 @@
     </table>
 
     <!-- Footer -->
-    <div class="text-muted small border-top pt-3 mt-3">
+    <div class="text-muted small border-top pt-3 mt-2">
         <p>Quotation is due within 30 days of receipt.</p>
     </div>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50%; vertical-align: top;">
+                <p>Commercial Bank<br>
+                ACCOUNT NUMBER - 1000620243<br>
+                NAME - WISHWA ADS TEAM<br>
+                COMMERCIAL BANK<br>
+                GANEMULLA BRANCH</p>
+            </td>
+            <td style="width: 50%; vertical-align: top;">
+                <p>BOC<br>
+                ACCOUNT NUMBER - 1425126<br>
+                NAME - W C C WISHWAJITH<br>
+                Bank of Ceylon ( BOC )<br>
+                GAMPAHA BRANCH</p>
+            </td>
+        </tr>
+    </table>
 
-    <!-- Print Button -->
-    <div class="d-print-none mt-4 text-center">
-        <button onclick="window.print()" class="btn btn-primary mr-2">
-            <i class="fas fa-print mr-1"></i> Print
-        </button>
-    </div>
+    
 </div>
-
+<!-- Print Button -->
+<div class="d-print-none mt-4 text-center">
+    <button onclick="window.print()" class="btn btn-primary mr-2">
+        <i class="fas fa-print mr-1"></i> Print
+    </button>
+</div>
 <!-- Print CSS -->
 <style>
     @media print {

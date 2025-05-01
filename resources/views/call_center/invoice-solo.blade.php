@@ -68,11 +68,11 @@
                         </p>
                         <p class="mb-1 small text-muted">
                             <i class="fas fa-phone mr-1"></i>
-                            077 1855 1910
+                            077 1855 191
                         </p>
                         <p class="mb-1 small text-muted">
                             <i class="fas fa-envelope mr-1"></i>
-                            info.studiowishwa@gmail.com
+                            info@wishwaads.com
                         </p>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
         </div>
 
         <!-- Items Table -->
-        <table class="table table-bordered mb-5">
+        <table class="table table-bordered mb-2">
             <thead class="thead-light">
                 <tr>
                     <th>Type</th>
@@ -205,6 +205,25 @@
         <div class="text-muted small border-top pt-3 mt-3">
             <p>{{ $type == 1 ? 'Quotation valid for 30 days.' : 'Payment is due within 30 days of receipt.' }}</p>
         </div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>Commercial Bank<br>
+                    ACCOUNT NUMBER - 1000620243<br>
+                    NAME - WISHWA ADS TEAM<br>
+                    COMMERCIAL BANK<br>
+                    GANEMULLA BRANCH</p>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>BOC<br>
+                    ACCOUNT NUMBER - 1425126<br>
+                    NAME - W C C WISHWAJITH<br>
+                    Bank of Ceylon ( BOC )<br>
+                    GAMPAHA BRANCH</p>
+                </td>
+            </tr>
+        </table>
+        
     </div>
 
     <!-- Form Actions -->

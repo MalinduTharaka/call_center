@@ -107,17 +107,12 @@
                                                                             <td>{{ $order->croUser->cc_name }}</td>
                                                                             <td>{{ $order->plUser->name }}</td>
                                                                             <td>
-                                                                                <span class="badge fs-5 display-mode
+                                                                                <span class="badge fs-5
                                                                                     @if($order->ce == 'c') bg-primary
                                                                                     @elseif($order->ce == 'e') bg-danger
                                                                                     @endif">
                                                                                     {{ $order->ce}}
                                                                                 </span>
-                                                                                <select name="ce" class="form-select edit-mode">
-                                                                                    <option value="" selected>Select</option>
-                                                                                    <option value="c" @if($order->ce == 'c') selected @endif>c</option>
-                                                                                    <option value="e" @if($order->ce == 'e') selected @endif>e</option>
-                                                                                </select>
                                                                             </td>
                                                                             <td>
                                                                                 <span class="display-mode">{{ $order->invoice }}</span>
@@ -286,17 +281,12 @@
                                                                         <td>{{ $order->croUser->cc_name }}</td>
                                                                         <td>{{ $order->plUser->name }}</td>
                                                                         <td>
-                                                                            <span class="badge fs-5 display-mode
+                                                                            <span class="badge fs-5
                                                                                 @if($order->ce == 'c') bg-primary
                                                                                 @elseif($order->ce == 'e') bg-danger
                                                                                 @endif">
                                                                                 {{ $order->ce}}
                                                                             </span>
-                                                                            <select name="ce" class="form-select edit-mode">
-                                                                                <option value="" selected>Select</option>
-                                                                                <option value="c" @if($order->ce == 'c') selected @endif>c</option>
-                                                                                <option value="e" @if($order->ce == 'e') selected @endif>e</option>
-                                                                            </select>
                                                                         </td>
                                                                         <td>
                                                                             <span class="display-mode">{{ $order->invoice }}</span>
@@ -431,17 +421,12 @@
                                                                         <td>{{ $order->croUser->cc_name }}</td>
                                                                         <td>{{ $order->plUser->name }}</td>
                                                                         <td>
-                                                                            <span class="badge fs-5 display-mode 
+                                                                            <span class="badge fs-5
                                                                                 @if($order->ce == 'c') bg-primary
                                                                                 @elseif($order->ce == 'e') bg-danger
                                                                                 @endif">
                                                                                 {{ $order->ce}}
                                                                             </span>
-                                                                            <select name="ce" class="form-select edit-mode">
-                                                                                <option value="" selected></option>
-                                                                                <option value="c" @if($order->ce == 'c') selected @endif>c</option>
-                                                                                <option value="e" @if($order->ce == 'e') selected @endif>e</option>
-                                                                            </select>
                                                                         </td>
                                                                         <td>
                                                                             <span >{{ $order->invoice }}</span>
