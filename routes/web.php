@@ -94,7 +94,8 @@ Route::middleware([
 
     //Update Center Routes
     Route::get('/update-center', [UpdateCenterController::class, 'index']);
-
+    Route::put('/video/update/uc/{id}', [UpdateCenterController::class, 'updateVideoUC'])->name('uc.update.video');
+    Route::put('/designs/update/uc/{id}', [UpdateCenterController::class, 'updateDesignsUC'])->name('uc.update.designs');
 
     //Centers Routes
     Route::get('/employees/centers', [AssignEmployeesController::class, 'index']);
@@ -117,8 +118,6 @@ Route::middleware([
     Route::get('/invoice/view/{inv}', [InvoiceManageController::class, 'invoiceView'])->name('invoices.view');
     Route::post('/invoices/{invoice}/duplicate', [InvoiceController::class, 'duplicate'])->name('invoices.duplicate');
 
-
-
     //Quotation Manage Routes
     Route::get('/quotation/manage', [QuotationManageController::class, 'index'])->name('quotation.index');
     Route::get('/quotation/view/{inv}', [QuotationManageController::class, 'quotationView'])->name('quotation.view');
@@ -136,8 +135,6 @@ Route::middleware([
     Route::post('/storeor/slip', [SlipController::class, 'storeOR'])->name('storeor');
     Route::get('/invoice/view/or/{inv}', [InvoiceManageController::class, 'invoiceViewOR'])->name('invoices.viewOR');
     Route::get('/quotation/view/or/{inv}', [QuotationManageController::class, 'quotationViewOR'])->name('quotation.viewOR');
-
-
 
     //workDone Routes
     Route::get('/workDone', [WorkDoneController::class, 'index']);

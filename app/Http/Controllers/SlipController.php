@@ -9,6 +9,7 @@ use App\Models\Slip;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\Nullable;
 
 class SlipController extends Controller
@@ -31,17 +32,27 @@ class SlipController extends Controller
         ]);
 
         // 2) Ensure the invoice exists in orders
-        $order = Order::where('invoice', $request->inv)->first();
-        if (! $order) {
-            return back()->with('error', 'Invoice not found in the order records.');
-        }
+        $order = Order::where('invoice', $request->inv)->firstOrFail();
 
-        // 3) Handle slip upload
+        // 3) Handle slip upload into public/slips
         if (! $request->hasFile('slip') || ! $request->file('slip')->isValid()) {
             return back()->with('error', 'File upload failed or no file provided.');
         }
 
-        $path = $request->file('slip')->store('slips', 'public');
+        $file      = $request->file('slip');
+        $filename  = time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+
+        // Make sure public/slips exists and is writable
+        $destination = public_path('slips');
+        if (! is_dir($destination)) {
+            mkdir($destination, 0755, true);
+        }
+
+        $file->move($destination, $filename);
+
+        // Save the public‐relative path (no 'public/' prefix)
+        $path = 'slips/' . $filename;
+
         $slip = Slip::create([
             'order_id'  => $request->inv,
             'slip_path' => $path,
@@ -57,21 +68,22 @@ class SlipController extends Controller
 
             Invoice::where('inv', $request->inv)
                    ->firstOrFail()
-                   ->update(['status' => 'paid', 'amt1' => $tv, 'amt2' => Null , 'amt3' => Null]);
+                   ->update(['status' => 'paid', 'amt1' => $tv, 'amt2' => null, 'amt3' => null]);
 
-            return back()->with('success', 'Payment slip uploaded and marked complete.')->with('slip_path', $path);
+            return back()
+                ->with('success', 'Payment slip uploaded and marked complete.')
+                ->with('slip_path', $path);
         }
 
         // 5) Partial payment path
-        // Sum each advance-array (safely defaulting to empty array)
-        $advanceb = collect($request->advanceb ?? [])->filter()->sum();
-        $advanced = collect($request->advanced ?? [])->filter()->sum();
-        $advancev = collect($request->advancev ?? [])->filter()->sum();
+        $advanceb  = collect($request->advanceb ?? [])->filter()->sum();
+        $advanced  = collect($request->advanced ?? [])->filter()->sum();
+        $advancev  = collect($request->advancev ?? [])->filter()->sum();
 
-        $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
-        $totalAdvance = $advanceb + $advanced + $advancev;
+        $invoice       = Invoice::where('inv', $request->inv)->firstOrFail();
+        $totalAdvance  = $advanceb + $advanced + $advancev;
 
-        // Distribute into amt1, amt2, amt3 slots
+        // Allocate advance amounts across amt1, amt2, amt3
         if (! $invoice->amt1) {
             $invoice->amt1 = $totalAdvance;
         } elseif (! $invoice->amt2) {
@@ -79,116 +91,64 @@ class SlipController extends Controller
         } elseif (! $invoice->amt3) {
             $invoice->amt3 = $totalAdvance;
         }
-        // Update due_date on invoice
-        $invoice->due_date = Carbon::today()->addDays((int)$request->due_date);
+
+        // Update due_date for partial payments
+        $invoice->due_date = Carbon::today()->addDays((int) $request->due_date);
         $invoice->save();
 
         Order::where('invoice', $request->inv)->update(['ps' => '1']);
 
-        // Fetch all related orders
-        $orders       = Order::where('invoice', $request->inv)->get();
-        $totalOrders  = $orders->count();
-        $boostingCnt  = $orders->where('order_type', 'boosting')->count();
-        $designsCnt   = $orders->where('order_type', 'designs')->count();
-        $videoCnt     = $orders->where('order_type', 'video')->count();
+        // Distribute partial advance among orders
+        $orders      = Order::where('invoice', $request->inv)->get();
+        $totalOrders = $orders->count();
+        $boostCnt    = $orders->where('order_type', 'boosting')->count();
+        $designCnt   = $orders->where('order_type', 'designs')->count();
+        $videoCnt    = $orders->where('order_type', 'video')->count();
 
-        // Helper to assign advance to a subset of orders
-        $assignAdvance = function($subset, $amountPerOrder) {
+        $assign = function($subset, $amtPer) {
             foreach ($subset as $o) {
-                $o->advance        = $amountPerOrder;
+                $o->advance        = $amtPer;
                 $o->payment_status = 'partial';
                 $o->save();
             }
         };
 
-        // CASE A: Only one type provided → split evenly across ALL orders
-        if (($advanceb   && ! $advanced && ! $advancev)
-         || (! $advanceb  && $advanced  && ! $advancev)
-         || (! $advanceb  && ! $advanced && $advancev)
-        ) {
+        // CASE A: only one category provided
+        if (($advanceb && ! $advanced && ! $advancev)
+         || (! $advanceb && $advanced && ! $advancev)
+         || (! $advanceb && ! $advanced && $advancev)) {
+
             $perOrder = $totalAdvance / max($totalOrders, 1);
-            foreach ($orders as $o) {
-                $o->advance        = $perOrder;
-                $o->payment_status = 'partial';
-                $o->save();
-            }
+            $assign($orders, $perOrder);
         }
-        // CASE B: Exactly two types provided
-        elseif (($advanceb && $advanced  && ! $advancev)
+        // CASE B: exactly two categories
+        elseif (($advanceb && $advanced && ! $advancev)
              || ($advanceb && ! $advanced && $advancev)
-             || (! $advanceb && $advanced  && $advancev)
-        ) {
-            // Boosting + Designs
+             || (! $advanceb && $advanced && $advancev)) {
+
             if ($advanceb && $advanced) {
-                if ($boostingCnt > 0) {
-                    $assignAdvance(
-                        $orders->where('order_type', 'boosting'),
-                        $advanceb / $boostingCnt
-                    );
-                }
-                if ($designsCnt > 0) {
-                    $assignAdvance(
-                        $orders->where('order_type', 'designs'),
-                        $advanced / $designsCnt
-                    );
-                }
+                $boostCnt && $assign($orders->where('order_type', 'boosting'), $advanceb / $boostCnt);
+                $designCnt && $assign($orders->where('order_type', 'designs'), $advanced / $designCnt);
             }
-
-            // Boosting + Video
             if ($advanceb && $advancev) {
-                if ($boostingCnt > 0) {
-                    $assignAdvance(
-                        $orders->where('order_type', 'boosting'),
-                        $advanceb / $boostingCnt
-                    );
-                }
-                if ($videoCnt > 0) {
-                    $assignAdvance(
-                        $orders->where('order_type', 'video'),
-                        $advancev / $videoCnt
-                    );
-                }
+                $boostCnt && $assign($orders->where('order_type', 'boosting'), $advanceb / $boostCnt);
+                $videoCnt && $assign($orders->where('order_type', 'video'), $advancev / $videoCnt);
             }
-
-            // Designs + Video
             if ($advanced && $advancev) {
-                if ($designsCnt > 0) {
-                    $assignAdvance(
-                        $orders->where('order_type', 'designs'),
-                        $advanced / $designsCnt
-                    );
-                }
-                if ($videoCnt > 0) {
-                    $assignAdvance(
-                        $orders->where('order_type', 'video'),
-                        $advancev / $videoCnt
-                    );
-                }
+                $designCnt && $assign($orders->where('order_type', 'designs'), $advanced / $designCnt);
+                $videoCnt && $assign($orders->where('order_type', 'video'), $advancev / $videoCnt);
             }
         }
-        // CASE C: All three types provided
+        // CASE C: all three categories
         elseif ($advanceb && $advanced && $advancev) {
-            if ($boostingCnt > 0) {
-                $assignAdvance(
-                    $orders->where('order_type', 'boosting'),
-                    $advanceb / $boostingCnt
-                );
-            }
-            if ($designsCnt > 0) {
-                $assignAdvance(
-                    $orders->where('order_type', 'designs'),
-                    $advanced / $designsCnt
-                );
-            }
-            if ($videoCnt > 0) {
-                $assignAdvance(
-                    $orders->where('order_type', 'video'),
-                    $advancev / $videoCnt
-                );
-            }
+            $boostCnt && $assign($orders->where('order_type', 'boosting'), $advanceb / $boostCnt);
+            $designCnt && $assign($orders->where('order_type', 'designs'), $advanced / $designCnt);
+            $videoCnt && $assign($orders->where('order_type', 'video'), $advancev / $videoCnt);
         }
 
-        return back()->with('success', 'Partial payment slip uploaded successfully.')->with('slip_path', $path);
+        return back()
+            ->with('success', 'Partial payment slip uploaded successfully.')
+            ->with('slip_path', $path);
     }
 
     public function storeOR(Request $request)
@@ -205,16 +165,29 @@ class SlipController extends Controller
         ]);
 
         // 2) Ensure the invoice exists
-        $invoice = Invoice::where('inv', $request->inv)->first();
-        if (! $invoice) {
-            return back()->with('error', 'Invoice not found.');
-        }
+        $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
 
-        // 3) Handle slip upload
+        // 3) Handle slip upload into public/slips
         if (! $request->hasFile('slip') || ! $request->file('slip')->isValid()) {
             return back()->with('error', 'File upload failed or no file provided.');
         }
-        $path = $request->file('slip')->store('slips', 'public');
+
+        $file     = $request->file('slip');
+        $filename = time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+
+        // Ensure the public/slips directory exists
+        $destination = public_path('slips');
+        if (! is_dir($destination)) {
+            mkdir($destination, 0755, true);
+        }
+
+        // Move the uploaded file
+        $file->move($destination, $filename);
+
+        // Build the public-relative path
+        $path = 'slips/' . $filename;
+
+        // Record the slip
         Slip::create([
             'order_id'  => $request->inv,
             'slip_path' => $path,
@@ -227,7 +200,7 @@ class SlipController extends Controller
                       ->update([
                           'payment_status' => 'done',
                           'advance'        => 0,
-                          'ps'             => '1'
+                          'ps'             => '1',
                       ]);
 
             $invoice->update([
@@ -237,14 +210,16 @@ class SlipController extends Controller
                 'amt3'   => null,
             ]);
 
-            return back()->with('success', 'Payment slip uploaded and marked complete.')->with('slip_path', $path);
+            return back()
+                ->with('success', 'Payment slip uploaded and marked complete.')
+                ->with('slip_path', $path);
         }
 
         // 5) Partial payment path
         $advances = collect($request->advance ?? [])->values();
+        $sumAdvance = $advances->sum();
 
         // Assign next available amt slot on invoice
-        $sumAdvance = $advances->sum();
         if (! $invoice->amt1) {
             $invoice->amt1 = $sumAdvance;
         } elseif (! $invoice->amt2) {
@@ -252,22 +227,21 @@ class SlipController extends Controller
         } else {
             $invoice->amt3 = $sumAdvance;
         }
-        $invoice->due_date = Carbon::today()->addDays((int)$request->due_date);
+
+        $invoice->due_date = Carbon::today()->addDays((int) $request->due_date);
         $invoice->save();
 
         // Mark all OtherOrders as in-process of payment slip
         OtherOrder::where('invoice_id', $request->inv)
                   ->update(['ps' => '1']);
 
-        // Fetch all related other-orders
+        // 6) Fetch and assign each advance value
         $orders = OtherOrder::where('invoice_id', $request->inv)
-                             ->orderBy('id')
-                             ->get();
+                            ->orderBy('id')
+                            ->get();
 
-        // 6) Store each advance input exactly to corresponding OtherOrder
         foreach ($orders as $index => $order) {
-            $advValue = $advances->get($index, 0);
-            $order->advance        = $advValue;
+            $order->advance        = $advances->get($index, 0);
             $order->payment_status = 'partial';
             $order->save();
         }

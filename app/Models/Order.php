@@ -46,6 +46,7 @@ class Order extends Model
         'our_amount',
         'script',
         'shoot',
+        'editor_id',
         'designer_id',
         'd_img',
         'invoice',
@@ -101,6 +102,14 @@ class Order extends Model
     public function advertiser()
     {
         return $this->belongsTo(User::class, 'advertiser_id');
+    }
+    public function Editor()
+    {
+        return $this->belongsTo(User::class, 'editor_id');
+    }
+    public function Designer()
+    {
+        return $this->belongsTo(User::class, 'designer_id');
     }
 
     // Add any additional methods or scopes here

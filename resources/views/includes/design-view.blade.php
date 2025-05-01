@@ -6,18 +6,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <a href="{{ asset('storage/'.$order->d_img) }}" 
+                <a href="{{ asset($order->d_img) }}" 
                    target="_blank" 
                    rel="noopener noreferrer"
                    class="d-inline-block">
-                    <img src="{{ asset('storage/'.$order->d_img) }}" 
+                    <img src="{{ asset($order->d_img) }}" 
                          alt="Full Design Preview" 
                          class="img-fluid hover-zoom"
                          style="max-height: 80vh; cursor: pointer">
                 </a>
             </div>
             <div class="modal-footer">
-                <a href="{{ asset('storage/'.$order->d_img) }}" 
+                <a href="{{ asset($order->d_img) }}" 
                    class="btn btn-primary" 
                    download="design-{{ $order->id }}.png">
                    <i class="ri-download-line"></i>

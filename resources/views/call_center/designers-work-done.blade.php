@@ -24,9 +24,9 @@
                                 <td class="text-center">{{ $i + 1 }}</td>
                                 <td>{{ $entry->user->name }}</td>
                                 <td class="text-center">{{ $entry->order_id }}</td>
-                                <td>{{ $entry->order->workType->name }}</td>
+                                <td>{{ $entry->order->workType->name ?? '-' }}</td>
                                 <td class="text-center">
-                                    ₹{{ number_format($entry->order->workType->designPayment->amount, 2) }}
+                                    Rs. {{ number_format($entry->order->workType->designPayment->amount ?? 0, 2) }}
                                 </td>
                             </tr>
                         @endforeach

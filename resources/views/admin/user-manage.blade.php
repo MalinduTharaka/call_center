@@ -174,7 +174,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div class="form-floating mb-3">
                                                         <select class="form-select" name="cc_num">
                                                             <option selected value="{{ $user->cc_num }}">Select Call Center</option>
@@ -185,7 +185,7 @@
                                                         <label>Call Center</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
+                                                {{-- <div class="col-6">
                                                     <div class="form-floating mb-3">
                                                         <select class="form-select" name="ac_num">
                                                             <option selected value="{{ $user->ac_num }}">Select Add Center</option>
@@ -195,7 +195,7 @@
                                                         </select>
                                                         <label>Add Center</label>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                         <div class="modal-footer">

@@ -12,6 +12,7 @@ class EditorsWork extends Model
 
     protected $fillable = [
         'user_id',
+        'order_id',
         'work_type',
         'duration',
         'amount',
@@ -21,5 +22,9 @@ class EditorsWork extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function Order()
+    {
+        return $this->belongsTo(Order::class, 'order_id');
     }
 }
