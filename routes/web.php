@@ -9,6 +9,7 @@ use App\Http\Controllers\DesignPaymentController;
 use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\AssignEmployeesController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceManageController;
 use App\Http\Controllers\OrderConroller;
@@ -177,6 +178,9 @@ Route::middleware([
     Route::get('/designers', [DesignerController::class,'index']);
     Route::put('/orders/update/designers/{id}', [DesignerController::class, 'updareDesigner'])->name('orders.update.designer');
     Route::put('/design/upload/{id}', [DesignerController::class, 'DesignImageUpload'])->name('design.upload');
+
+    //Income Routes
+    Route::get('/incomes', [IncomeController::class, 'index'])->name('incomes.index');
 });
 
 

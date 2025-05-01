@@ -146,6 +146,12 @@
                         <span> Quotation </span>
                     </a>
                 </li>
+                <li class="side-nav-item">
+                    <a href="/incomes" class="side-nav-link">
+                        <i class="ri-dashboard-3-line"></i>
+                        <span> Income </span>
+                    </a>
+                </li>
             @elseif (Auth::user()->role == 'cro')
                 <li class="side-nav-item">
                     <a href="/dashboard" class="side-nav-link">
