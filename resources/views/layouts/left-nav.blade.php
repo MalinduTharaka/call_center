@@ -105,6 +105,12 @@
                     <span> Setings </span>
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a href="/video-packages" class="side-nav-link">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span> Video package </span>
+                </a>
+            </li>
 
             <li class="side-nav-item">
                 <a href="/update-center" class="side-nav-link">
