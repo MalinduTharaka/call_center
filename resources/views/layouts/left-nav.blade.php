@@ -36,16 +36,17 @@
                         <span> Dashboard </span>
                     </a>
                 </li>
+                </li>
                 <li class="side-nav-item">
-                    <a href="/new/orders" class="side-nav-link">
+                    <a href="/accountant" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> New Orders </span>
+                        <span> Accountant </span>
                     </a>
                 </li>
                 <li class="side-nav-item">
-                    <a href="/other_orders" class="side-nav-link">
+                    <a href="/accountant/or" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> Other Orders </span>
+                        <span> Accountant Other Orders </span>
                     </a>
                 </li>
                 <li class="side-nav-item">
@@ -248,21 +249,9 @@
                     </a>
                 </li>
                 <li class="side-nav-item">
-                    <a href="/new/orders" class="side-nav-link">
+                    <a href="/accountant" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> New Orders </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/other_orders" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Other Orders </span>
-                    </a>
-                </li>
-                <li class="side-nav-item">
-                    <a href="/packages" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span> Packages </span>
+                        <span> Accountant </span>
                     </a>
                 </li>
 
