@@ -39,7 +39,7 @@ class PackageController extends Controller
         ]);
 
         $package = Package::findOrFail($request->id);
-        $package->update($request->only(['package_amount', 'tax', 'service']));
+        $package->update($request->only(['package_amount', 'tax', 'service','full']));
 
         return redirect()->back()->with('success', 'Package Updated Successfully');
     }

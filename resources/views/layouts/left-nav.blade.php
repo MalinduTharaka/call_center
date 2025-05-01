@@ -27,8 +27,6 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
-            <li class="side-nav-title">Main</li>
-
             @if (Auth::user()->role == 'admin')
                 <li class="side-nav-item">
                     <a href="/dashboard" class="side-nav-link">
@@ -68,7 +66,7 @@
                             <li class="side-nav-item">
                                 <a href="/quotation/manage" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Quotation </span>
+                                    <span> Quotations </span>
                                 </a>
                             </li>
                             <li class="side-nav-item">
@@ -94,19 +92,21 @@
                             <li class="side-nav-item">
                                 <a href="/designers" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Designers </span>
+                                    <span> Designer </span>
                                 </a>
                             </li>
-                            <li class="side-nav-item">
-                                <a href="/update-center" class="side-nav-link">
-                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Update Centers </span>
-                                </a>
-                            </li>
+                           
                             <li class="side-nav-item">
                                 <a href="/advertisers/manage" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Advertisers </span>
+                                    <span> Advertiser </span>
+                                </a>
+                            </li>
+
+                            <li class="side-nav-item">
+                                <a href="/update-center" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Update Center </span>
                                 </a>
                             </li>
                         </ul>
@@ -205,16 +205,25 @@
                                 </a>
                             </li>
 
+                            <li class="side-nav-item">
+                                <a href="/time-slots" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span>Video Time Slots </span>
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
                 </li>
             @elseif (Auth::user()->role == 'cro')
+
                 <li class="side-nav-item">
                     <a href="/dashboard" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Dashboard </span>
                     </a>
                 </li>
+
                 <li class="side-nav-item">
                     <a href="/new/orders" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
@@ -241,6 +250,7 @@
                     </a>
                 </li>
             @elseif (Auth::user()->role == 'uca')
+            
                 <li class="side-nav-item">
                     <a href="/update-center" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
@@ -269,14 +279,14 @@
                 <li class="side-nav-item">
                     <a href="/advertisers/manage" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> Advertise </span>
+                        <span> Advertiser </span>
                     </a>
                 </li>
             @elseif (Auth::user()->role == 'dsg')
                 <li class="side-nav-item">
                     <a href="/designers" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> Designers </span>
+                        <span> Designer </span>
                     </a>
                 </li>
             @elseif (Auth::user()->role == 'vde')

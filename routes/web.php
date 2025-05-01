@@ -20,6 +20,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuotationManageController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\TargetController;
+use App\Http\Controllers\TimeSlotController;
 use App\Http\Controllers\VideoEditorsWorkDoneController;
 use App\Http\Controllers\WorkDoneController;
 use App\Http\Controllers\UpdateCenterController;
@@ -163,7 +164,7 @@ Route::middleware([
     // Design payment CRUD
     Route::get('/design‑payments', [DesignPaymentController::class, 'index'])->name('design.payments.index');
     Route::post('/design‑payments/store', [DesignPaymentController::class, 'store'])->name('design.payments.store');
-    Route::post('/design‑payments/update/{designPayment}', [DesignPaymentController::class, 'update'])->name('design.payments.update');
+    Route::put('/design‑payments/update/{designPayment}', [DesignPaymentController::class, 'update'])->name('design.payments.update');
     Route::delete('/design‑payments/delete/{designPayment}', [DesignPaymentController::class, 'destroy'])->name('design.payments.destroy');
 
     // Designers work done
@@ -193,8 +194,14 @@ Route::middleware([
     //Video package controller
     Route::get('/video-packages', [VideoPackageController::class, 'index'])->name('video-packages.index');
     Route::post('/video-packages', [VideoPackageController::class, 'store'])->name('video-packages.store');
-    Route::post('/video-packages/{id}', [VideoPackageController::class, 'update'])->name('video-packages.update');
+    Route::put('/video-packages/{id}', [VideoPackageController::class, 'update'])->name('video-packages.update');
     Route::delete('/video-packages/{id}', [VideoPackageController::class, 'destroy'])->name('video-packages.destroy');
+
+    //TimeSlot Crud
+    Route::get('/time-slots', [TimeSlotController::class, 'index'])->name('time-slots.index');
+    Route::post('/time-slots', [TimeSlotController::class, 'store'])->name('time-slots.store');
+    Route::put('/time-slots/{timeSlot}', [TimeSlotController::class, 'update'])->name('time-slots.update');
+    Route::delete('/time-slots/{timeSlot}', [TimeSlotController::class, 'destroy'])->name('time-slots.destroy');
 });
 
 

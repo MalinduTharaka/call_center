@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\TimeSlot;
 use App\Models\VideoPkg;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,10 @@ class VideoPackageController extends Controller
 {
     public function index()
     {
+        $timeSlots = TimeSlot::all();
         $invoices = Invoice::all();
         $packages = VideoPkg::all();
-        return view('video.video-package', compact('packages','invoices'));
+        return view('video.video-package', compact('packages','invoices','timeSlots'));
     }
 
     public function store(Request $request)
