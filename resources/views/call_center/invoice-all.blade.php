@@ -80,19 +80,15 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="row align-items-center">
-                        <div class="col-sm-6 mb-4 mb-sm-0">
+                        <div class="col-sm-12 mb-4 mb-sm-0">
                             <div class="d-flex align-items-center">
-                                <img src="{{ asset('logos/wishwaads.jpg') }}"
+                                <img src="{{ asset('logos/WishwaAdsStudio.png') }}"
                                      alt="Wishwa Ads Logo"
                                      class="img-fluid mr-3"
                                      style="max-height:80px;">
-                                <div>
-                                    <h2 class="h5 font-weight-bold text-danger mb-0">WISHWA ADS</h2>
-                                    <p class="text-muted mb-0 small">Your Marketing Partner</p>
-                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        {{-- <div class="col-sm-6">
                             <div class="d-flex align-items-center">
                                 <img src="{{ asset('logos/wishwavideo.jpg') }}"
                                      alt="Studio Wishwa Logo"
@@ -103,7 +99,7 @@
                                     <p class="text-muted mb-0 small">Feel The Quality Of Professionals</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="mt-3">
                         <p class="mb-1 small text-muted">

@@ -46,27 +46,21 @@
                 <div class="col-md-8">
                     <div class="row align-items-center">
                         <!-- First Company -->
-                        <div class="col-sm-6 mb-4 mb-sm-0">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('logos/wishwaads.jpg') }}" alt="Wishwa Ads Logo"
-                                     class="img-fluid mr-3" style="max-height: 80px; width: auto;">
-                                <div>
-                                    <h2 class="h5 font-weight-bold text-danger mb-0">WISHWA ADS</h2>
-                                    <p class="text-muted mb-0 small">Your Marketing Partner</p>
-                                </div>
+                        <div class="{{ count($videoOrders) > 0 ? 'col-sm-6' : 'col-12' }} mb-4 mb-sm-0">
+                            <div class="d-flex align-items-center justify-content-{{ count($videoOrders) > 0 ? 'start' : 'center' }}">
+                                <img src="{{ asset('logos/WishwaAds.png') }}" alt="Wishwa Ads Logo"
+                                    class="img-fluid" style="{{ count($videoOrders) > 0 ? 'height: 100px; width: auto;' : 'width: 100%; height: auto;' }}">
                             </div>
                         </div>
+
+
                         
                         <!-- Second Company (if video orders exist) -->
                         @if(count($videoOrders) > 0)
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center">
-                                <img src="{{ asset('logos/wishwavideo.jpg') }}" alt="Studio Wishwa Logo"
-                                     class="img-fluid mr-3" style="max-height: 80px; width: auto;">
-                                <div>
-                                    <h2 class="h5 font-weight-bold text-danger mb-0">STUDIO WISHWA</h2>
-                                    <p class="text-muted mb-0 small">Feel The Quality Of Professionals</p>
-                                </div>
+                                <img src="{{ asset('logos/Studio.png') }}" alt="Studio Wishwa Logo"
+                                     class="img-fluid mr-3" style="height: 100px; width: auto;">
                             </div>
                         </div>
                         @endif

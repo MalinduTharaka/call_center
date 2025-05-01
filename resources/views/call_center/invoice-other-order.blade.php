@@ -24,11 +24,8 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="d-flex align-items-center mb-2">
-                        <img src="{{ asset('logos/wishwaads.jpg') }}" alt="Logo" class="mr-3" style="max-height: 80px; width: auto;">
-                        <div>
-                            <h2 class="h5 font-weight-bold text-danger mb-0">WISHWA ADS</h2>
-                            <p class="text-muted mb-0 small">Your Marketing Partner</p>
-                        </div>
+                        <img src="{{ asset('logos/WishwaAds.png') }}" alt="Logo" class="mr-3 logo" style="max-height: 80px; width: 400px;">
+                        
                     </div>
                     <div class="mt-2">
                         <p class="mb-1 small text-muted">
@@ -159,6 +156,9 @@
         .d-print-none { display:none!important; }
         img { max-height:70px!important; }
         .row, .d-flex { page-break-inside:avoid; }
+        .logo{
+            width: 100% !important;
+        }
         @page { size:auto; margin:5mm; }
     }
 </style>

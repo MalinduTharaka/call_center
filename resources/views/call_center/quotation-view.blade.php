@@ -11,23 +11,15 @@
                     <!-- First Company - Original Position -->
                     <div class="col-sm-6 mb-2 mb-sm-0">
                         <div class="d-flex align-items-center">
-                            <img src="{{ asset('logos/wishwaads.jpg') }}" alt="Wishwa Ads Logo"
+                            <img src="{{ asset('logos/WishwaAds.png') }}" alt="Wishwa Ads Logo"
                                  class="img-fluid mr-3" style="max-height: 80px; width: auto;">
-                            <div>
-                                <h2 class="h5 font-weight-bold text-danger mb-0">WISHWA ADS</h2>
-                                <p class="text-muted mb-0 small">Your Marketing Partner</p>
-                            </div>
                         </div>
                     </div>
                     <!-- Second Company - Original Position -->
                     <div class="col-sm-6">
                         <div class="d-flex align-items-center">
-                            <img src="{{ asset('logos/wishwavideo.jpg') }}" alt="Studio Wishwa Logo"
+                            <img src="{{ asset('logos/Studio.png') }}" alt="Studio Wishwa Logo"
                                  class="img-fluid mr-3" style="max-height: 80px; width: auto;">
-                            <div>
-                                <h2 class="h5 font-weight-bold text-danger mb-0">STUDIO WISHWA</h2>
-                                <p class="text-muted mb-0 small">Feel The Quality Of Professionals</p>
-                            </div>
                         </div>
                     </div>
                 </div>

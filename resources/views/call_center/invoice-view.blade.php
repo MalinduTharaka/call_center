@@ -6,28 +6,37 @@
         <div class="border-bottom pb-4 mb-4">
             <div class="row">
                 <div class="col-md-8">
+                    @php
+                        $hasVideo = $orders->contains('order_type', 'video');
+                        $hasOther = $orders->contains(function ($order) {
+                            return $order->type !== 'video';
+                        });
+                    @endphp
+
                     <div class="row align-items-center">
                         <div class="col-sm-6 mb-2 sm-0">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('logos/wishwaads.jpg') }}" alt="Wishwa Ads Logo" class="img-fluid mr-3"
-                                    style="max-height: 80px; width: auto;">
-                                <div>
-                                    <h2 class="h5 font-weight-bold text-danger mb-0">WISHWA ADS</h2>
-                                    <p class="text-muted mb-0 small">Your Marketing Partner</p>
+                            @if (!$hasVideo && $hasOther)
+                                {{-- Only non-video orders: show 1st image --}}
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('logos/WishwaAds.png') }}" alt="Wishwa Ads Logo" class="print-logo"
+                                        style="max-height: 80px; width: 400px;">
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('logos/wishwavideo.jpg') }}" alt="Studio Wishwa Logo"
-                                    class="img-fluid mr-3" style="max-height: 80px; width: auto;">
-                                <div>
-                                    <h2 class="h5 font-weight-bold text-danger mb-0">STUDIO WISHWA</h2>
-                                    <p class="text-muted mb-0 small">Feel The Quality Of Professionals</p>
+                            @elseif ($hasVideo && !$hasOther)
+                                {{-- Only video orders: show 2nd image --}}
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('logos/Studio.png') }}" alt="Studio Logo" class="print-logo"
+                                        style="max-height: 80px; width: 400px;">
                                 </div>
-                            </div>
+                            @elseif ($hasVideo && $hasOther)
+                                {{-- Both video and other types: show 3rd image --}}
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('logos/WishwaAdsStudio.png') }}" alt="Wishwa Ads Studio Logo" class="print-logo"
+                                        style="max-height: 80px; width: 400px;">
+                                </div>
+                            @endif
                         </div>
                     </div>
+
                     <div class="mt-2">
                         <p class="mb-1 small text-muted">
                             <i class="fas fa-map-marker-alt mr-1"></i>
@@ -42,7 +51,7 @@
                             info@wishwaads.com
                         </p>
                     </div>
-                    
+
                 </div>
                 <div class="col-md-4 mt-2 mt-md-0">
                     <div class="border-bottom pb-2 mb-2 border-primary">
@@ -71,7 +80,8 @@
             <div class="mb-3 text-right">
                 <p class="text-muted small mb-0">ID #: {{ $orders->first()->invoice ?? 'N/A' }}</p>
                 <p class="text-muted small mb-0">Date:
-                    {{ $orders->first()->date->format('Y-m-d') ?? now()->format('Y-m-d') }}</p>
+                    {{ $orders->first()->date->format('Y-m-d') ?? now()->format('Y-m-d') }}
+                </p>
             </div>
         </div>
 
@@ -178,22 +188,22 @@
             <tr>
                 <td style="width: 50%; vertical-align: top;">
                     <p>Commercial Bank<br>
-                    ACCOUNT NUMBER - 1000620243<br>
-                    NAME - WISHWA ADS TEAM<br>
-                    COMMERCIAL BANK<br>
-                    GANEMULLA BRANCH</p>
+                        ACCOUNT NUMBER - 1000620243<br>
+                        NAME - WISHWA ADS TEAM<br>
+                        COMMERCIAL BANK<br>
+                        GANEMULLA BRANCH</p>
                 </td>
                 <td style="width: 50%; vertical-align: top;">
                     <p>BOC<br>
-                    ACCOUNT NUMBER - 1425126<br>
-                    NAME - W C C WISHWAJITH<br>
-                    Bank of Ceylon ( BOC )<br>
-                    GAMPAHA BRANCH</p>
+                        ACCOUNT NUMBER - 1425126<br>
+                        NAME - W C C WISHWAJITH<br>
+                        Bank of Ceylon ( BOC )<br>
+                        GAMPAHA BRANCH</p>
                 </td>
             </tr>
         </table>
 
-        
+
     </div>
     <!-- Print Button -->
     <div class="d-print-none mt-2 text-center">
@@ -211,6 +221,25 @@
                 font-size: 12pt;
                 background: white !important;
                 color: black !important;
+            }
+            .col-sm-6, 
+    .col-md-8 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Ensure the image itself stretches */
+    .print-logo {
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        display: block;
+    }
+
+            .header-logo img {
+                width: 100% !important;
+                max-height: none !important;
+                height: auto !important;
             }
 
             .container {
@@ -247,10 +276,6 @@
 
             .d-print-none {
                 display: none !important;
-            }
-
-            img {
-                max-height: 70px !important;
             }
 
             .row,
