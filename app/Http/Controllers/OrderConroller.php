@@ -56,11 +56,16 @@ class OrderConroller extends Controller
     $invrw = InvoiceId::findOrFail($request->inv_no);
     $invrw->update(['status' => 'submitted']);
 
+    // Check if contact already exists in orders table
+    $isExistingContact = Order::where('contact', $request->contact)->exists();
+    $oldNewValue = $isExistingContact ? 'old' : 'new';
+
     // Loop through each order in the request and save them
     foreach ($request->orders as $orderData) {
         $order = [
             'order_type' => $orderData['order_type'],
             'cro' => auth()->user()->cc_num,
+            'old_new' => $oldNewValue,
             'date' => $request->date,
             'name' => $request->name,
             'contact' => $request->contact,
@@ -103,12 +108,17 @@ class OrderConroller extends Controller
         // Update invoice ID status
         $invrw = InvoiceId::findOrFail($request->inv_no);
         $invrw->update(['status' => 'submitted']);
+
+        // Check if contact already exists in orders table
+        $isExistingContact = Order::where('contact', $request->contact)->exists();
+        $oldNewValue = $isExistingContact ? 'old' : 'new';
     
         // Process each order
         foreach ($request->orders as $orderData) {
             $order = [
                 'order_type' => $orderData['order_type'],
                 'cro' => auth()->user()->cc_num,
+                'old_new' => $oldNewValue,
                 'date' => $request->date,
                 'name' => $request->name,
                 'contact' => $request->contact,
@@ -152,12 +162,17 @@ class OrderConroller extends Controller
         // Update invoice ID status correctly
         $invrw = InvoiceId::findOrFail($request->inv_no);
         $invrw->update(['status' => 'submitted']);
+
+        // Check if contact already exists in orders table
+        $isExistingContact = Order::where('contact', $request->contact)->exists();
+        $oldNewValue = $isExistingContact ? 'old' : 'new';
     
         // Process each order submitted from the hidden inputs
         foreach ($request->orders as $orderData) {
             $order = [
                 'order_type' => $orderData['order_type'],
                 'cro' => auth()->user()->cc_num,
+                'old_new' => $oldNewValue,
                 'date' => $request->date,
                 'name' => $request->name,
                 'contact' => $request->contact,
