@@ -136,7 +136,7 @@
                                                                         <span class="badge fs-5 
                                                                                                                     @if(!$order->workType->name == '') bg-dark
                                                                                                                     @endif">
-                                                                            {{ $order->workType->name }}
+                                                                            {{ $order->workType->name ?? '-' }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
@@ -286,7 +286,7 @@
                                                                     <span class="badge fs-5
                                                                                                                 @if(!$order->workType->name == '') bg-dark
                                                                                                                 @endif">
-                                                                        {{ $order->workType->name }}
+                                                                        {{ $order->workType->name ?? '-' }}
                                                                     </span>
                                                                 </td>
                                                                 <td>
@@ -415,7 +415,7 @@
                                                                         <span class="badge fs-5
                                                                                                                 @if(!$order->workType->name == '') bg-dark
                                                                                                                 @endif">
-                                                                            {{ $order->workType->name }}
+                                                                            {{ $order->workType->name ?? '-' }}
                                                                         </span>
                                                                     </td>
                                                                     <td>

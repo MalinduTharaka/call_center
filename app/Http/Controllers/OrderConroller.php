@@ -60,6 +60,10 @@ class OrderConroller extends Controller
     $isExistingContact = Order::where('contact', $request->contact)->exists();
     $oldNewValue = $isExistingContact ? 'old' : 'new';
 
+    // Check if contact already exists in orders table
+    $isExistingContact = Order::where('contact', $request->contact)->exists();
+    $oldNewValue = $isExistingContact ? 'old' : 'new';
+
     // Loop through each order in the request and save them
     foreach ($request->orders as $orderData) {
         $order = [
@@ -108,6 +112,10 @@ class OrderConroller extends Controller
         // Update invoice ID status
         $invrw = InvoiceId::findOrFail($request->inv_no);
         $invrw->update(['status' => 'submitted']);
+
+        // Check if contact already exists in orders table
+        $isExistingContact = Order::where('contact', $request->contact)->exists();
+        $oldNewValue = $isExistingContact ? 'old' : 'new';
 
         // Check if contact already exists in orders table
         $isExistingContact = Order::where('contact', $request->contact)->exists();
@@ -162,6 +170,10 @@ class OrderConroller extends Controller
         // Update invoice ID status correctly
         $invrw = InvoiceId::findOrFail($request->inv_no);
         $invrw->update(['status' => 'submitted']);
+
+        // Check if contact already exists in orders table
+        $isExistingContact = Order::where('contact', $request->contact)->exists();
+        $oldNewValue = $isExistingContact ? 'old' : 'new';
 
         // Check if contact already exists in orders table
         $isExistingContact = Order::where('contact', $request->contact)->exists();

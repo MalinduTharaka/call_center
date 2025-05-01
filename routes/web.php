@@ -24,6 +24,7 @@ use App\Http\Controllers\VideoEditorsWorkDoneController;
 use App\Http\Controllers\WorkDoneController;
 use App\Http\Controllers\UpdateCenterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VideoPackageController;
 use App\Http\Controllers\WorkTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Invoice;
@@ -188,6 +189,12 @@ Route::middleware([
     Route::put('/accountant/updateD/{id}', [AccountantController::class, 'accUpdateD'])->name('accountant.updateD');
     Route::put('/accountant/updateV/{id}', [AccountantController::class, 'accUpdateV'])->name('accountant.updateV');
     Route::put('accountant/other_order/update/{id}', [AccountantController::class, 'accUpdateOR'])->name('accountant.updateOR');
+
+    //Video package controller
+    Route::get('/video-packages', [VideoPackageController::class, 'index'])->name('video-packages.index');
+    Route::post('/video-packages', [VideoPackageController::class, 'store'])->name('video-packages.store');
+    Route::post('/video-packages/{id}', [VideoPackageController::class, 'update'])->name('video-packages.update');
+    Route::delete('/video-packages/{id}', [VideoPackageController::class, 'destroy'])->name('video-packages.destroy');
 });
 
 

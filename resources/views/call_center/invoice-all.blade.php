@@ -76,32 +76,16 @@
     <div class="container mx-auto p-4 bg-white shadow rounded border font-sans" style="max-width:800px;">
 
         <!-- Header -->
-        <div class="border-bottom pb-4 mb-4">
+        <div class="border-bottom pb-4 mb-2">
             <div class="row">
                 <div class="col-md-8">
                     <div class="row align-items-center">
-                        <div class="col-sm-6 mb-4 mb-sm-0">
+                        <div class="col-sm-12 mb-4 mb-sm-0">
                             <div class="d-flex align-items-center">
-                                <img src="{{ asset('logos/wishwaads.jpg') }}"
+                                <img src="{{ asset('logos/WishwaAdsStudio.png') }}"
                                      alt="Wishwa Ads Logo"
                                      class="img-fluid mr-3"
                                      style="max-height:80px;">
-                                <div>
-                                    <h2 class="h5 font-weight-bold text-danger mb-0">WISHWA ADS</h2>
-                                    <p class="text-muted mb-0 small">Your Marketing Partner</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('logos/wishwavideo.jpg') }}"
-                                     alt="Studio Wishwa Logo"
-                                     class="img-fluid mr-3"
-                                     style="max-height:80px;">
-                                <div>
-                                    <h2 class="h5 font-weight-bold text-danger mb-0">STUDIO WISHWA</h2>
-                                    <p class="text-muted mb-0 small">Feel The Quality Of Professionals</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -140,7 +124,7 @@
         </div>
 
         <!-- Bill To -->
-        <div class="pb-3 mb-3 d-flex justify-content-between">
+        <div class="pb-2 mb-2 d-flex justify-content-between">
             <div>
                 <h2 class="h5 font-weight-semibold text-secondary">Bill To:</h2>
                 <p class="text-dark">
@@ -157,7 +141,7 @@
         </div>
 
         <!-- Items Table -->
-        <table class="table table-bordered mb-5">
+        <table class="table table-bordered mb-2">
             <thead class="thead-light">
                 <tr>
                     <th>Type</th>
@@ -232,16 +216,37 @@
                 </tr>
                 @if($totalTax>0)
                     <tr>
-                        <td colspan="{{ $colSpan }}" class="border text-right">Tax</td>
+                        <td colspan="{{ $colSpan }}" class="border text-right">Verified Ad account fee & tax</td>
                         <td class="border text-right" id="tax-amount">{{ number_format($totalTax,2) }}</td>
                     </tr>
                 @endif
                 @if($totalService>0)
                     <tr>
-                        <td colspan="{{ $colSpan }}" class="border text-right">Service</td>
+                        <td colspan="{{ $colSpan }}" class="border text-right">Boosting service charge</td>
                         <td class="border text-right" id="service-amount">{{ number_format($totalService,2) }}</td>
                     </tr>
                 @endif
+                @php
+                    // Count how many boosting orders have service == 0
+                    $discountCount = collect($boostingOrders)
+                        ->where('service', 0)
+                        ->count();
+
+                    // Each “free” service line becomes a Rs.1,000 discount
+                    $discountAmount = $discountCount * 1000;
+                @endphp
+                @if($discountCount > 0)
+                    <tr class="text-danger">
+                        <td colspan="{{ $colSpan }}" class="border text-right">
+                            Discount ({{ $discountCount }})
+                        </td>
+                        <td class="border text-right">
+                            {{ number_format($discountAmount, 2) }}
+                        </td>
+                    </tr>
+                @endif
+            
+
                 <tr class="font-weight-bold">
                     <td colspan="{{ $colSpan }}" class="border text-right">Total Due</td>
                     <td class="border text-right">Rs.<span class="tt-due"></span></td>
@@ -250,23 +255,42 @@
         </table>
 
         <!-- Footer Note -->
-        <div class="text-muted small border-top pt-3 mt-3">
+        <div class="text-muted small border-top pt-3 mt-2">
             @if($type==1)
                 <p>Quotation valid for 30 days.</p>
             @else
                 <p>Payment is due within 30 days of receipt.</p>
             @endif
         </div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>Commercial Bank<br>
+                    ACCOUNT NUMBER - 1000620243<br>
+                    NAME - WISHWA ADS TEAM<br>
+                    COMMERCIAL BANK<br>
+                    GANEMULLA BRANCH</p>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>BOC<br>
+                    ACCOUNT NUMBER - 1425126<br>
+                    NAME - W C C WISHWAJITH<br>
+                    Bank of Ceylon ( BOC )<br>
+                    GAMPAHA BRANCH</p>
+                </td>
+            </tr>
+        </table>
 
-        <!-- Actions -->
-        <div class="d-print-none mt-4 text-center">
-            <button type="submit" class="btn btn-info mr-2">
-                <i class="fas fa-check mr-1"></i> Submit
-            </button>
-            <button type="button" onclick="window.print()" class="btn btn-primary">
-                <i class="fas fa-print mr-1"></i> Print
-            </button>
-        </div>
+        
+    </div>
+    <!-- Actions -->
+    <div class="d-print-none mt-4 text-center">
+        <button type="submit" class="btn btn-info mr-2">
+            <i class="fas fa-check mr-1"></i> Submit
+        </button>
+        <button type="button" onclick="window.print()" class="btn btn-primary">
+            <i class="fas fa-print mr-1"></i> Print
+        </button>
     </div>
 </form>
 

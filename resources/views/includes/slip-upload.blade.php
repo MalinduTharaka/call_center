@@ -80,7 +80,7 @@
                     {{-- Due date for partial --}}
                     <div class="row mb-2" id="due_date_div" style="display: none;">
                         <label class="form-label">Payment Completion Date</label>
-                        <select id="due_date" class="form-select" name="due_date">
+                        <select id="due_date" class="form-select">
                             <option value="1">01 Day</option>
                             <option value="2">02 Days</option>
                             <option value="3">03 Days</option>
@@ -90,6 +90,16 @@
                             <option value="7">07 Days</option>
                         </select>
                     </div>
+                    
+                    <input type="text" name="due_date" id="selected_due_date" class="form-control mb-2" placeholder="Selected due date">
+                    
+                    <script>
+                        document.getElementById('due_date').addEventListener('change', function () {
+                            const selectedText = this.options[this.selectedIndex].value;
+                            document.getElementById('selected_due_date').value = selectedText;
+                        });
+                    </script>
+                    
 
                     {{-- File upload --}}
                     <div class="mb-2">

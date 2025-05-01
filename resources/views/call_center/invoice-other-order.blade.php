@@ -23,29 +23,26 @@
         <div class="border-bottom pb-4 mb-4">
             <div class="row">
                 <div class="col-md-8">
-                    <div class="d-flex align-items-center mb-3">
-                        <img src="{{ asset('logos/wishwaads.jpg') }}" alt="Logo" class="mr-3" style="max-height: 80px; width: auto;">
-                        <div>
-                            <h2 class="h5 font-weight-bold text-danger mb-0">WISHWA ADS</h2>
-                            <p class="text-muted mb-0 small">Your Marketing Partner</p>
-                        </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <img src="{{ asset('logos/WishwaAds.png') }}" alt="Logo" class="mr-3 logo" style="max-height: 80px; width: 400px;">
+                        
                     </div>
-                    <div class="mt-3">
+                    <div class="mt-2">
                         <p class="mb-1 small text-muted">
                             <i class="fas fa-map-marker-alt mr-1"></i>
                             No.151, Ward City Shopping Complex, Gampaha
                         </p>
                         <p class="mb-1 small text-muted">
                             <i class="fas fa-phone mr-1"></i>
-                            077 1855 1910
+                            077 1855 191
                         </p>
                         <p class="mb-1 small text-muted">
                             <i class="fas fa-envelope mr-1"></i>
-                            info.studiowishwa@gmail.com
+                            info@wishwaads.com
                         </p>
                     </div>
                 </div>
-                <div class="col-md-4 mt-4 mt-md-0">
+                <div class="col-md-4 mt-2 mt-md-0">
                     <div class="border-bottom pb-2 mb-2 border-primary">
                         <h1 class="h3 font-weight-bold text-uppercase text-dark mb-0">
                             {{ $type == 1 ? 'QUOTATION' : 'INVOICE' }}
@@ -64,20 +61,20 @@
         </div>
 
         <!-- Customer Details -->
-        <div class="pb-3 mb-3 d-flex justify-content-between">
-            <div class="mb-3">
+        <div class="pb-3 mb-2 d-flex justify-content-between">
+            <div class="mb-2">
                 <h2 class="h5 font-weight-semibold text-secondary">Bill To:</h2>
                 <p class="text-dark">{{ $name }}</p>
                 <p class="text-muted small">Phone: {{ $contact }}</p>
             </div>
-            <div class="mb-3 text-right">
+            <div class="mb-2 text-right">
                 <p class="text-muted small mb-0">{{ $type == 1 ? 'Quotation' : 'Invoice' }} #: OR{{ $inv_id }}</p>
                 <p class="text-muted small mb-0">Date: {{ now()->format('Y-m-d') }}</p>
             </div>
         </div>
 
         <!-- Items Table -->
-        <table class="table table-bordered mb-5">
+        <table class="table table-bordered mb-2">
             <thead class="thead-light">
                 <tr>
                     <th>Work Type</th>
@@ -112,9 +109,27 @@
         </table>
 
         <!-- Footer Note -->
-        <div class="text-muted small border-top pt-3 mt-3">
+        <div class="text-muted small border-top pt-3 mt-2">
             <p>{{ $type == 1 ? 'Quotation valid for 30 days.' : 'Payment is due within 30 days of receipt.' }}</p>
         </div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>Commercial Bank<br>
+                    ACCOUNT NUMBER - 1000620243<br>
+                    NAME - WISHWA ADS TEAM<br>
+                    COMMERCIAL BANK<br>
+                    GANEMULLA BRANCH</p>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>BOC<br>
+                    ACCOUNT NUMBER - 1425126<br>
+                    NAME - W C C WISHWAJITH<br>
+                    Bank of Ceylon ( BOC )<br>
+                    GAMPAHA BRANCH</p>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <!-- Form Actions -->
@@ -141,6 +156,9 @@
         .d-print-none { display:none!important; }
         img { max-height:70px!important; }
         .row, .d-flex { page-break-inside:avoid; }
+        .logo{
+            width: 100% !important;
+        }
         @page { size:auto; margin:5mm; }
     }
 </style>

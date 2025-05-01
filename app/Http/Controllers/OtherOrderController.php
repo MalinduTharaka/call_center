@@ -82,10 +82,15 @@ class OtherOrderController extends Controller
             'type' => $data['type'],
         ]);
     
+        // Check if contact already exists in orders table
+        $isExistingContact = OtherOrder::where('contact', $request->contact)->exists();
+        $oldNewValue = $isExistingContact ? 'old' : 'new';
         // Create related orders
         foreach ($data['orders'] as $order) {
             OtherOrder::create([
                 'date' => $request->date,
+                'old_new' => $oldNewValue,
+                'work_status' => 'pending', 
                 'user_id' => Auth::id(),
                 'cc_id' => Auth::user()->cc_num,
                 'invoice_id' => $data['inv_id'], // foreign key

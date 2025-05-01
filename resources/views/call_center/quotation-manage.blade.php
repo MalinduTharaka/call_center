@@ -18,12 +18,14 @@
                                     <th>Conatct</th>
                                     <th>Total</th>
                                     <th>View</th>
+                                    @if (Auth::user()->role !== 'acc')
                                     <th>Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($invoices as $invoice)
-                                    @if ($invoice->type == 1)
+                                    @if ($invoice->type == 1 && Auth::user()->cc_num == $invoice->cc_num)
                                         <tr>
                                             <td>{{ $invoice->inv }}</td>
                                             <td>{{ $invoice->user->name ?? 'N/A' }}</td>
@@ -34,10 +36,12 @@
                                                 <a href="{{ Str::startsWith($invoice->inv, 'OR') ? route('quotation.viewOR', $invoice->inv) : route('quotation.view', $invoice->inv) }}"
                                                     class="btn btn-primary">View</a>
                                             </td>
+                                            @if (Auth::user()->role !== 'acc')
                                             <td>
                                                 <a href="{{ route('qutToInv', $invoice->inv) }}"
                                                     class="btn btn-primary">Turn To Invoice</a>
                                             </td>
+                                            @endif
                                         </tr>
                                     @endif
 

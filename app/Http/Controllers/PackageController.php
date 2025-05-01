@@ -21,7 +21,8 @@ class PackageController extends Controller
         $request->validate([
             'package_amount' => 'required|numeric',
             'tax' => 'required|numeric',
-            'service' => 'required|string',
+            'service' => 'required|numeric',
+            'full' => 'required|numeric',
         ]);
 
         Package::create($request->all());
@@ -33,7 +34,8 @@ class PackageController extends Controller
         $request->validate([
             'package_amount' => 'required|numeric',
             'tax' => 'required|numeric',
-            'service' => 'required|string',
+            'service' => 'required|numeric',
+            'full' => 'required|numeric',
         ]);
 
         $package = Package::findOrFail($request->id);

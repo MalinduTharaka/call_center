@@ -20,12 +20,14 @@
                                     <th>Total</th>
                                     <th>Paid</th>
                                     <th>View</th>
+                                    @if (Auth::user()->role != 'acc')
                                     <th>Duplicate</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($invoices as $invoice)
-                                    @if ($invoice->type == 0)
+                                    @if ($invoice->type == 0 && Auth::user()->cc_num == $invoice->cc_num)
                                         <tr>
                                             <td>{{ $invoice->inv }}</td>
                                             <td>{{ $invoice->user->name ?? 'N/A' }}</td>
@@ -38,12 +40,15 @@
                                                 <a href="{{ Str::startsWith($invoice->inv, 'OR') ? route('invoices.viewOR', $invoice->inv) : route('invoices.view', $invoice->inv) }}"
                                                     class="btn btn-primary">View</a>
                                             </td>
+                                            @if (Auth::user()->role != 'acc')
                                             <td>
                                                 <form action="{{ route('invoices.duplicate', $invoice) }}" method="POST">
                                                     @csrf
                                                     <button type="submit" class="btn btn-primary">Duplicate</button>
                                                 </form>
-                                            </td>
+                                            </td> 
+                                            @endif
+                                            
                                         </tr>
                                     @endif
 

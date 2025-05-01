@@ -7,24 +7,10 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row align-items-center">
-                    <div class="col-sm-6 mb-4 mb-sm-0">
+                    <div class="col-sm-12 mb-2 mb-sm-0">
                         <div class="d-flex align-items-center">
-                            <img src="{{ asset('logos/wishwaads.jpg') }}" alt="Wishwa Ads Logo"
+                            <img src="{{ asset('logos/WishwaAdsStudio.png') }}" alt="Wishwa Ads Logo"
                                  class="img-fluid mr-3" style="max-height: 80px; width: auto;">
-                            <div>
-                                <h2 class="h5 font-weight-bold text-danger mb-0">WISHWA ADS</h2>
-                                <p class="text-muted mb-0 small">Your Marketing Partner</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="d-flex align-items-center">
-                            <img src="{{ asset('logos/wishwavideo.jpg') }}" alt="Studio Wishwa Logo"
-                                 class="img-fluid mr-3" style="max-height: 80px; width: auto;">
-                            <div>
-                                <h2 class="h5 font-weight-bold text-danger mb-0">STUDIO WISHWA</h2>
-                                <p class="text-muted mb-0 small">Feel The Quality Of Professionals</p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -35,11 +21,11 @@
                     </p>
                     <p class="mb-1 small text-muted">
                         <i class="fas fa-phone mr-1"></i>
-                        077 1855 1910
+                        077 1855 191
                     </p>
                     <p class="mb-1 small text-muted">
                         <i class="fas fa-envelope mr-1"></i>
-                        info.studiowishwa@gmail.com
+                        info@wishwaads.com
                     </p>
                 </div>
             </div>
@@ -62,7 +48,7 @@
     </div>
 
     <!-- Customer Info -->
-    <div class="pb-3 mb-3 d-flex justify-content-between">
+    <div class="pb-3 mb-2 d-flex justify-content-between">
         <div class="mb-3">
             <h2 class="h5 font-weight-semibold text-secondary">Bill To:</h2>
             <p class="text-dark">{{ $orders->first()->name ?? 'N/A' }}</p>
@@ -89,7 +75,7 @@
     @endphp
 
     <!-- Invoice Table -->
-    <table class="table table-bordered mb-5">
+    <table class="table table-bordered mb-2">
         <thead class="thead-light">
             <tr>
                 <th>Type</th>
@@ -122,11 +108,31 @@
     </div>
 
     <!-- Print Button -->
-    <div class="d-print-none mt-4 text-center">
-        <button onclick="window.print()" class="btn btn-primary mr-2">
-            <i class="fas fa-print mr-1"></i> Print
-        </button>
-    </div>
+    
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50%; vertical-align: top;">
+                <p>Commercial Bank<br>
+                ACCOUNT NUMBER - 1000620243<br>
+                NAME - WISHWA ADS TEAM<br>
+                COMMERCIAL BANK<br>
+                GANEMULLA BRANCH</p>
+            </td>
+            <td style="width: 50%; vertical-align: top;">
+                <p>BOC<br>
+                ACCOUNT NUMBER - 1425126<br>
+                NAME - W C C WISHWAJITH<br>
+                Bank of Ceylon ( BOC )<br>
+                GAMPAHA BRANCH</p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="d-print-none mt-4 text-center">
+    <button onclick="window.print()" class="btn btn-primary mr-2">
+        <i class="fas fa-print mr-1"></i> Print
+    </button>
 </div>
 
 <!-- Print CSS -->
