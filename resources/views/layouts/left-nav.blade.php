@@ -228,13 +228,6 @@
                     </a>
                 </li>
                 <li class="side-nav-item">
-                    <a href="/packages" class="side-nav-link">
-                        <i class="ri-dashboard-3-line"></i>
-                        <span>Manage Boosting Packages </span>
-                    </a>
-                </li>
-
-                <li class="side-nav-item">
                     <a href="/invoices/manage" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Invoices </span>

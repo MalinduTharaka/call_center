@@ -71,7 +71,7 @@
                     </thead>
                     <tbody>
                         @foreach ($other_orders as $order)
-                            @if ($order->ps == '1')
+                            @if ($order->ps == '1' && Auth::user()->cc_num == $order->cc_id)
 
                                 <tr class="fw-semibold" data-o+lhrder-id="{{ $order->id }}">
                                     <form action="/other_order/update/{{ $order->id }}" method="post">
@@ -79,17 +79,12 @@
                                         @method('put')
                                         <td>{{ $order->date }}</td>
                                         <td>
-                                            <span class="badge fs-5 display-mode
+                                            <span class="badge fs-5
                                                 @if($order->ce == 'c') bg-primary
                                                 @elseif($order->ce == 'e') bg-danger
                                                 @endif">
                                                 {{ $order->ce}}
                                             </span>
-                                            <select name="ce" class="form-select edit-mode">
-                                                <option value="" selected>Select</option>
-                                                <option value="c" @if($order->ce == 'c') selected @endif>c</option>
-                                                <option value="e" @if($order->ce == 'e') selected @endif>e</option>
-                                            </select>
                                         </td>
                                         <td>
                                             <span>{{ $order->invoice_id }}</span>
@@ -101,23 +96,17 @@
                                             <span>{{ $order->user->name }}</span>
                                         </td>
                                         <td>
-                                            <span class="display-mode">{{$order->name}}</span>
-                                            <input type="text" name="name" class="form-control edit-mode"
-                                                value="{{ $order->name }}">
+                                            <span >{{$order->name}}</span>
                                         </td>
                                         <td>
-                                            <span class="display-mode">{{$order->contact}}</span>
-                                            <input type="text" name="contact" class="form-control edit-mode"
-                                                value="{{ $order->contact }}">
+                                            <span >{{$order->contact}}</span>
                                         </td>
                                         <td>
-                                            <span class="badge fs-5 display-mode
+                                            <span class="badge fs-5 
                                                 @if(!$order->work_type == '') bg-dark
                                                 @endif">
                                                 {{ $order->work_type }}
                                             </span>
-                                            <input type="text" name="work_type" class="form-control edit-mode"
-                                                value="{{ $order->work_type }}">
                                         </td>
                                         <td>
                                             <span class="badge fs-5 display-mode
@@ -140,7 +129,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <span class="badge fs-5 display-mode
+                                            <span class="badge fs-5
                                                 @if($order->payment_status == 'done') bg-primary
                                                 @elseif($order->payment_status == 'pending') bg-danger
                                                 @elseif($order->payment_status == 'rejected') bg-warning
@@ -148,13 +137,6 @@
                                                 @endif">
                                                 {{ $order->payment_status }}
                                             </span>
-                                            <select name="payment_status" class="form-select edit-mode">
-                                                <option value="" selected>Select</option>
-                                                <option value="done" @if($order->payment_status == 'done') selected @endif>done</option>
-                                                <option value="partial" @if($order->payment_status == 'partial') selected @endif>partial</option>
-                                                <option value="pending" @if($order->payment_status == 'pending') selected @endif>pending</option>
-                                                <option value="rejected" @if($order->payment_status == 'rejected') selected @endif>rejected</option>
-                                            </select>
                                         </td>
                                         <td>
                                             <span class="badge fs-5  display-mode
@@ -170,9 +152,7 @@
                                         </td>
                                         <td>{{ $order->amount }}</td>
                                         <td>
-                                            <span class="display-mode">{{$order->advance}}</span>
-                                            <input type="text" name="advance" class="form-control edit-mode"
-                                                value="{{ $order->advance }}">
+                                            <span>{{$order->advance}}</span>
                                         </td>
                                         <td>
                                             <span class="display-mode">{{ $order->note }}</span>

@@ -208,19 +208,12 @@
                                                                     @method('put')
                                                                     <td>{{ $order->date }}</td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode
+                                                                        <span class="badge fs-5
                                                                                                             @if($order->ce == 'c') bg-primary
                                                                                                             @elseif($order->ce == 'e') bg-danger
                                                                                                             @endif">
                                                                             {{ $order->ce}}
                                                                         </span>
-                                                                        <select name="ce" class="form-select edit-mode">
-                                                                            <option value="" selected>Select</option>
-                                                                            <option value="c" @if($order->ce == 'c') selected @endif>c
-                                                                            </option>
-                                                                            <option value="e" @if($order->ce == 'e') selected @endif>e
-                                                                            </option>
-                                                                        </select>
                                                                     </td>
                                                                     <td>
                                                                         <span>{{ $order->invoice }}</span>
@@ -228,31 +221,18 @@
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="display-mode">{{$order->name}}</span>
-                                                                        <input type="text" name="name"
-                                                                            class="form-control edit-mode"
-                                                                            value="{{ $order->name }}">
+                                                                        <span >{{$order->name}}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode
+                                                                        <span class="badge fs-5
                                                                                                             @if($order->old_new == 'old') bg-primary
                                                                                                             @elseif($order->old_new == 'new') bg-warning
                                                                                                             @endif">
                                                                             {{ $order->old_new}}
                                                                         </span>
-                                                                        <select name="old_new" class="form-select edit-mode">
-                                                                            <option value="" selected>Select</option>
-                                                                            <option value="old" @if($order->old_new == 'old') selected
-                                                                            @endif>old</option>
-                                                                            <option value="new" @if($order->old_new == 'new') selected
-                                                                            @endif>new</option>
-                                                                        </select>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="display-mode">{{$order->contact}}</span>
-                                                                        <input type="text" name="contact"
-                                                                            class="form-control edit-mode"
-                                                                            value="{{ $order->contact }}">
+                                                                        <span>{{$order->contact}}</span>
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5 display-mode
@@ -309,7 +289,7 @@
                                                                         </select>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode
+                                                                        <span class="badge fs-5 
                                                                                                             @if($order->payment_status == 'done') bg-primary
                                                                                                             @elseif($order->payment_status == 'pending') bg-danger
                                                                                                             @elseif($order->payment_status == 'rejected') bg-warning
@@ -317,19 +297,6 @@
                                                                                                             @endif">
                                                                             {{ $order->payment_status }}
                                                                         </span>
-                                                                        <select name="payment_status" class="form-select edit-mode">
-                                                                            <option value="done" @if($order->payment_status == 'done')
-                                                                            selected @endif>done</option>
-                                                                            <option value="partial"
-                                                                                @if($order->payment_status == 'partial') selected
-                                                                                @endif>partial</option>
-                                                                            <option value="pending"
-                                                                                @if($order->payment_status == 'pending') selected
-                                                                                @endif>pending</option>
-                                                                            <option value="rejected"
-                                                                                @if($order->payment_status == 'rejected') selected
-                                                                                @endif>rejected</option>
-                                                                        </select>
                                                                     </td>
                                                                     <td>
                                                                         <span class="badge fs-5  display-mode
@@ -420,6 +387,7 @@
                                                     <th>Designer</th>
                                                     <th>Amount</th>
                                                     <th>Advance</th>
+                                                    <th>Cash</th>
                                                     <th>Slip</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -435,19 +403,12 @@
                                                                 <td>{{$order->id}}</td>
                                                                 <td>{{$order->date}}</td>
                                                                 <td>
-                                                                    <span class="badge fs-5 display-mode
+                                                                    <span class="badge fs-5
                                                                                                         @if($order->ce == 'c') bg-primary
                                                                                                         @elseif($order->ce == 'e') bg-danger
                                                                                                         @endif">
                                                                         {{ $order->ce}}
                                                                     </span>
-                                                                    <select name="ce" class="form-select edit-mode">
-                                                                        <option value="" selected>Select</option>
-                                                                        <option value="c" @if($order->ce == 'c') selected @endif>c
-                                                                        </option>
-                                                                        <option value="e" @if($order->ce == 'e') selected @endif>e
-                                                                        </option>
-                                                                    </select>
                                                                 </td>
                                                                 <td>
                                                                     <span class="display-mode">{{ $order->invoice }}</span>
@@ -455,14 +416,10 @@
                                                                         value="{{ $order->invoice }}" hidden>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="display-mode">{{$order->name}}</span>
-                                                                    <input type="text" name="name" class="form-control edit-mode"
-                                                                        value="{{ $order->name }}">
+                                                                    <span >{{$order->name}}</span>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="display-mode">{{$order->contact}}</span>
-                                                                    <input type="text" name="contact" class="form-control edit-mode"
-                                                                        value="{{ $order->contact }}">
+                                                                    <span >{{$order->contact}}</span>
                                                                 </td>
                                                                 <td>
                                                                     <span class="badge fs-5 display-mode
@@ -505,7 +462,7 @@
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="badge fs-5 display-mode
+                                                                    <span class="badge fs-5
                                                                                                         @if($order->payment_status == 'done') bg-primary
                                                                                                         @elseif($order->payment_status == 'pending') bg-danger
                                                                                                         @elseif($order->payment_status == 'rejected') bg-warning
@@ -513,19 +470,6 @@
                                                                                                         @endif">
                                                                         {{ $order->payment_status }}
                                                                     </span>
-                                                                    <select name="payment_status" class="form-select edit-mode">
-                                                                        <option value="done" @if($order->payment_status == 'done')
-                                                                        selected @endif>done</option>
-                                                                        <option value="partial"
-                                                                            @if($order->payment_status == 'partial') selected @endif>
-                                                                            partial</option>
-                                                                        <option value="pending"
-                                                                            @if($order->payment_status == 'pending') selected @endif>
-                                                                            pending</option>
-                                                                        <option value="rejected"
-                                                                            @if($order->payment_status == 'rejected') selected @endif>
-                                                                            rejected</option>
-                                                                    </select>
                                                                 </td>
                                                                 <td>{{$order->designer_id}}</td>
                                                                 <td>
@@ -533,6 +477,20 @@
                                                                 </td>
                                                                 <td>
                                                                     <span>{{$order->advance}}</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="badge fs-5  display-mode
+                                                                                                        @if($order->cash == 1.00) bg-warning bg-gradient
+                                                                                                        @elseif ($order->cash == 0.00) text-dark
+                                                                                                        @endif">
+                                                                        {{ $order->cash == 1.00 ? 'Cash' : 'None Cash' }}
+                                                                    </span>
+                                                                    <select name="cash" class="form-select edit-mode">
+                                                                        <option value="1" @if($order->cash == 1) selected @endif>
+                                                                            cash payment</option>
+                                                                        <option value="0" @if($order->cash == 0) selected @endif>
+                                                                            none cash payment</option>
+                                                                    </select>
                                                                 </td>
                                                                 <td>
                                                                     @include('includes.slip-view')
@@ -600,19 +558,12 @@
                                                                         <span>{{$order->date}}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode 
+                                                                        <span class="badge fs-5
                                                                                                         @if($order->ce == 'c') bg-primary
                                                                                                         @elseif($order->ce == 'e') bg-danger
                                                                                                         @endif">
                                                                             {{ $order->ce}}
                                                                         </span>
-                                                                        <select name="ce" class="form-select edit-mode">
-                                                                            <option value="" selected>Select</option>
-                                                                            <option value="c" @if($order->ce == 'c') selected @endif>c
-                                                                            </option>
-                                                                            <option value="e" @if($order->ce == 'e') selected @endif>e
-                                                                            </option>
-                                                                        </select>
                                                                     </td>
                                                                     <td>
                                                                         <span>{{ $order->invoice }}</span>
@@ -620,19 +571,14 @@
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="display-mode">{{$order->name}}</span>
-                                                                        <input type="text" name="name"
-                                                                            class="form-control edit-mode"
-                                                                            value="{{ $order->name }}">
+                                                                        <span >{{$order->name}}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="display-mode">{{$order->contact}}</span>
-                                                                        <input type="text" name="contact"
-                                                                            class="form-control edit-mode"
-                                                                            value="{{ $order->contact }}">
+                                                                        <span >{{$order->contact}}</span>
                                                                     </td>
                                                                     <td>
                                                                         <span>{{$order->amount}}</span>
+                                                                        
                                                                     </td>
                                                                     <td>
                                                                         <span class="display-mode">{{$order->our_amount}}</span>
@@ -729,7 +675,7 @@
                                                                         </select>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode 
+                                                                        <span class="badge fs-5
                                                                                                         @if($order->payment_status == 'done') bg-primary
                                                                                                         @elseif($order->payment_status == 'pending') bg-danger
                                                                                                         @elseif($order->payment_status == 'rejected') bg-warning
@@ -737,26 +683,12 @@
                                                                                                         @endif">
                                                                             {{ $order->payment_status }}
                                                                         </span>
-                                                                        <select name="payment_status" class="form-select edit-mode">
-                                                                            <option value="done" 
-                                                                                @if($order->payment_status == 'done') selected 
-                                                                                @endif>done</option>
-                                                                            <option value="partial"
-                                                                                @if($order->payment_status == 'partial') selected
-                                                                                @endif>partial</option>
-                                                                            <option value="pending"
-                                                                                @if($order->payment_status == 'pending') selected
-                                                                                @endif>pending</option>
-                                                                            <option value="rejected"
-                                                                                @if($order->payment_status == 'rejected') selected
-                                                                                @endif>rejected</option>
-                                                                        </select>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode 
-                                                                                                        @if($order->cash == 1.00) bg-warning bg-gradient
-                                                                                                        @elseif ($order->cash == 0.00) text-dark
-                                                                                                        @endif">
+                                                                        <span class="badge fs-5  display-mode
+                                                                                                            @if($order->cash == 1.00) bg-warning bg-gradient
+                                                                                                            @elseif ($order->cash == 0.00) text-dark
+                                                                                                            @endif">
                                                                             {{ $order->cash == 1.00 ? 'Cash' : 'None Cash' }}
                                                                         </span>
                                                                         <select name="cash" class="form-select edit-mode">
@@ -995,6 +927,4 @@
             });
         }
     </script>
-
-
 @endsection

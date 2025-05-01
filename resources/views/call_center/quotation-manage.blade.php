@@ -25,7 +25,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($invoices as $invoice)
-                                    @if ($invoice->type == 1)
+                                    @if ($invoice->type == 1 && Auth::user()->cc_num == $invoice->cc_num)
                                         <tr>
                                             <td>{{ $invoice->inv }}</td>
                                             <td>{{ $invoice->user->name ?? 'N/A' }}</td>

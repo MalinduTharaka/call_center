@@ -138,7 +138,7 @@
                                                                                 <span class="badge fs-5 display-mode
                                                                                     @if(!$order->workType->name == '') bg-dark
                                                                                     @endif">
-                                                                                    {{ $order->workType->name }}
+                                                                                    {{ $order->workType->name ?? '-' }}
                                                                                 </span>
                                                                                 <select name="work_type" class="form-select edit-mode">
                                                                                     <option value="" selected>Select</option>
@@ -302,7 +302,7 @@
                                                                             <span class="badge fs-5
                                                                                 @if(!$order->workType->name == '') bg-dark
                                                                                 @endif">
-                                                                                {{ $order->workType->name }}
+                                                                                {{ $order->workType->name ?? '-' }}
                                                                             </span>
                                                                         </td>
                                                                         <td>
@@ -334,7 +334,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <span class="badge bg-dark fs-5 display-mode">
-                                                                                {{ $order->Designer->name ?? 'N/A' }}
+                                                                                {{ $order->Designer->name ?? '-' }}
                                                                             </span>
                                                                             <select name="designer_id" class="form-select edit-mode">
                                                                                 <option value="" selected>Select</option>
@@ -418,8 +418,8 @@
                                                                         <td>
                                                                             <span>{{$order->date}}</span>
                                                                         </td>
-                                                                        <td>{{ $order->croUser->cc_name }}</td>
-                                                                        <td>{{ $order->plUser->name }}</td>
+                                                                        <td>{{ $order->croUser->cc_name ?? '-' }}</td>
+                                                                        <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                         <td>
                                                                             <span class="badge fs-5
                                                                                 @if($order->ce == 'c') bg-primary
@@ -449,7 +449,7 @@
                                                                             <span class="badge fs-5
                                                                                 @if(!$order->workType->name == '') bg-dark
                                                                                 @endif">
-                                                                                {{ $order->workType->name }}
+                                                                                {{ $order->workType->name ?? '-' }}
                                                                             </span>
                                                                             <input type="text" name="work_type" value="{{ $order->workType->name }}" hidden>
                                                                         </td>
