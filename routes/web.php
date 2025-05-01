@@ -9,6 +9,7 @@ use App\Http\Controllers\DesignPaymentController;
 use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\AssignEmployeesController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceManageController;
 use App\Http\Controllers\OrderConroller;
@@ -94,7 +95,8 @@ Route::middleware([
 
     //Update Center Routes
     Route::get('/update-center', [UpdateCenterController::class, 'index']);
-
+    Route::put('/video/update/uc/{id}', [UpdateCenterController::class, 'updateVideoUC'])->name('uc.update.video');
+    Route::put('/designs/update/uc/{id}', [UpdateCenterController::class, 'updateDesignsUC'])->name('uc.update.designs');
 
     //Centers Routes
     Route::get('/employees/centers', [AssignEmployeesController::class, 'index']);
@@ -115,6 +117,7 @@ Route::middleware([
     //Invoice Manage Routes
     Route::get('/invoices/manage', [InvoiceManageController::class, 'index'])->name('invoices.index');
     Route::get('/invoice/view/{inv}', [InvoiceManageController::class, 'invoiceView'])->name('invoices.view');
+    Route::post('/invoices/{invoice}/duplicate', [InvoiceController::class, 'duplicate'])->name('invoices.duplicate');
 
     //Quotation Manage Routes
     Route::get('/quotation/manage', [QuotationManageController::class, 'index'])->name('quotation.index');
@@ -133,8 +136,6 @@ Route::middleware([
     Route::post('/storeor/slip', [SlipController::class, 'storeOR'])->name('storeor');
     Route::get('/invoice/view/or/{inv}', [InvoiceManageController::class, 'invoiceViewOR'])->name('invoices.viewOR');
     Route::get('/quotation/view/or/{inv}', [QuotationManageController::class, 'quotationViewOR'])->name('quotation.viewOR');
-
-
 
     //workDone Routes
     Route::get('/workDone', [WorkDoneController::class, 'index']);
@@ -176,13 +177,14 @@ Route::middleware([
     Route::put('/orders/update/designers/{id}', [DesignerController::class, 'updareDesigner'])->name('orders.update.designer');
     Route::put('/design/upload/{id}', [DesignerController::class, 'DesignImageUpload'])->name('design.upload');
 
+    //Income Routes
+    Route::get('/incomes', [IncomeController::class, 'index'])->name('incomes.index');
+
     //Video package controller
     Route::get('/video-packages', [VideoPackageController::class, 'index'])->name('video-packages.index');
     Route::post('/video-packages', [VideoPackageController::class, 'store'])->name('video-packages.store');
     Route::post('/video-packages/{id}', [VideoPackageController::class, 'update'])->name('video-packages.update');
     Route::delete('/video-packages/{id}', [VideoPackageController::class, 'destroy'])->name('video-packages.destroy');
-
-
 });
 
 

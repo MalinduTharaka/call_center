@@ -5,23 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\InvoiceId;
 use App\Models\WorkType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Notification;
 use App\Models\Package;
 use App\Models\Slip;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
-    public function invoicesolo($id){
+    public function invoicesolo($id)
+    {
         $order = Order::findOrFail($id);
         $invoices = Invoice::all();
         $work_types = WorkType::all();
         return view('call_center.invoice-solo', compact('order', 'invoices', 'work_types'));
     }
 
-    public function invoicetwo($id1, $id2){
+    public function invoicetwo($id1, $id2)
+    {
         $order1 = Order::findOrFail($id1);
         $order2 = Order::findOrFail($id2);
         $invoices = Invoice::all();
@@ -29,7 +33,8 @@ class InvoiceController extends Controller
         return view('call_center.invoice-two', compact('order1', 'order2', 'invoices', 'work_types'));
     }
 
-    public function invoiceall($id1, $id2, $id3){
+    public function invoiceall($id1, $id2, $id3)
+    {
         $order1 = Order::findOrFail($id1);
         $order2 = Order::findOrFail($id2);
         $order3 = Order::findOrFail($id3);
@@ -119,7 +124,7 @@ class InvoiceController extends Controller
             'type' => $request->type,
         ];
 
-        
+
 
         // Determine which view to render based on selected types count
         $view = match (count($selectedTypes)) {
@@ -144,5 +149,78 @@ class InvoiceController extends Controller
         }
 
         return response()->json(['success' => false]);
+    }
+
+    public function duplicate(Invoice $invoice)
+    {
+        // Retrieve all orders associated with the original invoice
+        $originalOrders = Order::where('invoice', $invoice->inv)->get();
+
+        // Create a new InvoiceId entry
+        $newInvoiceId = InvoiceId::create([
+            'date' => now(),
+            'status' => 'duplicated', // Adjust the status as per your application's logic
+        ]);
+
+        // Generate the new invoice number with a 'DUP' prefix
+        $newInv = 'dup' . $newInvoiceId->id;
+
+        // Duplicate the original invoice
+        $newInvoice = $invoice->replicate();
+        $newInvoice->inv = $newInv;
+        $newInvoice->date = now();
+
+        // Exclude specified fields by setting them to null
+        $excludedInvoiceFields = [
+            'order_id1',
+            'order_id2',
+            'order_id3',
+            'due_date',
+            'notifi_status',
+            'amt1',
+            'amt2',
+            'amt3'
+        ];
+        foreach ($excludedInvoiceFields as $field) {
+            $newInvoice->$field = null;
+        }
+
+        $newInvoice->save();
+
+        // Duplicate each associated order
+        foreach ($originalOrders as $order) {
+            $newOrder = $order->replicate();
+            $newOrder->date = now();
+            $newOrder->old_new = 'old';
+            $newOrder->ps = '0';
+            $newOrder->invoice = $newInv;
+
+            // Exclude specified fields
+            $excludedOrderFields = [
+                'work_status',
+                'payment_status',
+                'cash',
+                'advertiser_id',
+                'advance',
+                'details',
+                'add_acc',
+                'our_amount',
+                'script',
+                'shoot',
+                'designer_id',
+                'd_img',
+                'due_date',
+                'user_id',
+                'add_acc_id',
+                'fb_fee',
+            ];
+            foreach ($excludedOrderFields as $field) {
+                $newOrder->$field = null;
+            }
+
+            $newOrder->save();
+        }
+
+        return redirect()->back()->with('success', 'Invoice duplicated successfully.');
     }
 }

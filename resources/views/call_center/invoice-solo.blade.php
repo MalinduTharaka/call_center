@@ -212,12 +212,13 @@
         <button type="submit" class="btn btn-info mr-2">
             <i class="fas fa-check mr-1"></i> Submit
         </button>
-        
+    </form>
+        <button onclick="window.print()" class="btn btn-primary" type="button">
+            <i class="fas fa-print mr-1"></i> Print
+        </button>
     </div>
-</form>
-<button onclick="window.print()" class="btn btn-primary">
-    <i class="fas fa-print mr-1"></i> Print
-</button>
+
+
 
 <!-- Print-specific CSS -->
 <style>

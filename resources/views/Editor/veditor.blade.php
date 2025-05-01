@@ -169,7 +169,7 @@
                                     <td>
                                         @if($order->d_img)
                                             <!-- Thumbnail with modal trigger -->
-                                            <img src="{{ asset($order->d_img) }}" alt="Design Preview" class="img-thumbnail"
+                                            <img src="{{ asset('storage/' . $order->d_img) }}" alt="Design Preview" class="img-thumbnail"
                                                 style="width: 50px; cursor: pointer" data-bs-toggle="modal"
                                                 data-bs-target="#designPreviewModal-{{ $order->id }}">
                                         @else
@@ -188,16 +188,6 @@
             </table>
         </div>
     </div>
-
-    @foreach ($orders as $order)
-        @include('includes.design-upload', ['order' => $order])
-    @endforeach
-
-    @foreach ($orders as $order)
-        @if($order->d_img)
-            @include('includes.design-view')
-        @endif
-    @endforeach
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Toggle edit mode

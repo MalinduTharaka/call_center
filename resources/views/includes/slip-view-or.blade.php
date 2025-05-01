@@ -21,7 +21,7 @@
                     <div class="mb-3">
                         <p><strong>Bank Name:</strong> {{ $slip->bank ?? 'N/A' }}</p>
                         @php
-                            $filePath = 'storage/' . $slip->slip_path;
+                            $filePath = $slip->slip_path;
                             $extension = pathinfo($filePath, PATHINFO_EXTENSION);
                         @endphp
                 

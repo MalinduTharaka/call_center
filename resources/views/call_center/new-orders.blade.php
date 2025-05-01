@@ -320,7 +320,6 @@
                                                                         <select name="payment_status" class="form-select edit-mode">
                                                                             <option value="done" @if($order->payment_status == 'done')
                                                                             selected @endif>done</option>
-                                                                            <option value="" selected>Select</option>
                                                                             <option value="partial"
                                                                                 @if($order->payment_status == 'partial') selected
                                                                                 @endif>partial</option>
@@ -517,7 +516,6 @@
                                                                     <select name="payment_status" class="form-select edit-mode">
                                                                         <option value="done" @if($order->payment_status == 'done')
                                                                         selected @endif>done</option>
-                                                                        <option value="" selected>Select</option>
                                                                         <option value="partial"
                                                                             @if($order->payment_status == 'partial') selected @endif>
                                                                             partial</option>
@@ -740,9 +738,9 @@
                                                                             {{ $order->payment_status }}
                                                                         </span>
                                                                         <select name="payment_status" class="form-select edit-mode">
-                                                                            <option value="done" @if($order->payment_status == 'done')
-                                                                            selected @endif>done</option>
-                                                                            <option value="" selected>Select</option>
+                                                                            <option value="done" 
+                                                                                @if($order->payment_status == 'done') selected 
+                                                                                @endif>done</option>
                                                                             <option value="partial"
                                                                                 @if($order->payment_status == 'partial') selected
                                                                                 @endif>partial</option>

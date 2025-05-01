@@ -16,11 +16,11 @@
                         Call Center
                     </a>
                 </li>
-                <li class="nav-item" role="presentation">
+                {{-- <li class="nav-item" role="presentation">
                     <a href="#add-center-tab" data-bs-toggle="tab" class="nav-link" role="tab" aria-selected="false">
                         Add Center
                     </a>
-                </li>
+                </li> --}}
             </ul>
 
             <div class="tab-content">
@@ -95,7 +95,7 @@
                 </div>
 
                 {{-- Add Center Tab --}}
-                <div class="tab-pane" id="add-center-tab" role="tabpanel">
+                {{-- <div class="tab-pane" id="add-center-tab" role="tabpanel">
                     <form action="/store/ac" method="post">
                         @csrf
                         <div class="mb-2">
@@ -105,7 +105,7 @@
                         <button type="submit" class="btn btn-primary"><i class="ri-add-fill"></i></button>
                     </form>
 
-                    {{-- Add Center Table --}}
+                    
                     <div class="table-responsive-sm mt-3">
                         <table class="table table-striped table-centered mb-0">
                             <thead>
@@ -121,7 +121,6 @@
                                         <td>{{ $add_center->id }}</td>
                                         <td>{{ $add_center->name }}</td>
                                         <td>
-                                            <!-- Edit -->
                                             <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editAddCenterModal{{ $add_center->id }}">Edit</button>
 
                                             <!-- Modal -->
@@ -160,7 +159,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> --}}
 
             </div>  
         </div>

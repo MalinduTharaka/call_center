@@ -3,12 +3,14 @@
 @section('content')
 <div class="container">
     <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
+        {{-- <div class="card-header d-flex justify-content-between align-items-center">
+            @if (Auth::user()->role !== 'vde')
             <h4 class="mb-0">Video Editors Work Entries</h4>
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">
                 + Add Work Entry
             </button>
-        </div>
+            @endif
+        </div> --}}
 
         <div class="card-body">
             @if(session('success'))
@@ -21,6 +23,8 @@
                         <thead class="table-light">
                             <tr>
                                 <th>#</th>
+                                <th>Order ID</th>
+                                <th>Work Status</th>
                                 <th>User</th>
                                 <th>Work Type</th>
                                 <th>Duration</th>
@@ -35,7 +39,9 @@
                             @foreach ($entries as $index => $entry)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $entry->user->name ?? 'N/A' }}</td>
+                                <td>{{ $entry->order_id }}</td>
+                                <td>{{ $entry->Order->work_status ?? '-' }}</td>
+                                <td>{{ $entry->user->name ?? '-' }}</td>
                                 <td>{{ $entry->work_type }}</td>
                                 <td>{{ $entry->duration }}</td>
                                 <td>Rs. {{ number_format($entry->amount, 2) }}</td>
@@ -66,17 +72,17 @@
                                                 <div class="modal-body">
                                                     <div class="mb-3">
                                                         <label class="form-label">User</label>
-                                                        <select name="user_id" class="form-select" required>
+                                                        <select name="user_id" class="form-select" required disabled>
                                                             @foreach ($users as $user)
                                                                 <option value="{{ $user->id }}" {{ $user->id == $entry->user_id ? 'selected' : '' }}>
                                                                     {{ $user->name }}
                                                                 </option>
                                                             @endforeach
-                                                        </select>
+                                                        </select >
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Work Type</label>
-                                                        <select name="work_type" class="form-select" required>
+                                                        <select name="work_type" class="form-select" required disabled>
                                                             @foreach ($workTypes as $workType)
                                                                 <option value="{{ $workType->name }}" {{ $workType->name == $entry->work_type ? 'selected' : '' }}>
                                                                     {{ $workType->name }}
@@ -86,7 +92,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Duration</label>
-                                                        <input type="text" name="duration" class="form-control" value="{{ $entry->duration }}" required>
+                                                        <input type="text" name="duration" class="form-control" value="{{ $entry->duration }}" required disabled>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Amount</label>
@@ -94,7 +100,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Date</label>
-                                                        <input type="date" name="date" class="form-control" value="{{ $entry->date }}" required>
+                                                        <input type="date" name="date" class="form-control" value="{{ $entry->date }}" required disabled>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">

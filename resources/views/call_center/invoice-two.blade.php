@@ -73,23 +73,19 @@
                     </div>
                     
                     <!-- Contact Info -->
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <div class="d-flex flex-wrap">
-                                <p class="mb-1 small text-muted mr-3">
-                                    <i class="fas fa-map-marker-alt mr-1"></i>
-                                    No.151, Ward City Shopping Complex, Gampaha
-                                </p>
-                                <p class="mb-1 small text-muted mr-3">
-                                    <i class="fas fa-phone mr-1"></i>
-                                    077 1855 1910
-                                </p>
-                                <p class="mb-1 small text-muted">
-                                    <i class="fas fa-envelope mr-1"></i>
-                                    info.studiowishwa@gmail.com
-                                </p>
-                            </div>
-                        </div>
+                    <div class="mt-3">
+                        <p class="mb-1 small text-muted">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            No.151, Ward City Shopping Complex, Gampaha
+                        </p>
+                        <p class="mb-1 small text-muted">
+                            <i class="fas fa-phone mr-1"></i>
+                            077 1855 1910
+                        </p>
+                        <p class="mb-1 small text-muted">
+                            <i class="fas fa-envelope mr-1"></i>
+                            info.studiowishwa@gmail.com
+                        </p>
                     </div>
                 </div>
 
@@ -243,11 +239,12 @@
         <button type="submit" class="btn btn-info mr-2">
             <i class="fas fa-check mr-1"></i> Submit
         </button>
-        <button onclick="window.print()" class="btn btn-primary">
+    </form>
+        <button onclick="window.print()" class="btn btn-primary" type="button">
             <i class="fas fa-print mr-1"></i> Print
         </button>
     </div>
-</form>
+
 
 <!-- Print-specific CSS -->
 <style>
