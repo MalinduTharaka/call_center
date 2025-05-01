@@ -37,6 +37,7 @@
                     </a>
                 </li>
 
+                </li>
                 <li class="side-nav-item">
                     <a data-bs-toggle="collapse" href="#sidebarOrders" aria-expanded="false"
                         aria-controls="sidebarOrders" class="side-nav-link">
@@ -300,7 +301,7 @@
                     </a>
                 </li>
                 <li class="side-nav-item">
-                    <a href="/new/orders" class="side-nav-link">
+                    <a href="/accountant" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> New Orders </span>
                     </a>

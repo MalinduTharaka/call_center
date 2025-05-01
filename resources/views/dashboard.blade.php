@@ -27,35 +27,32 @@
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Velonic</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Wishwa Ads</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
                         <li class="breadcrumb-item active">Welcome!</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Welcome!</h4>
             </div>
         </div>
     </div>
     <!-- end page title -->
 
     <div class="row">
-        <div class="col-xxl-3 col-sm-6">
-            <div class="card widget-flat text-bg-pink">
+        <div class="col-xxl-12 col-sm-12">
+            <div class="card widget-flat text-bg-info">
                 <div class="card-body">
                     <div class="float-end">
                         <i class="ri-eye-line widget-icon"></i>
                     </div>
-                    <h6 class="text-uppercase mt-0" title="Customers">Daily Visits</h6>
-                    <h2 class="my-2">8,652</h2>
-                    <p class="mb-0">
-                        <span class="badge bg-white bg-opacity-10 me-1">2.97%</span>
-                        <span class="text-nowrap">Since last month</span>
-                    </p>
+                    <h6 class="text-uppercase mt-0" title="Customers">Dashboard</h6>
+                    <h2 class="my-2"># {{Auth::user()->id}}</h2>
+                    <h2 class="my-2">Name: {{Auth::user()->name}}</h2>
+                    <h2 class="my-2">Role: {{Auth::user()->role}}</h2>
                 </div>
             </div>
         </div> <!-- end col-->
 
-        <div class="col-xxl-3 col-sm-6">
+        {{-- <div class="col-xxl-3 col-sm-6">
             <div class="card widget-flat text-bg-purple">
                 <div class="card-body">
                     <div class="float-end">
@@ -69,9 +66,9 @@
                     </p>
                 </div>
             </div>
-        </div> <!-- end col-->
+        </div> <!-- end col--> --}}
 
-        <div class="col-xxl-3 col-sm-6">
+        {{-- <div class="col-xxl-3 col-sm-6">
             <div class="card widget-flat text-bg-info">
                 <div class="card-body">
                     <div class="float-end">
@@ -85,9 +82,9 @@
                     </p>
                 </div>
             </div>
-        </div> <!-- end col-->
+        </div> <!-- end col--> --}}
 
-        <div class="col-xxl-3 col-sm-6">
+        {{-- <div class="col-xxl-3 col-sm-6">
             <div class="card widget-flat text-bg-primary">
                 <div class="card-body">
                     <div class="float-end">
@@ -101,10 +98,10 @@
                     </p>
                 </div>
             </div>
-        </div> <!-- end col-->
+        </div> <!-- end col--> --}}
     </div>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
@@ -199,10 +196,10 @@
             </div> <!-- end card-->
         </div> <!-- end col-->
 
-    </div>
+    </div> --}}
     <!-- end row -->
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-xl-4">
             <!-- Chat-->
             <div class="card">
@@ -395,7 +392,7 @@
                 </div>                           
             </div> <!-- end card-->
         </div> <!-- end col-->
-    </div>
+    </div> --}}
     <!-- end row -->
 
 </div>

@@ -7,6 +7,7 @@ use App\Models\InvoiceId;
 use App\Models\OtherOrder;
 use App\Models\Slip;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,8 +16,14 @@ class OtherOrderController extends Controller
 {
 
     public function index(){
+        $user = Auth::user();
+
+        // 2. Parse their from_date/to_date (and optionally normalize to full days)
+        $from = Carbon::parse($user->from_date)->startOfDay();
+        $to   = Carbon::parse($user->to_date)->endOfDay();
+
         $invoices = Invoice::all();
-        $other_orders = OtherOrder::all();
+        $other_orders = OtherOrder::whereBetween('date', [$from, $to])->get();
         $slips = Slip::all();
         $users = User::all();
         return view('call_center.other-orders', compact('other_orders',  'users', 'slips', 'invoices'));

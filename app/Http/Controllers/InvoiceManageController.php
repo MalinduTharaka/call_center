@@ -8,16 +8,25 @@ use App\Models\OtherOrder;
 use App\Models\Slip;
 use App\Models\User;
 use App\Models\WorkType;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceManageController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+
+        // 2. Parse their from_date/to_date (and optionally normalize to full days)
+        $from = Carbon::parse($user->from_date)->startOfDay();
+        $to   = Carbon::parse($user->to_date)->endOfDay();
+
+        
         $user = User::all();
-        $invoices = Invoice::all();
-        $orders = Order::all();
+        $invoices = Invoice::whereBetween('date', [$from, $to])->get();
+        $orders = Order::whereBetween('date', [$from, $to])->get();
         $slips = Slip::all();
         return view('call_center.invoice-manage', compact('user', 'invoices', 'orders', 'slips'));
     }

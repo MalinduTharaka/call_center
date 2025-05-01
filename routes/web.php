@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\ActorsWorkDoneController;
 use App\Http\Controllers\AddAccountController;
 use App\Http\Controllers\CroWorkDoneController;
@@ -113,6 +114,7 @@ Route::middleware([
     Route::put('/assign/user/{id}', [UserController::class, 'assignUser'])->name('users.assign');
     Route::delete('/delete/user/{id}', [UserController::class, 'deleteUser'])->name('users.destroy');
     Route::put('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::put('/update/date/range/{id}', [UserController::class, 'dateRange'])->name('users.dateRange');
 
     //Invoice Manage Routes
     Route::get('/invoices/manage', [InvoiceManageController::class, 'index'])->name('invoices.index');
@@ -179,6 +181,14 @@ Route::middleware([
 
     //Income Routes
     Route::get('/incomes', [IncomeController::class, 'index'])->name('incomes.index');
+
+    //Accountant Routes
+    Route::get('/accountant', [AccountantController::class, 'index'])->name('accountant.index');
+    Route::get('/accountant/or', [AccountantController::class, 'indexOR'])->name('accountant.indexOR');
+    Route::put('/accountant/updateB/{id}', [AccountantController::class, 'accUpdateB'])->name('accountant.updateB');
+    Route::put('/accountant/updateD/{id}', [AccountantController::class, 'accUpdateD'])->name('accountant.updateD');
+    Route::put('/accountant/updateV/{id}', [AccountantController::class, 'accUpdateV'])->name('accountant.updateV');
+    Route::put('accountant/other_order/update/{id}', [AccountantController::class, 'accUpdateOR'])->name('accountant.updateOR');
 
     //Video package controller
     Route::get('/video-packages', [VideoPackageController::class, 'index'])->name('video-packages.index');
