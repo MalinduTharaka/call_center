@@ -186,10 +186,11 @@
                                                         <th>Payment</th>
                                                         <th>Cash</th>
                                                         <th>Advertiser</th>
-                                                        <th>Package Amount</th>
+                                                        <th>Full Package</th>
+                                                        <th>FB Fee</th>
                                                         <th>Service</th>
                                                         <th>Tax</th>
-                                                        <th>FB Fee</th>
+                                                        <th>Available Fee</th>
                                                         <th>Advance</th>
                                                         <th>Details</th>
                                                         <th>Add<br />Link</th>
@@ -350,6 +351,7 @@
                                                                             {{ $order->advertiser->name ?? 'N/A' }}
                                                                         </span>
                                                                     </td>
+                                                                    <td>{{ $order->package_amt+$order->service+$order->tax }}</td>
                                                                     <td>{{ $order->package_amt }}</td>
                                                                     <td>{{ $order->service }}</td>
                                                                     <td>{{ $order->tax }}</td>
