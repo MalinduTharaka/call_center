@@ -17,8 +17,4 @@ class VideoPkg extends Model
         'type',
     ];
 
-    public function timeSlot()
-    {
-        return $this->belongsTo(TimeSlot::class, 'time');
-    }
 }

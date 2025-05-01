@@ -128,7 +128,7 @@
     </div>
 </div>
 
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Reset create modal
         const createModal = document.getElementById('createModal');
@@ -171,6 +171,6 @@
             });
         });
     });
-</script>
+</script> --}}
 
 @endsection

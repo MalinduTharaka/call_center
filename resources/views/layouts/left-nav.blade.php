@@ -168,7 +168,7 @@
                             <li class="side-nav-item">
                                 <a href="/employees/centers" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Call Centers/Add Centers </span>
+                                    <span> Call Centers </span>
                                 </a>
                             </li>
                             <li class="side-nav-item">

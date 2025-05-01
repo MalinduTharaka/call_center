@@ -32,7 +32,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $pkg->amount }}</td>
-                                    <td>{{ $pkg->timeSlot->time_value }} {{ strtoupper($pkg->timeSlot->time_unit) }}</td>
+                                    <td>{{ $pkg->time }}</td>
                                     <td>{{ $pkg->type }}</td>
                                     <td>
                                         <button class="btn btn-sm btn-warning"
@@ -72,14 +72,7 @@
                         </div>
                         <div class="mb-3">
                             <label>Time</label>
-                            <select name="time" class="form-select" required>
-                                <option value="">Select time</option>
-                                @foreach($timeSlots as $slot)
-                                    <option value="{{ $slot->id }}">
-                                        {{ $slot->time_value }} {{ strtoupper($slot->time_unit) }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <input type="number" name="time" class="form-control" required>
                         </div>
                         <div class="mb-3">
                             <label>Type</label>
@@ -114,13 +107,7 @@
                         </div>
                         <div class="mb-3">
                             <label>Time</label>
-                            <select name="time" class="form-select" id="edit_time" required>
-                                @foreach($timeSlots as $slot)
-                                    <option value="{{ $slot->id }}">
-                                        {{ $slot->time_value }} {{ strtoupper($slot->time_unit) }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <input type="number" name="time" class="form-control" id="edit_time" required>
                         </div>
                         <div class="mb-3">
                             <label>Type</label>
