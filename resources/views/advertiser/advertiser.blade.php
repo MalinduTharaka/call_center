@@ -54,6 +54,7 @@
                             <th>Date</th>
                             <th>C/E</th>
                             <th>Invoice</th>
+                            <th>CRO</th>
                             <th>Name<br />Company</th>
                             <th>O/N</th>
                             <th>Contact</th>
@@ -96,7 +97,10 @@
                                             <span>{{ $order->invoice }}</span>
                                         </td>
                                         <td>
-                                            <span>{{$order->name}}</span>
+                                            <span class="fs-5">{{$order->plUser->name}}</span>
+                                        </td>
+                                        <td>
+                                            {{$order->name}}
                                         </td>
                                         <td>
                                             <span class="badge fs-5
@@ -127,12 +131,12 @@
                                         </td>
 
                                         <td>
-                                            <span class="badge fs-5 bg-dark">{{ $order->page }}</span>
+                                            <span class="badge fs-5 bg-dark display-mode">{{ $order->page }}</span>
                                             <select name="page" class="form-select edit-mode">
                                                 <option value="" selected>Select</option>
-                                                <option value="new" @if($order->ce == 'new') selected @endif>new</option>
-                                                <option value="our" @if($order->ce == 'our') selected @endif>our</option>
-                                                <option value="existing" @if($order->ce == 'existing') selected @endif>existing
+                                                <option value="new" @if($order->page == 'new') selected @endif>new</option>
+                                                <option value="our" @if($order->page == 'our') selected @endif>our</option>
+                                                <option value="existing" @if($order->page == 'existing') selected @endif>existing
                                                 </option>
                                             </select>
                                         </td>
@@ -208,9 +212,13 @@
                                                 value="{{ $order->details }}">
                                         </td>
                                         <td>
-                                            <a href="{{ $order->add_acc_id }}" target="_blank" class="display-mode">
-                                                {{ $order->add_acc_id }}
+                                            @if (empty($order->add_acc_id))
+                                                <span class="display-mode">Not Added</span>
+                                            @else
+                                            <a href="{{ $order->add_acc_id }}" target="_blank" class="btn btn-info display-mode">
+                                                <i class="ri-arrow-up-circle-line "></i>
                                             </a>
+                                            @endif
                                             <input type="text" name="add_acc_id" class="form-control edit-mode"
                                                 value="{{ $order->add_acc_id }}">
                                         </td>

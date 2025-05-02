@@ -104,7 +104,7 @@
                                                                                 @method('put')
                                                                             <td>{{$order->id}}</td>
                                                                             <td>{{ $order->date }}</td>
-                                                                            <td>{{ $order->croUser->cc_name }}</td>
+                                                                            <td>{{ $order->croUser->cc_name ?? '-' }}</td>
                                                                             <td>{{ $order->plUser->name }}</td>
                                                                             <td>
                                                                                 <span class="badge fs-5
@@ -214,9 +214,13 @@
                                                                             </td>
                                                                             <td>{{ $order->details }}</td>
                                                                             <td>
-                                                                                <a href="{{ $order->add_acc_id }}" target="_blank">
-                                                                                    {{ $order->add_acc_id }}
+                                                                                @if (empty($order->add_acc_id))
+                                                                                    Not Added
+                                                                                @else
+                                                                                <a href="{{ $order->add_acc_id }}" target="_blank" class="btn btn-info display-mode">
+                                                                                    <i class="ri-arrow-up-circle-line "></i>
                                                                                 </a>
+                                                                                @endif
                                                                             </td>
 
                                                                             <td>
