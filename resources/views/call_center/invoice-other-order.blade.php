@@ -1,0 +1,177 @@
+@extends('layouts.app')
+
+@section('content')
+<form method="POST" action="{{ route('store.ot') }}">
+
+    @csrf
+    <input type="hidden" name="inv_id" value="OR{{ $inv_id }}">
+    <input type="hidden" name="name" value="{{ $name }}">
+    <input type="hidden" name="contact" value="{{ $contact }}">
+    <input type="hidden" name="total" id="total_due" value="">
+    <input type="hidden" name="date"    value="{{ now()->toDateString() }}">
+    <input type="hidden" name="type" value="{{ $type }}">
+    
+    @foreach($orders as $index => $order)
+        <input type="hidden" name="orders[{{ $index }}][work_type]" value="{{ $order['work_type'] }}">
+        <input type="hidden" name="orders[{{ $index }}][note]" value="{{ $order['note'] }}">
+        <input type="hidden" name="orders[{{ $index }}][amount]" value="{{ $order['amount'] }}">
+    @endforeach
+    
+
+    <div class="container mx-auto p-4 bg-white shadow rounded border font-sans" style="max-width: 800px;">
+        <!-- Header Section -->
+        <div class="border-bottom pb-4 mb-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="d-flex align-items-center mb-2">
+                        <img src="{{ asset('logos/WishwaAds.png') }}" alt="Logo" class="mr-3 logo" style="max-height: 80px; width: 400px;">
+                        
+                    </div>
+                    <div class="mt-2">
+                        <p class="mb-1 small text-muted">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            No.151, Ward City Shopping Complex, Gampaha
+                        </p>
+                        <p class="mb-1 small text-muted">
+                            <i class="fas fa-phone mr-1"></i>
+                            077 1855 191
+                        </p>
+                        <p class="mb-1 small text-muted">
+                            <i class="fas fa-envelope mr-1"></i>
+                            info@wishwaads.com
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-2 mt-md-0">
+                    <div class="border-bottom pb-2 mb-2 border-primary">
+                        <h1 class="h3 font-weight-bold text-uppercase text-dark mb-0">
+                            {{ $type == 1 ? 'QUOTATION' : 'INVOICE' }}
+                        </h1>
+                    </div>
+                    <div class="text-md-right">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-6 text-md-right small">ID #:</dt>
+                            <dd class="col-sm-6 text-md-left small">OR{{ $inv_id }}</dd>
+                            <dt class="col-sm-6 text-md-right small">Date:</dt>
+                            <dd class="col-sm-6 text-md-left small">{{ now()->format('Y-m-d H:i:s') }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Details -->
+        <div class="pb-3 mb-2 d-flex justify-content-between">
+            <div class="mb-2">
+                <h2 class="h5 font-weight-semibold text-secondary">Bill To:</h2>
+                <p class="text-dark">{{ $name }}</p>
+                <p class="text-muted small">Phone: {{ $contact }}</p>
+            </div>
+            <div class="mb-2 text-right">
+                <p class="text-muted small mb-0">{{ $type == 1 ? 'Quotation' : 'Invoice' }} #: OR{{ $inv_id }}</p>
+                <p class="text-muted small mb-0">Date: {{ now()->format('Y-m-d') }}</p>
+            </div>
+        </div>
+
+        <!-- Items Table -->
+        <table class="table table-bordered mb-2">
+            <thead class="thead-light">
+                <tr>
+                    <th>Work Type</th>
+                    <th>Note</th>
+                    <th class="text-right">Unit Price</th>
+                    <th class="text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php $runningSubtotal = 0; @endphp
+                @foreach($orders as $order)
+                    @php
+                        $lineTotal = $order['amount'];
+                        $runningSubtotal += $lineTotal;
+                    @endphp
+                    <tr>
+                        <td>{{ $order['work_type'] }}</td>
+                        <td>{{ $order['note'] }}</td>
+                        <td class="text-right" data-unit-price="{{ $order['amount'] }}">{{ number_format($order['amount'], 2) }}</td>
+                        <td class="text-right total" data-row-total="{{ $lineTotal }}">{{ number_format($lineTotal, 2) }}</td>
+                    </tr>
+                @endforeach
+                <tr>
+                    <td colspan="3" class="text-right">Subtotal</td>
+                    <td class="text-right ab-total">{{ number_format($runningSubtotal, 2) }}</td>
+                </tr>
+                <tr class="font-weight-bold">
+                    <td colspan="3" class="text-right">Total Due</td>
+                    <td class="text-right">Rs.<span class="tt-due"></span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Footer Note -->
+        <div class="text-muted small border-top pt-3 mt-2">
+            <p>{{ $type == 1 ? 'Quotation valid for 30 days.' : 'Payment is due within 30 days of receipt.' }}</p>
+        </div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>Commercial Bank<br>
+                    ACCOUNT NUMBER - 1000620243<br>
+                    NAME - WISHWA ADS TEAM<br>
+                    COMMERCIAL BANK<br>
+                    GANEMULLA BRANCH</p>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                    <p>BOC<br>
+                    ACCOUNT NUMBER - 1425126<br>
+                    NAME - W C C WISHWAJITH<br>
+                    Bank of Ceylon ( BOC )<br>
+                    GAMPAHA BRANCH</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="text-center d-print-none mt-4">
+        <button type="submit" class="btn btn-info mr-2">
+            <i class="fas fa-check mr-1"></i> Submit
+        </button>
+    </form>
+        <button onclick="window.print()" class="btn btn-primary d-print-none" type="button">
+            <i class="fas fa-print mr-1"></i> Print
+        </button>
+    </div>
+
+
+<!-- Print-specific CSS and JS -->
+<style>
+    @media print {
+        body { padding:5mm!important; margin:0!important; font-size:12pt; background:white!important; color:black!important; }
+        .container { width:100%!important; max-width:100%!important; padding:0!important; margin:0!important; box-shadow:none!important; border:none!important; }
+        .text-muted, .text-secondary { color:#555!important; }
+        .table { width:100%!important; font-size:10pt!important; border-collapse:collapse!important; }
+        .table th, .table td { padding:6px!important; border:1px solid #ddd!important; }
+        .table thead th { background-color:#f8f9fa!important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+        .d-print-none { display:none!important; }
+        img { max-height:70px!important; }
+        .row, .d-flex { page-break-inside:avoid; }
+        .logo{
+            width: 100% !important;
+        }
+        @page { size:auto; margin:5mm; }
+    }
+</style>
+
+<script>
+    function parseNumber(v){ return parseFloat(v.replace(/,/g,''))||0; }
+    function updateInvoice(){
+        let subtotal = 0;
+        document.querySelectorAll('[data-row-total]').forEach(td => { subtotal += parseNumber(td.dataset.rowTotal); });
+        document.querySelector('.ab-total').textContent = subtotal.toFixed(2);
+        document.querySelector('.tt-due').textContent = subtotal.toFixed(2);
+        document.getElementById('total_due').value = subtotal.toFixed(2);
+    }
+    document.addEventListener('DOMContentLoaded', updateInvoice);
+</script>
+@endsection
