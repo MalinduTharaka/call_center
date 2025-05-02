@@ -47,7 +47,7 @@
                     <button class="btn btn-primary search-btn">Search</button>
                 </div>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive" id="basictab1">
                 <table class="table table-hover table-centered table-bordered border-primary mb-0">
                     <thead class="table-dark">
                         <tr>
@@ -301,49 +301,32 @@
             row.classList.remove('editing');
         }
     </script>
-
-
     <script>
-        // Search functionality
-        document.querySelectorAll('.search-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const input = this.closest('.input-group').querySelector('.search-input');
-                performSearch(input);
-            });
-        });
-
-        document.querySelectorAll('.search-input').forEach(input => {
-            input.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    performSearch(this);
-                }
-            });
-        });
-
-        function performSearch(input) {
-            const searchTerm = input.value.toLowerCase();
-            const tableSelector = input.dataset.targetTable;
-            const table = document.querySelector(tableSelector);
-            if (!table) return;
-
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-input');
+            const searchButton = document.querySelector('.search-btn');
+            const table = document.querySelector('#basictab1 table');
             const rows = table.querySelectorAll('tbody tr');
-
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                let matches = false;
-
-                cells.forEach(cell => {
-                    // Check both display and edit values
-                    const displayValue = cell.querySelector('.display-mode')?.textContent?.toLowerCase() || '';
-                    const editValue = cell.querySelector('.edit-mode')?.value?.toLowerCase() || '';
-
-                    if (displayValue.includes(searchTerm) || editValue.includes(searchTerm)) {
-                        matches = true;
+    
+            function filterRows() {
+                const query = searchInput.value.toLowerCase().trim();
+    
+                rows.forEach(row => {
+                    const rowText = row.textContent.toLowerCase();
+                    if (rowText.includes(query)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
                     }
                 });
-
-                row.style.display = matches ? '' : 'none';
+            }
+    
+            searchButton.addEventListener('click', filterRows);
+            searchInput.addEventListener('keyup', function (e) {
+                if (e.key === 'Enter') filterRows();
             });
-        }
+        });
     </script>
+    
+
 @endsection

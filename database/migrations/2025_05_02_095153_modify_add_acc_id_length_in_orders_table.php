@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->text('add_acc_id')->change();
+            $table->text('add_acc_id')->change()->nullable();
         });
     }
 

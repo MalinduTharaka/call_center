@@ -209,35 +209,31 @@
                     editingRow.classList.remove('editing');
                 }
             });
+        });
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        const searchBtn = document.querySelector('.search-btn');
+        const table = document.querySelector(searchInput.dataset.targetTable);
+        const rows = table.querySelectorAll('tbody tr');
 
-            // Search handlers
-            document.querySelectorAll('.search-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    performSearch(this.closest('.input-group').querySelector('.search-input'));
-                });
-            });
-            document.querySelectorAll('.search-input').forEach(input => {
-                input.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        performSearch(this);
-                    }
-                });
+        searchBtn.addEventListener('click', () => {
+            const term = searchInput.value.trim().toLowerCase();
+
+            rows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                if (rowText.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             });
         });
 
-        function performSearch(input) {
-            const term = input.value.toLowerCase();
-            const table = document.querySelector(input.dataset.targetTable);
-            if (!table) return;
-            table.querySelectorAll('tbody tr').forEach(row => {
-                const match = Array.from(row.querySelectorAll('td')).some(cell => {
-                    const d = cell.querySelector('.display-mode')?.textContent.toLowerCase() || '';
-                    const v = cell.querySelector('.edit-mode')?.value.toLowerCase() || '';
-                    return d.includes(term) || v.includes(term);
-                });
-                row.style.display = match ? '' : 'none';
-            });
-        }
+        // Optional: Enable real-time search
+        searchInput.addEventListener('keyup', () => {
+            searchBtn.click();
+        });
     </script>
+    
 
 @endsection
