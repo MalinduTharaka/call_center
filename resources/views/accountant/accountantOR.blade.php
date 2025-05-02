@@ -43,7 +43,7 @@
             <div class="col-3 mb-3">
                 <div class="input-group">
                     <input type="text" class="form-control search-input" placeholder="Search orders..."
-                        data-target-table="#basictab1 table">
+                        data-target-table="table">
                     <button class="btn btn-primary search-btn">Search</button>
                 </div>
             </div>
@@ -228,48 +228,35 @@
         }
     </script>
 
-
-    <script>
-        // Search functionality
-        document.querySelectorAll('.search-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const input = this.closest('.input-group').querySelector('.search-input');
-                performSearch(input);
-            });
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchInput = document.querySelector('.search-input');
+      const searchBtn   = document.querySelector('.search-btn');
+      const targetTable = document.querySelector(searchInput.getAttribute('data-target-table'));
+      const allRows     = Array.from(targetTable.querySelectorAll('tbody tr'));
+    
+      // Main filter function
+      function performSearch() {
+        const term = searchInput.value.trim().toLowerCase();
+        allRows.forEach(row => {
+          // you can tweak this to search only specific columns if needed
+          const text = row.textContent.trim().toLowerCase();
+          row.style.display = text.includes(term) ? '' : 'none';
         });
-
-        document.querySelectorAll('.search-input').forEach(input => {
-            input.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    performSearch(this);
-                }
-            });
-        });
-
-        function performSearch(input) {
-            const searchTerm = input.value.toLowerCase();
-            const tableSelector = input.dataset.targetTable;
-            const table = document.querySelector(tableSelector);
-            if (!table) return;
-
-            const rows = table.querySelectorAll('tbody tr');
-
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                let matches = false;
-
-                cells.forEach(cell => {
-                    // Check both display and edit values
-                    const displayValue = cell.querySelector('.display-mode')?.textContent?.toLowerCase() || '';
-                    const editValue = cell.querySelector('.edit-mode')?.value?.toLowerCase() || '';
-
-                    if (displayValue.includes(searchTerm) || editValue.includes(searchTerm)) {
-                        matches = true;
-                    }
-                });
-
-                row.style.display = matches ? '' : 'none';
-            });
+      }
+    
+      // Click on Search button
+      searchBtn.addEventListener('click', performSearch);
+    
+      // Press Enter in the input
+      searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault(); // avoid accidental form submissions
+          performSearch();
         }
+      });
+    });
     </script>
+    
+    
 @endsection
