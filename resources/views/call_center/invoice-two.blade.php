@@ -316,18 +316,26 @@
     // existing invoice calculator
     function updateInvoice() {
         let subtotal     = 0, totalTax = 0, totalService = 0;
-        document.querySelectorAll('[data-price]').forEach(c => subtotal += parseFloat(c.dataset.price)||0);
+
+        // Sum line totals = unit price × qty
+        document.querySelectorAll('tr.detail-row').forEach(row => {
+            const price = parseFloat(row.querySelector('[data-price]').dataset.price) || 0;
+            const qty   = parseInt(row.querySelector('.qty').textContent) || 0;
+            subtotal += price * qty;
+        });
 
         @foreach($boostingOrders as $o)
             totalTax     += {{ $o['tax']     ?? 0 }};
             totalService += {{ $o['service'] ?? 0 }};
         @endforeach
 
-        document.querySelector('.ab-total').textContent     = subtotal.toFixed(2);
-        document.querySelector('#tax-amount').textContent   = totalTax.toFixed(2);
-        document.querySelector('#service-amount').textContent= totalService.toFixed(2);
-        document.querySelector('.tt-due').textContent       = (subtotal+totalTax+totalService).toFixed(2);
-        document.getElementById("total_due").value          = (subtotal+totalTax+totalService).toFixed(2);
+        document.querySelector('.ab-total').textContent      = subtotal.toFixed(2);
+        document.querySelector('#tax-amount').textContent    = totalTax.toFixed(2);
+        document.querySelector('#service-amount').textContent = totalService.toFixed(2);
+
+        const totalDue = subtotal + totalTax + totalService;
+        document.querySelector('.tt-due').textContent        = totalDue.toFixed(2);
+        document.getElementById("total_due").value           = totalDue.toFixed(2);
     }
 
     document.addEventListener("DOMContentLoaded", () => {
