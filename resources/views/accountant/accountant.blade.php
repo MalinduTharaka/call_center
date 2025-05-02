@@ -68,6 +68,7 @@
                                                     <tr>
                                                         <th>Date</th>
                                                         <th>C/E</th>
+                                                        <th>CRO</th>
                                                         <th>Invoice</th>
                                                         <th>Name<br />Company</th>
                                                         <th>O/N</th>
@@ -113,6 +114,7 @@
                                                                             </option>
                                                                         </select>
                                                                     </td>
+                                                                    <td>{{ $order->plUser->name }}</td>
                                                                     <td>
                                                                         <span>{{ $order->invoice }}</span>
                                                                         <input type="text" name="inv" class="form-control edit-mode"
@@ -233,6 +235,7 @@
                                                     <th>Id</th>
                                                     <th>Date</th>
                                                     <th>C/E</th>
+                                                    <th>CRO</th>
                                                     <th>Invoice</th>
                                                     <th>Name<br />Company</th>
                                                     <th>Contact</th>
@@ -271,6 +274,7 @@
                                                                         </option>
                                                                     </select>
                                                                 </td>
+                                                                <td>{{ $order->plUser->name }}</td>
                                                                 <td>
                                                                     <span class="display-mode">{{ $order->invoice }}</span>
                                                                     <input type="text" name="inv" class="form-control edit-mode"
@@ -353,6 +357,7 @@
                                                     <tr>
                                                         <th>Date</th>
                                                         <th>C/E</th>
+                                                        <th>CRO</th>
                                                         <th>Invoice</th>
                                                         <th>Name<br />Company</th>
                                                         <th>Contact</th>
@@ -396,6 +401,7 @@
                                                                             </option>
                                                                         </select>
                                                                     </td>
+                                                                    <td>{{ $order->plUser->name }}</td>
                                                                     <td>
                                                                         <span>{{ $order->invoice }}</span>
                                                                     </td>
@@ -614,46 +620,48 @@
     <!-- Add this JavaScript at the end of your existing script -->
     <script>
         // Search functionality
-        document.querySelectorAll('.search-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const input = this.closest('.input-group').querySelector('.search-input');
-                performSearch(input);
-            });
+        // Search functionality
+document.addEventListener("DOMContentLoaded", function() {
+    // Handle search button clicks
+    document.querySelectorAll('.search-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.closest('.input-group').querySelector('.search-input');
+            performSearch(input);
         });
+    });
 
-        document.querySelectorAll('.search-input').forEach(input => {
-            input.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    performSearch(this);
-                }
-            });
+    // Handle Enter key in search inputs
+    document.querySelectorAll('.search-input').forEach(input => {
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch(this);
+            }
         });
+    });
 
-        function performSearch(input) {
-            const searchTerm = input.value.toLowerCase();
-            const tableSelector = input.dataset.targetTable;
-            const table = document.querySelector(tableSelector);
-            if (!table) return;
+    function performSearch(inputElement) {
+        const searchTerm = inputElement.value.trim().toLowerCase();
+        const targetTable = document.querySelector(inputElement.dataset.targetTable);
 
-            const rows = table.querySelectorAll('tbody tr');
-
+        if (targetTable) {
+            const rows = targetTable.querySelectorAll('tbody tr');
+            
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
-                let matches = false;
-
+                let found = false;
+                
                 cells.forEach(cell => {
-                    // Check both display and edit values
-                    const displayValue = cell.querySelector('.display-mode')?.textContent?.toLowerCase() || '';
-                    const editValue = cell.querySelector('.edit-mode')?.value?.toLowerCase() || '';
-
-                    if (displayValue.includes(searchTerm) || editValue.includes(searchTerm)) {
-                        matches = true;
+                    const cellText = cell.textContent.toLowerCase();
+                    if (cellText.includes(searchTerm)) {
+                        found = true;
                     }
                 });
 
-                row.style.display = matches ? '' : 'none';
+                row.style.display = found ? '' : 'none';
             });
         }
+    }
+});
     </script>
 
 @endsection
