@@ -90,6 +90,18 @@
                     <div class="collapse" id="sidebarProfiles">
                         <ul class="side-nav-second-level">
                             <li class="side-nav-item">
+                                <a href="/admin/orders" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Admin Orders All Access </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
+                                <a href="/admin/orders/or" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Admin Other Orders All Access </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
                                 <a href="/designers" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
                                     <span> Designer </span>

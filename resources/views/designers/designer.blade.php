@@ -81,6 +81,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>Id</th>
+                        <th>CRO</th>
                         <th>Designer Name</th>
                         <th>Date</th>
                         <th>C/E</th>
@@ -103,6 +104,7 @@
                                 @method('put')
                                 <tr data-order-id="{{ $order->id }}">
                                     <td>{{ $order->id }}</td>
+                                    <td>{{ $order->plUser->name }}</td>
                                     <td>{{ $order->Designer->name}}</td>
                                     <td>{{ $order->date }}</td>
                                     <td>

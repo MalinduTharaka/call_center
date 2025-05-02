@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\ActorsWorkDoneController;
 use App\Http\Controllers\AddAccountController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CroWorkDoneController;
 use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\DesignersWorkDoneController;
@@ -89,8 +90,9 @@ Route::middleware([
 
     //Slip Routes
     Route::post('/slip/update', [SlipController::class, 'store'])->name('upload.slip');
-
     Route::get('/orders/get-order-types/{inv}', [OrderConroller::class, 'getOrderTypes']);
+    Route::post('/delete/slip/orders', [SlipController::class, 'deleteslp']);
+    Route::post('/delete/slip/or', [SlipController::class, 'deleteORslp']);
 
     //Notification Routes
     Route::post('/invoice/mark-read', [InvoiceController::class, 'markAsRead'])->name('invoice.markRead');
@@ -202,6 +204,14 @@ Route::middleware([
     Route::post('/time-slots', [TimeSlotController::class, 'store'])->name('time-slots.store');
     Route::put('/time-slots/{timeSlot}', [TimeSlotController::class, 'update'])->name('time-slots.update');
     Route::delete('/time-slots/{timeSlot}', [TimeSlotController::class, 'destroy'])->name('time-slots.destroy');
+
+    //Admin Routes
+    Route::get('/admin/orders', [AdminController::class, 'indexo'])->name('admin.orders');
+    Route::put('/admin/orders/updateB/{id}', [AdminController::class, 'updateBoostingAD']);
+    Route::put('/admin/orders/updateD/{id}', [AdminController::class, 'updateDesignsAD']);
+    Route::put('/admin/orders/updateV/{id}', [AdminController::class, 'updateVideoAD']);
+    Route::put('/admin/orders/or/update/{id}', [AdminController::class, 'updateOrAD']);
+    Route::get('/admin/orders/or', [AdminController::class, 'indexOR'])->name('admin.ordersOR');
 });
 
 

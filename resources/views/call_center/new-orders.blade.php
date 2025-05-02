@@ -65,6 +65,36 @@
             display: flex;
             flex-wrap: wrap;
         }
+
+        .delete-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            transition: transform .15s ease;
+            margin: .5rem;
+            position: relative;
+            border: none;
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .delete-btn.light {
+            background-color:rgb(156, 49, 0);
+            color: #fff;
+        }
+
+        .delete-btn.dark {
+            background-color: #101859;
+            color: #fff;
+        }
     </style>
 
     <div class="row mt-2">
@@ -97,6 +127,21 @@
                 </button>
             </div>
         </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-6">
+            <div class="btn-container">
+                <button type="button" class="delete-btn light" data-bs-toggle="modal" data-bs-target="#deleteorderslip">
+                    Delete Order Slips
+                </button>
+                @include('includes.delete-order-slip')
+
+                <button type="button" class="delete-btn light" data-bs-toggle="modal" data-bs-target="#deleteorderORslip">
+                    Delete Other Order Slips
+                </button>
+                @include('includes.delete-orderOR-slip')
+            </div>
+        </div> 
     </div>
 
 
@@ -256,11 +301,11 @@
                                                                         <span class="badge fs-5 bg-dark">{{ $order->page }}</span>
                                                                         <select name="page" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
-                                                                            <option value="new" @if($order->ce == 'new') selected
+                                                                            <option value="new" @if($order->page == 'new') selected
                                                                             @endif>new</option>
-                                                                            <option value="our" @if($order->ce == 'our') selected
+                                                                            <option value="our" @if($order->page == 'our') selected
                                                                             @endif>our</option>
-                                                                            <option value="existing" @if($order->ce == 'existing')
+                                                                            <option value="existing" @if($order->page == 'existing')
                                                                             selected @endif>existing
                                                                             </option>
                                                                         </select>
@@ -271,6 +316,7 @@
                                                                                                             @elseif($order->work_status == 'pending') bg-danger
                                                                                                             @elseif($order->work_status == 'send to customer') bg-warning
                                                                                                             @elseif($order->work_status == 'send to designer') bg-dark
+                                                                                                            @elseif($order->work_status == 'error') bg-danger
                                                                                                             @endif">
                                                                             {{ $order->work_status }}
                                                                         </span>
@@ -287,6 +333,9 @@
                                                                             <option value="send to designer"
                                                                                 @if($order->work_status == 'send to designer')
                                                                                 selected @endif>send to designer</option>
+                                                                            <option value="error"
+                                                                                @if($order->work_status == 'error')
+                                                                                selected @endif>error</option>
                                                                         </select>
                                                                     </td>
                                                                     <td>
