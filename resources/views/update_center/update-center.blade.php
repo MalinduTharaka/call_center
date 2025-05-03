@@ -157,6 +157,7 @@
                                                                                     @elseif($order->work_status == 'pending') bg-danger
                                                                                     @elseif($order->work_status == 'send to customer') bg-warning
                                                                                     @elseif($order->work_status == 'send to designer') bg-dark
+                                                                                    @elseif($order->work_status == 'error') bg-danger
                                                                                     @endif">
                                                                                     {{ $order->work_status }}
                                                                                 </span>
@@ -166,6 +167,7 @@
                                                                                     <option value="pending" @if($order->work_status == 'pending') selected @endif>pending</option>
                                                                                     <option value="send to customer" @if($order->work_status == 'send to customer') selected @endif>send to customer</option>
                                                                                     <option value="send to designer" @if($order->work_status == 'send to designer') selected @endif>send to designer</option>
+                                                                                    <option value="error" @if($order->work_status == 'error') selected @endif>error</option>
                                                                                 </select>
                                                                             </td>
                                                                             <td>

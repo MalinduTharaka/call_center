@@ -142,22 +142,30 @@
                                         </td>
                                         <td>
                                             <span class="badge fs-5 display-mode
-                                                @if($order->work_status == 'done') bg-primary
-                                                @elseif($order->work_status == 'pending') bg-danger
-                                                @elseif($order->work_status == 'send to customer') bg-warning
-                                                @elseif($order->work_status == 'send to designer') bg-dark
-                                                @endif">
+                                                                                @if($order->work_status == 'done') bg-primary
+                                                                                @elseif($order->work_status == 'pending') bg-danger
+                                                                                @elseif($order->work_status == 'send to customer') bg-warning
+                                                                                @elseif($order->work_status == 'send to designer') bg-dark
+                                                                                @elseif($order->work_status == 'error') bg-danger
+                                                                                @endif">
                                                 {{ $order->work_status }}
                                             </span>
                                             <select name="work_status" class="form-select edit-mode">
                                                 <option value="" selected>Select</option>
-                                                <option value="done" @if($order->work_status == 'done') selected @endif>done</option>
-                                                <option value="pending" @if($order->work_status == 'pending') selected @endif>pending
-                                                </option>
-                                                <option value="send to customer" @if($order->work_status == 'send to customer')
-                                                selected @endif>send to customer</option>
-                                                <option value="send to designer" @if($order->work_status == 'send to designer')
-                                                selected @endif>send to designer</option>
+                                                <option value="done" @if($order->work_status == 'done')
+                                                selected @endif>done</option>
+                                                <option value="pending"
+                                                    @if($order->work_status == 'pending') selected @endif>
+                                                    pending</option>
+                                                <option value="send to customer"
+                                                    @if($order->work_status == 'send to customer')
+                                                    selected @endif>send to customer</option>
+                                                <option value="send to designer"
+                                                    @if($order->work_status == 'send to designer')
+                                                    selected @endif>send to designer</option>
+                                                <option value="error"
+                                                    @if($order->work_status == 'error')
+                                                    selected @endif>error</option>
                                             </select>
                                         </td>
                                         <td>
