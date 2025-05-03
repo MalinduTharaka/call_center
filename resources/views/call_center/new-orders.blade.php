@@ -298,7 +298,7 @@
                                                                         </select>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 bg-dark">{{ $order->page }}</span>
+                                                                        <span class="badge fs-5 bg-dark display-mode">{{ $order->page }}</span>
                                                                         <select name="page" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             <option value="new" @if($order->page == 'new') selected
@@ -526,7 +526,7 @@
                                                                         {{ $order->payment_status }}
                                                                     </span>
                                                                 </td>
-                                                                <td>{{$order->designer_id}}</td>
+                                                                <td>{{$order->Designer->name}}</td>
                                                                 <td>
                                                                     <span>{{$order->amount}}</span>
                                                                 </td>
@@ -596,7 +596,7 @@
                                                         <th>Work<br />Status</th>
                                                         <th>Payment</th>
                                                         <th>Cash</th>
-                                                        <th>Designer</th>
+                                                        <th>Editor</th>
                                                         <th>Advance</th>
                                                         <th>Slip</th>
                                                         <th>Action</th>
@@ -753,7 +753,7 @@
                                                                                 none cash payment</option>
                                                                         </select>
                                                                     </td>
-                                                                    <td>{{$order->designer_id}}</td>
+                                                                    <td>{{ $order->Editor->name ?? 'N/A' }}</td>
                                                                     <td>
                                                                         <span>{{$order->advance}}</span>
                                                                     </td>
