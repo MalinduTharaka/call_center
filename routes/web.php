@@ -210,8 +210,12 @@ Route::middleware([
     Route::put('/admin/orders/updateB/{id}', [AdminController::class, 'updateBoostingAD']);
     Route::put('/admin/orders/updateD/{id}', [AdminController::class, 'updateDesignsAD']);
     Route::put('/admin/orders/updateV/{id}', [AdminController::class, 'updateVideoAD']);
-    Route::put('/admin/orders/or/update/{id}', [AdminController::class, 'updateOrAD']);
+    Route::put('/admin/orders/updateOR/{id}', [AdminController::class, 'updateOrAD']);
     Route::get('/admin/orders/or', [AdminController::class, 'indexOR'])->name('admin.ordersOR');
+
+    //Payment Edit Routes
+    Route::put('/edit/payment/orders/{inv}', [AdminController::class, 'updatepaymentO']);
+    Route::put('/edit/payment/or/{inv}', [AdminController::class, 'updatepaymentOR']);
 });
 
 

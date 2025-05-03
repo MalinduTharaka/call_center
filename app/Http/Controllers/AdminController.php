@@ -37,21 +37,113 @@ class AdminController extends Controller
 
     public function updateBoostingAD(Request $request, $id){
         $uc = Order::findOrFail($id);
-        $uc->update($request->all());
-        return redirect()->back()->with('success', 'Order Update Done');
+        $uc->update([
+            'ce' => $request->ce,
+            'name' => $request->name,
+            'contact' => $request->contact,
+            'work_type' => $request->work_type,
+            'page' => $request->page,
+            'work_status' => $request->work_status,
+            'payment_status' => $request->payment_status,
+            'cash' => $request->cash,
+            'advertiser_id' => $request->advertiser_id,
+            'package_amt' => $request->package_amt,
+            'service' => $request->service,
+            'tax' => $request->tax,
+            'details' => $request->details,
+            'add_acc_id' => $request->add_acc_id,
+        ]);
+
+        $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
+        if($request->package_amt > $request->package_amtold){
+            $invoice->update([
+                'total' => $invoice->total + ($request->package_amt - $request->package_amtold)
+            ]);
+        }else{
+            $invoice->update([
+                'total' => $invoice->total - ($request->package_amtold - $request->package_amt)
+            ]);
+        }
+        if($request->service > $request->serviceold){
+            $invoice->update([
+                'total' => $invoice->total + ($request->service - $request->serviceold)
+            ]);
+        }else{
+            $invoice->update([
+                'total' => $invoice->total - ($request->serviceold - $request->service)
+            ]);
+        }
+        if($request->tax > $request->taxold){
+            $invoice->update([
+                'total' => $invoice->total + ($request->tax - $request->taxold)
+            ]);
+        }else{
+            $invoice->update([
+                'total' => $invoice->total - ($request->taxold - $request->tax)
+            ]);
+        }
+
+
+
+        return redirect()->back()->with('success', 'Boosting Order Update Done');
     }
 
     public function updateDesignsAD(Request $request, $id){
         $uc = Order::findOrFail($id);
-        $uc->update($request->all());
-        return redirect()->back()->with('success', 'Order Update Done');
+        $uc->update([
+            'ce' => $request->ce,
+            'name' => $request->name,
+            'contact' => $request->contact,
+            'work_type' => $request->work_type,
+            'work_status' => $request->work_status,
+            'payment_status' => $request->payment_status,
+            'amount' => $request->amount,
+        ]);
+
+
+        $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
+        if($request->amount > $request->amountold){
+            $invoice->update([
+                'total' => $invoice->total + ($request->amount - $request->amountold)
+            ]);
+        }else{
+            $invoice->update([
+                'total' => $invoice->total - ($request->amountold - $request->amount)
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Designs Order Update Done');
     }
 
     public function updateVideoAD(Request $request, $id){
         $uc = Order::findOrFail($id);
-        $uc->update($request->all());
+        $uc->update([
+            'ce' => $request->ce,
+            'name' => $request->name,
+            'contact' => $request->contact,
+            'amount' => $request->amount,
+            'our_amount' => $request->our_amount,
+            'work_type' => $request->work_type,
+            'script' => $request->script,
+            'shoot' => $request->shoot,
+            'work_status' => $request->work_status,
+            'payment_status' => $request->payment_status,
+            'cash' => $request->cash,
+        ]);
+
+
+        $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
+        if($request->amount > $request->amountold){
+            $invoice->update([
+                'total' => $invoice->total + ($request->amount - $request->amountold)
+            ]);
+        }else{
+            $invoice->update([
+                'total' => $invoice->total - ($request->amountold - $request->amount)
+            ]);
+        }
     
-        return redirect()->back()->with('success', 'Order Update Done');
+        return redirect()->back()->with('success', 'Video Order Update Done');
     }
     
 
@@ -71,8 +163,27 @@ class AdminController extends Controller
 
     public function updateOrAD(Request $request, $id){
         $uc = OtherOrder::findOrFail($id);
-        $uc->update($request->all());
-    
+        $uc->update([
+            'ce' => $request->ce,
+            'name' => $request->name,
+            'contact' => $request->contact,
+            'work_status' => $request->work_status,
+            'payment_status' => $request->payment_status,
+            'cash' => $request->cash,
+            'amount' => $request->amount,
+            'note' => $request->note,
+        ]);
+
+        $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
+        if($request->amount > $request->amountold){
+            $invoice->update([
+                'total' => $invoice->total + ($request->amount - $request->amountold)
+            ]);
+        }else{
+            $invoice->update([
+                'total' => $invoice->total - ($request->amountold - $request->amount)
+            ]);
+        }
         return redirect()->back()->with('success', 'Other Order Update Done');
     }
 }

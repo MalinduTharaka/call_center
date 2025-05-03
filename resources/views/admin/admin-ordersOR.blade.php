@@ -35,7 +35,7 @@
                 let bsAlert = new bootstrap.Alert(alert);
                 bsAlert.close();
             });
-        }, 2000); // Auto-dismiss after 4 seconds
+        }, 1000); // Auto-dismiss after 1 seconds
     </script>
 
     <div class="row mt-3">
@@ -72,9 +72,8 @@
                     <tbody>
                         @foreach ($other_orders as $order)
                             @if ($order->ps == '1')
-
-                                <tr class="fw-semibold" data-o+lhrder-id="{{ $order->id }}">
-                                    <form action="/admin/orders/or/update/{{ $order->id }}" method="post">
+                                <tr class="fw-semibold" data-order-id="{{ $order->id }}">
+                                    <form action="/admin/orders/updateOR/{{ $order->id }}" method="post">
                                         @csrf
                                         @method('put')
                                         <td>{{ $order->date }}</td>
@@ -95,6 +94,8 @@
                                         </td>
                                         <td>
                                             <span>{{ $order->invoice_id }}</span>
+                                            <input type="text" name="inv" class="form-control" value="{{ $order->invoice_id }}"
+                                                hidden>
                                         </td>
                                         <td>
                                             <span>{{ $order->callCenter->cc_name }}</span>
@@ -104,26 +105,28 @@
                                         </td>
                                         <td>
                                             <span class="display-mode">{{$order->name}}</span>
-                                            <input type="text" name="name" class="form-control edit-mode" value="{{ $order->name }}">
+                                            <input type="text" name="name" class="form-control edit-mode"
+                                                value="{{ $order->name }}">
                                         </td>
                                         <td>
                                             <span class="display-mode">{{$order->contact}}</span>
-                                            <input type="text" name="contact" class="form-control edit-mode" value="{{ $order->contact }}">
+                                            <input type="text" name="contact" class="form-control edit-mode"
+                                                value="{{ $order->contact }}">
                                         </td>
                                         <td>
                                             <span class="badge fs-5 
-                                                @if(!$order->work_type == '') bg-dark
-                                                @endif">
+                                                            @if(!$order->work_type == '') bg-dark
+                                                            @endif">
                                                 {{ $order->work_type }}
                                             </span>
                                         </td>
                                         <td>
                                             <span class="badge fs-5 display-mode
-                                                @if($order->work_status == 'done') bg-primary
-                                                @elseif($order->work_status == 'pending') bg-danger
-                                                @elseif($order->work_status == 'send to customer') bg-warning
-                                                @elseif($order->work_status == 'send to designer') bg-dark
-                                                @endif">
+                                                            @if($order->work_status == 'done') bg-primary
+                                                            @elseif($order->work_status == 'pending') bg-danger
+                                                            @elseif($order->work_status == 'send to customer') bg-warning
+                                                            @elseif($order->work_status == 'send to designer') bg-dark
+                                                            @endif">
                                                 {{ $order->work_status }}
                                             </span>
                                             <select name="work_status" class="form-select edit-mode">
@@ -138,20 +141,31 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <span class="badge fs-5
-                                                @if($order->payment_status == 'done') bg-primary
-                                                @elseif($order->payment_status == 'pending') bg-danger
-                                                @elseif($order->payment_status == 'rejected') bg-warning
-                                                @elseif($order->payment_status == 'partial') bg-warning
-                                                @endif">
+                                            <span class="badge fs-5 display-mode
+                                                            @if($order->payment_status == 'done') bg-primary
+                                                            @elseif($order->payment_status == 'pending') bg-danger
+                                                            @elseif($order->payment_status == 'rejected') bg-warning
+                                                            @elseif($order->payment_status == 'partial') bg-warning
+                                                            @endif">
                                                 {{ $order->payment_status }}
                                             </span>
+                                            <select name="payment_status" class="form-select edit-mode">
+                                                <option value="" selected>Select</option>
+                                                <option value="done" @if($order->payment_status == 'done') selected @endif>done
+                                                </option>
+                                                <option value="pending" @if($order->payment_status == 'pending') selected @endif>
+                                                    pending</option>
+                                                <option value="rejected" @if($order->payment_status == 'rejected') selected @endif>
+                                                    rejected</option>
+                                                <option value="partial" @if($order->payment_status == 'partial') selected @endif>
+                                                    partial</option>
+                                            </select>
                                         </td>
                                         <td>
                                             <span class="badge fs-5  display-mode
-                                                @if($order->cash == 1.00) bg-warning bg-gradient
-                                                @elseif ($order->cash == 0.00) text-dark
-                                                @endif">
+                                                            @if($order->cash == 1.00) bg-warning bg-gradient
+                                                            @elseif ($order->cash == 0.00) text-dark
+                                                            @endif">
                                                 {{ $order->cash == 1.00 ? 'Cash' : 'None Cash' }}
                                             </span>
                                             <select name="cash" class="form-select edit-mode">
@@ -159,7 +173,13 @@
                                                 <option value="0" @if($order->cash == 0) selected @endif>none cash payment</option>
                                             </select>
                                         </td>
-                                        <td>{{ $order->amount }}</td>
+                                        <td>
+                                            <span class="display-mode">{{ (int) $order->amount }}</span>
+                                            <input type="text" name="amount" class="form-control edit-mode"
+                                                value="{{ $order->amount }}">
+                                            <input type="text" name="amountold" class="form-control" value="{{ $order->amount }}"
+                                                hidden>
+                                        </td>
                                         <td>
                                             <span>{{$order->advance}}</span>
                                         </td>
@@ -248,34 +268,31 @@
         }
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.querySelector('.search-input');
-        const searchBtn   = document.querySelector('.search-btn');
-        const table       = document.querySelector(searchInput.dataset.targetTable);
-        const rows        = table.querySelectorAll('tbody tr');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-input');
+            const searchBtn = document.querySelector('.search-btn');
+            const table = document.querySelector(searchInput.dataset.targetTable);
+            const rows = table.querySelectorAll('tbody tr');
 
-        // Filter rows based on search term
-        function filterRows() {
-            const term = searchInput.value.trim().toLowerCase();
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(term) ? '' : 'none';
+            // Filter rows based on search term
+            function filterRows() {
+                const term = searchInput.value.trim().toLowerCase();
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(term) ? '' : 'none';
+                });
+            }
+
+            // On click
+            searchBtn.addEventListener('click', filterRows);
+
+            // On Enter key
+            searchInput.addEventListener('keyup', function (e) {
+                if (e.key === 'Enter') filterRows();
+                else filterRows(); // optional: live-update on every keystroke
             });
-        }
-
-        // On click
-        searchBtn.addEventListener('click', filterRows);
-
-        // On Enter key
-        searchInput.addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') filterRows();
-            else filterRows(); // optional: live-update on every keystroke
         });
-    });
-</script>
-
-
-
+    </script>
 
 @endsection
