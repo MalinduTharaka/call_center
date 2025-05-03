@@ -267,6 +267,44 @@
 </script>
 
 
+<style>
+    /* Fixed height scrollable tables with sticky headers */
+    .table-responsive {
+        max-height: 70vh;
+        /* 70% of viewport height (adjust as needed) */
+        overflow: auto;
+        position: relative;
+        border: 1px solid #dee2e6;
+        /* Optional border */
+    }
 
+    /* Sticky headers */
+    .table-responsive table thead th {
+        position: sticky;
+        top: 0;
+        background: #343a40;
+        /* Match your table-dark background */
+        z-index: 10;
+    }
+
+    /* Prevent text wrapping to maintain column widths */
+    .table-responsive table td,
+    .table-responsive table th {
+        white-space: nowrap;
+        vertical-align: middle;
+        /* Better alignment for all cells */
+    }
+
+    /* Optional: Better scrollbar styling (works in modern browsers) */
+    .table-responsive::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: #adb5bd;
+        border-radius: 4px;
+    }
+</style>
 
 @endsection
