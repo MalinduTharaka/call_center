@@ -50,7 +50,7 @@
                         <dt class="col-sm-6 text-md-right small">ID #:</dt>
                         <dd class="col-sm-6 text-md-left small">{{ $orders->first()->invoice ?? 'N/A' }}</dd>
                         <dt class="col-sm-6 text-md-right small">Date:</dt>
-                        <dd class="col-sm-6 text-md-left small">{{ $orders->first()->date ?? now()->format('Y-m-d') }}</dd>
+                        <dd class="col-sm-6 text-md-left small">{{ $orders->first()->created_at ?? now()->format('Y-m-d') }}</dd>
                     </dl>
                 </div>
             </div>
@@ -66,7 +66,7 @@
         </div>
         <div class="mb-2 text-right">
             <p class="text-muted small mb-0">ID #: {{ $orders->first()->invoice ?? 'N/A' }}</p>
-            <p class="text-muted small mb-0">Date: {{ $orders->first()->date->format('Y-m-d') ?? now()->format('Y-m-d') }}</p>
+            <p class="text-muted small mb-0">Date: {{ $orders->first()->created_at->format('Y-m-d') ?? now()->format('Y-m-d') }}</p>
         </div>
     </div>
 
