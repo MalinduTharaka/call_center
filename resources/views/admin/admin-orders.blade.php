@@ -115,6 +115,7 @@
                                                 class="table table-hover table-centered table-bordered border-primary mb-0">
                                                 <thead class="table-dark table-bordered border-primary">
                                                     <tr>
+                                                        <th>Priority</th>
                                                         <th>ID</th>
                                                         <th>Slip <br /> Upload <br /> Date</th>
                                                         <th>CC</th>
@@ -150,6 +151,24 @@
                                                                     method="post">
                                                                     @csrf
                                                                     @method('put')
+                                                                    <td>
+                                                                        <span
+                                                                            class=" display-mode">
+                                                                                @if   ($order->add_acc === '1') Urgent
+                                                                                @elseif($order->add_acc === '2') No Data
+                                                                                @elseif($order->add_acc === '3') Continue
+                                                                                @else                            Unknown
+                                                                                @endif
+                                                                        </span>
+                                                                        <select name="add_acc" class="form-select edit-mode">
+                                                                            <option value="1" @if ($order->add_acc == '1') selected @endif>
+                                                                                Urgent</option>
+                                                                            <option value="2" @if ($order->add_acc == '2') selected @endif>
+                                                                                No Data</option>
+                                                                            <option value="3" @if ($order->add_acc == '3') selected @endif>
+                                                                                Continue</option>
+                                                                        </select>
+                                                                    </td>
                                                                     <td>{{ $order->id }}</td>
                                                                     <td>{{ $order->date->format('Y-m-d') }}</td>
                                                                     <td>{{ $order->croUser->cc_name ?? '-' }}</td>
