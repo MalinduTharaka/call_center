@@ -174,7 +174,9 @@
                                                                                     @elseif($order->work_status == 'send to customer') bg-warning
                                                                                     @elseif($order->work_status == 'send to designer') bg-dark
                                                                                     @elseif($order->work_status == 'error') bg-danger
-                                                                                    @endif">
+                                                                                    @elseif($order->work_status == '')
+                                                                                @else
+                                                                                bg-info @endif">
                                                                                     {{ $order->work_status }}
                                                                                 </span>
                                                                                 <select name="work_status" class="form-select edit-mode">
