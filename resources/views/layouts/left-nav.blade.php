@@ -289,6 +289,12 @@
                 </li>
             @elseif (Auth::user()->role == 'adv')
                 <li class="side-nav-item">
+                    <a href="/advertisers_all_order/manage" class="side-nav-link">
+                        <i class="ri-dashboard-3-line"></i>
+                        <span> Assign Order </span>
+                    </a>
+                </li>
+                <li class="side-nav-item">
                     <a href="/advertisers/manage" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Advertiser </span>

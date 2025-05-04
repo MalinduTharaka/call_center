@@ -78,9 +78,9 @@
                     </thead>
                     <tbody>
                         @foreach ($orders as $order)
-                            @if (Auth::user()->id == $order->advertiser_id && $order->ps == '1' && $order->order_type == 'boosting')
+                            @if ($order->ps == '1' && $order->order_type == 'boosting')
                                 <tr class="fw-semibold" data-o+lhrder-id="{{ $order->id }}">
-                                    <form action="/advertisers/update/{{ $order->id }}" method="post">
+                                    <form action="/advertisers_all_order/update/{{ $order->id }}" method="post">
                                         @csrf
                                         @method('put')
                                         <td>{{ $order->id }}</td>
@@ -119,7 +119,7 @@
                                                 @if (!$order->workType->name == '') bg-dark @endif">
                                                 {{ $order->workType->name ?? '-' }}
                                             </span>
-                                            <select name="work_type_id" class="form-select edit-mode">
+                                            {{-- <select name="work_type_id" class="form-select edit-mode">
                                                 <option value="" selected>Select</option>
                                                 @foreach ($work_types as $work_type)
                                                     @if ($work_type->order_type == 'boosting')
@@ -128,12 +128,12 @@
                                                             {{ $work_type->name }}</option>
                                                     @endif
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
                                         </td>
 
                                         <td>
                                             <span class="badge fs-5 bg-dark display-mode">{{ $order->page }}</span>
-                                            <select name="page" class="form-select edit-mode">
+                                            {{-- <select name="page" class="form-select edit-mode">
                                                 <option value="" selected>Select</option>
                                                 <option value="new" @if ($order->page == 'new') selected @endif>
                                                     new</option>
@@ -142,7 +142,7 @@
                                                 <option value="existing" @if ($order->page == 'existing') selected @endif>
                                                     existing
                                                 </option>
-                                            </select>
+                                            </select> --}}
                                         </td>
                                         <td>
                                             <span
@@ -154,10 +154,11 @@
                                                                                 @elseif($order->work_status == 'error') bg-danger
                                                                                 @elseif($order->work_status == '')
                                                                                 @else
-                                                                                bg-info @endif">
+                                                                                bg-info
+                                                                                @endif">
                                                 {{ $order->work_status }}
                                             </span>
-                                            <select name="work_status" class="form-select edit-mode">
+                                            {{-- <select name="work_status" class="form-select edit-mode">
                                                 <option value="" selected>Select</option>
                                                 <option value="done" @if ($order->work_status == 'done') selected @endif>
                                                     done</option>
@@ -171,7 +172,7 @@
                                                 </option>
                                                 <option value="error" @if ($order->work_status == 'error') selected @endif>
                                                     error</option>
-                                            </select>
+                                            </select> --}}
                                         </td>
                                         <td>
                                             <span
@@ -222,8 +223,8 @@
                                         </td>
                                         <td>
                                             <span class="display-mode">{{ $order->details }}</span>
-                                            <input type="text" name="details" class="form-control edit-mode"
-                                                value="{{ $order->details }}">
+                                            {{-- <input type="text" name="details" class="form-control edit-mode"
+                                                value="{{ $order->details }}"> --}}
                                         </td>
                                         <td>
                                             @if (empty($order->add_acc_id))
@@ -234,15 +235,18 @@
                                                     <i class="ri-arrow-up-circle-line "></i>
                                                 </a>
                                             @endif
-                                            <input type="text" name="add_acc_id" class="form-control edit-mode"
-                                                value="{{ $order->add_acc_id }}">
+                                            {{-- <input type="text" name="add_acc_id" class="form-control edit-mode"
+                                                value="{{ $order->add_acc_id }}"> --}}
                                         </td>
 
                                         <td>
                                             @include('includes.slip-view')
                                         </td>
                                         <td>
+                                            @unless ($order->work_status == 'advertise pending')
                                             <button type="button" class="btn btn-primary edit-btn">Edit</button>
+                                            @endunless
+                                            
                                             <button type="submit" class="btn btn-primary done-btnb">Done</button>
                                         </td>
                                     </form>

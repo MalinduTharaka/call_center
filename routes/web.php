@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\ActorsWorkDoneController;
 use App\Http\Controllers\AddAccountController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdvertiserAllOrdersController;
 use App\Http\Controllers\CroWorkDoneController;
 use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\DesignersWorkDoneController;
@@ -132,6 +133,8 @@ Route::middleware([
     //Advertiser Routes
     Route::get('/advertisers/manage', [AdvertiserController::class, 'index'])->name('advertisers.index');
     Route::put('/advertisers/update/{id}', [AdvertiserController::class, 'updateAdv'])->name('advertisers.update');
+    Route::get('/advertisers_all_order/manage', [AdvertiserAllOrdersController::class, 'index'])->name('advertisers.index');
+    Route::put('/advertisers_all_order/update/{id}', [AdvertiserAllOrdersController::class, 'updateAdvAll'])->name('advertisers.update');
 
     //Other Order Routes
     Route::get('/other_orders', [OtherOrderController::class, 'index']);
