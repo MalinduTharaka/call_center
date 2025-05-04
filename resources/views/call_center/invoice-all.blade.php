@@ -262,21 +262,21 @@
                 <p>Payment is due within 30 days of receipt.</p>
             @endif
         </div>
-        <table style="width: 100%;">
+        <table class="bank-details-table" style="width: 100%;">
             <tr>
                 <td style="width: 50%; vertical-align: top;">
                     <p>Commercial Bank<br>
-                    ACCOUNT NUMBER - 1000620243<br>
-                    NAME - WISHWA ADS TEAM<br>
-                    COMMERCIAL BANK<br>
-                    GANEMULLA BRANCH</p>
+                        Account Number -  1000620243<br>
+                        Name -  WISHWA ADS TEAM<br>
+                        Bank -  COMMERCIAL BANK<br>
+                        Branch - GANEMULLA BRANCH</p>
                 </td>
                 <td style="width: 50%; vertical-align: top;">
                     <p>BOC<br>
-                    ACCOUNT NUMBER - 1425126<br>
-                    NAME - W C C WISHWAJITH<br>
-                    Bank of Ceylon ( BOC )<br>
-                    GAMPAHA BRANCH</p>
+                        Account Number - 1425126<br>
+                        Name - W C C WISHWAJITH<br>
+                        Bank - BANK OF CEYLON ( BOC )<br>
+                        Branch - GAMPAHA BRANCH</p>
                 </td>
             </tr>
         </table>
@@ -305,6 +305,9 @@
         .d-print-none { display:none!important; }
         img { max-height:70px!important; }
         .row, .d-flex { page-break-inside:avoid!important; }
+        .bank-details-table {
+                font-size: 9pt !important;
+            }
         @page { size:auto; margin:5mm; }
     }
 </style>

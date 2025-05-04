@@ -24,7 +24,7 @@ class AdminController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::whereBetween('date', [$from, $to])->get();
+        $orders = Order::whereBetween('date', [$from, $to])->orderBy('date')->get();
         $packages = Package::all();
         $users = User::all();
         $slips = Slip::all();
@@ -63,7 +63,7 @@ class AdminController extends Controller
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
         $invoices = Invoice::all();
-        $other_orders = OtherOrder::whereBetween('date', [$from, $to])->get();
+        $other_orders = OtherOrder::whereBetween('date', [$from, $to])->orderBy('date')->get();
         $slips = Slip::all();
         $users = User::all();
         return view('admin.admin-ordersOR', compact('other_orders',  'users', 'slips', 'invoices'));

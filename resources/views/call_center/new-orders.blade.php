@@ -217,6 +217,7 @@
                                                 class="table table-hover table-centered table-bordered border-primary mb-0">
                                                 <thead class="table-dark table-bordered border-primary">
                                                     <tr>
+                                                        <th>Id</th>
                                                         <th>Slip<br /> Upload<br /> Date</th>
                                                         <th>C/E</th>
                                                         <th>Invoice</th>
@@ -249,6 +250,7 @@
                                                                     method="post">
                                                                     @csrf
                                                                     @method('put')
+                                                                    <td>{{ $order->id }}</td>
                                                                     <td>{{ $order->date->format('Y-m-d') }}</td>
                                                                     <td>
                                                                         <span
@@ -441,10 +443,10 @@
                                             </div>
                                         </div>
                                         <table class="table table-hover table-centered table-bordered border-primary mb-0">
-                                            <thead class="table-dark">
+                                            <thead class="table-dark table-bordered border-primary">
                                                 <tr>
                                                     <th>Id</th>
-                                                    <th>Date</th>
+                                                    <th>Slip <br /> Upload <br /> Date</th>
                                                     <th>C/E</th>
                                                     <th>Invoice</th>
                                                     <th>Name<br />Company</th>
@@ -469,7 +471,7 @@
                                                                 @csrf
                                                                 @method('put')
                                                                 <td>{{ $order->id }}</td>
-                                                                <td>{{ $order->date }}</td>
+                                                                <td>{{ $order->date->format('Y-m-d') }}</td>
                                                                 <td>
                                                                     <span
                                                                         class="badge fs-5
@@ -600,9 +602,10 @@
                                         <div class="table-responsive">
                                             <table
                                                 class="table table-hover table-centered table-bordered border-primary mb-0">
-                                                <thead class="table-dark">
+                                                <thead class="table-dark table-bordered border-primary">
                                                     <tr>
-                                                        <th>Date</th>
+                                                        <th>Id</th>
+                                                        <th>Slip <br /> Upload <br /> Date</th>
                                                         <th>C/E</th>
                                                         <th>Invoice</th>
                                                         <th>Name<br />Company</th>
@@ -630,9 +633,10 @@
                                                                     method="post">
                                                                     @csrf
                                                                     @method('put')
-                                                                    <td>
-                                                                        <span>{{ $order->date }}</span>
-                                                                    </td>
+                                                                    <td>{{ $order->id }}</td>
+
+                                                                    <td>{{ $order->date->format('Y-m-d') }}</td>
+
                                                                     <td>
                                                                         <span
                                                                             class="badge fs-5

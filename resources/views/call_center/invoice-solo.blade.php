@@ -6,14 +6,12 @@
 
         @php
             // determine invoice prefix
-            $prefix = !empty($boostingOrders)
-                ? 'b'
-                : (!empty($designOrders) ? 'd' : 'v');
+            $prefix = !empty($boostingOrders) ? 'b' : (!empty($designOrders) ? 'd' : 'v');
         @endphp
 
         {{-- Hidden Inputs --}}
-        @foreach(array_merge($boostingOrders, $designOrders, $videoOrders) as $index => $order)
-            @foreach($order as $key => $value)
+        @foreach (array_merge($boostingOrders, $designOrders, $videoOrders) as $index => $order)
+            @foreach ($order as $key => $value)
                 <input type="hidden" name="orders[{{ $index }}][{{ $key }}]" value="{{ $value }}">
             @endforeach
         @endforeach
@@ -22,19 +20,16 @@
         <input type="hidden" name="inv_no" value="{{ $inv_id }}">
         <input type="hidden" name="total" id="total_due">
         <input type="hidden" name="contact"
-            value="{{ $boostingOrders[0]['contact'] ?? $designOrders[0]['contact'] ?? $videoOrders[0]['contact'] ?? '' }}">
+            value="{{ $boostingOrders[0]['contact'] ?? ($designOrders[0]['contact'] ?? ($videoOrders[0]['contact'] ?? '')) }}">
         <input type="hidden" name="date" value="{{ now()->toDateString() }}">
         <input type="hidden" name="name"
-            value="{{ $boostingOrders[0]['name'] ?? $designOrders[0]['name'] ?? $videoOrders[0]['name'] ?? '' }}">
+            value="{{ $boostingOrders[0]['name'] ?? ($designOrders[0]['name'] ?? ($videoOrders[0]['name'] ?? '')) }}">
         <input type="hidden" name="type" value="{{ $type }}">
 
         @php
-            $gb = collect($boostingOrders)
-                ->groupBy(fn($o) => $o['work_type'] . '-' . $o['package_amt']);
-            $gd = collect($designOrders)
-                ->groupBy(fn($o) => $o['work_type'] . '-' . $o['amount']);
-            $gv = collect($videoOrders)
-                ->groupBy(fn($o) => $o['work_type'] . '-' . $o['amount'] . '-' . $o['time']);
+            $gb = collect($boostingOrders)->groupBy(fn($o) => $o['work_type'] . '-' . $o['package_amt']);
+            $gd = collect($designOrders)->groupBy(fn($o) => $o['work_type'] . '-' . $o['amount']);
+            $gv = collect($videoOrders)->groupBy(fn($o) => $o['work_type'] . '-' . $o['amount'] . '-' . $o['time']);
 
             $taxTotal = collect($boostingOrders)->sum('tax');
             $serviceTotal = collect($boostingOrders)->sum('service');
@@ -90,13 +85,14 @@
                 <div class="mb-3">
                     <h2 class="h5 font-weight-semibold text-secondary">Bill To:</h2>
                     <p class="text-dark">
-                        {{ $boostingOrders[0]['name'] ?? $designOrders[0]['name'] ?? $videoOrders[0]['name'] ?? '' }}</p>
+                        {{ $boostingOrders[0]['name'] ?? ($designOrders[0]['name'] ?? ($videoOrders[0]['name'] ?? '')) }}</p>
                     <p class="text-muted small">Phone:
-                        {{ $boostingOrders[0]['contact'] ?? $designOrders[0]['contact'] ?? $videoOrders[0]['contact'] ?? '' }}
+                        {{ $boostingOrders[0]['contact'] ?? ($designOrders[0]['contact'] ?? ($videoOrders[0]['contact'] ?? '')) }}
                     </p>
                 </div>
                 <div class="mb-3 text-right">
-                    <p class="text-muted small mb-0">{{ $type == 1 ? 'Quotation' : 'Invoice' }} #: {{ $prefix . $inv_id }}</p>
+                    <p class="text-muted small mb-0">{{ $type == 1 ? 'Quotation' : 'Invoice' }} #: {{ $prefix . $inv_id }}
+                    </p>
                     <p class="text-muted small mb-0">Date: {{ now()->format('Y-m-d') }}</p>
                 </div>
             </div>
@@ -113,7 +109,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($gb as $group)
+                    @foreach ($gb as $group)
                         @php
                             $o = $group->first();
                             $cnt = $group->count();
@@ -132,7 +128,7 @@
                         </tr>
                     @endforeach
 
-                    @foreach($gd as $group)
+                    @foreach ($gd as $group)
                         @php
                             $o = $group->first();
                             $cnt = $group->count();
@@ -151,7 +147,7 @@
                         </tr>
                     @endforeach
 
-                    @foreach($gv as $group)
+                    @foreach ($gv as $group)
                         @php
                             $o = $group->first();
                             $cnt = $group->count();
@@ -175,7 +171,7 @@
                         <td class="text-right ab-total">0.00</td>
                     </tr>
 
-                    @if(!empty($boostingOrders))
+                    @if (!empty($boostingOrders))
                         <tr>
                             <td colspan="4" class="text-right">Verified Ad account fee & tax</td>
                             <td class="text-right" id="tax-amount">{{ number_format($taxTotal, 2) }}</td>
@@ -186,15 +182,13 @@
                         </tr>
                     @endif
                     @php
-                    // Count how many boosting orders have service == 0
-                    $discountCount = collect($boostingOrders)
-                        ->where('service', 0)
-                        ->count();
+                        // Count how many boosting orders have service == 0
+                        $discountCount = collect($boostingOrders)->where('service', 0)->count();
 
-                    // Each “free” service line becomes a Rs.1,000 discount
-                    $discountAmount = $discountCount * 1000;
+                        // Each “free” service line becomes a Rs.1,000 discount
+                        $discountAmount = $discountCount * 1000;
                     @endphp
-                    @if($discountCount > 0)
+                    @if ($discountCount > 0)
                         <tr class="text-danger">
                             <td colspan="4" class="border text-right">
                                 Discount ({{ $discountCount }})
@@ -216,21 +210,21 @@
             <div class="text-muted small border-top pt-3 mt-3">
                 <p>{{ $type == 1 ? 'Quotation valid for 30 days.' : 'Payment is due within 30 days of receipt.' }}</p>
             </div>
-            <table style="width: 100%;">
+            <table class="bank-details-table" style="width: 100%;">
                 <tr>
                     <td style="width: 50%; vertical-align: top;">
                         <p>Commercial Bank<br>
-                            ACCOUNT NUMBER - 1000620243<br>
-                            NAME - WISHWA ADS TEAM<br>
-                            COMMERCIAL BANK<br>
-                            GANEMULLA BRANCH</p>
+                            Account Number -  1000620243<br>
+                            Name -  WISHWA ADS TEAM<br>
+                            Bank -  COMMERCIAL BANK<br>
+                            Branch - GANEMULLA BRANCH</p>
                     </td>
                     <td style="width: 50%; vertical-align: top;">
                         <p>BOC<br>
-                            ACCOUNT NUMBER - 1425126<br>
-                            NAME - W C C WISHWAJITH<br>
-                            Bank of Ceylon ( BOC )<br>
-                            GAMPAHA BRANCH</p>
+                            Account Number - 1425126<br>
+                            Name - W C C WISHWAJITH<br>
+                            Bank - BANK OF CEYLON ( BOC )<br>
+                            Branch - GAMPAHA BRANCH</p>
                     </td>
                 </tr>
             </table>
@@ -320,6 +314,10 @@
                 page-break-inside: avoid;
             }
 
+            .bank-details-table {
+                font-size: 9pt !important;
+            }
+
             @page {
                 size: auto;
                 margin: 5mm;
@@ -331,7 +329,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-        function parseNumber(v) { return parseFloat(v.replace(/,/g, '')) || 0; }
+        function parseNumber(v) {
+            return parseFloat(v.replace(/,/g, '')) || 0;
+        }
 
         function updateInvoice() {
             let subtotal = 0;
@@ -351,13 +351,18 @@
         document.addEventListener('DOMContentLoaded', updateInvoice);
 
         document.getElementById('download-pdf').addEventListener('click', () => {
-            const { jsPDF } = window.jspdf;
+            const {
+                jsPDF
+            } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
-            html2canvas(document.querySelector('.container'), { scale: 2 }).then(canvas => {
+            html2canvas(document.querySelector('.container'), {
+                scale: 2
+            }).then(canvas => {
                 const img = canvas.toDataURL('image/png');
-                const w = 210, h = canvas.height * w / canvas.width;
+                const w = 210,
+                    h = canvas.height * w / canvas.width;
                 pdf.addImage(img, 'PNG', 0, 0, w, h);
-                pdf.save('{{ ($type == 1 ? 'quotation' : 'invoice') }}_{{ $inv_id }}.pdf');
+                pdf.save('{{ $type == 1 ? 'quotation' : 'invoice' }}_{{ $inv_id }}.pdf');
             });
         });
     </script>
