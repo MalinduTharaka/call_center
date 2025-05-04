@@ -232,7 +232,9 @@
                                                                             @elseif($order->work_status == 'pending') bg-danger
                                                                             @elseif($order->work_status == 'send to customer') bg-warning
                                                                             @elseif($order->work_status == 'send to designer') bg-dark
-                                                                            @elseif($order->work_status == 'error') bg-danger @endif">
+                                                                            @elseif($order->work_status == 'error') bg-danger @elseif($order->work_status == '')
+                                                                                @else
+                                                                                bg-info @endif">
                                                                             {{ $order->work_status }}
                                                                         </span>
                                                                         <select name="work_status"
@@ -1010,7 +1012,7 @@
             document.querySelectorAll('.edit-btn').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e
-                .stopPropagation(); // Prevent this click from triggering the document click handler
+                        .stopPropagation(); // Prevent this click from triggering the document click handler
 
                     // If another row is being edited, revert it first
                     if (currentlyEditing && currentlyEditing !== this.closest('tr')) {
