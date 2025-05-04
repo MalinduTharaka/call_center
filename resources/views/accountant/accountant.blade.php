@@ -101,12 +101,10 @@
                                                                     <td>{{ $order->id }}</td>
                                                                     <td>{{ $order->date->format('Y-m-d') }}</td>
                                                                     <td>
-                                                                        <span
-                                                                            class="badge fs-5 display-mode
-                                                                                                                    @if ($order->ce == 'c') bg-primary
-                                                                                                                    @elseif($order->ce == 'e') bg-danger @endif">
-                                                                            {{ $order->ce }}
-                                                                        </span>
+                                                                        <span class="badge fs-5 display-mode @if ($order->ce == 'c') bg-primary @elseif($order->ce == 'e') bg-danger @endif"
+                                                                            data-field="ce">
+                                                                          {{ $order->ce }}
+                                                                      </span>
                                                                         <select name="ce"
                                                                             class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
@@ -202,9 +200,14 @@
                                                                         <span>{{ $order->details }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <a href="{{ $order->add_acc_id }}" target="_blank">
-                                                                            {{ $order->add_acc_id }}
-                                                                        </a>
+                                                                        @if (empty($order->add_acc_id))
+                                                                            <span class="display-mode">Not Added</span>
+                                                                        @else
+                                                                            <a href="{{ $order->add_acc_id }}" target="_blank"
+                                                                                class="btn btn-info display-mode">
+                                                                                <i class="ri-arrow-up-circle-line "></i>
+                                                                            </a>
+                                                                        @endif
                                                                     </td>
 
                                                                     <td>
@@ -270,12 +273,10 @@
                                                                     <td>{{ $order->id }}</td>
                                                                     <td>{{ $order->date->format('Y-m-d') }}</td>
                                                                     <td>
-                                                                        <span
-                                                                            class="badge fs-5 display-mode
-                                                                                                                @if ($order->ce == 'c') bg-primary
-                                                                                                                @elseif($order->ce == 'e') bg-danger @endif">
-                                                                            {{ $order->ce }}
-                                                                        </span>
+                                                                        <span class="badge fs-5 display-mode @if ($order->ce == 'c') bg-primary @elseif($order->ce == 'e') bg-danger @endif"
+                                                                            data-field="ce">  <!-- Added data-field attribute -->
+                                                                          {{ $order->ce }}
+                                                                      </span>
                                                                         <select name="ce"
                                                                             class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
@@ -407,12 +408,10 @@
                                                                         <span>{{ $order->date->format('Y-m-d') }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span
-                                                                            class="badge fs-5 display-mode 
-                                                                                                                @if ($order->ce == 'c') bg-primary
-                                                                                                                @elseif($order->ce == 'e') bg-danger @endif">
-                                                                            {{ $order->ce }}
-                                                                        </span>
+                                                                        <span class="badge fs-5 display-mode @if ($order->ce == 'c') bg-primary @elseif($order->ce == 'e') bg-danger @endif"
+                                                                            data-field="ce">  <!-- Added data-field attribute -->
+                                                                          {{ $order->ce }}
+                                                                      </span>
                                                                         <select name="ce"
                                                                             class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
@@ -728,5 +727,72 @@
             border-radius: 4px;
         }
     </style>
+<!-- Add SweetAlert CSS/JS -->
+<!-- Add SweetAlert CSS/JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle form submissions
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const row = this.closest('tr');
+            const url = form.action;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.message || 'Update failed');
+                
+                // Update only CE badge
+                updateCEBadge(row, data.order.ce);
+                row.classList.remove('editing');
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'CE value updated successfully',
+                    timer: 1000,
+                    showConfirmButton: false
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: error.message,
+                    timer: 1000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+
+    function updateCEBadge(row, ceValue) {
+        const ceBadge = row.querySelector('[data-field="ce"]');
+        if (!ceBadge) return;
+        
+        // Update badge text and classes
+        ceBadge.textContent = ceValue;
+        ceBadge.className = `badge fs-5 display-mode ${
+            ceValue === 'c' ? 'bg-primary' : 'bg-danger'
+        }`;
+    }
+
+    // Existing edit mode and search code...
+});
+</script>
 
 @endsection
