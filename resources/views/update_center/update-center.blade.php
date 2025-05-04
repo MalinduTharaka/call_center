@@ -286,6 +286,7 @@
                                                 <button class="btn btn-primary search-btn">Search</button>
                                             </div>
                                         </div>
+                                        <div class="table-responsive">
                                         <table class="table table-hover table-centered table-bordered border-primary mb-0">
                                             <thead class="table-dark table-bordered border-primary">
                                                 <tr>
@@ -420,6 +421,7 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
                             </div>
