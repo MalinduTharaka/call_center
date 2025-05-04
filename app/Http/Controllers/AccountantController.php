@@ -51,24 +51,35 @@ class AccountantController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->update($request->all());
-        return redirect()->back()->with('success', 'Boosting Order Updated Successfully');
+        return response()->json([
+            'success' => true,
+            'order' => $order->fresh()
+        ]);
     }
     public function accUpdateD(Request $request, $id)
     {
         $order = Order::findOrFail($id);
         $order->update($request->all());
-        return redirect()->back()->with('success', 'Designs Order Updated Successfully');
+        return response()->json([
+            'success' => true,
+            'order' => $order->fresh()
+        ]);
     }
     public function accUpdateV(Request $request, $id)
     {
         $order = Order::findOrFail($id);
         $order->update($request->all());
-        return redirect()->back()->with('success', 'Video Order Updated Successfully');
+        return response()->json([
+            'success' => true,
+            'order' => $order->fresh()
+        ]);
     }
     public function accUpdateOR(Request $request, $id)
     {
         $other_order = OtherOrder::findOrFail($id);
-        $other_order->update($request->all());
+        $other_order->update([
+            'ce' => $request->ce,
+        ]);
         return redirect()->back()->with('success', 'Other Order Updated Successfully');
     }
 }

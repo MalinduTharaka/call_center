@@ -284,7 +284,7 @@
                                                                         <span
                                                                             class="badge fs-5 display-mode
                                                                                                             @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name }}
+                                                                            {{ $order->workType->name ?? '-' }}
                                                                         </span>
                                                                         <select name="work_type_id"
                                                                             class="form-select edit-mode">
@@ -499,7 +499,7 @@
                                                                         <span
                                                                             class="badge fs-5 display-mode
                                                                                                         @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name }}
+                                                                            {{ $order->workType->name ?? '-'  }}
                                                                         </span>
                                                                         <select name="work_type_id"
                                                                             class="form-select edit-mode">
@@ -549,7 +549,7 @@
                                                                             {{ $order->payment_status }}
                                                                         </span>
                                                                     </td>
-                                                                    <td>{{ $order->Designer->name }}</td>
+                                                                    <td>{{ $order->Designer->name ?? '-'  }}</td>
                                                                     <td>
                                                                         <span>{{ $order->amount }}</span>
                                                                     </td>
@@ -674,7 +674,7 @@
                                                                         <span
                                                                             class="badge fs-5 display-mode
                                                                                                         @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name }}
+                                                                            {{ $order->workType->name ?? '-'  }}
                                                                         </span>
                                                                         <select name="work_type_id"
                                                                             class="form-select edit-mode">

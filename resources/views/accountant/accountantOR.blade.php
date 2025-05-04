@@ -82,7 +82,8 @@
                                             <span
                                                 class="badge fs-5 display-mode
                                                 @if ($order->ce == 'c') bg-primary
-                                                @elseif($order->ce == 'e') bg-danger @endif">
+                                                @elseif($order->ce == 'e') bg-danger @endif"
+                                                data-field="ce">
                                                 {{ $order->ce }}
                                             </span>
                                             <select name="ce" class="form-select edit-mode">
@@ -299,4 +300,78 @@
             border-radius: 4px;
         }
     </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Existing edit mode and search code...
+
+        // AJAX Form Submission
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const row = form.closest('tr');
+                const url = form.action;
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                        },
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) throw new Error(data.message || 'Failed to update order');
+
+                    // Update table row with new data
+                    updateRow(row, data.order);
+                    exitEditMode(row);
+                    
+                    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"
+                        style="color: #155724; background-color: #d4edda; border-color: #c3e6cb;">
+                        <strong>Success!</strong> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                } catch (error) {
+                    console.error('Error:', error);
+                    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"
+                        style="color: #155724; background-color: #d4edda; border-color: #c3e6cb;">
+                        <strong>Error!</strong> {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+            });
+        });
+
+        function updateRow(row, order) {
+            // Update CE
+            row.querySelector('.display-mode.badge').textContent = order.ce;
+            row.querySelector('.display-mode.badge').className = 
+                `badge fs-5 display-mode ${order.ce === 'c' ? 'bg-primary' : 'bg-danger'}`;
+        }
+
+        function getStatusClass(status, type) {
+            const classes = {
+                work: {
+                    'done': 'bg-primary',
+                    'pending': 'bg-danger',
+                    'send to customer': 'bg-warning',
+                    'send to designer': 'bg-dark'
+                },
+                payment: {
+                    'done': 'bg-primary',
+                    'pending': 'bg-danger',
+                    'rejected': 'bg-warning',
+                    'partial': 'bg-warning'
+                }
+            };
+            return classes[type][status] || '';
+        }
+    });
+</script>
+
 @endsection
