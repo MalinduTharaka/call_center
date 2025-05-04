@@ -57,6 +57,20 @@
             color: #fff;
         }
     </style>
+    <style>
+        /* style.css */
+        tr[data-add-acc="1"] {
+            background-color: #f8d7da;
+        }
+
+        tr[data-add-acc="2"] {
+            background-color: rgb(146, 217, 247);
+        }
+
+        tr[data-add-acc="3"] {
+            background-color: rgb(125, 226, 195);
+        }
+    </style>
 
     <div class="row">
         <div class="col-12">
@@ -131,7 +145,7 @@
                                                 <tbody>
                                                     @foreach ($orders as $order)
                                                         @if ($order->ps == '1' && $order->order_type == 'boosting')
-                                                            <tr class="fw-semibold" data-order-id="{{ $order->id }}">
+                                                            <tr class="fw-semibold" data-order-id="{{ $order->id }}" data-add-acc="{{ $order->add_acc }}">
                                                                 <form action="/admin/orders/updateB/{{ $order->id }}"
                                                                     method="post">
                                                                     @csrf
