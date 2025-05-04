@@ -110,6 +110,7 @@ class SlipController extends Controller
             foreach ($subset as $o) {
                 $o->advance = $amtPer;
                 $o->payment_status = 'partial';
+                $o->date = Carbon::now();
                 $o->save();
             }
         };
@@ -248,6 +249,7 @@ class SlipController extends Controller
         foreach ($orders as $index => $order) {
             $order->advance = $advances->get($index, 0);
             $order->payment_status = 'partial';
+            $order->date = Carbon::now();
             $order->save();
         }
 

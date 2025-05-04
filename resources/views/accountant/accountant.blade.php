@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
-    @if(session('success'))
+    @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert"
             style="color: #155724; background-color: #d4edda; border-color: #c3e6cb;">
             <strong>Success!</strong> {{ session('success') }}
@@ -9,7 +8,7 @@
         </div>
     @endif
 
-    @if(session('error'))
+    @if (session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert"
             style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb;">
             <strong>Error!</strong> {{ session('error') }}
@@ -18,7 +17,7 @@
     @endif
 
     <script>
-        setTimeout(function () {
+        setTimeout(function() {
             let alerts = document.querySelectorAll('.alert');
             alerts.forEach(alert => {
                 let bsAlert = new bootstrap.Alert(alert);
@@ -64,9 +63,10 @@
                                         <div class="table-responsive">
                                             <table
                                                 class="table table-hover table-centered table-bordered border-primary mb-0">
-                                                <thead class="table-dark">
+                                                <thead class="table-dark table-bordered border-primary">
                                                     <tr>
-                                                        <th>Date</th>
+                                                        <th>ID</th>
+                                                        <th>Slip <br /> Upload <br /> Date</th>
                                                         <th>C/E</th>
                                                         <th>CRO</th>
                                                         <th>Invoice</th>
@@ -93,83 +93,91 @@
                                                 <tbody>
                                                     @foreach ($orders as $order)
                                                         @if ($order->ps == '1' && $order->order_type == 'boosting')
-
                                                             <tr class="fw-semibold" data-order-id="{{ $order->id }}">
-                                                                <form action="/accountant/updateB/{{ $order->id }}" method="post">
+                                                                <form action="/accountant/updateB/{{ $order->id }}"
+                                                                    method="post">
                                                                     @csrf
                                                                     @method('put')
-                                                                    <td>{{ $order->date }}</td>
+                                                                    <td>{{ $order->id }}</td>
+                                                                    <td>{{ $order->date->format('Y-m-d') }}</td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode
-                                                                                                                    @if($order->ce == 'c') bg-primary
-                                                                                                                    @elseif($order->ce == 'e') bg-danger
-                                                                                                                    @endif">
-                                                                            {{ $order->ce}}
+                                                                        <span
+                                                                            class="badge fs-5 display-mode
+                                                                                                                    @if ($order->ce == 'c') bg-primary
+                                                                                                                    @elseif($order->ce == 'e') bg-danger @endif">
+                                                                            {{ $order->ce }}
                                                                         </span>
-                                                                        <select name="ce" class="form-select edit-mode">
+                                                                        <select name="ce"
+                                                                            class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
-                                                                            <option value="c" @if($order->ce == 'c') selected @endif>c
+                                                                            <option value="c"
+                                                                                @if ($order->ce == 'c') selected @endif>
+                                                                                c
                                                                             </option>
-                                                                            <option value="e" @if($order->ce == 'e') selected @endif>e
+                                                                            <option value="e"
+                                                                                @if ($order->ce == 'e') selected @endif>
+                                                                                e
                                                                             </option>
                                                                         </select>
                                                                     </td>
                                                                     <td>{{ $order->plUser->name }}</td>
                                                                     <td>
                                                                         <span>{{ $order->invoice }}</span>
-                                                                        <input type="text" name="inv" class="form-control edit-mode"
+                                                                        <input type="text" name="inv"
+                                                                            class="form-control edit-mode"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
                                                                     <td>
-                                                                        <span>{{$order->name}}</span>
+                                                                        <span>{{ $order->name }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5
-                                                                                                                    @if($order->old_new == 'old') bg-primary
-                                                                                                                    @elseif($order->old_new == 'new') bg-warning
-                                                                                                                    @endif">
-                                                                            {{ $order->old_new}}
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                    @if ($order->old_new == 'old') bg-primary
+                                                                                                                    @elseif($order->old_new == 'new') bg-warning @endif">
+                                                                            {{ $order->old_new }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        <span>{{$order->contact}}</span>
+                                                                        <span>{{ $order->contact }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 
-                                                                                                                    @if(!$order->workType->name == '') bg-dark
-                                                                                                                    @endif">
+                                                                        <span
+                                                                            class="badge fs-5 
+                                                                                                                    @if (!$order->workType->name == '') bg-dark @endif">
                                                                             {{ $order->workType->name ?? '-' }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 bg-dark">{{ $order->page }}</span>
+                                                                        <span
+                                                                            class="badge fs-5 bg-dark">{{ $order->page }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5
-                                                                                                                    @if($order->work_status == 'done') bg-primary
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                    @if ($order->work_status == 'done') bg-primary
                                                                                                                     @elseif($order->work_status == 'pending') bg-danger
                                                                                                                     @elseif($order->work_status == 'send to customer') bg-warning
-                                                                                                                    @elseif($order->work_status == 'send to designer') bg-dark
-                                                                                                                    @endif">
+                                                                                                                    @elseif($order->work_status == 'send to designer') bg-dark @endif">
                                                                             {{ $order->work_status }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5
-                                                                                                                    @if($order->payment_status == 'done') bg-primary
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                    @if ($order->payment_status == 'done') bg-primary
                                                                                                                     @elseif($order->payment_status == 'pending') bg-danger
                                                                                                                     @elseif($order->payment_status == 'rejected') bg-warning
-                                                                                                                    @elseif($order->payment_status == 'partial') bg-warning
-                                                                                                                    @endif">
+                                                                                                                    @elseif($order->payment_status == 'partial') bg-warning @endif">
                                                                             {{ $order->payment_status }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5
-                                                                                                                    @if($order->cash == 1.00) bg-warning bg-gradient
-                                                                                                                    @elseif ($order->cash == 0.00) text-dark
-                                                                                                                    @endif">
-                                                                            {{ $order->cash == 1.00 ? 'Cash' : 'None Cash' }}
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                    @if ($order->cash == 1.0) bg-warning bg-gradient
+                                                                                                                    @elseif ($order->cash == 0.0) text-dark @endif">
+                                                                            {{ $order->cash == 1.0 ? 'Cash' : 'None Cash' }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
@@ -181,14 +189,14 @@
                                                                     <td>{{ $order->service }}</td>
                                                                     <td>{{ $order->tax }}</td>
                                                                     <td>
-                                                                        @if($order->payment_status == 'partial')
+                                                                        @if ($order->payment_status == 'partial')
                                                                             {{ $order->advance - ($order->tax + $order->service) }}
                                                                         @elseif($order->payment_status == 'done')
                                                                             {{ $order->package_amt }}
                                                                         @endif
                                                                     </td>
                                                                     <td>
-                                                                        <span>{{$order->advance}}</span>
+                                                                        <span>{{ $order->advance }}</span>
                                                                     </td>
                                                                     <td>
                                                                         <span>{{ $order->details }}</span>
@@ -229,113 +237,122 @@
                                                 <button class="btn btn-primary search-btn">Search</button>
                                             </div>
                                         </div>
-                                        <table class="table table-hover table-centered table-bordered border-primary mb-0">
-                                            <thead class="table-dark">
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Date</th>
-                                                    <th>C/E</th>
-                                                    <th>CRO</th>
-                                                    <th>Invoice</th>
-                                                    <th>Name<br />Company</th>
-                                                    <th>Contact</th>
-                                                    <th>Work<br />Type</th>
-                                                    <th>Work<br />Status</th>
-                                                    <th>Payment</th>
-                                                    <th>Designer</th>
-                                                    <th>Amount</th>
-                                                    <th>Advance</th>
-                                                    <th>Slip</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($orders as $order)
-                                                    @if ($order->ps == '1' && $order->order_type == 'designs')
-
-                                                        <tr data-order-id="{{ $order->id }}">
-                                                            <form action="/accountant/updateD/{{ $order->id }}" method="post">
-                                                                @csrf
-                                                                @method('put')
-                                                                <td>{{$order->id}}</td>
-                                                                <td>{{$order->date}}</td>
-                                                                <td>
-                                                                    <span class="badge fs-5 display-mode
-                                                                                                                @if($order->ce == 'c') bg-primary
-                                                                                                                @elseif($order->ce == 'e') bg-danger
-                                                                                                                @endif">
-                                                                        {{ $order->ce}}
-                                                                    </span>
-                                                                    <select name="ce" class="form-select edit-mode">
-                                                                        <option value="" selected>Select</option>
-                                                                        <option value="c" @if($order->ce == 'c') selected @endif>c
-                                                                        </option>
-                                                                        <option value="e" @if($order->ce == 'e') selected @endif>e
-                                                                        </option>
-                                                                    </select>
-                                                                </td>
-                                                                <td>{{ $order->plUser->name }}</td>
-                                                                <td>
-                                                                    <span class="display-mode">{{ $order->invoice }}</span>
-                                                                    <input type="text" name="inv" class="form-control edit-mode"
-                                                                        value="{{ $order->invoice }}" hidden>
-                                                                </td>
-                                                                <td>
-                                                                    <span>{{$order->name}}</span>
-                                                                </td>
-                                                                <td>
-                                                                    <span>{{$order->contact}}</span>
-                                                                </td>
-                                                                <td>
-                                                                    <span class="badge fs-5
-                                                                                                                @if(!$order->workType->name == '') bg-dark
-                                                                                                                @endif">
-                                                                        {{ $order->workType->name ?? '-' }}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <span class="badge fs-5
-                                                                                                                @if($order->work_status == 'done') bg-primary
+                                        <div class="table-responsive">
+                                            <table
+                                                class="table table-hover table-centered table-bordered border-primary mb-0">
+                                                <thead class="table-dark table-bordered border-primary">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Slip <br /> Upload <br /> Date</th>
+                                                        <th>C/E</th>
+                                                        <th>CRO</th>
+                                                        <th>Invoice</th>
+                                                        <th>Name<br />Company</th>
+                                                        <th>Contact</th>
+                                                        <th>Work<br />Type</th>
+                                                        <th>Work<br />Status</th>
+                                                        <th>Payment</th>
+                                                        <th>Designer</th>
+                                                        <th>Amount</th>
+                                                        <th>Advance</th>
+                                                        <th>Slip</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($orders as $order)
+                                                        @if ($order->ps == '1' && $order->order_type == 'designs')
+                                                            <tr data-order-id="{{ $order->id }}">
+                                                                <form action="/accountant/updateD/{{ $order->id }}"
+                                                                    method="post">
+                                                                    @csrf
+                                                                    @method('put')
+                                                                    <td>{{ $order->id }}</td>
+                                                                    <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="badge fs-5 display-mode
+                                                                                                                @if ($order->ce == 'c') bg-primary
+                                                                                                                @elseif($order->ce == 'e') bg-danger @endif">
+                                                                            {{ $order->ce }}
+                                                                        </span>
+                                                                        <select name="ce"
+                                                                            class="form-select edit-mode">
+                                                                            <option value="" selected>Select</option>
+                                                                            <option value="c"
+                                                                                @if ($order->ce == 'c') selected @endif>
+                                                                                c
+                                                                            </option>
+                                                                            <option value="e"
+                                                                                @if ($order->ce == 'e') selected @endif>
+                                                                                e
+                                                                            </option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>{{ $order->plUser->name }}</td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="display-mode">{{ $order->invoice }}</span>
+                                                                        <input type="text" name="inv"
+                                                                            class="form-control edit-mode"
+                                                                            value="{{ $order->invoice }}" hidden>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span>{{ $order->name }}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span>{{ $order->contact }}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                @if (!$order->workType->name == '') bg-dark @endif">
+                                                                            {{ $order->workType->name ?? '-' }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                @if ($order->work_status == 'done') bg-primary
                                                                                                                 @elseif($order->work_status == 'pending') bg-danger
                                                                                                                 @elseif($order->work_status == 'send to customer') bg-warning
-                                                                                                                @elseif($order->work_status == 'send to designer') bg-dark
-                                                                                                                @endif">
-                                                                        {{ $order->work_status }}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <span class="badge fs-5
-                                                                                                                @if($order->payment_status == 'done') bg-primary
+                                                                                                                @elseif($order->work_status == 'send to designer') bg-dark @endif">
+                                                                            {{ $order->work_status }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                @if ($order->payment_status == 'done') bg-primary
                                                                                                                 @elseif($order->payment_status == 'pending') bg-danger
                                                                                                                 @elseif($order->payment_status == 'rejected') bg-warning
-                                                                                                                @elseif($order->payment_status == 'partial') bg-warning
-                                                                                                                @endif">
-                                                                        {{ $order->payment_status }}
-                                                                    </span>
-                                                                </td>
-                                                                <td>{{$order->designer_id}}</td>
-                                                                <td>
-                                                                    <span>{{$order->amount}}</span>
-                                                                </td>
-                                                                <td>
-                                                                    <span>{{$order->advance}}</span>
-                                                                </td>
-                                                                <td>
-                                                                    @include('includes.slip-view')
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button"
-                                                                        class="btn btn-primary edit-btn display-mode">Edit</button>
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary done-btnd edit-mode">Done</button>
-                                                                </td>
-                                                            </form>
-                                                        </tr>
-
-                                                    @endif
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                                                                                                @elseif($order->payment_status == 'partial') bg-warning @endif">
+                                                                            {{ $order->payment_status }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>{{ $order->designer_id }}</td>
+                                                                    <td>
+                                                                        <span>{{ $order->amount }}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span>{{ $order->advance }}</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        @include('includes.slip-view')
+                                                                    </td>
+                                                                    <td>
+                                                                        <button type="button"
+                                                                            class="btn btn-primary edit-btn display-mode">Edit</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary done-btnd edit-mode">Done</button>
+                                                                    </td>
+                                                                </form>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
                             </div>
@@ -353,9 +370,10 @@
                                         <div class="table-responsive">
                                             <table
                                                 class="table table-hover table-centered table-bordered border-primary mb-0">
-                                                <thead class="table-dark">
+                                                <thead class="table-dark table-bordered border-primary">
                                                     <tr>
-                                                        <th>Date</th>
+                                                        <th>ID</th>
+                                                        <th>Slip <br /> Upload <br /> Date</th>
                                                         <th>C/E</th>
                                                         <th>CRO</th>
                                                         <th>Invoice</th>
@@ -380,24 +398,31 @@
                                                     @foreach ($orders as $order)
                                                         @if ($order->ps == '1' && $order->order_type == 'video')
                                                             <tr data-order-id="{{ $order->id }}">
-                                                                <form action="/accountant/updateV/{{ $order->id }}" method="post">
+                                                                <form action="/accountant/updateV/{{ $order->id }}"
+                                                                    method="post">
                                                                     @csrf
                                                                     @method('put')
+                                                                    <td>{{ $order->id }}</td>
                                                                     <td>
-                                                                        <span>{{$order->date}}</span>
+                                                                        <span>{{ $order->date->format('Y-m-d') }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 display-mode 
-                                                                                                                @if($order->ce == 'c') bg-primary
-                                                                                                                @elseif($order->ce == 'e') bg-danger
-                                                                                                                @endif">
-                                                                            {{ $order->ce}}
+                                                                        <span
+                                                                            class="badge fs-5 display-mode 
+                                                                                                                @if ($order->ce == 'c') bg-primary
+                                                                                                                @elseif($order->ce == 'e') bg-danger @endif">
+                                                                            {{ $order->ce }}
                                                                         </span>
-                                                                        <select name="ce" class="form-select edit-mode">
+                                                                        <select name="ce"
+                                                                            class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
-                                                                            <option value="c" @if($order->ce == 'c') selected @endif>c
+                                                                            <option value="c"
+                                                                                @if ($order->ce == 'c') selected @endif>
+                                                                                c
                                                                             </option>
-                                                                            <option value="e" @if($order->ce == 'e') selected @endif>e
+                                                                            <option value="e"
+                                                                                @if ($order->ce == 'e') selected @endif>
+                                                                                e
                                                                             </option>
                                                                         </select>
                                                                     </td>
@@ -406,76 +431,76 @@
                                                                         <span>{{ $order->invoice }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span>{{$order->name}}</span>
+                                                                        <span>{{ $order->name }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span>{{$order->contact}}</span>
+                                                                        <span>{{ $order->contact }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span>{{$order->amount}}</span>
+                                                                        <span>{{ $order->amount }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span>{{$order->our_amount}}</span>
+                                                                        <span>{{ $order->our_amount }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5
-                                                                                                                @if(!$order->workType->name == '') bg-dark
-                                                                                                                @endif">
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                @if (!$order->workType->name == '') bg-dark @endif">
                                                                             {{ $order->workType->name ?? '-' }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5
-                                                                                                                @if($order->script == 'done') bg-primary
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                @if ($order->script == 'done') bg-primary
                                                                                                                 @elseif($order->script == 'pending') bg-danger
                                                                                                                 @elseif($order->script == 'send to customer') bg-warning
-                                                                                                                @elseif($order->script == 'send to designer') bg-dark
-                                                                                                                @endif">
+                                                                                                                @elseif($order->script == 'send to designer') bg-dark @endif">
                                                                             {{ $order->script }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5 
-                                                                                                                @if($order->shoot == 'done') bg-primary
+                                                                        <span
+                                                                            class="badge fs-5 
+                                                                                                                @if ($order->shoot == 'done') bg-primary
                                                                                                                 @elseif($order->shoot == 'pending') bg-danger
                                                                                                                 @elseif($order->shoot == 'send to customer') bg-warning
-                                                                                                                @elseif($order->shoot == 'send to designer') bg-dark
-                                                                                                                @endif">
+                                                                                                                @elseif($order->shoot == 'send to designer') bg-dark @endif">
                                                                             {{ $order->shoot }}
                                                                         </span>
                                                                     </td>
-                                                                    <td><span>{{$order->video_time}}</span></td>
+                                                                    <td><span>{{ $order->video_time }}</span></td>
                                                                     <td>
-                                                                        <span class="badge fs-5
-                                                                                                                @if($order->work_status == 'done') bg-primary
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                @if ($order->work_status == 'done') bg-primary
                                                                                                                 @elseif($order->work_status == 'pending') bg-danger
                                                                                                                 @elseif($order->work_status == 'send to customer') bg-warning
-                                                                                                                @elseif($order->work_status == 'send to designer') bg-dark
-                                                                                                                @endif">
+                                                                                                                @elseif($order->work_status == 'send to designer') bg-dark @endif">
                                                                             {{ $order->work_status }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5
-                                                                                                                @if($order->payment_status == 'done') bg-primary
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                @if ($order->payment_status == 'done') bg-primary
                                                                                                                 @elseif($order->payment_status == 'pending') bg-danger
                                                                                                                 @elseif($order->payment_status == 'rejected') bg-warning
-                                                                                                                @elseif($order->payment_status == 'partial') bg-warning
-                                                                                                                @endif">
+                                                                                                                @elseif($order->payment_status == 'partial') bg-warning @endif">
                                                                             {{ $order->payment_status }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        <span class="badge fs-5
-                                                                                                                @if($order->cash == 1.00) bg-warning bg-gradient
-                                                                                                                @elseif ($order->cash == 0.00) text-dark
-                                                                                                                @endif">
-                                                                            {{ $order->cash == 1.00 ? 'Cash' : 'None Cash' }}
+                                                                        <span
+                                                                            class="badge fs-5
+                                                                                                                @if ($order->cash == 1.0) bg-warning bg-gradient
+                                                                                                                @elseif ($order->cash == 0.0) text-dark @endif">
+                                                                            {{ $order->cash == 1.0 ? 'Cash' : 'None Cash' }}
                                                                         </span>
                                                                     </td>
-                                                                    <td>{{$order->designer_id}}</td>
+                                                                    <td>{{ $order->designer_id }}</td>
                                                                     <td>
-                                                                        <span>{{$order->advance}}</span>
+                                                                        <span>{{ $order->advance }}</span>
                                                                     </td>
                                                                     <td>
                                                                         @include('includes.slip-view')
@@ -519,11 +544,11 @@
                                     </div>
                                 </div>
                                 <script>
-                                    document.addEventListener('DOMContentLoaded', function () {
+                                    document.addEventListener('DOMContentLoaded', function() {
                                         let currentlyEditingRow = null;
 
                                         // Close edit mode when clicking outside
-                                        document.addEventListener('click', function (e) {
+                                        document.addEventListener('click', function(e) {
                                             if (!currentlyEditingRow) return;
 
                                             const clickedInside = currentlyEditingRow.contains(e.target) ||
@@ -537,7 +562,7 @@
 
                                         // Edit button handler
                                         document.querySelectorAll('.edit-btn').forEach(button => {
-                                            button.addEventListener('click', function (e) {
+                                            button.addEventListener('click', function(e) {
                                                 e.stopPropagation();
                                                 if (currentlyEditingRow) {
                                                     currentlyEditingRow.classList.remove('editing');
@@ -550,7 +575,7 @@
 
                                         // Generic done button handler
                                         function handleDoneButton(endpoint) {
-                                            return function (e) {
+                                            return function(e) {
                                                 e.stopPropagation();
                                                 const row = this.closest('tr');
                                                 submitForm(row, endpoint);
@@ -578,7 +603,7 @@
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             // Function to activate tabs
             function activateTab(tabHash) {
                 // Remove active classes from all tabs and panes
@@ -610,7 +635,7 @@
 
             // Handle manual tab clicks
             document.querySelectorAll('.nav-link[data-bs-toggle="tab"]').forEach(tab => {
-                tab.addEventListener('click', function (e) {
+                tab.addEventListener('click', function(e) {
                     window.location.hash = this.getAttribute('href');
                 });
             });
@@ -621,47 +646,87 @@
     <script>
         // Search functionality
         // Search functionality
-document.addEventListener("DOMContentLoaded", function() {
-    // Handle search button clicks
-    document.querySelectorAll('.search-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const input = this.closest('.input-group').querySelector('.search-input');
-            performSearch(input);
-        });
-    });
+        document.addEventListener("DOMContentLoaded", function() {
+            // Handle search button clicks
+            document.querySelectorAll('.search-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.closest('.input-group').querySelector('.search-input');
+                    performSearch(input);
+                });
+            });
 
-    // Handle Enter key in search inputs
-    document.querySelectorAll('.search-input').forEach(input => {
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch(this);
-            }
-        });
-    });
-
-    function performSearch(inputElement) {
-        const searchTerm = inputElement.value.trim().toLowerCase();
-        const targetTable = document.querySelector(inputElement.dataset.targetTable);
-
-        if (targetTable) {
-            const rows = targetTable.querySelectorAll('tbody tr');
-            
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('td');
-                let found = false;
-                
-                cells.forEach(cell => {
-                    const cellText = cell.textContent.toLowerCase();
-                    if (cellText.includes(searchTerm)) {
-                        found = true;
+            // Handle Enter key in search inputs
+            document.querySelectorAll('.search-input').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch(this);
                     }
                 });
-
-                row.style.display = found ? '' : 'none';
             });
-        }
-    }
-});
+
+            function performSearch(inputElement) {
+                const searchTerm = inputElement.value.trim().toLowerCase();
+                const targetTable = document.querySelector(inputElement.dataset.targetTable);
+
+                if (targetTable) {
+                    const rows = targetTable.querySelectorAll('tbody tr');
+
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td');
+                        let found = false;
+
+                        cells.forEach(cell => {
+                            const cellText = cell.textContent.toLowerCase();
+                            if (cellText.includes(searchTerm)) {
+                                found = true;
+                            }
+                        });
+
+                        row.style.display = found ? '' : 'none';
+                    });
+                }
+            }
+        });
     </script>
+
+    <style>
+        /* Fixed height scrollable tables with sticky headers */
+        .table-responsive {
+            max-height: 70vh;
+            /* 70% of viewport height (adjust as needed) */
+            overflow: auto;
+            position: relative;
+            border: 1px solid #dee2e6;
+            /* Optional border */
+        }
+
+        /* Sticky headers */
+        .table-responsive table thead th {
+            position: sticky;
+            top: 0;
+            background: #343a40;
+            /* Match your table-dark background */
+            z-index: 10;
+        }
+
+        /* Prevent text wrapping to maintain column widths */
+        .table-responsive table td,
+        .table-responsive table th {
+            white-space: nowrap;
+            vertical-align: middle;
+            /* Better alignment for all cells */
+        }
+
+        /* Optional: Better scrollbar styling (works in modern browsers) */
+        .table-responsive::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 4px;
+        }
+    </style>
 
 @endsection

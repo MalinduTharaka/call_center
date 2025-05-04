@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <div class="table-responsive-sm">
                         <table class="table table-centered mb-0 table-bordered border-primary">
-                            <thead class="table-purple">
+                            <thead class="table-purple table-bordered border-primary">
                                 <tr>
                                     <th>INV</th>
                                     <th>CRO</th>
@@ -61,5 +61,45 @@
         </div><!-- end col-->
     </div>
     <!-- end row-->
+
+    <style>
+        /* Fixed height scrollable tables with sticky headers */
+        .table-responsive-sm {
+            max-height: 70vh;
+            /* 70% of viewport height (adjust as needed) */
+            overflow: auto;
+            position: relative;
+            border: 1px solid #dee2e6;
+            /* Optional border */
+        }
+
+        /* Sticky headers */
+        .table-responsive-sm table thead th {
+            position: sticky;
+            top: 0;
+            background: #343a40;
+            /* Match your table-dark background */
+            z-index: 10;
+        }
+
+        /* Prevent text wrapping to maintain column widths */
+        .table-responsive-sm table td,
+        .table-responsive-sm table th {
+            white-space: nowrap;
+            vertical-align: middle;
+            /* Better alignment for all cells */
+        }
+
+        /* Optional: Better scrollbar styling (works in modern browsers) */
+        .table-responsive-sm::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .table-responsive-sm::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 4px;
+        }
+    </style>
 
 @endsection

@@ -25,7 +25,7 @@ class DesignerController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::whereBetween('date', [$from, $to])->get();
+        $orders = Order::whereBetween('date', [$from, $to])->orderBy('date')->get();
         $packages = Package::all();
         $users = User::all();
         $slips = Slip::all();
