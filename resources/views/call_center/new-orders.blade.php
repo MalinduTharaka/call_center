@@ -177,6 +177,21 @@
         }, 1000); // Auto-dismiss after 1 seconds
     </script>
 
+    <style>
+        /* style.css */
+        tr[data-add-acc="1"] {
+            background-color: #f8d7da;
+        }
+
+        tr[data-add-acc="2"] {
+            background-color: rgb(146, 217, 247);
+        }
+
+        tr[data-add-acc="3"] {
+            background-color: rgb(125, 226, 195);
+        }
+    </style>
+
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -217,6 +232,7 @@
                                                 class="table table-hover table-centered table-bordered border-primary mb-0">
                                                 <thead class="table-dark table-bordered border-primary">
                                                     <tr>
+                                                        <th>Priority</th>
                                                         <th>ID</th>
                                                         <th>Slip <br /> Upload <br /> Date</th>
                                                         <th>C/E</th>
@@ -245,11 +261,29 @@
                                                 <tbody>
                                                     @foreach ($orders as $order)
                                                         @if (Auth::user()->cc_num == $order->cro && $order->ps == '1' && $order->order_type == 'boosting')
-                                                            <tr class="fw-semibold" data-order-id="{{ $order->id }}">
+                                                            <tr class="fw-semibold" data-order-id="{{ $order->id }}" data-add-acc="{{ $order->add_acc }}">
                                                                 <form action="/orders/boosting/update/{{ $order->id }}"
                                                                     method="post">
                                                                     @csrf
                                                                     @method('put')
+                                                                    <td>
+                                                                        <span
+                                                                            class=" display-mode">
+                                                                                @if   ($order->add_acc === '1') Urgent
+                                                                                @elseif($order->add_acc === '2') No Data
+                                                                                @elseif($order->add_acc === '3') Continue
+                                                                                @else                            Unknown
+                                                                                @endif
+                                                                        </span>
+                                                                        <select name="add_acc" class="form-select edit-mode">
+                                                                            <option value="1" @if ($order->add_acc == '1') selected @endif>
+                                                                                Urgent</option>
+                                                                            <option value="2" @if ($order->add_acc == '2') selected @endif>
+                                                                                No Data</option>
+                                                                            <option value="3" @if ($order->add_acc == '3') selected @endif>
+                                                                                Continue</option>
+                                                                        </select>
+                                                                    </td>
                                                                     <td>{{ $order->id }}</td>
                                                                     <td>{{ $order->date->format('Y-m-d') }}</td>
                                                                     <td>
@@ -267,7 +301,10 @@
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
                                                                     <td>
-                                                                        <span>{{ $order->name }}</span>
+                                                                        <span class="display-mode">{{ $order->name }}</span>
+                                                                        <input type="text" name="name"
+                                                                            class="form-control edit-mode"
+                                                                            value="{{ $order->name }}">
                                                                     </td>
                                                                     <td>
                                                                         <span
@@ -278,7 +315,10 @@
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        <span>{{ $order->contact }}</span>
+                                                                        <span class="display-mode">{{ $order->contact }}</span>
+                                                                        <input type="text" name="contact"
+                                                                            class="form-control edit-mode"
+                                                                            value="{{ $order->contact }}">
                                                                     </td>
                                                                     <td>
                                                                         <span
@@ -286,17 +326,6 @@
                                                                                                             @if (!$order->workType->name == '') bg-dark @endif">
                                                                             {{ $order->workType->name ?? '-' }}
                                                                         </span>
-                                                                        <select name="work_type_id"
-                                                                            class="form-select edit-mode">
-                                                                            <option value="" selected>Select</option>
-                                                                            @foreach ($work_types as $work_type)
-                                                                                @if ($work_type->order_type == 'boosting')
-                                                                                    <option value="{{ $work_type->id }}"
-                                                                                        @if ($order->work_type_id == $work_type->id) selected @endif>
-                                                                                        {{ $work_type->name }}</option>
-                                                                                @endif
-                                                                            @endforeach
-                                                                        </select>
                                                                     </td>
                                                                     <td>
                                                                         <span
