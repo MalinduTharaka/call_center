@@ -110,12 +110,13 @@
                                                         <th>Name<br />Company</th>
                                                         <th>O/N</th>
                                                         <th>Contact</th>
-                                                        <th>Work<br />Type</th>
+                                                      
                                                         <th>Page</th>
                                                         <th>Work<br />Status</th>
                                                         <th>Payment</th>
                                                         <th>Cash</th>
                                                         <th>Advertiser</th>
+                                                        <th>Work<br />Type</th>
                                                         <th>Full</th>
                                                         <th>FB Fee</th>
                                                         <th>Service</th>
@@ -188,24 +189,7 @@
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->contact }}">
                                                                     </td>
-                                                                    <td>
-                                                                        <span
-                                                                            class="badge fs-5 display-mode
-                                                                            @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name ?? '-' }}
-                                                                        </span>
-                                                                        <select name="work_type"
-                                                                            class="form-select edit-mode">
-                                                                            <option value="" selected>Select</option>
-                                                                            @foreach ($work_types as $work_type)
-                                                                                @if ($work_type->order_type == 'boosting')
-                                                                                    <option value="{{ $work_type->id }}"
-                                                                                        @if ($order->workType->name == $work_type->name) selected @endif>
-                                                                                        {{ $work_type->name }}</option>
-                                                                                @endif
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </td>
+                                                                    
 
                                                                     <td>
                                                                         <span
@@ -312,6 +296,24 @@
                                                                                     <option value="{{ $user->id }}"
                                                                                         @if ($order->advertiser_id == $user->id) selected @endif>
                                                                                         {{ $user->name }}</option>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="badge fs-5 display-mode
+                                                                            @if (!$order->workType->name == '') bg-dark @endif">
+                                                                            {{ $order->workType->name ?? '-' }}
+                                                                        </span>
+                                                                        <select name="work_type"
+                                                                            class="form-select edit-mode">
+                                                                            <option value="" selected>Select</option>
+                                                                            @foreach ($work_types as $work_type)
+                                                                                @if ($work_type->order_type == 'boosting')
+                                                                                    <option value="{{ $work_type->id }}"
+                                                                                        @if ($order->workType->name == $work_type->name) selected @endif>
+                                                                                        {{ $work_type->name }}</option>
                                                                                 @endif
                                                                             @endforeach
                                                                         </select>

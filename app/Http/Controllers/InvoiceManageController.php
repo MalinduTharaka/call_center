@@ -26,7 +26,7 @@ class InvoiceManageController extends Controller
         
         $user = User::all();
         $invoices = Invoice::whereBetween('date', [$from, $to])->get();
-        $orders = Order::whereBetween('date', [$from, $to])->get();
+        $orders = Order::whereBetween('date', [$from, $to])->orderBy('date', 'desc')->get();
         $slips = Slip::all();
         return view('call_center.invoice-manage', compact('user', 'invoices', 'orders', 'slips'));
     }
