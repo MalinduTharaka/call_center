@@ -38,6 +38,7 @@ class AdminController extends Controller
     public function updateBoostingAD(Request $request, $id){
         $uc = Order::findOrFail($id);
         $uc->update([
+            'add_acc' => $request->add_acc,
             'ce' => $request->ce,
             'name' => $request->name,
             'contact' => $request->contact,

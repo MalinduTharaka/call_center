@@ -36,6 +36,23 @@
             });
         }, 2000); // Auto-dismiss after 4 seconds
     </script>
+    <style>
+        /* style.css */
+        tr[data-add-acc="1"] {
+            background-color: #f8d7da;
+        }
+
+        tr[data-add-acc="2"] {
+            background-color: rgb(146, 217, 247);
+        }
+
+        tr[data-add-acc="3"] {
+            background-color: rgb(125, 226, 195);
+        }
+        tr[data-add-acc="4"] {
+            background-color: rgb(236, 255, 141);
+        }
+    </style>
 
     <div class="row mt-3">
         <div class="col-12">
@@ -79,7 +96,7 @@
                     <tbody>
                         @foreach ($orders as $order)
                             @if ($order->ps == '1' && $order->order_type == 'boosting')
-                                <tr class="fw-semibold" data-o+lhrder-id="{{ $order->id }}">
+                                <tr class="fw-semibold" data-order-id="{{ $order->id }}" data-add-acc="{{ $order->add_acc }}">
                                     <form action="/advertisers_all_order/update/{{ $order->id }}" method="post">
                                         @csrf
                                         @method('put')

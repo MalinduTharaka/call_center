@@ -70,6 +70,7 @@ class OrderConroller extends Controller
             'name' => $request->name,
             'contact' => $request->contact,
             'invoice' => $request->inv,
+            'add_acc' => '4',
             'work_type_id' => $orderData['work_type'],
             'uid' => Auth::id(),
         ];
@@ -124,6 +125,7 @@ class OrderConroller extends Controller
                 'name' => $request->name,
                 'contact' => $request->contact,
                 'invoice' => $request->inv,
+                'add_acc' => '4',
                 'work_type_id' => $orderData['work_type'],
                 'uid' => Auth::id(),
             ];
@@ -179,6 +181,7 @@ class OrderConroller extends Controller
                 'name' => $request->name,
                 'contact' => $request->contact,
                 'invoice' => $request->inv,
+                'add_acc' => '4',
                 'work_type_id' => $orderData['work_type'],
                 'uid' => Auth::id(),
             ];
