@@ -63,7 +63,7 @@ class SlipController extends Controller
         // 4) Completed payment path
         if ($request->payment_type === 'completed') {
             Order::where('invoice', $request->inv)
-                ->update(['payment_status' => 'done', 'advance' => 0, 'ps' => '1']);
+                ->update(['payment_status' => 'done', 'advance' => 0, 'ps' => '1', 'created_at' => Carbon::now()]);
 
             $tv = Invoice::where('inv', $request->inv)->sum('total');
 
@@ -110,7 +110,7 @@ class SlipController extends Controller
             foreach ($subset as $o) {
                 $o->advance = $amtPer;
                 $o->payment_status = 'partial';
-                $o->date = Carbon::now();
+                $o->created_at = Carbon::now();
                 $o->save();
             }
         };
@@ -207,7 +207,8 @@ class SlipController extends Controller
                     'payment_status' => 'done',
                     'advance' => 0,
                     'ps' => '1',
-                ]);
+                    'created_at' => Carbon::now(),
+                ]); 
 
             $invoice->update([
                 'status' => 'paid',
@@ -249,7 +250,7 @@ class SlipController extends Controller
         foreach ($orders as $index => $order) {
             $order->advance = $advances->get($index, 0);
             $order->payment_status = 'partial';
-            $order->date = Carbon::now();
+            $order->created_at = Carbon::now();
             $order->save();
         }
 
