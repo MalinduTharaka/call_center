@@ -24,8 +24,8 @@ class AccountantController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::whereBetween('date', [$from, $to])->orderBy('date', 'desc')->get();
-        $other_orders = OtherOrder::whereBetween('date', [$from, $to])->orderBy('date', 'desc')->get();
+        $orders = Order::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
         $packages = Package::all();
         $users = User::all();
         $slips = Slip::all();
