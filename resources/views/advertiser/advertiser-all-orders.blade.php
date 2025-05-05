@@ -49,6 +49,9 @@
         tr[data-add-acc="3"] {
             background-color: rgb(125, 226, 195);
         }
+        tr[data-add-acc="4"] {
+            background-color: rgb(236, 255, 141);
+        }
     </style>
 
     <div class="row mt-3">

@@ -190,6 +190,9 @@
         tr[data-add-acc="3"] {
             background-color: rgb(125, 226, 195);
         }
+        tr[data-add-acc="4"] {
+            background-color: rgb(236, 255, 141);
+        }
     </style>
 
     <div class="row">
@@ -267,21 +270,18 @@
                                                                     @csrf
                                                                     @method('put')
                                                                     <td>
-                                                                        <span
-                                                                            class=" display-mode">
-                                                                                @if   ($order->add_acc === '1') Urgent
-                                                                                @elseif($order->add_acc === '2') No Data
-                                                                                @elseif($order->add_acc === '3') Continue
-                                                                                @else                            Unknown
-                                                                                @endif
+                                                                        <span class="display-mode">
+                                                                            @if ($order->add_acc == '1') Urgent
+                                                                            @elseif($order->add_acc == '2') No Data
+                                                                            @elseif($order->add_acc == '3') Continue
+                                                                            @elseif($order->add_acc == '4') Unknown
+                                                                            @endif
                                                                         </span>
                                                                         <select name="add_acc" class="form-select edit-mode">
-                                                                            <option value="1" @if ($order->add_acc == '1') selected @endif>
-                                                                                Urgent</option>
-                                                                            <option value="2" @if ($order->add_acc == '2') selected @endif>
-                                                                                No Data</option>
-                                                                            <option value="3" @if ($order->add_acc == '3') selected @endif>
-                                                                                Continue</option>
+                                                                            <option value="4" @selected($order->add_acc == '4')>Unknown</option>
+                                                                            <option value="1" @selected($order->add_acc == '1')>Urgent</option>
+                                                                            <option value="2" @selected($order->add_acc == '2')>No Data</option>
+                                                                            <option value="3" @selected($order->add_acc == '3')>Continue</option>
                                                                         </select>
                                                                     </td>
                                                                     <td>{{ $order->id }}</td>
