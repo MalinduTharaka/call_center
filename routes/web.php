@@ -17,6 +17,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceManageController;
 use App\Http\Controllers\OrderConroller;
 use App\Http\Controllers\OtherOrderController;
+use App\Http\Controllers\OutsideAuthController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuotationManageController;
@@ -225,3 +226,5 @@ Route::middleware([
 
 Route::post('/verify-device', [DeviceController::class, 'verifyDevice']);
 Route::get('/check-device', [DeviceController::class, 'checkDevice']);
+Route::get('/login/external', [OutsideAuthController::class, 'index']);
+Route::post('/outside-login/verify', [OutsideAuthController::class, 'verifyEmail'])->name('outside.login.verify');
