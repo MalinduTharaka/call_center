@@ -95,6 +95,7 @@ Route::middleware([
     Route::get('/orders/get-order-types/{inv}', [OrderConroller::class, 'getOrderTypes']);
     Route::post('/delete/slip/orders', [SlipController::class, 'deleteslp']);
     Route::post('/delete/slip/or', [SlipController::class, 'deleteORslp']);
+    Route::get('/orders/get-slips/{invoice}', [SlipController::class, 'getSlips'])->name('orders.getSlips');
 
     //Notification Routes
     Route::post('/invoice/mark-read', [InvoiceController::class, 'markAsRead'])->name('invoice.markRead');

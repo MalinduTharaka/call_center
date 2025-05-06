@@ -208,7 +208,7 @@ class SlipController extends Controller
                     'advance' => 0,
                     'ps' => '1',
                     'created_at' => Carbon::now(),
-                ]); 
+                ]);
 
             $invoice->update([
                 'status' => 'paid',
@@ -334,5 +334,34 @@ class SlipController extends Controller
         // 5. Return back with a success message (or whatever you prefer)
         return redirect()->back()
             ->with('success', "Invoice {$request->inv} has been reset and its slips deleted.");
+    }
+
+    public function getSlips($invoice)
+    {
+        $slips = Slip::where('order_id', $invoice)->get();
+
+        $formattedSlips = $slips->map(function ($slip) {
+            return [
+                'bank' => $slip->bank ?? 'N/A',
+                'path' => asset($slip->slip_path),
+                'type' => pathinfo($slip->slip_path, PATHINFO_EXTENSION)
+            ];
+        });
+
+        return response()->json($formattedSlips);
+    }
+    public function getSlipsOR($invoice)
+    {
+        $slips = Slip::where('order_id', $invoice)->get();
+
+        $formattedSlips = $slips->map(function ($slip) {
+            return [
+                'bank' => $slip->bank ?? 'N/A',
+                'path' => asset($slip->slip_path),
+                'type' => pathinfo($slip->slip_path, PATHINFO_EXTENSION)
+            ];
+        });
+
+        return response()->json($formattedSlips);
     }
 }
