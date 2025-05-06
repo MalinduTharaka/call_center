@@ -91,7 +91,6 @@
                                                         <th>Advance</th>
                                                         <th>Details</th>
                                                         <th>Add<br />Link</th>
-                                                        <th>slip</th>
                                                         {{-- <th>Action</th> --}}
                                                     </tr>
                                                 </thead>
@@ -261,10 +260,6 @@
                                                                             </a>
                                                                         @endif
                                                                     </td>
-
-                                                                    <td>
-                                                                        @include('includes.slip-view')
-                                                                    </td>
                                                                     {{-- <td>
                                                                                 <button type="button" class="btn btn-primary edit-btn">Edit</button>
                                                                                 <button type="button" class="btn btn-primary done-btnb">Done</button>
@@ -308,7 +303,6 @@
                                                     <th>Designer</th>
                                                     <th>Amount</th>
                                                     <th>Advance</th>
-                                                    <th>Slip</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -411,9 +405,6 @@
                                                                     <span>{{ $order->advance }}</span>
                                                                 </td>
                                                                 <td>
-                                                                    @include('includes.slip-view')
-                                                                </td>
-                                                                <td>
                                                                     <button type="button"
                                                                         class="btn btn-primary edit-btn display-mode">Edit</button>
                                                                     <button type="button"
@@ -464,7 +455,6 @@
                                                         <th>Cash</th>
                                                         <th>Editor</th>
                                                         <th>Advance</th>
-                                                        <th>Slip</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -640,9 +630,6 @@
                                                                     </td>
                                                                     <td>
                                                                         <span>{{ $order->advance }}</span>
-                                                                    </td>
-                                                                    <td>
-                                                                        @include('includes.slip-view')
                                                                     </td>
                                                                     <td>
                                                                         <button type="button"

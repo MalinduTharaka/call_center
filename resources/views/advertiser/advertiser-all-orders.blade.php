@@ -86,13 +86,11 @@
                             <th>Advance</th>
                             <th>Details</th>
                             <th>Add<br />Link</th>
-                            <th>slip</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($orders as $order)
-                            @if ($order->ps == '1' && $order->order_type == 'boosting')
                                 <tr class="fw-semibold" data-order-id="{{ $order->id }}" data-add-acc="{{ $order->add_acc }}">
                                     <form action="/advertisers_all_order/update/{{ $order->id }}" method="post">
                                         @csrf
@@ -129,38 +127,18 @@
                                         </td>
                                         <td>
                                             <span
-                                                class="badge fs-5 display-mode
+                                                class="badge fs-5
                                                 @if (!$order->workType->name == '') bg-dark @endif">
                                                 {{ $order->workType->name ?? '-' }}
                                             </span>
-                                            {{-- <select name="work_type_id" class="form-select edit-mode">
-                                                <option value="" selected>Select</option>
-                                                @foreach ($work_types as $work_type)
-                                                    @if ($work_type->order_type == 'boosting')
-                                                        <option value="{{ $work_type->id }}"
-                                                            @if ($order->work_type_id == $work_type->id) selected @endif>
-                                                            {{ $work_type->name }}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select> --}}
                                         </td>
 
                                         <td>
-                                            <span class="badge fs-5 bg-dark display-mode">{{ $order->page }}</span>
-                                            {{-- <select name="page" class="form-select edit-mode">
-                                                <option value="" selected>Select</option>
-                                                <option value="new" @if ($order->page == 'new') selected @endif>
-                                                    new</option>
-                                                <option value="our" @if ($order->page == 'our') selected @endif>
-                                                    our</option>
-                                                <option value="existing" @if ($order->page == 'existing') selected @endif>
-                                                    existing
-                                                </option>
-                                            </select> --}}
+                                            <span class="badge fs-5 bg-dark">{{ $order->page }}</span>
                                         </td>
                                         <td>
                                             <span
-                                                class="badge fs-5 display-mode
+                                                class="badge fs-5 work-status-badge
                                                                                 @if ($order->work_status == 'done') bg-primary
                                                                                 @elseif($order->work_status == 'pending') bg-danger
                                                                                 @elseif($order->work_status == 'send to customer') bg-warning
@@ -172,21 +150,6 @@
                                                                                 @endif">
                                                 {{ $order->work_status }}
                                             </span>
-                                            {{-- <select name="work_status" class="form-select edit-mode">
-                                                <option value="" selected>Select</option>
-                                                <option value="done" @if ($order->work_status == 'done') selected @endif>
-                                                    done</option>
-                                                <option value="pending" @if ($order->work_status == 'pending') selected @endif>
-                                                    pending</option>
-                                                <option value="send to customer"
-                                                    @if ($order->work_status == 'send to customer') selected @endif>send to customer
-                                                </option>
-                                                <option value="send to designer"
-                                                    @if ($order->work_status == 'send to designer') selected @endif>send to designer
-                                                </option>
-                                                <option value="error" @if ($order->work_status == 'error') selected @endif>
-                                                    error</option>
-                                            </select> --}}
                                         </td>
                                         <td>
                                             <span
@@ -207,7 +170,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="badge bg-dark fs-5 display-mode">
+                                            <span class="badge bg-dark fs-5 display-mode advertiser-name">
                                                 {{ $order->advertiser->name ?? 'N/A' }}
                                             </span>
                                             <select name="advertiser_id" class="form-select edit-mode">
@@ -237,8 +200,6 @@
                                         </td>
                                         <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                             <span class="display-mode">{{ $order->details }}</span>
-                                            {{-- <input type="text" name="details" class="form-control edit-mode"
-                                                value="{{ $order->details }}"> --}}
                                         </td>
                                         <td>
                                             @if (empty($order->add_acc_id))
@@ -249,30 +210,20 @@
                                                     <i class="ri-arrow-up-circle-line "></i>
                                                 </a>
                                             @endif
-                                            {{-- <input type="text" name="add_acc_id" class="form-control edit-mode"
-                                                value="{{ $order->add_acc_id }}"> --}}
-                                        </td>
-
-                                        <td>
-                                            @include('includes.slip-view')
-                                        </td>
                                         <td>
                                             @unless ($order->work_status == 'advertise pending')
-                                            <button type="button" class="btn btn-primary edit-btn">Edit</button>
+                                                <button type="button" class="btn btn-primary edit-btn">Edit</button>
                                             @endunless
-                                            
-                                            <button type="submit" class="btn btn-primary done-btnb">Done</button>
+                                            <button type="button" class="btn btn-primary done-btnb" data-order-id="{{ $order->id }}">Done</button>
                                         </td>
                                     </form>
                                 </tr>
-                            @endif
                         @endforeach
                     </tbody>
                 </table>
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-    </div>
 
     <style>
         /* Add these styles */
@@ -400,4 +351,51 @@
             border-radius: 4px;
         }
     </style>
+    <script>
+        document.querySelectorAll('.done-btnb').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const row = this.closest('tr');
+        const orderId = row.dataset.orderId;
+        const form = row.querySelector('form');
+        const formData = new FormData(form);
+        const advertiserId = formData.get('advertiser_id');
+
+        fetch(`/advertisers_all_order/update/${orderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                advertiser_id: advertiserId,
+                _method: 'PUT'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update Advertiser Name
+                const advertiserNameSpan = row.querySelector('.advertiser-name');
+                advertiserNameSpan.textContent = data.order.advertiser.name;
+
+                // Update Work Status
+                const workStatusBadge = row.querySelector('.work-status-badge');
+                workStatusBadge.textContent = data.order.work_status;
+                workStatusBadge.className = 'badge fs-5 work-status-badge ' + 
+                    (data.order.work_status === 'advertise pending' ? 'bg-info' : '');
+
+                // Hide Edit Button
+                const editButton = row.querySelector('.edit-btn');
+                if (editButton) editButton.style.display = 'none';
+
+                // Exit Edit Mode
+                exitEditMode(row);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+    </script>
 @endsection

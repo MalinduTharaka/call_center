@@ -24,32 +24,32 @@ class AdvertiserAllOrdersController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $orders = Order::where('ps', '1')->where('order_type','boosting')->whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
         $packages = Package::all();
         $users = User::all();
-        $slips = Slip::all();
         $invoices = Invoice::all();
         $work_types = WorkType::all();
         $video_pkgs = VideoPkg::all();
-        return view('advertiser.advertiser-all-orders', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs'));
+        return view('advertiser.advertiser-all-orders', compact('orders', 'packages', 'users', 'invoices', 'work_types', 'video_pkgs'));
     }
 
     public function updateAdvAll(Request $request, $id)
     {
-       
-        $advertiser = Order::findOrFail($id);
+        $order = Order::findOrFail($id);
 
-        // Validate advertiser_id if necessary
         $request->validate([
             'advertiser_id' => 'required|exists:users,id',
         ]);
 
-        // Only update advertiser_id and set work_status manually
-        $advertiser->update([
+        $order->update([
             'advertiser_id' => $request->input('advertiser_id'),
             'work_status' => 'advertise pending',
         ]);
 
-        return redirect()->back()->with('success', 'Add Updated Successfully');
+        $order->load('advertiser');
+
+        return response()->json(['success' => true,'order' => $order,]);
     }
+
+
 }
