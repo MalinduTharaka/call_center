@@ -122,7 +122,7 @@
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span
                                                                             class="display-mode">{{ $order->name }}</span>
                                                                         <input type="text" name="name"
@@ -247,7 +247,9 @@
                                                                         <input type="number" class="form-control edit-mode"
                                                                             name="advance" value="{{ $order->advance }}">
                                                                     </td>
-                                                                    <td>{{ $order->details }}</td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
+                                                                        {{ $order->details }}
+                                                                    </td>
                                                                     <td>
                                                                         @if (empty($order->add_acc_id))
                                                                             Not Added
@@ -337,7 +339,7 @@
                                                                         class="form-control edit-mode"
                                                                         value="{{ $order->invoice }}" hidden>
                                                                 </td>
-                                                                <td>
+                                                                <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                     <span>{{ $order->name }}</span>
                                                                 </td>
                                                                 <td>
@@ -494,7 +496,7 @@
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span>{{ $order->name }}</span>
                                                                     </td>
                                                                     <td>

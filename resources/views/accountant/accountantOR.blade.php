@@ -103,7 +103,7 @@
                                         <td>
                                             <span>{{ $order->user->name }}</span>
                                         </td>
-                                        <td>
+                                        <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                             <span>{{ $order->name }}</span>
                                         </td>
                                         <td>

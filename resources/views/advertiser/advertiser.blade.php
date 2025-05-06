@@ -99,7 +99,7 @@
                                         <td>
                                             <span class="fs-5">{{ $order->plUser->name }}</span>
                                         </td>
-                                        <td>
+                                        <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                             {{ $order->name }}
                                         </td>
                                         <td>
@@ -220,7 +220,7 @@
                                         <td>
                                             <span">{{ $order->advance }}</span>
                                         </td>
-                                        <td>
+                                        <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                             <span class="display-mode">{{ $order->details }}</span>
                                             <input type="text" name="details" class="form-control edit-mode"
                                                 value="{{ $order->details }}">

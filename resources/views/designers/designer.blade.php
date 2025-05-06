@@ -121,7 +121,7 @@
                                             <input type="text" name="inv" class="form-control"
                                                 value="{{ $order->invoice }}" hidden>
                                         </td>
-                                        <td>
+                                        <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                             <span>{{ $order->name }}</span>
                                         </td>
                                         <td>

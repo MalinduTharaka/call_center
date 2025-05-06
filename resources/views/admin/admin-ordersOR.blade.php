@@ -105,7 +105,7 @@
                                         <td>
                                             <span>{{ $order->user->name }}</span>
                                         </td>
-                                        <td>
+                                        <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                             <span class="display-mode">{{$order->name}}</span>
                                             <input type="text" name="name" class="form-control edit-mode"
                                                 value="{{ $order->name }}">

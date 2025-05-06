@@ -68,10 +68,7 @@
         }
 
         tr[data-add-acc="3"] {
-            background-color: rgb(125, 226, 195);
-        }
-        tr[data-add-acc="4"] {
-            background-color: rgb(236, 255, 141);
+            background-color: rgb(245, 247, 129);
         }
     </style>
 
@@ -128,7 +125,6 @@
                                                         <th>Name<br />Company</th>
                                                         <th>O/N</th>
                                                         <th>Contact</th>
-                                                      
                                                         <th>Page</th>
                                                         <th>Work<br />Status</th>
                                                         <th>Payment</th>
@@ -158,7 +154,7 @@
                                                                     <td>
                                                                         <span class="display-mode">
                                                                             @if ($order->add_acc == '1') Urgent
-                                                                            @elseif($order->add_acc == '2') No Data
+                                                                            @elseif($order->add_acc == '2') Pending
                                                                             @elseif($order->add_acc == '3') Continue
                                                                             @elseif($order->add_acc == '4') Unknown
                                                                             @endif
@@ -166,7 +162,7 @@
                                                                         <select name="add_acc" class="form-select edit-mode">
                                                                             <option value="4" @selected($order->add_acc == '4')>Unknown</option>
                                                                             <option value="1" @selected($order->add_acc == '1')>Urgent</option>
-                                                                            <option value="2" @selected($order->add_acc == '2')>No Data</option>
+                                                                            <option value="2" @selected($order->add_acc == '2')>Pending</option>
                                                                             <option value="3" @selected($order->add_acc == '3')>Continue</option>
                                                                         </select>
                                                                     </td>
@@ -200,7 +196,7 @@
                                                                             class="form-control"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span
                                                                             class="display-mode">{{ $order->name }}</span>
                                                                         <input type="text" name="name"
@@ -393,11 +389,11 @@
                                                                     <td>
                                                                         <span>{{ $order->advance }}</span>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span
                                                                             class="display-mode">{{ $order->details }}</span>
                                                                         <input type="text" name="details"
-                                                                            class="form-control edit-mode"
+                                                                            class="form-control edit-mode" style="width: 50px;"
                                                                             value="{{ $order->details }}">
                                                                     </td>
                                                                     <td>
@@ -506,7 +502,7 @@
                                                                             class="form-control"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span
                                                                             class="display-mode">{{ $order->name }}</span>
                                                                         <input type="text" name="name"
@@ -717,7 +713,7 @@
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span
                                                                             class="display-mode">{{ $order->name }}</span>
                                                                         <input type="text" name="name"

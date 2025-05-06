@@ -126,7 +126,7 @@
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span>{{ $order->name }}</span>
                                                                     </td>
                                                                     <td>
@@ -200,7 +200,7 @@
                                                                     <td>
                                                                         <span>{{ $order->advance }}</span>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span>{{ $order->details }}</span>
                                                                     </td>
                                                                     <td>
@@ -305,7 +305,7 @@
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span>{{ $order->name }}</span>
                                                                     </td>
                                                                     <td>
@@ -438,7 +438,7 @@
                                                                     <td>
                                                                         <span>{{ $order->invoice }}</span>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span>{{ $order->name }}</span>
                                                                     </td>
                                                                     <td>

@@ -177,23 +177,20 @@
         }, 1000); // Auto-dismiss after 1 seconds
     </script>
 
-    <style>
-        /* style.css */
-        tr[data-add-acc="1"] {
-            background-color: #f8d7da;
-        }
+<style>
+    /* style.css */
+    tr[data-add-acc="1"] {
+        background-color: #f8d7da;
+    }
 
-        tr[data-add-acc="2"] {
-            background-color: rgb(146, 217, 247);
-        }
+    tr[data-add-acc="2"] {
+        background-color: rgb(146, 217, 247);
+    }
 
-        tr[data-add-acc="3"] {
-            background-color: rgb(125, 226, 195);
-        }
-        tr[data-add-acc="4"] {
-            background-color: rgb(236, 255, 141);
-        }
-    </style>
+    tr[data-add-acc="3"] {
+        background-color: rgb(245, 247, 129);
+    }
+</style>
 
     <div class="row">
         <div class="col-12">
@@ -272,7 +269,7 @@
                                                                     <td>
                                                                         <span class="display-mode">
                                                                             @if ($order->add_acc == '1') Urgent
-                                                                            @elseif($order->add_acc == '2') No Data
+                                                                            @elseif($order->add_acc == '2') Pending
                                                                             @elseif($order->add_acc == '3') Continue
                                                                             @elseif($order->add_acc == '4') Unknown
                                                                             @endif
@@ -280,7 +277,7 @@
                                                                         <select name="add_acc" class="form-select edit-mode">
                                                                             <option value="4" @selected($order->add_acc == '4')>Unknown</option>
                                                                             <option value="1" @selected($order->add_acc == '1')>Urgent</option>
-                                                                            <option value="2" @selected($order->add_acc == '2')>No Data</option>
+                                                                            <option value="2" @selected($order->add_acc == '2')>Pending</option>
                                                                             <option value="3" @selected($order->add_acc == '3')>Continue</option>
                                                                         </select>
                                                                     </td>
@@ -300,7 +297,7 @@
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span class="display-mode">{{ $order->name }}</span>
                                                                         <input type="text" name="name"
                                                                             class="form-control edit-mode"
@@ -319,13 +316,6 @@
                                                                         <input type="text" name="contact"
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->contact }}">
-                                                                    </td>
-                                                                    <td>
-                                                                        <span
-                                                                            class="badge fs-5 display-mode
-                                                                                                            @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name ?? '-' }}
-                                                                        </span>
                                                                     </td>
                                                                     <td>
                                                                         <span
@@ -388,6 +378,10 @@
                                                                             {{ $order->payment_status }}
                                                                         </span>
                                                                     </td>
+                                                                    
+                                                                    
+                                                                    
+                                                                    
                                                                     <td>
                                                                         <span
                                                                             class="badge fs-5  display-mode
@@ -443,7 +437,7 @@
                                                                     <td>
                                                                         <span>{{ $order->advance }}</span>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span
                                                                             class="display-mode">{{ $order->details }}</span>
                                                                         <input type="text" name="details"
@@ -539,7 +533,7 @@
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span>{{ $order->name }}</span>
                                                                     </td>
                                                                     <td>
@@ -703,7 +697,7 @@
                                                                             class="form-control edit-mode"
                                                                             value="{{ $order->invoice }}" hidden>
                                                                     </td>
-                                                                    <td>
+                                                                    <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                                                         <span>{{ $order->name }}</span>
                                                                     </td>
                                                                     <td>
