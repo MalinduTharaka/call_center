@@ -22,9 +22,9 @@ class AdvertiserAllOrdersController extends Controller
 
         // 2. Parse their from_date/to_date (and optionally normalize to full days)
         $from = Carbon::parse($user->from_date)->startOfDay();
-        $to   = Carbon::parse($user->to_date)->endOfDay();
+        $to = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::where('ps', '1')->where('order_type','boosting')->whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $orders = Order::where('ps', '1')->where('order_type', 'boosting')->whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
         $packages = Package::all();
         $users = User::all();
         $invoices = Invoice::all();
@@ -33,22 +33,53 @@ class AdvertiserAllOrdersController extends Controller
         return view('advertiser.advertiser-all-orders', compact('orders', 'packages', 'users', 'invoices', 'work_types', 'video_pkgs'));
     }
 
-    public function updateAdvAll(Request $request, $id)
+    // AdvertiserAllOrdersController.php
+
+public function updateAdvAll(Request $request, $id)
+{
+    $order = Order::findOrFail($id);
+
+    // If the request is JSON, merge it into the normal input bag
+    if ($request->isJson()) {
+        $request->merge($request->json()->all());
+    }
+
+    // Standard validation
+    $request->validate([
+        'advertiser_id' => 'required|exists:users,id',
+    ]);
+
+    // Update the order
+    $order->update([
+        'advertiser_id' => $request->input('advertiser_id'),
+        'work_status'   => 'advertise pending',
+    ]);
+
+    $order->load('advertiser');
+
+    return response()->json([
+        'success' => true,
+        'order'   => $order,
+    ]);
+}
+
+
+    public function body()
     {
-        $order = Order::findOrFail($id);
+        $user = Auth::user();
 
-        $request->validate([
-            'advertiser_id' => 'required|exists:users,id',
-        ]);
+        // 2. Parse their from_date/to_date (and optionally normalize to full days)
+        $from = Carbon::parse($user->from_date)->startOfDay();
+        $to = Carbon::parse($user->to_date)->endOfDay();
 
-        $order->update([
-            'advertiser_id' => $request->input('advertiser_id'),
-            'work_status' => 'advertise pending',
-        ]);
+        $orders = Order::where('ps', '1')->where('order_type', 'boosting')->whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $users = User::all();
 
-        $order->load('advertiser');
-
-        return response()->json(['success' => true,'order' => $order,]);
+        // This returns only the rows markup
+        return view('advertiser.all-order-body', compact(
+            'orders',
+            'users',
+        ));
     }
 
 
