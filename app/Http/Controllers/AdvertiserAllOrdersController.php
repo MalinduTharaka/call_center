@@ -33,35 +33,51 @@ class AdvertiserAllOrdersController extends Controller
         return view('advertiser.advertiser-all-orders', compact('orders', 'packages', 'users', 'invoices', 'work_types', 'video_pkgs'));
     }
 
-    // AdvertiserAllOrdersController.php
 
-public function updateAdvAll(Request $request, $id)
-{
-    $order = Order::findOrFail($id);
+    public function updateAdvAll(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
 
-    // If the request is JSON, merge it into the normal input bag
-    if ($request->isJson()) {
-        $request->merge($request->json()->all());
+        // Merge JSON payload if needed
+        if ($request->isJson()) {
+            $request->merge($request->json()->all());
+        }
+
+        // Only advertiser_id is required
+        $request->validate([
+            'advertiser_id' => 'required|exists:users,id',
+            // everything else is optional
+            'work_status' => 'nullable|in:done,pending,send to customer,send to designer,error',
+            'page' => 'nullable|in:new,our,existing',
+            'details' => 'nullable|string|max:255',
+            'add_acc_id' => 'nullable|url',
+        ]);
+
+        // Build update array dynamically
+        $data = ['advertiser_id' => $request->input('advertiser_id')];
+        if ($request->filled('work_status')) {
+            $data['work_status'] = $request->input('work_status');
+        }
+        if ($request->filled('page')) {
+            $data['page'] = $request->input('page');
+        }
+        if ($request->filled('details')) {
+            $data['details'] = $request->input('details');
+        }
+        if ($request->filled('add_acc_id')) {
+            $data['add_acc_id'] = $request->input('add_acc_id');
+        }
+
+        $order->update($data);
+        $order->load('advertiser');
+
+        return response()->json([
+            'success' => true,
+            'order' => $order,
+        ]);
     }
 
-    // Standard validation
-    $request->validate([
-        'advertiser_id' => 'required|exists:users,id',
-    ]);
 
-    // Update the order
-    $order->update([
-        'advertiser_id' => $request->input('advertiser_id'),
-        'work_status'   => 'advertise pending',
-    ]);
-
-    $order->load('advertiser');
-
-    return response()->json([
-        'success' => true,
-        'order'   => $order,
-    ]);
-}
 
 
     public function body()

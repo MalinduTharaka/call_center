@@ -42,22 +42,54 @@
             </td>
 
             <td>
-                <span class="badge fs-5 bg-dark">{{ $order->page }}</span>
+                <span
+                    class="badge fs-5 bg-dark display-mode">{{ $order->page }}</span>
+                <select name="page"
+                    class="form-select edit-mode">
+                    <option value="" selected>Select</option>
+                    <option value="new"
+                        @if ($order->page == 'new') selected @endif>
+                        new</option>
+                    <option value="our"
+                        @if ($order->page == 'our') selected @endif>
+                        our</option>
+                    <option value="existing"
+                        @if ($order->page == 'existing') selected @endif>
+                        existing
+                    </option>
+                </select>
             </td>
             <td>
                 <span
-                    class="badge fs-5 work-status-badge
-                                                    @if ($order->work_status == 'done') bg-primary
-                                                    @elseif($order->work_status == 'pending') bg-danger
-                                                    @elseif($order->work_status == 'send to customer') bg-warning
-                                                    @elseif($order->work_status == 'send to designer') bg-dark
-                                                    @elseif($order->work_status == 'error') bg-danger
-                                                    @elseif($order->work_status == '')
-                                                    @else
-                                                    bg-info
-                                                    @endif">
+                    class="badge fs-5 display-mode
+                    @if ($order->work_status == 'done') bg-primary
+                    @elseif($order->work_status == 'pending') bg-danger
+                    @elseif($order->work_status == 'send to customer') bg-warning
+                    @elseif($order->work_status == 'send to designer') bg-dark
+                    @elseif($order->work_status == 'error') bg-danger @elseif($order->work_status == '')
+                        @else
+                        bg-info @endif">
                     {{ $order->work_status }}
                 </span>
+                <select name="work_status"
+                    class="form-select edit-mode">
+                    <option value="" selected>Select</option>
+                    <option value="done"
+                        @if ($order->work_status == 'done') selected @endif>
+                        done</option>
+                    <option value="pending"
+                        @if ($order->work_status == 'pending') selected @endif>
+                        pending</option>
+                    <option value="send to customer"
+                        @if ($order->work_status == 'send to customer') selected @endif>
+                        send to customer</option>
+                    <option value="send to designer"
+                        @if ($order->work_status == 'send to designer') selected @endif>
+                        send to designer</option>
+                    <option value="error"
+                        @if ($order->work_status == 'error') selected @endif>
+                        error</option>
+                </select>
             </td>
             <td>
                 <span
@@ -107,17 +139,26 @@
                 <span">{{ $order->advance }}</span>
             </td>
             <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
-                <span class="display-mode">{{ $order->details }}</span>
+                <span
+                    class="display-mode">{{ $order->details }}</span>
+                <input type="text" name="details"
+                    class="form-control edit-mode" style="width: 50px;"
+                    value="{{ $order->details }}">
             </td>
             <td>
                 @if (empty($order->add_acc_id))
                     <span class="display-mode">Not Added</span>
                 @else
-                    <a href="{{ $order->add_acc_id }}" target="_blank"
+                    <a href="{{ $order->add_acc_id }}"
+                        target="_blank"
                         class="btn btn-info display-mode">
                         <i class="ri-arrow-up-circle-line "></i>
                     </a>
                 @endif
+                <input type="text" name="add_acc_id"
+                    class="form-control edit-mode"
+                    value="{{ $order->add_acc_id }}">
+            </td>
             <td>
                 @if ($order->work_status != 'advertise pending' || Auth::user()->id == $order->advertiser_id)
                     <button type="button" class="btn btn-primary edit-btn">Edit</button>

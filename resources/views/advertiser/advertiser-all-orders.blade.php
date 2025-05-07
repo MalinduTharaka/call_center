@@ -169,14 +169,13 @@
 
 <script>
     (function(){
-      const tbody       = document.querySelector('#basictab1 tbody');
-      const bodyUrl     = `{{ route('advertisers_all_order.body') }}`;
+      const tbody   = document.querySelector('#basictab1 tbody');
+      const bodyUrl = `{{ route('advertisers_all_order.body') }}`;
       const searchInput = document.querySelector('.search-input');
       const searchBtn   = document.querySelector('.search-btn');
-      let polling       = setInterval(pollBody, 5000);
+      let polling = setInterval(pollBody, 5000);
     
-      // —————————————————————————
-      // 1) Poll for brand-new rows
+      // Poll for updated rows
       function pollBody(){
         if (tbody.querySelector('tr.editing')) return;
         fetch(bodyUrl)
@@ -188,8 +187,7 @@
           .catch(console.error);
       }
     
-      // —————————————————————————
-      // 2) Search filter
+      // Search filter
       function applySearch(){
         const q = searchInput.value.trim().toLowerCase();
         tbody.querySelectorAll('tr').forEach(r => {
@@ -199,84 +197,107 @@
       searchBtn.addEventListener('click', applySearch);
       searchInput.addEventListener('keyup', e => { if (e.key==='Enter') applySearch(); });
     
-      // —————————————————————————
-      // 3) Delegate Edit / Done / click-outside
-      tbody.addEventListener('click', e => {
+      // Delegate Edit / Done / click-outside
+      tbody.addEventListener('click', async e => {
         const btn = e.target;
         const row = btn.closest('tr');
         if (!row) return;
     
-        // — Edit
+        // Enter edit mode
         if (btn.matches('.edit-btn')) {
-          exitAllEdits();
+          tbody.querySelectorAll('tr.editing').forEach(r=>r.classList.remove('editing'));
           row.classList.add('editing');
           return;
         }
     
-        // — Done (send JSON)
+        // Done: send only advertiser_id plus any optional fields
         if (btn.matches('.done-btnb')) {
-          const select = row.querySelector('select[name="advertiser_id"]');
-          const advId  = select.value;
+          const advId = row.querySelector('select[name="advertiser_id"]').value;
           if (!advId) {
             return alert('Please select an Advertiser.');
           }
     
-          exitAllEdits();
+          // gather optional fields if visible
+          const payload = { advertiser_id: advId, _method: 'PUT' };
+          ['work_status','page','details','add_acc_id'].forEach(name => {
+            const el = row.querySelector(`[name="${name}"]`);
+            if (el && el.value) payload[name] = el.value;
+          });
+    
+          row.classList.remove('editing');
           clearInterval(polling);
     
-          fetch(row.querySelector('form').action, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-              advertiser_id: advId,
-              _method:        'PUT'
-            })
-          })
-          .then(async res => {
+          try {
+            const res = await fetch(row.querySelector('form').action, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept':       'application/json',
+              },
+              body: JSON.stringify(payload)
+            });
+    
             if (res.status === 422) {
               const err = await res.json();
-              alert(Object.values(err.errors).flat().join(', '));
-              throw 'validation';
+              return alert(Object.values(err.errors).flat().join('\n'));
             }
-            return res.json();
-          })
-          .then(json => {
-            // inline update of this row
-            row.querySelector('.advertiser-name').textContent = json.order.advertiser.name;
-            const badge = row.querySelector('.work-status-badge');
-            badge.textContent = json.order.work_status;
-            badge.className = 'badge fs-5 work-status-badge bg-info';
-          })
-          .catch(console.error)
-          .finally(() => {
-            // reload full body so you can re-edit
+    
+            const json = await res.json();
+            if (json.success) {
+              const o = json.order;
+              // inline update
+              row.querySelector('.advertiser-name').textContent = o.advertiser.name;
+              // if work_status was returned, update badge
+              if (payload.work_status) {
+                const badge = row.querySelector('.work-status-badge');
+                badge.textContent = o.work_status;
+                badge.className = 'badge fs-5 work-status-badge ' + 
+                  (o.work_status==='done' ? 'bg-primary' :
+                   o.work_status==='pending' ? 'bg-danger' :
+                   o.work_status==='send to customer' ? 'bg-warning' :
+                   o.work_status==='send to designer' ? 'bg-dark' : 'bg-info');
+              }
+              // if page was returned
+              if (payload.page) {
+                row.querySelector('td:nth-child(10) .display-mode').textContent = o.page;
+              }
+              // if details returned
+              if (payload.details !== undefined) {
+                row.querySelector('td:nth-last-child(4) .display-mode').textContent = o.details || '';
+              }
+              // if add_acc_id returned
+              if (payload.add_acc_id !== undefined) {
+                const accCell = row.querySelector('td:nth-last-child(3)');
+                accCell.innerHTML = o.add_acc_id
+                  ? `<a href="${o.add_acc_id}" target="_blank" class="btn btn-info display-mode">
+                       <i class="ri-arrow-up-circle-line"></i>
+                     </a>`
+                  : `<span class="display-mode">Not Added</span>`;
+              }
+            }
+          } catch(err) {
+            console.error('Update error', err);
+          } finally {
+            // re-poll so you can edit again
             pollBody();
             setTimeout(() => polling = setInterval(pollBody, 5000), 1000);
-          });
-          return;
+          }
         }
     
-        // — click-outside to cancel edit
+        // click outside to cancel
         const editing = tbody.querySelector('tr.editing');
         if (editing && !editing.contains(e.target)) {
           editing.classList.remove('editing');
         }
       });
     
-      function exitAllEdits(){
-        tbody.querySelectorAll('tr.editing')
-             .forEach(r => r.classList.remove('editing'));
-      }
-    
-      // initial load & filter
+      // start
       pollBody();
       if (searchInput.value) applySearch();
     })();
     </script>
+    
     
     
         
