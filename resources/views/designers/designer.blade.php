@@ -168,10 +168,11 @@
                                         <td>
                                             @if ($order->d_img)
                                                 <!-- Thumbnail with modal trigger -->
-                                                <img src="{{ asset($order->d_img) }}" alt="Design Preview"
-                                                    class="img-thumbnail" style="width: 50px; cursor: pointer"
+                                                <button type="button" class="btn btn-success view-slip-btn"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#designPreviewModal-{{ $order->id }}">
+                                                    <i class="ri-eye-line"></i>
+                                                </button>
                                             @else
                                                 —
                                             @endif

@@ -301,6 +301,7 @@
                                                     <th>Work<br />Status</th>
                                                     <th>Payment</th>
                                                     <th>Designer</th>
+                                                    <th>Design</th>
                                                     <th>Amount</th>
                                                     <th>Advance</th>
                                                     <th>Action</th>
@@ -397,6 +398,18 @@
                                                                             @endif
                                                                         @endforeach
                                                                     </select>
+                                                                </td>
+                                                                <td>
+                                                                    @if ($order->d_img)
+                                                                        <!-- Thumbnail with modal trigger -->
+                                                                        <button type="button" class="btn btn-success view-slip-btn"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#designPreviewModal-{{ $order->id }}">
+                                                                            <i class="ri-eye-line"></i>
+                                                                        </button>
+                                                                    @else
+                                                                        —
+                                                                    @endif
                                                                 </td>
                                                                 <td>
                                                                     <span>{{ $order->amount }}</span>
@@ -679,6 +692,11 @@
                 </div> <!-- end card-->
             </div> <!-- end col -->
         </div>
+        @foreach ($orders as $order)
+            @if ($order->d_img)
+                @include('includes.design-view')
+            @endif
+        @endforeach
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 // Function to activate tabs
