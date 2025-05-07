@@ -294,12 +294,12 @@
                         <span> Advertiser </span>
                     </a>
                 </li>
-                {{-- <li class="side-nav-item">
-                    <a href="/advertisers/manage" class="side-nav-link">
+                <li class="side-nav-item">
+                    <a href="/advertisers/design/view" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> Advertiser </span>
+                        <span> Designs </span>
                     </a>
-                </li> --}}
+                </li>
             @elseif (Auth::user()->role == 'dsg')
                 <li class="side-nav-item">
                     <a href="/designers" class="side-nav-link">

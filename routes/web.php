@@ -134,6 +134,7 @@ Route::middleware([
 
     //Advertiser Routes
     Route::get('/advertisers/manage', [AdvertiserController::class, 'index'])->name('advertisers.index');
+    Route::get('/advertisers/design/view', [AdvertiserController::class, 'advertiserDesignView'])->name('advertisers.designView');
     Route::put('/advertisers/update/{id}', [AdvertiserController::class, 'updateAdv'])->name('advertisers.update');
     Route::get('/advertisers_all_order/manage', [AdvertiserAllOrdersController::class, 'index'])->name('advertisers.index');
     Route::put('/advertisers_all_order/update/{id}', [AdvertiserAllOrdersController::class, 'updateAdvAll'])->name('advertisers.update');

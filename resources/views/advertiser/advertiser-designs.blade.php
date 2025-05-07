@@ -89,14 +89,12 @@
                             <th>Work<br>Type</th>
                             <th>Work<br>Status</th>
                             <th>Payment</th>
-                            <th>Upload Design</th>
                             <th>Design</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($orders as $order)
-                            @if (Auth::user()->id == $order->designer_id && $order->ps == '1' && $order->order_type == 'designs')
+                            @if ($order->ps == '1' && $order->order_type == 'designs')
                                 <form action="{{ url('/orders/update/designers/' . $order->id) }}" method="post">
                                     @csrf
                                     @method('put')
@@ -112,11 +110,11 @@
                                                 {{ strtoupper($order->ce) }}
                                             </span>
                                         </td>
-                                        <td>{{ $order->plUser->name }}</td>
+                                        <td>{{ $order->plUser->name ?? '-' }}</td>
                                         <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                             <span>{{ $order->name }}</span>
                                         </td>
-                                        <td>{{ $order->Designer->name }}</td>
+                                        <td>{{ $order->Designer->name ?? '-' }}</td>
                                         
                                         
                                         
@@ -154,12 +152,6 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button type="button" data-bs-toggle="modal" class="btn btn-info"
-                                                data-bs-target="#designUploadModel-{{ $order->id }}">
-                                                <i class="ri-arrow-up-line"></i>
-                                            </button>
-                                        </td>
-                                        <td>
                                             @if ($order->d_img)
                                                 <!-- Thumbnail with modal trigger -->
                                                 <button type="button" class="btn btn-success view-slip-btn"
@@ -170,11 +162,6 @@
                                             @else
                                                 —
                                             @endif
-                                        </td>
-                                        <td>
-                                            <button type="button"
-                                                class="btn btn-primary edit-btn display-mode">Edit</button>
-                                            <button type="submit" class="btn btn-primary done-btn edit-mode">Done</button>
                                         </td>
                                     </tr>
                                 </form>
@@ -187,33 +174,11 @@
     </div>
 
     @foreach ($orders as $order)
-        @include('includes.design-upload', ['order' => $order])
-    @endforeach
-
-    @foreach ($orders as $order)
         @if ($order->d_img)
             @include('includes.design-view')
         @endif
     @endforeach
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle edit mode
-            document.querySelectorAll('.edit-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('tr.editing').forEach(r => r.classList.remove(
-                        'editing'));
-                    this.closest('tr').classList.add('editing');
-                });
-            });
-
-            // Click outside to cancel edit
-            document.addEventListener('click', function(e) {
-                const editingRow = document.querySelector('tr.editing');
-                if (editingRow && !editingRow.contains(e.target)) {
-                    editingRow.classList.remove('editing');
-                }
-            });
-        });
         // Search functionality
         const searchInput = document.querySelector('.search-input');
         const searchBtn = document.querySelector('.search-btn');

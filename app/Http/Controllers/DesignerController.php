@@ -23,7 +23,7 @@ class DesignerController extends Controller
 
         // 2. Parse their from_date/to_date (and optionally normalize to full days)
         $from = Carbon::parse($user->from_date)->startOfDay();
-        $to   = Carbon::parse($user->to_date)->endOfDay();
+        $to = Carbon::parse($user->to_date)->endOfDay();
 
         $orders = Order::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
         $packages = Package::all();
@@ -45,41 +45,41 @@ class DesignerController extends Controller
     }
 
     public function DesignImageUpload(Request $request, $id)
-{
-    // 1) Validate incoming request
-    $request->validate([
-        'slip' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        // 1) Validate incoming request
+        $request->validate([
+            'slip' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    // 2) Find the order
-    $order = Order::findOrFail($id);
+        // 2) Find the order
+        $order = Order::findOrFail($id);
 
-    // 3) Handle image upload into public/designs
-    if (! $request->hasFile('slip') || ! $request->file('slip')->isValid()) {
-        return back()->with('error', 'Image upload failed or no file provided.');
+        // 3) Handle image upload into public/designs
+        if (!$request->hasFile('slip') || !$request->file('slip')->isValid()) {
+            return back()->with('error', 'Image upload failed or no file provided.');
+        }
+
+        $file = $request->file('slip');
+        $filename = time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+
+        // Ensure the public/designs directory exists
+        $destination = public_path('designs');
+        if (!is_dir($destination)) {
+            mkdir($destination, 0755, true);
+        }
+
+        // Move the uploaded file
+        $file->move($destination, $filename);
+
+        // Build the public-relative path
+        $imagePath = 'designs/' . $filename;
+
+        // 4) Save the image path to the order
+        $order->d_img = $imagePath;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Design image uploaded successfully.');
     }
-
-    $file     = $request->file('slip');
-    $filename = time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-
-    // Ensure the public/designs directory exists
-    $destination = public_path('designs');
-    if (! is_dir($destination)) {
-        mkdir($destination, 0755, true);
-    }
-
-    // Move the uploaded file
-    $file->move($destination, $filename);
-
-    // Build the public-relative path
-    $imagePath = 'designs/' . $filename;
-
-    // 4) Save the image path to the order
-    $order->d_img = $imagePath;
-    $order->save();
-
-    return redirect()->back()->with('success', 'Design image uploaded successfully.');
-}
 
 
 }
