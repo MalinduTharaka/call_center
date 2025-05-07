@@ -53,6 +53,22 @@ class AdvertiserAllOrdersController extends Controller
             'add_acc_id' => 'nullable|url',
         ]);
 
+        // --- NEW: if the request has *only* advertiser_id, 
+        //     set work_status to "advertise pending" and exit
+        $otherFields = ['work_status', 'page', 'details', 'add_acc_id'];
+        $hasAnyOther = collect($otherFields)->contains(fn($f) => $request->filled($f));
+
+        if (!$hasAnyOther) {
+            $order->update(['work_status' => 'advertise pending']);
+            $order->load('advertiser');
+
+            return response()->json([
+                'success' => true,
+                'order' => $order,
+            ]);
+        }
+        // --- END NEW
+
         // Build update array dynamically
         $data = ['advertiser_id' => $request->input('advertiser_id')];
         if ($request->filled('work_status')) {
@@ -76,6 +92,7 @@ class AdvertiserAllOrdersController extends Controller
             'order' => $order,
         ]);
     }
+
 
 
 
