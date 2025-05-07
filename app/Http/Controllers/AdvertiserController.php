@@ -39,4 +39,19 @@ class AdvertiserController extends Controller
         $advertiser->update($request->all());
         return redirect()->back()->with('success', 'Add Updated Successfully');
     }
+
+
+    public function advertiserDesignView()
+    {
+        $user = Auth::user();
+
+        // 2. Parse their from_date/to_date (and optionally normalize to full days)
+        $from = Carbon::parse($user->from_date)->startOfDay();
+        $to = Carbon::parse($user->to_date)->endOfDay();
+
+        $orders = Order::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $users = User::all();
+        $invoices = Invoice::all();
+        return view('advertiser.advertiser-designs', compact('orders',  'users',  'invoices'));
+    }
 }
