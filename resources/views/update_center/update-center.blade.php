@@ -91,7 +91,6 @@
                                                         <th>Advance</th>
                                                         <th>Details</th>
                                                         <th>Add<br />Link</th>
-                                                        <th>slip</th>
                                                         {{-- <th>Action</th> --}}
                                                     </tr>
                                                 </thead>
@@ -261,10 +260,6 @@
                                                                             </a>
                                                                         @endif
                                                                     </td>
-
-                                                                    <td>
-                                                                        @include('includes.slip-view')
-                                                                    </td>
                                                                     {{-- <td>
                                                                                 <button type="button" class="btn btn-primary edit-btn">Edit</button>
                                                                                 <button type="button" class="btn btn-primary done-btnb">Done</button>
@@ -306,9 +301,9 @@
                                                     <th>Work<br />Status</th>
                                                     <th>Payment</th>
                                                     <th>Designer</th>
+                                                    <th>Design</th>
                                                     <th>Amount</th>
                                                     <th>Advance</th>
-                                                    <th>Slip</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -405,13 +400,22 @@
                                                                     </select>
                                                                 </td>
                                                                 <td>
+                                                                    @if ($order->d_img)
+                                                                        <!-- Thumbnail with modal trigger -->
+                                                                        <button type="button" class="btn btn-success view-slip-btn"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#designPreviewModal-{{ $order->id }}">
+                                                                            <i class="ri-eye-line"></i>
+                                                                        </button>
+                                                                    @else
+                                                                        —
+                                                                    @endif
+                                                                </td>
+                                                                <td>
                                                                     <span>{{ $order->amount }}</span>
                                                                 </td>
                                                                 <td>
                                                                     <span>{{ $order->advance }}</span>
-                                                                </td>
-                                                                <td>
-                                                                    @include('includes.slip-view')
                                                                 </td>
                                                                 <td>
                                                                     <button type="button"
@@ -464,7 +468,6 @@
                                                         <th>Cash</th>
                                                         <th>Editor</th>
                                                         <th>Advance</th>
-                                                        <th>Slip</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -642,9 +645,6 @@
                                                                         <span>{{ $order->advance }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        @include('includes.slip-view')
-                                                                    </td>
-                                                                    <td>
                                                                         <button type="button"
                                                                             class="btn btn-primary edit-btn display-mode">Edit</button>
                                                                         <button type="button"
@@ -692,6 +692,11 @@
                 </div> <!-- end card-->
             </div> <!-- end col -->
         </div>
+        @foreach ($orders as $order)
+            @if ($order->d_img)
+                @include('includes.design-view')
+            @endif
+        @endforeach
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 // Function to activate tabs

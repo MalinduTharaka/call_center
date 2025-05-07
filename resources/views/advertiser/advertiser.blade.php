@@ -36,6 +36,20 @@
             });
         }, 2000); // Auto-dismiss after 4 seconds
     </script>
+    <style>
+        /* style.css */
+        tr[data-add-acc="1"] {
+            background-color: #f8d7da;
+        }
+
+        tr[data-add-acc="2"] {
+            background-color: rgb(146, 217, 247);
+        }
+
+        tr[data-add-acc="3"] {
+            background-color: rgb(245, 247, 129);
+        }
+    </style>
 
     <div class="row mt-3">
         <div class="col-12">
@@ -72,14 +86,13 @@
                             <th>Advance</th>
                             <th>Details</th>
                             <th>Add<br />Link</th>
-                            <th>slip</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($orders as $order)
                             @if (Auth::user()->id == $order->advertiser_id && $order->ps == '1' && $order->order_type == 'boosting')
-                                <tr class="fw-semibold" data-o+lhrder-id="{{ $order->id }}">
+                                <tr class="fw-semibold" data-o+lhrder-id="{{ $order->id }}" data-add-acc="{{ $order->add_acc }}">
                                     <form action="/advertisers/update/{{ $order->id }}" method="post">
                                         @csrf
                                         @method('put')
@@ -236,10 +249,6 @@
                                             @endif
                                             <input type="text" name="add_acc_id" class="form-control edit-mode"
                                                 value="{{ $order->add_acc_id }}">
-                                        </td>
-
-                                        <td>
-                                            @include('includes.slip-view')
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-primary edit-btn">Edit</button>

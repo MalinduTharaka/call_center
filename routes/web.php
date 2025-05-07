@@ -95,6 +95,7 @@ Route::middleware([
     Route::get('/orders/get-order-types/{inv}', [OrderConroller::class, 'getOrderTypes']);
     Route::post('/delete/slip/orders', [SlipController::class, 'deleteslp']);
     Route::post('/delete/slip/or', [SlipController::class, 'deleteORslp']);
+    Route::get('/orders/get-slips/{invoice}', [SlipController::class, 'getSlips'])->name('orders.getSlips');
 
     //Notification Routes
     Route::post('/invoice/mark-read', [InvoiceController::class, 'markAsRead'])->name('invoice.markRead');
@@ -136,6 +137,8 @@ Route::middleware([
     Route::put('/advertisers/update/{id}', [AdvertiserController::class, 'updateAdv'])->name('advertisers.update');
     Route::get('/advertisers_all_order/manage', [AdvertiserAllOrdersController::class, 'index'])->name('advertisers.index');
     Route::put('/advertisers_all_order/update/{id}', [AdvertiserAllOrdersController::class, 'updateAdvAll'])->name('advertisers.update');
+    Route::get('/advertisers_all_order/body', [AdvertiserAllOrdersController::class, 'body'])->name('advertisers_all_order.body');
+
 
     //Other Order Routes
     Route::get('/other_orders', [OtherOrderController::class, 'index']);

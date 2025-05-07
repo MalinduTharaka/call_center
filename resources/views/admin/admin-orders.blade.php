@@ -412,7 +412,12 @@
                                                                     </td>
 
                                                                     <td>
-                                                                        @include('includes.slip-view')
+                                                                        <button type="button" class="btn btn-success view-slip-btn" 
+                                                                                data-invoice="{{ $order->invoice }}" 
+                                                                                data-bs-toggle="modal" 
+                                                                                data-bs-target="#viewSlipModal">
+                                                                            <i class="ri-eye-line"></i>
+                                                                        </button>
                                                                     </td>
                                                                     <td>
                                                                         <button type="button"
@@ -429,6 +434,83 @@
                                         </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
+                            </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const modal = document.getElementById('viewSlipModal');
+                                    const slipContent = document.getElementById('slipContent');
+                            
+                                    modal.addEventListener('show.bs.modal', function (event) {
+                                        const button = event.relatedTarget;
+                                        const invoice = button.getAttribute('data-invoice');
+                            
+                                        slipContent.innerHTML = `
+                                        <div class="text-center">
+                                            <div class="spinner-border" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>`;
+                            
+                                        fetch(`/orders/get-slips/${invoice}`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.length === 0) {
+                                                    slipContent.innerHTML = '<p>No slips uploaded for this order.</p>';
+                                                    return;
+                                                }
+                            
+                                                let content = '';
+                                                data.forEach(slip => {
+                                                    content += `
+                                                    <div class="mb-3">
+                                                        <p><strong>Bank Name:</strong> ${slip.bank}</p>
+                                                        ${getSlipContent(slip)}
+                                                    </div>`;
+                                                });
+                                                slipContent.innerHTML = content;
+                                            })
+                                            .catch(error => {
+                                                slipContent.innerHTML = '<p>Error loading slips. Please try again.</p>';
+                                                console.error('Error:', error);
+                                            });
+                                    });
+                            
+                                    function getSlipContent(slip) {
+                                        const extension = slip.type.toLowerCase();
+                                        if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+                                            return `<a href="${slip.path}" target="_blank">
+                                                    <img src="${slip.path}" alt="Slip Image" 
+                                                         class="img-fluid rounded" 
+                                                         style="width: 300px; height: 200px;">
+                                                </a>`;
+                                        }
+                                        if (extension === 'pdf') {
+                                            return `<iframe src="${slip.path}" 
+                                                        width="100%" height="400px" 
+                                                        style="border: none;"></iframe>`;
+                                        }
+                                        return '<p>Unsupported file type.</p>';
+                                    }
+                                });
+                            </script>
+                            
+                            <div class="modal fade" id="viewSlipModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Uploaded Slips</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body" id="slipContent">
+                                            <!-- Content will be loaded here -->
+                                            <div class="text-center">
+                                                <div class="spinner-border" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="tab-pane tab-panebtn" id="basictab2">
@@ -458,6 +540,7 @@
                                                         <th>Work<br />Status</th>
                                                         <th>Payment</th>
                                                         <th>Designer</th>
+                                                        <th>Design</th>
                                                         <th>Amount</th>
                                                         <th>Advance</th>
                                                         <th>Slip</th>
@@ -603,6 +686,18 @@
                                                                         </select>
                                                                     </td>
                                                                     <td>
+                                                                        @if ($order->d_img)
+                                                                            <!-- Thumbnail with modal trigger -->
+                                                                            <button type="button" class="btn btn-success view-slip-btn"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#designPreviewModal-{{ $order->id }}">
+                                                                                <i class="ri-eye-line"></i>
+                                                                            </button>
+                                                                        @else
+                                                                            —
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>
                                                                         <span
                                                                             class="display-mode">{{ $order->amount }}</span>
                                                                         <input type="text" name="amount"
@@ -616,7 +711,12 @@
                                                                         <span>{{ $order->advance }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        @include('includes.slip-view')
+                                                                        <button type="button" class="btn btn-success view-slip-btn" 
+                                                                                data-invoice="{{ $order->invoice }}" 
+                                                                                data-bs-toggle="modal" 
+                                                                                data-bs-target="#viewSlipModal">
+                                                                            <i class="ri-eye-line"></i>
+                                                                        </button>
                                                                     </td>
                                                                     <td>
                                                                         <button type="button"
@@ -908,7 +1008,12 @@
                                                                         <span>{{ $order->advance }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        @include('includes.slip-view')
+                                                                        <button type="button" class="btn btn-success view-slip-btn" 
+                                                                                data-invoice="{{ $order->invoice }}" 
+                                                                                data-bs-toggle="modal" 
+                                                                                data-bs-target="#viewSlipModal">
+                                                                            <i class="ri-eye-line"></i>
+                                                                        </button>
                                                                     </td>
                                                                     <td>
                                                                         <button type="button"
@@ -959,6 +1064,11 @@
             </div> <!-- end card-->
         </div> <!-- end col -->
     </div>
+    @foreach ($orders as $order)
+        @if ($order->d_img)
+            @include('includes.design-view')
+        @endif
+    @endforeach
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

@@ -109,7 +109,7 @@
                             </li>
                            
                             <li class="side-nav-item">
-                                <a href="/advertisers/manage" class="side-nav-link">
+                                <a href="/advertisers_all_order/manage" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
                                     <span> Advertiser </span>
                                 </a>
@@ -291,15 +291,15 @@
                 <li class="side-nav-item">
                     <a href="/advertisers_all_order/manage" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
-                        <span> Assign Order </span>
+                        <span> Advertiser </span>
                     </a>
                 </li>
-                <li class="side-nav-item">
+                {{-- <li class="side-nav-item">
                     <a href="/advertisers/manage" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Advertiser </span>
                     </a>
-                </li>
+                </li> --}}
             @elseif (Auth::user()->role == 'dsg')
                 <li class="side-nav-item">
                     <a href="/designers" class="side-nav-link">
