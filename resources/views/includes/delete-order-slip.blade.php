@@ -14,7 +14,7 @@
                         <select id="invopdeleteo" class="form-select select2" name="inv">
                             <option value="" disabled selected>Search Invoice...</option>
                             @foreach ($invoices as $invoice)
-                                @if ($invoice->status == 'pending' && $invoice->type == 0 && !Str::startsWith($invoice->inv, 'OR'))
+                                @if ($invoice->type == 0 && !Str::startsWith($invoice->inv, 'OR'))
                                     @php
                                         // Gather just the fields we need for each order on this invoice
                                         $orderDetails = $orders

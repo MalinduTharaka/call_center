@@ -20,7 +20,7 @@
                         <select id="invdeleteor" class="form-select select2" name="inv">
                             <option value="" disabled selected>Search Invoice...</option>
                             @foreach ($invoices as $invoice)
-                                @if ($invoice->status == 'pending' && $invoice->type == 0 && Str::startsWith($invoice->inv, 'OR'))
+                                @if ($invoice->type == 0 && Str::startsWith($invoice->inv, 'OR'))
                                     @php
                                         $orderDetails = $orders
                                             ->where('invoice', $invoice->inv)
