@@ -59,7 +59,10 @@ class AdvertiserAllOrdersController extends Controller
         $hasAnyOther = collect($otherFields)->contains(fn($f) => $request->filled($f));
 
         if (!$hasAnyOther) {
-            $order->update(['work_status' => 'advertise pending']);
+            $order->update([
+                'advertiser_id' => $request->input('advertiser_id'),
+                'work_status' => 'advertise pending'
+            ]);
             $order->load('advertiser');
 
             return response()->json([
