@@ -17,7 +17,7 @@
                 <span>{{ $order->invoice }}</span>
             </td>
             <td>
-                <span class="fs-5">{{ $order->plUser->name }}</span>
+                <span class="fs-5">{{ $order->plUser->name ?? '-' }}</span>
             </td>
             <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                 {{ $order->name }}

@@ -112,11 +112,11 @@
                                                 {{ strtoupper($order->ce) }}
                                             </span>
                                         </td>
-                                        <td>{{ $order->plUser->name }}</td>
+                                        <td>{{ $order->plUser->name ?? '-' }}</td>
                                         <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                             <span>{{ $order->name }}</span>
                                         </td>
-                                        <td>{{ $order->Designer->name }}</td>
+                                        <td>{{ $order->Designer->name ?? '-' }}</td>
                                         
                                         
                                         

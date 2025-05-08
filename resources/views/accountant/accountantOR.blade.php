@@ -98,10 +98,10 @@
                                             <span>{{ $order->invoice_id }}</span>
                                         </td>
                                         <td>
-                                            <span>{{ $order->callCenter->cc_name }}</span>
+                                            <span>{{ $order->callCenter->cc_name ?? '-' }}</span>
                                         </td>
                                         <td>
-                                            <span>{{ $order->user->name }}</span>
+                                            <span>{{ $order->user->name ?? '-' }}</span>
                                         </td>
                                         <td style="width: 150px; max-width: 150px; white-space: normal; word-wrap: break-word;">
                                             <span>{{ $order->name }}</span>

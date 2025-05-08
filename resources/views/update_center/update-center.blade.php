@@ -105,7 +105,7 @@
                                                                     <td>{{ $order->id }}</td>
                                                                     <td>{{ $order->date->format('Y-m-d') }}</td>
                                                                     <td>{{ $order->croUser->cc_name ?? '-' }}</td>
-                                                                    <td>{{ $order->plUser->name }}</td>
+                                                                    <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                     <td>
                                                                         <span
                                                                             class="badge fs-5
@@ -317,8 +317,8 @@
                                                                 @method('put')
                                                                 <td>{{ $order->id }}</td>
                                                                 <td>{{ $order->date->format('Y-m-d') }}</td>
-                                                                <td>{{ $order->croUser->cc_name }}</td>
-                                                                <td>{{ $order->plUser->name }}</td>
+                                                                <td>{{ $order->croUser->cc_name ?? '-' }}</td>
+                                                                <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                 <td>
                                                                     <span
                                                                         class="badge fs-5

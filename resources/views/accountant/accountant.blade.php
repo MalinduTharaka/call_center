@@ -119,7 +119,7 @@
                                                                             </option>
                                                                         </select>
                                                                     </td>
-                                                                    <td>{{ $order->plUser->name }}</td>
+                                                                    <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                     <td>
                                                                         <span>{{ $order->invoice }}</span>
                                                                         <input type="text" name="inv"
@@ -379,7 +379,7 @@
                                                                             </option>
                                                                         </select>
                                                                     </td>
-                                                                    <td>{{ $order->plUser->name }}</td>
+                                                                    <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                     <td>
                                                                         <span
                                                                             class="display-mode">{{ $order->invoice }}</span>
@@ -521,7 +521,7 @@
                                                                             </option>
                                                                         </select>
                                                                     </td>
-                                                                    <td>{{ $order->plUser->name }}</td>
+                                                                    <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                     <td>
                                                                         <span>{{ $order->invoice }}</span>
                                                                     </td>
