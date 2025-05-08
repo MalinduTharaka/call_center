@@ -85,7 +85,8 @@
                 <div class="mb-3">
                     <h2 class="h5 font-weight-semibold text-secondary">Bill To:</h2>
                     <p class="text-dark">
-                        {{ $boostingOrders[0]['name'] ?? ($designOrders[0]['name'] ?? ($videoOrders[0]['name'] ?? '')) }}</p>
+                        {{ $boostingOrders[0]['name'] ?? ($designOrders[0]['name'] ?? ($videoOrders[0]['name'] ?? '')) }}
+                    </p>
                     <p class="text-muted small">Phone:
                         {{ $boostingOrders[0]['contact'] ?? ($designOrders[0]['contact'] ?? ($videoOrders[0]['contact'] ?? '')) }}
                     </p>
@@ -191,10 +192,10 @@
                     @if ($discountCount > 0)
                         <tr class="text-danger">
                             <td colspan="4" class="border text-right">
-                                Discount ({{ $discountCount }})
+                                Discount
                             </td>
                             <td class="border text-right">
-                                {{ number_format($discountAmount, 2) }}
+                                <input type="text" class="form-control" value="{{ number_format($discountAmount, 2) }}">
                             </td>
                         </tr>
                     @endif
@@ -214,9 +215,9 @@
                 <tr>
                     <td style="width: 50%; vertical-align: top;">
                         <p>Commercial Bank<br>
-                            Account Number -  1000620243<br>
-                            Name -  WISHWA ADS TEAM<br>
-                            Bank -  COMMERCIAL BANK<br>
+                            Account Number - 1000620243<br>
+                            Name - WISHWA ADS TEAM<br>
+                            Bank - COMMERCIAL BANK<br>
                             Branch - GANEMULLA BRANCH</p>
                     </td>
                     <td style="width: 50%; vertical-align: top;">
@@ -316,6 +317,16 @@
 
             .bank-details-table {
                 font-size: 9pt !important;
+            }
+
+            input {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                appearance: none !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                color : #555 !important
             }
 
             @page {

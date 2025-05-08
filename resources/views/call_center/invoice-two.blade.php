@@ -202,8 +202,10 @@
                 @endphp
                 @if($discountCount > 0)
                     <tr class="text-danger">
-                        <td colspan="{{ $colSpan }}" class="border text-right">Discount ({{ $discountCount }})</td>
-                        <td class="border text-right">{{ number_format($discountAmount,2) }}</td>
+                        <td colspan="{{ $colSpan }}" class="border text-right">Discount</td>
+                        <td class="border text-right">
+                            <input type="text" class="form-control" value="{{ number_format($discountAmount,2) }}">
+                        </td>
                     </tr>
                 @endif
                 <tr class="font-weight-bold">
@@ -309,6 +311,14 @@
 
             .bank-details-table {
                 font-size: 9pt !important;
+            }
+            input {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                appearance: none !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
             }
             
             @page {
