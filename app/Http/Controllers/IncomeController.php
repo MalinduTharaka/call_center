@@ -21,45 +21,45 @@ class IncomeController extends Controller
         // All paid orders (ps = 1) for the current month
         $ordersb_month = Order::where('ps', 1)
             ->where('order_type', 'boosting')
-            ->whereYear('date', $today->year)
-            ->whereMonth('date', $today->month)
+            ->whereYear('created_at', $today->year)
+            ->whereMonth('created_at', $today->month)
             ->get();
 
         $ordersd_month = Order::where('ps', 1)
             ->where('order_type', 'designs')
-            ->whereYear('date', $today->year)
-            ->whereMonth('date', $today->month)
+            ->whereYear('created_at', $today->year)
+            ->whereMonth('created_at', $today->month)
             ->get();
 
         $ordersv_month = Order::where('ps', 1)
             ->where('order_type', 'video')
-            ->whereYear('date', $today->year)
-            ->whereMonth('date', $today->month)
+            ->whereYear('created_at', $today->year)
+            ->whereMonth('created_at', $today->month)
             ->get();
 
         $other_orders_month = OtherOrder::where('ps', 1)
-            ->whereYear('date', $today->year)
-            ->whereMonth('date', $today->month)
+            ->whereYear('created_at', $today->year)
+            ->whereMonth('created_at', $today->month)
             ->get();
 
         // --- TODAY’S DATA ---
         $ordersb_today = Order::where('ps', 1)
             ->where('order_type', 'boosting')
-            ->whereDate('date', $today->toDateString())
+            ->whereDate('created_at', $today->toDateString())
             ->get();
 
         $ordersd_today = Order::where('ps', 1)
             ->where('order_type', 'designs')
-            ->whereDate('date', $today->toDateString())
+            ->whereDate('created_at', $today->toDateString())
             ->get();
 
         $ordersv_today = Order::where('ps', 1)
             ->where('order_type', 'video')
-            ->whereDate('date', $today->toDateString())
+            ->whereDate('created_at', $today->toDateString())
             ->get();
 
         $other_orders_today = OtherOrder::where('ps', 1)
-            ->whereDate('date', $today->toDateString())
+            ->whereDate('created_at', $today->toDateString())
             ->get();
 
         // --- MONTHLY SUMS ---
@@ -125,47 +125,47 @@ class IncomeController extends Controller
         // BOOSTING counts
         $boostCountMonth = Order::where('ps', 1)
             ->where('order_type', 'boosting')
-            ->whereYear('date', $today->year)
-            ->whereMonth('date', $today->month)
+            ->whereYear('created_at', $today->year)
+            ->whereMonth('created_at', $today->month)
             ->count();
 
         $boostCountToday = Order::where('ps', 1)
             ->where('order_type', 'boosting')
-            ->whereDate('date', $today->toDateString())
+            ->whereDate('created_at', $today->toDateString())
             ->count();
 
         // DESIGNS counts
         $designCountMonth = Order::where('ps', 1)
             ->where('order_type', 'designs')
-            ->whereYear('date', $today->year)
-            ->whereMonth('date', $today->month)
+            ->whereYear('created_at', $today->year)
+            ->whereMonth('created_at', $today->month)
             ->count();
 
         $designCountToday = Order::where('ps', 1)
             ->where('order_type', 'designs')
-            ->whereDate('date', $today->toDateString())
+            ->whereDate('created_at', $today->toDateString())
             ->count();
 
         // VIDEO counts
         $videoCountMonth = Order::where('ps', 1)
             ->where('order_type', 'video')
-            ->whereYear('date', $today->year)
-            ->whereMonth('date', $today->month)
+            ->whereYear('created_at', $today->year)
+            ->whereMonth('created_at', $today->month)
             ->count();
 
         $videoCountToday = Order::where('ps', 1)
             ->where('order_type', 'video')
-            ->whereDate('date', $today->toDateString())
+            ->whereDate('created_at', $today->toDateString())
             ->count();
 
         // OTHER ORDERS counts
         $otherCountMonth = OtherOrder::where('ps', 1)
-            ->whereYear('date', $today->year)
-            ->whereMonth('date', $today->month)
+            ->whereYear('created_at', $today->year)
+            ->whereMonth('created_at', $today->month)
             ->count();
 
         $otherCountToday = OtherOrder::where('ps', 1)
-            ->whereDate('date', $today->toDateString())
+            ->whereDate('created_at', $today->toDateString())
             ->count();
 
 
