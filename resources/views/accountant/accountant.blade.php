@@ -73,12 +73,8 @@
                                                         <th>Name<br />Company</th>
                                                         <th>O/N</th>
                                                         <th>Contact</th>
-                                                        <th>Work<br />Type</th>
-                                                        <th>Page</th>
-                                                        <th>Work<br />Status</th>
                                                         <th>Payment</th>
                                                         <th>Cash</th>
-                                                        <th>Advertiser</th>
                                                         <th>Package Amount</th>
                                                         <th>Service</th>
                                                         <th>Tax</th>
@@ -142,30 +138,6 @@
                                                                     </td>
                                                                     <td>
                                                                         <span
-                                                                            class="badge fs-5 
-                                                                                                                    @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name ?? '-' }}
-                                                                        </span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span
-                                                                            class="badge fs-5 bg-dark">{{ $order->page }}</span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span
-                                                                            class="badge fs-5
-                                                                                                                    @if ($order->work_status == 'done') bg-primary
-                                                                                                                    @elseif($order->work_status == 'pending') bg-danger
-                                                                                                                    @elseif($order->work_status == 'send to customer') bg-warning
-                                                                                                                    @elseif($order->work_status == 'send to designer') bg-dark 
-                                                                                                                    @elseif($order->work_status == '')
-                                                                                @else
-                                                                                bg-info @endif">
-                                                                            {{ $order->work_status }}
-                                                                        </span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span
                                                                             class="badge fs-5
                                                                                                                     @if ($order->payment_status == 'done') bg-primary
                                                                                                                     @elseif($order->payment_status == 'pending') bg-danger
@@ -180,11 +152,6 @@
                                                                                                                     @if ($order->cash == 1.0) bg-warning bg-gradient
                                                                                                                     @elseif ($order->cash == 0.0) text-dark @endif">
                                                                             {{ $order->cash == 1.0 ? 'Cash' : 'None Cash' }}
-                                                                        </span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span class="badge bg-dark fs-5">
-                                                                            {{ $order->advertiser->name ?? 'N/A' }}
                                                                         </span>
                                                                     </td>
                                                                     <td>{{ $order->package_amt }}</td>
