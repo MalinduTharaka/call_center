@@ -165,6 +165,7 @@
                 @endif
 
                 <button type="button" class="btn btn-primary done-btnb" data-order-id="{{ $order->id }}">Done</button>
+                <button type="button" class="btn btn-warning cancel-btn"><i class="bi bi-x-circle"></i></button>
             </td>
         </form>
     </tr>

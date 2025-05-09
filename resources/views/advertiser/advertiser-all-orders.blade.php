@@ -126,6 +126,14 @@
             tr.editing .done-btnb {
                 display: inline-block !important;
             }
+            .cancel-btn {
+            display: none;
+          }
+
+          tr.editing .cancel-btn {
+            display: inline-block !important;
+          }
+
         </style>
         <style>
             /* Fixed height scrollable tables with sticky headers */
@@ -286,10 +294,16 @@
         }
     
         // click outside to cancel
-        const editing = tbody.querySelector('tr.editing');
-        if (editing && !editing.contains(e.target)) {
-          editing.classList.remove('editing');
+        // …
+
+        // Cancel: exit edit mode without saving
+        if (btn.matches('.cancel-btn')) {
+          row.classList.remove('editing');
+          return;
         }
+
+        // …
+
       });
     
       // start
