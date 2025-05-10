@@ -12,6 +12,7 @@ use App\Models\WorkType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AdvertiserAllOrdersController extends Controller
 {
@@ -103,19 +104,42 @@ class AdvertiserAllOrdersController extends Controller
     public function body()
     {
         $user = Auth::user();
-
-        // 2. Parse their from_date/to_date (and optionally normalize to full days)
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::where('ps', '1')->where('order_type', 'boosting')->whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
-        $users = User::all();
+        $cacheKey = 'advertiser_orders_' . $user->id . '_' . $from->timestamp . '_' . $to->timestamp;
 
-        // This returns only the rows markup
-        return view('advertiser.all-order-body', compact(
-            'orders',
-            'users',
-        ));
+        $orders = Order::select([
+                'id',
+                'date',
+                'ce',
+                'invoice',
+                'cro',
+                'name',
+                'old_new',
+                'contact',
+                'work_type_id',
+                'page',
+                'work_status',
+                'payment_status',
+                'cash',
+                'advertiser_id',
+                'package_amt',
+                'service',
+                'tax',
+                'advance',
+                'details',
+                'add_acc_id',
+                'created_at'
+            ])
+                ->where('ps', '1')
+                ->where('order_type', 'boosting')
+                ->whereBetween('created_at', [$from, $to])
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+        $users = User::all();
+        return view('advertiser.all-order-body', compact('orders', 'users'));
     }
 
 
