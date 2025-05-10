@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DesignersPaymentsUpdateEvent;
 use App\Models\EditorsWork;
 use App\Models\Invoice;
 use App\Models\Order;
@@ -57,6 +58,7 @@ class UpdateCenterController extends Controller
     public function updateDesignsUC(Request $request, $id){
         $uc = Order::findOrFail($id);
         $uc->update($request->all());
+        event(new DesignersPaymentsUpdateEvent($id));
         return redirect()->back()->with('success', 'Order Update Done');
     }
 }

@@ -11,7 +11,7 @@
 
     <!-- Create Button -->
     @if (Auth::user()->role !== 'dsg' && Auth::user()->role !== 'acc')
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
         + Add Payment
     </button>
     @endif
