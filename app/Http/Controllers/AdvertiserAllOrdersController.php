@@ -111,7 +111,6 @@ class AdvertiserAllOrdersController extends Controller
 
         $orders = Order::select([
                 'id',
-                'date',
                 'ce',
                 'invoice',
                 'cro',
