@@ -112,8 +112,8 @@ class AdvertiserAllOrdersController extends Controller
         $orders = Order::select([
                 'id',
                 'ce',
-                'invoice',
-                'cro',
+                'invoice',  
+                'uid',
                 'name',
                 'old_new',
                 'contact',
@@ -129,7 +129,8 @@ class AdvertiserAllOrdersController extends Controller
                 'advance',
                 'details',
                 'add_acc_id',
-                'created_at'
+                'created_at',
+                'add_acc'
             ])
                 ->where('ps', '1')
                 ->where('order_type', 'boosting')

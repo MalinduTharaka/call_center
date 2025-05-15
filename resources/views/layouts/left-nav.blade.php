@@ -223,6 +223,12 @@
                                     <span>Video Time Slots </span>
                                 </a>
                             </li>
+                            <li class="side-nav-item">
+                                <a href="/salary-rates" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span>Salary Rates</span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>

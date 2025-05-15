@@ -21,6 +21,7 @@ use App\Http\Controllers\OutsideAuthController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuotationManageController;
+use App\Http\Controllers\SalaryRatesController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\TargetController;
 use App\Http\Controllers\TimeSlotController;
@@ -224,6 +225,12 @@ Route::middleware([
     //Payment Edit Routes
     Route::put('/edit/payment/orders/{inv}', [AdminController::class, 'updatepaymentO']);
     Route::put('/edit/payment/or/{inv}', [AdminController::class, 'updatepaymentOR']);
+
+    //Salary Rate Routes
+    Route::get('/salary-rates', [SalaryRatesController::class, 'index']);
+    Route::post('/salary-rates/store', [SalaryRatesController::class, 'store']);
+    Route::put('/salary-rates/update/{id}', [SalaryRatesController::class, 'update']);
+    Route::delete('/salary-rates/delete/{id}', [SalaryRatesController::class, 'delete']);
 });
 
 
