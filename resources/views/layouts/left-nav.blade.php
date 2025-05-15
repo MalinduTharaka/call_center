@@ -37,8 +37,8 @@
 
                 </li>
                 <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarOrders" aria-expanded="false"
-                        aria-controls="sidebarOrders" class="side-nav-link">
+                    <a data-bs-toggle="collapse" href="#sidebarOrders" aria-expanded="false" aria-controls="sidebarOrders"
+                        class="side-nav-link">
                         <i class="ri-survey-line"></i>
                         <span> Orders </span>
                         <span class="menu-arrow"></span>
@@ -55,6 +55,12 @@
                                 <a href="/other_orders" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
                                     <span> Other Orders </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
+                                <a href="/pdf-maker" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Images to PDF </span>
                                 </a>
                             </li>
                             <li class="side-nav-item">
@@ -102,12 +108,18 @@
                                 </a>
                             </li>
                             <li class="side-nav-item">
+                                <a href="/update/sheet" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> UpdateSheet </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
                                 <a href="/designers" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
                                     <span> Designer </span>
                                 </a>
                             </li>
-                           
+
                             <li class="side-nav-item">
                                 <a href="/advertisers_all_order/manage" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
@@ -163,8 +175,33 @@
                 </li>
 
                 <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarSetting" aria-expanded="false"
-                        aria-controls="sidebarSetting" class="side-nav-link">
+                    <a data-bs-toggle="collapse" href="#sidebarSetting" aria-expanded="false" aria-controls="sidebarSetting"
+                        class="side-nav-link">
+                        <i class="ri-pencil-ruler-2-line"></i>
+                        <span> Refund </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarSetting">
+                        <ul class="side-nav-second-level">
+                            <li class="side-nav-item">
+                                <a href="/refund/orders/view" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Refunded Orders </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
+                                <a href="/refund/orders/OR/view" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Refunded other Orders </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#sidebarSetting" aria-expanded="false" aria-controls="sidebarSetting"
+                        class="side-nav-link">
                         <i class="ri-pencil-ruler-2-line"></i>
                         <span> Settings </span>
                         <span class="menu-arrow"></span>
@@ -255,6 +292,18 @@
                     </a>
                 </li>
                 <li class="side-nav-item">
+                    <a href="/update/sheet" class="side-nav-link">
+                        <i class="ri-dashboard-3-line"></i>
+                        <span> UpdateSheet </span>
+                    </a>
+                </li>
+                <li class="side-nav-item">
+                    <a href="/pdf-maker" class="side-nav-link">
+                        <i class="ri-dashboard-3-line"></i>
+                        <span> Images to PDF </span>
+                    </a>
+                </li>
+                <li class="side-nav-item">
                     <a href="/invoices/manage" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Invoices </span>
@@ -268,7 +317,7 @@
                     </a>
                 </li>
             @elseif (Auth::user()->role == 'uca')
-            
+
                 <li class="side-nav-item">
                     <a href="/update-center" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
@@ -304,6 +353,12 @@
                     <a href="/advertisers/design/view" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Designs </span>
+                    </a>
+                </li>
+                <li class="side-nav-item">
+                    <a href="/update/sheet" class="side-nav-link">
+                        <i class="ri-dashboard-3-line"></i>
+                        <span> UpdateSheet </span>
                     </a>
                 </li>
             @elseif (Auth::user()->role == 'dsg')

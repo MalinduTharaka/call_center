@@ -19,6 +19,7 @@ use App\Http\Controllers\OrderConroller;
 use App\Http\Controllers\OtherOrderController;
 use App\Http\Controllers\OutsideAuthController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\PDFGenController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuotationManageController;
 use App\Http\Controllers\RefundController;
@@ -222,7 +223,10 @@ Route::middleware([
     Route::put('/admin/orders/updateV/{id}', [AdminController::class, 'updateVideoAD']);
     Route::put('/admin/orders/updateOR/{id}', [AdminController::class, 'updateOrAD']);
     Route::get('/admin/orders/or', [AdminController::class, 'indexOR'])->name('admin.ordersOR');
-
+    Route::post('/admin/update/sheet/add', [AdminController::class, 'BoostingUpdateSheet']);
+    Route::get('/update/sheet', [AdminController::class, 'updateSheetView'])->name('updatesheetView');
+    Route::put('/update/sheet/update/{id}', [AdminController::class, 'BoostingUpdateSheetEdit']);
+    
     //Payment Edit Routes
     Route::put('/edit/payment/orders/{inv}', [AdminController::class, 'updatepaymentO']);
     Route::put('/edit/payment/or/{inv}', [AdminController::class, 'updatepaymentOR']);
@@ -238,6 +242,9 @@ Route::middleware([
     Route::get('/refund/orders/OR/view', [RefundController::class, 'indexOR']);
     Route::post('/refund/orders', [RefundController::class, 'refundOrders']);
     Route::post('/refund/orders/OR', [RefundController::class, 'refundOtherOrders']);
+
+    //Pdf Maker Routes
+    Route::get('/pdf-maker', [PDFGenController::class, 'index']);
 });
 
 

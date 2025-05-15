@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EditorsWork;
 use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\OrderUpdate;
 use App\Models\OtherOrder;
 use App\Models\Package;
 use App\Models\Slip;
@@ -33,7 +34,6 @@ class AdminController extends Controller
         $video_pkgs = VideoPkg::all();
         return view('admin.admin-orders', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs'));
     }
-
 
     public function updateBoostingAD(Request $request, $id){
         $uc = Order::findOrFail($id);
@@ -186,5 +186,46 @@ class AdminController extends Controller
             ]);
         }
         return redirect()->back()->with('success', 'Other Order Update Done');
+    }
+
+    public function updateSheetView(){
+        $user = Auth::user();
+
+        // 2. Parse their from_date/to_date (and optionally normalize to full days)
+        $from = Carbon::parse($user->from_date)->startOfDay();
+        $to   = Carbon::parse($user->to_date)->endOfDay();
+
+        $orders = OrderUpdate::whereBetween('date', [$from, $to])->orderBy('date', 'desc')->get();
+        $users = User::all();
+        $invoices = Invoice::all();
+        return view('admin.update-sheet', compact('orders',  'users', 'invoices'));
+    }
+
+    public function BoostingUpdateSheet(Request $request){
+        $order = Order::findOrFail($request->order_id);
+        OrderUpdate::create([
+            'order_id' => $request->order_id,
+            'invoice_id' => $order->invoice,
+            'date' => $order->created_at,
+            'name' => $order->name,
+            'cro' => $order->uid,
+            'contact' => $order->contact,
+            'work_type' => $order->work_type_id,
+            'work_status' => $order->work_status,
+            'page' => $order->page,
+            'update' => $request->update,
+            'advertiser_id' => $order->advertiser_id,
+            'add_acc_id' => $order->add_acc_id,
+            'add_acc' => $order->add_acc,
+        ]);
+        return redirect()->route('updatesheetView')->with('success', 'Order Added To update sheet');
+    }
+
+    public function BoostingUpdateSheetEdit(Request $request, $id){
+        $order = OrderUpdate::findOrFail($id);
+        $order->update([
+            'update' =>$request->update
+        ]);
+        return redirect()->route('updatesheetView')->with('success', 'update Done');
     }
 }

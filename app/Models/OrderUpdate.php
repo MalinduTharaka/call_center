@@ -42,4 +42,14 @@ class OrderUpdate extends Model
     {
         return $this->belongsTo(User::class, 'advertiser_id');
     }
+
+    public function workType()
+    {
+        return $this->belongsTo(WorkType::class, 'work_type');
+    }
+
+    public function plUser()
+    {
+        return $this->belongsTo(User::class, 'cro');
+    }
 }
