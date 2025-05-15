@@ -21,6 +21,7 @@ use App\Http\Controllers\OutsideAuthController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuotationManageController;
+use App\Http\Controllers\RefundController;
 use App\Http\Controllers\SalaryRatesController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\TargetController;
@@ -231,6 +232,12 @@ Route::middleware([
     Route::post('/salary-rates/store', [SalaryRatesController::class, 'store']);
     Route::put('/salary-rates/update/{id}', [SalaryRatesController::class, 'update']);
     Route::delete('/salary-rates/delete/{id}', [SalaryRatesController::class, 'delete']);
+
+    //Refund Routes
+    Route::get('/refund/orders/view', [RefundController::class, 'indexOrders']);
+    Route::get('/refund/orders/OR/view', [RefundController::class, 'indexOR']);
+    Route::post('/refund/orders', [RefundController::class, 'refundOrders']);
+    Route::post('/refund/orders/OR', [RefundController::class, 'refundOtherOrders']);
 });
 
 

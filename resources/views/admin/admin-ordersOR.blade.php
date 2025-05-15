@@ -10,6 +10,51 @@
         .bg-light-red {
             background-color: rgb(255, 11, 32) !important;
         }
+        .card-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 1 1 0;
+                min-height: 50px;
+                border-radius: 12px;
+                padding: 1rem;
+                font-size: 1.1rem;
+                font-weight: 500;
+                cursor: pointer;
+                text-align: center;
+                transition: transform .15s ease;
+                margin: .5rem;
+                position: relative;
+                border: none;
+            }
+
+            .card-btn:hover {
+                transform: translateY(-2px);
+            }
+
+            /* light style (like your left example) */
+            .card-btn.light {
+                background-color: #101859;
+                color: #fff;
+            }
+
+            .card-btn.light .icon {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                font-size: 1.2rem;
+            }
+
+            /* dark style (like your right example) */
+            .card-btn.dark {
+                background-color: #101859;
+                color: #fff;
+            }
+
+            .card-btn.dark .icon {
+                font-size: 1.5rem;
+                margin-right: 8px;
+            }
     </style>
 
     @if(session('success'))
@@ -37,6 +82,13 @@
             });
         }, 1000); // Auto-dismiss after 1 seconds
     </script>
+
+    
+    <button type="button" class="card-btn light" data-bs-toggle="modal" data-bs-target="#refundordersOR">
+        Refund Other Orders
+    </button>
+
+    @include('includes.refund-ordersOR')
 
     <div class="row mt-3">
         <div class="col-12">
