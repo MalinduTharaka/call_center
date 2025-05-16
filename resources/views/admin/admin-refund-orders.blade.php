@@ -75,10 +75,9 @@
                                                                         <span>{{ $order->contact }}</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span
-                                                                            class="badge fs-5
-                                                                                        @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name ?? '-' }}
+                                                                        <span class="badge fs-5
+                                                                            @if ($order->workType && $order->workType->name != '') bg-dark @endif">
+                                                                            {{ $order->workType?->name ?? '-' }}
                                                                         </span>
                                                                     </td>
                                                                     <td>

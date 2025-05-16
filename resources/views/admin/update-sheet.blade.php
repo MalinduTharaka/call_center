@@ -119,8 +119,8 @@
                                                 <td>
                                                     <span
                                                         class="badge fs-5
-                                                                                                        @if (!$order->workType->name == '') bg-dark @endif">
-                                                        {{ $order->workType->name ?? '-' }}
+                                                        @if ($order->workType && $order->workType->name != '') bg-dark @endif">
+                                                        {{ $order->workType?->name ?? '-' }}
                                                     </span>
                                                 </td>
                                                 <td>

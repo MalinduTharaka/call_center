@@ -117,12 +117,14 @@
                                             <span>{{ $order->name }}</span>
                                         </td>
                                         <td>{{ $order->Designer->name ?? '-' }}</td>
-                                        
-                                        
-                                        
+
+
+
                                         <td>
-                                            <span class="badge fs-5 @if (optional($order->workType)->name) bg-dark @endif">
-                                                {{ optional($order->workType)->name ?? '—' }}
+                                            <span
+                                                class="badge fs-5
+                                                @if ($order->workType && $order->workType->name != '') bg-dark @endif">
+                                                {{ $order->workType?->name ?? '-' }}
                                             </span>
                                         </td>
                                         <td>

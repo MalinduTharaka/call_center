@@ -181,7 +181,7 @@
       const bodyUrl = `{{ route('advertisers_all_order.body') }}`;
       const searchInput = document.querySelector('.search-input');
       const searchBtn   = document.querySelector('.search-btn');
-      let polling = setInterval(pollBody, 10000);
+      let polling = setInterval(pollBody, 30000);
     
       // Poll for updated rows
       function pollBody(){
@@ -289,7 +289,7 @@
           } finally {
             // re-poll so you can edit again
             pollBody();
-            setTimeout(() => polling = setInterval(pollBody, 5000), 1000);
+            setTimeout(() => polling = setInterval(pollBody, 30000), 1000);
           }
         }
     

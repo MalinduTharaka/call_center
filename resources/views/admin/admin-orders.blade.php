@@ -369,23 +369,23 @@
                                                                         </select>
                                                                     </td>
                                                                     <td>
-                                                                        <span
-                                                                            class="badge fs-5 display-mode
-                                                                                        @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name ?? '-' }}
+                                                                        <span class="badge fs-5 display-mode
+                                                                            @if ($order->workType && $order->workType->name != '') bg-dark @endif">
+                                                                            {{ $order->workType?->name ?? '-' }}
                                                                         </span>
                                                                         <select name="work_type" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'boosting')
-                                                                                    <option value="{{ $work_type->id }}" @if ($order->workType->name == $work_type->name) selected
-                                                                                    @endif>
+                                                                                    <option value="{{ $work_type->id }}"
+                                                                                        @if ($order->workType && $order->workType->name == $work_type->name) selected @endif>
                                                                                         {{ $work_type->name }}
                                                                                     </option>
                                                                                 @endif
                                                                             @endforeach
                                                                         </select>
                                                                     </td>
+                                                                    
                                                                     <td>{{ $order->package_amt + $order->service + $order->tax }}
                                                                     </td>
                                                                     <td>
@@ -640,17 +640,16 @@
                                                                             value="{{ $order->contact }}">
                                                                     </td>
                                                                     <td>
-                                                                        <span
-                                                                            class="badge fs-5 display-mode
-                                                                                        @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name ?? '-' }}
+                                                                        <span class="badge fs-5 display-mode
+                                                                            @if ($order->workType && $order->workType->name != '') bg-dark @endif">
+                                                                            {{ $order->workType?->name ?? '-' }}
                                                                         </span>
                                                                         <select name="work_type" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'designs')
-                                                                                    <option value="{{ $work_type->id }}" @if ($order->workType->name == $work_type->name) selected
-                                                                                    @endif>
+                                                                                    <option value="{{ $work_type->id }}"
+                                                                                        @if ($order->workType && $order->workType->name == $work_type->name) selected @endif>
                                                                                         {{ $work_type->name }}
                                                                                     </option>
                                                                                 @endif
@@ -867,17 +866,16 @@
                                                                             value="{{ $order->our_amount }}">
                                                                     </td>
                                                                     <td>
-                                                                        <span
-                                                                            class="badge fs-5 display-mode
-                                                                                        @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name ?? '-' }}
+                                                                        <span class="badge fs-5 display-mode
+                                                                            @if ($order->workType && $order->workType->name != '') bg-dark @endif">
+                                                                            {{ $order->workType?->name ?? '-' }}
                                                                         </span>
                                                                         <select name="work_type" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'video')
-                                                                                    <option value="{{ $work_type->id }}" @if ($order->workType->name == $work_type->name) selected
-                                                                                    @endif>
+                                                                                    <option value="{{ $work_type->id }}"
+                                                                                        @if ($order->workType && $order->workType->name == $work_type->name) selected @endif>
                                                                                         {{ $work_type->name }}
                                                                                     </option>
                                                                                 @endif
