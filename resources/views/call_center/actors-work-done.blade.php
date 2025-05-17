@@ -72,9 +72,11 @@
                                                     <label>User</label>
                                                     <select name="user_id" class="form-select" required>
                                                         @foreach($users as $user)
+                                                        @if ($user->role == 'act')
                                                         <option value="{{ $user->id }}" {{ $entry->user_id == $user->id ? 'selected' : '' }}>
                                                             {{ $user->name }}
                                                         </option>
+                                                        @endif
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -136,7 +138,9 @@
                     <select name="user_id" class="form-select" required>
                         <option value="">Select User</option>
                         @foreach($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @if ($user->role == 'act')
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endif
                         @endforeach
                     </select>
                 </div>
