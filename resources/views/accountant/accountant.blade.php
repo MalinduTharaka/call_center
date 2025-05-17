@@ -88,7 +88,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($orders as $order)
-                                                        @if ($order->ps == '1' && $order->order_type == 'boosting')
+                                                        @if ($order->order_type == 'boosting')
                                                             <tr class="fw-semibold" data-order-id="{{ $order->id }}">
                                                                 <form action="/accountant/updateB/{{ $order->id }}"
                                                                     method="post">
@@ -306,7 +306,6 @@
                                                         <th>Invoice</th>
                                                         <th>Name<br />Company</th>
                                                         <th>Contact</th>
-                                                        <th>Work<br />Type</th>
                                                         <th>Work<br />Status</th>
                                                         <th>Payment</th>
                                                         <th>Designer</th>
@@ -318,7 +317,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($orders as $order)
-                                                        @if ($order->ps == '1' && $order->order_type == 'designs')
+                                                        @if ($order->order_type == 'designs')
                                                             <tr data-order-id="{{ $order->id }}">
                                                                 <form action="/accountant/updateD/{{ $order->id }}"
                                                                     method="post">
@@ -359,13 +358,6 @@
                                                                     </td>
                                                                     <td>
                                                                         <span>{{ $order->contact }}</span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span
-                                                                            class="badge fs-5
-                                                                                                                @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name ?? '-' }}
-                                                                        </span>
                                                                     </td>
                                                                     <td>
                                                                         <span
@@ -443,7 +435,6 @@
                                                         <th>Contact</th>
                                                         <th>Amount</th>
                                                         <th>Our<br />Amount</th>
-                                                        <th>Style</th>
                                                         <th>Script</th>
                                                         <th>Shoot</th>
                                                         <th>Time</th>
@@ -458,7 +449,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($orders as $order)
-                                                        @if ($order->ps == '1' && $order->order_type == 'video')
+                                                        @if ($order->order_type == 'video')
                                                             <tr data-order-id="{{ $order->id }}">
                                                                 <form action="/accountant/updateV/{{ $order->id }}"
                                                                     method="post">
@@ -503,13 +494,6 @@
                                                                     </td>
                                                                     <td>
                                                                         <span>{{ $order->our_amount }}</span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span
-                                                                            class="badge fs-5
-                                                                                                                @if (!$order->workType->name == '') bg-dark @endif">
-                                                                            {{ $order->workType->name ?? '-' }}
-                                                                        </span>
                                                                     </td>
                                                                     <td>
                                                                         <span

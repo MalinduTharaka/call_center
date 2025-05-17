@@ -24,27 +24,34 @@ class AccountantController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
-        $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $orders = Order::whereBetween('created_at', [$from, $to])
+        ->where('ps', '1')
+        ->orderBy('created_at', 'desc')->get();
         $packages = Package::all();
         $users = User::all();
         $slips = Slip::all();
         $invoices = Invoice::all();
         $work_types = WorkType::all();
         $video_pkgs = VideoPkg::all();
-        return view('accountant.accountant', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs', 'other_orders'));
+        return view('accountant.accountant', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs'));
     }
     public function indexOR()
     {
-        $orders = Order::all();
-        $other_orders = OtherOrder::all();
+        $user = Auth::user();
+
+        // 2. Parse their from_date/to_date (and optionally normalize to full days)
+        $from = Carbon::parse($user->from_date)->startOfDay();
+        $to   = Carbon::parse($user->to_date)->endOfDay();
+        $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])
+        ->where('ps', '1')
+        ->orderBy('created_at', 'desc')->get();
         $packages = Package::all();
         $users = User::all();
         $slips = Slip::all();
         $invoices = Invoice::all();
         $work_types = WorkType::all();
         $video_pkgs = VideoPkg::all();
-        return view('accountant.accountantOR', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs', 'other_orders'));
+        return view('accountant.accountantOR', compact( 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs', 'other_orders'));
     }
 
     public function accUpdateB(Request $request, $id)

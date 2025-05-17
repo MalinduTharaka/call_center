@@ -94,7 +94,6 @@
                     </thead>
                     <tbody>
                         @foreach ($orders as $order)
-                            @if ($order->ps == '1' && $order->order_type == 'designs')
                                 <form action="{{ url('/orders/update/designers/' . $order->id) }}" method="post">
                                     @csrf
                                     @method('put')
@@ -165,7 +164,6 @@
                                         </td>
                                     </tr>
                                 </form>
-                            @endif
                         @endforeach
                     </tbody>
                 </table>

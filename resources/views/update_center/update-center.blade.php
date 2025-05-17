@@ -96,7 +96,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($orders as $order)
-                                                        @if ($order->ps == '1' && $order->order_type == 'boosting')
+                                                        @if ($order->order_type == 'boosting')
                                                             <tr class="fw-semibold" data-order-id="{{ $order->id }}">
                                                                 <form action="/boosting/update/uc/{{ $order->id }}"
                                                                     method="post">
@@ -308,7 +308,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($orders as $order)
-                                                    @if ($order->ps == '1' && $order->order_type == 'designs')
+                                                    @if ($order->order_type == 'designs')
                                                         <tr data-order-id="{{ $order->id }}">
                                                             <form action="/designs/update/uc/{{ $order->id }}"
                                                                 method="post">
@@ -471,7 +471,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($orders as $order)
-                                                        @if ($order->ps == '1' && $order->order_type == 'video')
+                                                        @if ($order->order_type == 'video')
                                                             <tr data-order-id="{{ $order->id }}">
                                                                 <form action="/video/update/uc/{{ $order->id }}"
                                                                     method="post">

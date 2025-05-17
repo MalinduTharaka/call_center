@@ -197,7 +197,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($orders as $order)
-                                                        @if ($order->ps == '1' && $order->order_type == 'boosting')
+                                                        @if ($order->order_type == 'boosting')
                                                             <tr class="fw-semibold" data-order-id="{{ $order->id }}"
                                                                 data-add-acc="{{ $order->add_acc }}">
                                                                 <form action="/admin/orders/updateB/{{ $order->id }}" method="post">
@@ -596,7 +596,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($orders as $order)
-                                                        @if ($order->ps == '1' && $order->order_type == 'designs')
+                                                        @if ($order->order_type == 'designs')
                                                             <tr data-order-id="{{ $order->id }}">
                                                                 <form action="/admin/orders/updateD/{{ $order->id }}" method="post">
                                                                     @csrf
@@ -805,7 +805,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($orders as $order)
-                                                        @if ($order->ps == '1' && $order->order_type == 'video')
+                                                        @if ($order->order_type == 'video')
                                                             <tr data-order-id="{{ $order->id }}">
                                                                 <form action="/admin/orders/updateV/{{ $order->id }}" method="post">
                                                                     @csrf

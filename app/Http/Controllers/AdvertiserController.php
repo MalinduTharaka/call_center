@@ -49,7 +49,10 @@ class AdvertiserController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $orders = Order::whereBetween('created_at', [$from, $to])
+        ->where('order_type', 'designs')
+        ->where('ps', '1')
+        ->orderBy('created_at', 'desc')->get();
         $users = User::all();
         $invoices = Invoice::all();
         return view('advertiser.advertiser-designs', compact('orders',  'users',  'invoices'));

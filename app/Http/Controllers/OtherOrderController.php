@@ -23,7 +23,10 @@ class OtherOrderController extends Controller
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
         $invoices = Invoice::all();
-        $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])
+        ->where('ps', '1')
+        ->where( 'cc_id', Auth::user()->cc_num)
+        ->orderBy('created_at', 'desc')->get();
         $slips = Slip::all();
         $users = User::all();
         return view('call_center.other-orders', compact('other_orders',  'users', 'slips', 'invoices'));

@@ -124,7 +124,6 @@
                     </thead>
                     <tbody>
                         @foreach ($other_orders as $order)
-                            @if ($order->ps == '1')
                                 <tr class="fw-semibold" data-order-id="{{ $order->id }}">
                                     <form action="/admin/orders/updateOR/{{ $order->id }}" method="post">
                                         @csrf
@@ -257,7 +256,6 @@
                                         </td>
                                     </form>
                                 </tr>
-                            @endif
                         @endforeach
                     </tbody>
                 </table>

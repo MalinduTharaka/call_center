@@ -132,9 +132,9 @@ class AdvertiserAllOrdersController extends Controller
                 'created_at',
                 'add_acc'
             ])
+                ->whereBetween('created_at', [$from, $to])
                 ->where('ps', '1')
                 ->where('order_type', 'boosting')
-                ->whereBetween('created_at', [$from, $to])
                 ->orderBy('created_at', 'desc')
                 ->get();
 

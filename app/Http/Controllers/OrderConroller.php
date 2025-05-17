@@ -29,7 +29,11 @@ class OrderConroller extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $orders = Order::whereBetween('created_at', [$from, $to])
+        ->where('ps', '1')
+        ->where( 'cro', Auth::user()->cc_num)
+        ->orderBy('created_at', 'desc')
+        ->get();
         $packages = Package::all();
         $users = User::all();
         $slips = Slip::all();

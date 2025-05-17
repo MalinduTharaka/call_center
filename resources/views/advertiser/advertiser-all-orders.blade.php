@@ -133,9 +133,6 @@
           tr.editing .cancel-btn {
             display: inline-block !important;
           }
-
-        </style>
-        <style>
             /* Fixed height scrollable tables with sticky headers */
             .table-responsive {
                 max-height: 70vh;
