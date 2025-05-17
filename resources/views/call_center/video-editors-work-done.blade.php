@@ -94,7 +94,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Duration</label>
-                                                        <input type="text" name="duration" class="form-control" value="{{ $entry->duration }}" required disabled>
+                                                        <input type="text" name="duration" class="form-control" value="{{ $entry->duration }}" required>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Amount</label>
@@ -102,7 +102,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Date</label>
-                                                        <input type="date" name="date" class="form-control" value="{{ $entry->date }}" required disabled>
+                                                        <input type="date" name="date" class="form-control" value="{{ $entry->date }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">

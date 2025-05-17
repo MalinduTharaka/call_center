@@ -202,7 +202,8 @@ class AdminController extends Controller
         $orders = OrderUpdate::whereBetween('date', [$from, $to])->orderBy('date', 'desc')->get();
         $users = User::all();
         $invoices = Invoice::all();
-        return view('admin.update-sheet', compact('orders',  'users', 'invoices'));
+        $work_types = WorkType::all();
+        return view('admin.update-sheet', compact('orders',  'users', 'invoices', 'work_types'));
     }
 
     public function BoostingUpdateSheet(Request $request){
@@ -215,7 +216,6 @@ class AdminController extends Controller
             'cro' => $order->uid,
             'contact' => $order->contact,
             'work_type' => $order->work_type_id,
-            'work_status' => $order->work_status,
             'page' => $order->page,
             'update' => $request->update,
             'advertiser_id' => $order->advertiser_id,
@@ -227,9 +227,7 @@ class AdminController extends Controller
 
     public function BoostingUpdateSheetEdit(Request $request, $id){
         $order = OrderUpdate::findOrFail($id);
-        $order->update([
-            'update' =>$request->update
-        ]);
+        $order->update($request->all());
         return redirect()->route('updatesheetView')->with('success', 'update Done');
     }
 }

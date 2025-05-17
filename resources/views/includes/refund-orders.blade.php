@@ -19,11 +19,11 @@
                         <select id="invro" class="form-select select2" name="inv" required>
                             <option value="" disabled selected>Search Invoice…</option>
                             @foreach ($invoices as $invoice)
-                            @if (!Str::startsWith($invoice->inv, 'OR'))
-                                <option value="{{ $invoice->inv }}">
-                                    {{ $invoice->inv }} – {{ $invoice->contact }}
-                                </option>
-                            @endif
+                                @if (!Str::startsWith($invoice->inv, 'OR'))
+                                    <option value="{{ $invoice->inv }}">
+                                        {{ $invoice->inv }} – {{ $invoice->contact }}
+                                    </option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -45,57 +45,68 @@
 </div>
 <!-- Script section -->
 <script>
-    const orders = @json($orders); // orders must include id and invoice
+  const orders = @json($orders); // orders must include id and invoice
 
-    $(function () {
-        $('#refundorders').on('shown.bs.modal', function () {
-            $('#invro').select2({
-                dropdownParent: $('#refundorders'),
-                placeholder: "Search Invoice…",
-                allowClear: true,
-                width: '100%'
-            });
-        });
+  $(function () {
+    // Initialize Select2 when modal opens
+    $('#refundorders').on('shown.bs.modal', function () {
+      $('#invro').select2({
+        dropdownParent: $('#refundorders'),
+        placeholder: "Search Invoice…",
+        allowClear: true,
+        width: '100%'
+      });
+    });
 
-        $('#invro').on('change', function () {
-            const inv = $(this).val();
-            const container = $('#order-checkboxes');
-            container.empty();
+    // When invoice changes, rebuild the checkbox list
+    $('#invro').on('change', function () {
+      const inv       = $(this).val();
+      const container = $('#order-checkboxes');
+      container.empty();
 
-            if (!inv) {
-                container.append('<p class="text-muted">No invoice selected.</p>');
-                return;
-            }
+      if (!inv) {
+        return container.append('<p class="text-muted">No invoice selected.</p>');
+      }
 
-            const matches = orders.filter(o => o.invoice === inv);
+      const matches = orders.filter(o => o.invoice === inv);
+      if (!matches.length) {
+        return container.append(
+          '<p class="text-danger">No orders found for invoice ' + inv + '.</p>'
+        );
+      }
 
-            if (matches.length === 0) {
-                container.append('<p class="text-danger">No orders found for invoice ' + inv + '.</p>');
-                return;
-            }
-
-            matches.forEach(o => {
-                const id = o.id;
-                const html = `
+      matches.forEach(o => {
+        const id = o.id;
+        container.append(`
           <div class="mb-2 border p-2 rounded">
             <div class="form-check">
-              <input class="form-check-input"
+              <input class="form-check-input refund-checkbox"
                      type="checkbox"
                      name="orders[${id}][order_id]"
                      value="${id}"
-                     id="order_${id}"
-                     checked>
+                     id="order_${id}">
               <label class="form-check-label" for="order_${id}">
                 Order #${id}
               </label>
             </div>
             <input type="text"
-                   class="form-control mt-1"
+                   class="form-control mt-1 reason-input"
                    name="orders[${id}][reason]"
-                   placeholder="Enter reason for refund">
-          </div>`;
-                container.append(html);
-            });
-        });
+                   placeholder="Enter reason for refund"
+                   disabled>
+          </div>
+        `);
+      });
     });
+
+    // DELEGATED: enable/disable the sibling reason-input when you check/uncheck
+    $('#order-checkboxes').on('change', '.refund-checkbox', function() {
+      const $reason = $(this)
+        .closest('.border')
+        .find('.reason-input');
+
+      // enable if checked, otherwise disable
+      $reason.prop('disabled', !this.checked);
+    });
+  });
 </script>

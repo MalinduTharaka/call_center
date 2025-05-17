@@ -36,14 +36,6 @@ class VideoEditorsWorkDoneController extends Controller
 
     public function update(Request $request, EditorsWork $editorsWork)
     {
-        $request->validate([
-            'user_id'   => 'required|exists:users,id',
-            'work_type' => 'required|string',
-            'duration'  => 'required|string',
-            'amount'    => 'required|numeric',
-            'date'      => 'required|date',
-        ]);
-
         $editorsWork->update($request->all());
 
         return back()->with('success', 'Work entry updated successfully.');

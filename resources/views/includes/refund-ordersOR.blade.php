@@ -82,8 +82,7 @@
                      type="checkbox"
                      name="orders[${id}][order_id]"
                      value="${id}"
-                     id="order_${id}"
-                     checked>
+                     id="order_${id}">
               <label class="form-check-label" for="order_${id}">
                 Order #${id}
               </label>
