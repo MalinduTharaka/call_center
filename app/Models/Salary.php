@@ -24,4 +24,8 @@ class Salary extends Model
         'deduction',
         'net_salary',
     ];
+    public function User()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

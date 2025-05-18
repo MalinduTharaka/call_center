@@ -24,6 +24,7 @@ use App\Http\Controllers\PDFGenController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuotationManageController;
 use App\Http\Controllers\RefundController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SalaryRatesController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\TargetController;
@@ -253,11 +254,14 @@ Route::middleware([
     Route::delete('/attendance/today/delete/{id}', [AttendanceController::class, 'deleteTodayAtt'])->name('attendance.delete.today');
     Route::post('/addAttendance/add', [AttendanceController::class, 'addAttendanceAdd'])->name('attendance.add');
     Route::get('/attendance/report/view', [AttendanceController::class, 'indexAttendanceReport'])->name('attendance.report');
-    Route::get('/attendance/this-month/{id}', [AttendanceController::class, 'thisMonth'])
-     ->name('attendance.thisMonth');
+    Route::get('/attendance/this-month/{id}', [AttendanceController::class, 'thisMonth'])->name('attendance.thisMonth');
+    Route::post('/attendance/month/{id}', [AttendanceController::class, 'attendanceMonth'])->name('attendance.attendanceMonth');
 
-Route::post('/attendance/month/{id}', [AttendanceController::class, 'attendanceMonth'])
-     ->name('attendance.attendanceMonth');
+    //Salary Routes
+    Route::get('/salaries', [SalaryController::class, 'index'])->name('salary.index');
+    Route::get('/salaries/selected-month/{mo}/{yr}', [SalaryController::class, 'selectedMonth']);
+    Route::put('/salary/edit/{id}', [SalaryController::class, 'editSalary']);
+
 });
 
 

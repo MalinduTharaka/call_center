@@ -175,13 +175,13 @@
                 </li>
 
                 <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarSetting" aria-expanded="false" aria-controls="sidebarSetting"
+                    <a data-bs-toggle="collapse" href="#sidebarRefund" aria-expanded="false" aria-controls="sidebarRefund"
                         class="side-nav-link">
                         <i class="ri-pencil-ruler-2-line"></i>
                         <span> Refund </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarSetting">
+                    <div class="collapse" id="sidebarRefund">
                         <ul class="side-nav-second-level">
                             <li class="side-nav-item">
                                 <a href="/refund/orders/view" class="side-nav-link">
@@ -272,13 +272,13 @@
                 </li>
 
                 <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarSetting" aria-expanded="false" aria-controls="sidebarSetting"
+                    <a data-bs-toggle="collapse" href="#sidebarAttendance" aria-expanded="false" aria-controls="sidebarAttendance"
                         class="side-nav-link">
                         <i class="ri-pencil-ruler-2-line"></i>
                         <span> Attendances </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarSetting">
+                    <div class="collapse" id="sidebarAttendance">
                         <ul class="side-nav-second-level">
                             <li class="side-nav-item">
                                 <a href="/attendance/today/view" class="side-nav-link">
