@@ -53,8 +53,6 @@ class AttendanceController extends Controller
         }
     }
 
-
-
     public function indextodayattendance()
     {
         $invoices = Invoice::all();
@@ -92,5 +90,28 @@ class AttendanceController extends Controller
         $attendance->delete();
 
         return redirect()->back()->with('success', 'Attendance deleted successfully');
+    }
+
+    public function indexAttendanceReport()
+    {
+        $invoices = Invoice::all();
+        $users = User::all();
+        return view('attendance.attendance-report', compact( 'invoices', 'users'));
+    }
+
+    public function thisMonth($id){
+        $attendances = Attendance::where('user_id', $id)
+            ->whereMonth('date', Carbon::now()->month)
+            ->get();
+
+        return response()->json($attendances);
+    }
+    public function attendanceMonth(Request $request, $id){
+        $attendances = Attendance::where('user_id', $id)
+            ->whereMonth('date', $request->month)
+            ->whereYear('date', $request->year)
+            ->get();
+
+        return response()->json($attendances);
     }
 }

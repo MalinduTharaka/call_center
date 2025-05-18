@@ -287,7 +287,7 @@
                                 </a>
                             </li>
                             <li class="side-nav-item">
-                                <a href="" class="side-nav-link">
+                                <a href="/attendance/report/view" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
                                     <span> Report </span>
                                 </a>

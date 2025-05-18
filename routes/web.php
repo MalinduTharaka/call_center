@@ -252,6 +252,12 @@ Route::middleware([
     Route::put('/attendance/today/update/{id}', [AttendanceController::class, 'editTodayAtt'])->name('attendance.update.today');
     Route::delete('/attendance/today/delete/{id}', [AttendanceController::class, 'deleteTodayAtt'])->name('attendance.delete.today');
     Route::post('/addAttendance/add', [AttendanceController::class, 'addAttendanceAdd'])->name('attendance.add');
+    Route::get('/attendance/report/view', [AttendanceController::class, 'indexAttendanceReport'])->name('attendance.report');
+    Route::get('/attendance/this-month/{id}', [AttendanceController::class, 'thisMonth'])
+     ->name('attendance.thisMonth');
+
+Route::post('/attendance/month/{id}', [AttendanceController::class, 'attendanceMonth'])
+     ->name('attendance.attendanceMonth');
 });
 
 
