@@ -5,6 +5,7 @@ use App\Http\Controllers\ActorsWorkDoneController;
 use App\Http\Controllers\AddAccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvertiserAllOrdersController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CroWorkDoneController;
 use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\DesignersWorkDoneController;
@@ -245,6 +246,12 @@ Route::middleware([
 
     //Pdf Maker Routes
     Route::get('/pdf-maker', [PDFGenController::class, 'index']);
+
+    //Attendance Routes
+    Route::get('/attendance/today/view', [AttendanceController::class, 'indextodayattendance'])->name('attendance.today.index');
+    Route::put('/attendance/today/update/{id}', [AttendanceController::class, 'editTodayAtt'])->name('attendance.update.today');
+    Route::delete('/attendance/today/delete/{id}', [AttendanceController::class, 'deleteTodayAtt'])->name('attendance.delete.today');
+    Route::post('/addAttendance/add', [AttendanceController::class, 'addAttendanceAdd'])->name('attendance.add');
 });
 
 
@@ -253,3 +260,4 @@ Route::post('/verify-device', [DeviceController::class, 'verifyDevice']);
 Route::get('/check-device', [DeviceController::class, 'checkDevice']);
 Route::get('/login/external', [OutsideAuthController::class, 'index']);
 Route::post('/outside-login/verify', [OutsideAuthController::class, 'verifyEmail'])->name('outside.login.verify');
+Route::get('/attendance/{id}', [AttendanceController::class, 'attendance'])->name('attendance');

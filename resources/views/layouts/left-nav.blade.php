@@ -270,6 +270,31 @@
                         </ul>
                     </div>
                 </li>
+
+                <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#sidebarSetting" aria-expanded="false" aria-controls="sidebarSetting"
+                        class="side-nav-link">
+                        <i class="ri-pencil-ruler-2-line"></i>
+                        <span> Attendances </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarSetting">
+                        <ul class="side-nav-second-level">
+                            <li class="side-nav-item">
+                                <a href="/attendance/today/view" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Today </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
+                                <a href="" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Report </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             @elseif (Auth::user()->role == 'cro')
 
                 <li class="side-nav-item">

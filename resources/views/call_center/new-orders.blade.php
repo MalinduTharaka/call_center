@@ -283,7 +283,7 @@
                                                                             </select>
                                                                         </td>
                                                                         <td>{{ $order->id }}</td>
-                                                                        <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                         <td>
                                                                             <span
                                                                                 class="badge fs-5
@@ -611,7 +611,7 @@
                                                                         @csrf
                                                                         @method('put')
                                                                         <td>{{ $order->id }}</td>
-                                                                        <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                         <td>
                                                                             <span
                                                                                 class="badge fs-5
@@ -792,7 +792,7 @@
                                                                         @csrf
                                                                         @method('put')
                                                                         <td>{{ $order->id }}</td>
-                                                                        <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                         <td>
                                                                             <span
                                                                                 class="badge fs-5
