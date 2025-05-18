@@ -15,26 +15,45 @@ class AttendanceController extends Controller
         $today = Carbon::today()->toDateString();
         $now = Carbon::now()->toTimeString();
 
-        // Check if a record exists for the given user and today's date
         $attendance = Attendance::where('user_id', $id)
             ->whereDate('date', $today)
             ->first();
 
         if ($attendance) {
-            // If record exists, update the leave_time
-            $attendance->update([
-                'leave_time' => $now,
-            ]);
+            if (!empty($attendance->arr_time) && is_null($attendance->leave_time)) {
+                $attendance->update([
+                    'leave_time' => $now,
+                ]);
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Leave time recorded successfully.',
+                ]);
+            } elseif (!empty($attendance->arr_time) && !is_null($attendance->leave_time)) {
+                return response()->json([
+                    'status' => 'info',
+                    'message' => 'Attendance already completed for today.',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'warning',
+                    'message' => 'Unexpected attendance state. Please contact admin.',
+                ]);
+            }
         } else {
-            // If no record, create new one with arr_time
             Attendance::create([
                 'user_id' => $id,
                 'date' => $today,
                 'arr_time' => $now,
                 'leave_time' => null,
             ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Arrival time recorded successfully.',
+            ]);
         }
     }
+
+
 
     public function indextodayattendance()
     {
@@ -45,7 +64,8 @@ class AttendanceController extends Controller
         return view('attendance.today-attendance', compact('attendances', 'invoices', 'users'));
     }
 
-    public function addAttendanceAdd(Request $request){
+    public function addAttendanceAdd(Request $request)
+    {
         Attendance::create([
             'user_id' => $request->user_id,
             'date' => Carbon::today(),
@@ -66,7 +86,8 @@ class AttendanceController extends Controller
         return redirect()->back()->with('success', 'Attendance updated successfully');
     }
 
-    public function deleteTodayAtt($id){
+    public function deleteTodayAtt($id)
+    {
         $attendance = Attendance::find($id);
         $attendance->delete();
 
