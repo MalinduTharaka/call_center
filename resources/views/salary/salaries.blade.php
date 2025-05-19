@@ -57,70 +57,82 @@
 
                                     {{-- Edit Modal for this salary record --}}
                                     <div class="modal fade" id="salaryeditModal-{{ $sal->id }}" data-bs-backdrop="static"
-                                         data-bs-keyboard="false" tabindex="-1" aria-labelledby="salaryeditLabel-{{ $sal->id }}"
-                                         aria-hidden="true">
+                                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="salaryeditLabel-{{ $sal->id }}"
+                                        aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="salaryeditLabel-{{ $sal->id }}">
-                                                        Edit Salary – {{ $sal->user->name }} ({{ \Carbon\Carbon::parse($sal->month)->format('F Y') }})
+                                                        Edit Salary – {{ $sal->user->name }}
+                                                        ({{ \Carbon\Carbon::parse($sal->month)->format('F Y') }})
                                                     </h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
+                                                        aria-label="Close"></button>
                                                 </div>
                                                 <form action="/salary/edit/{{ $sal->id }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-body">
                                                         <div class="mb-3">
-                                                            <label for="name-{{ $sal->id }}" class="form-label">Employee Name</label>
+                                                            <label for="name-{{ $sal->id }}" class="form-label">Employee
+                                                                Name</label>
                                                             <input type="text" class="form-control" id="name-{{ $sal->id }}"
-                                                                   value="{{ $sal->user->name }}" readonly>
+                                                                value="{{ $sal->user->name }}" readonly>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="basic-{{ $sal->id }}" class="form-label">Basic</label>
                                                             <input type="text" class="form-control" id="basic-{{ $sal->id }}"
-                                                                   name="basic" value="{{ $sal->basic }}">
+                                                                name="basic" value="{{ $sal->basic }}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="allowance-{{ $sal->id }}" class="form-label">Allowance</label>
-                                                            <input type="text" class="form-control" id="allowance-{{ $sal->id }}"
-                                                                   name="allowance" value="{{ $sal->allowance }}">
+                                                            <label for="allowance-{{ $sal->id }}"
+                                                                class="form-label">Allowance</label>
+                                                            <input type="text" class="form-control"
+                                                                id="allowance-{{ $sal->id }}" name="allowance"
+                                                                value="{{ $sal->allowance }}">
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="bonus-{{ $sal->id }}" class="form-label">Bonus</label>
                                                             <input type="text" class="form-control" id="bonus-{{ $sal->id }}"
-                                                                   name="bonus" value="{{ $sal->bonus }}">
+                                                                name="bonus" value="{{ $sal->bonus }}">
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="ot-{{ $sal->id }}" class="form-label">OT</label>
                                                             <input type="text" class="form-control" id="ot-{{ $sal->id }}"
-                                                                   name="ot" value="{{ $sal->ot }}">
+                                                                name="ot" value="{{ $sal->ot }}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="transport-{{ $sal->id }}" class="form-label">Transport</label>
-                                                            <input type="text" class="form-control" id="transport-{{ $sal->id }}"
-                                                                   name="transport" value="{{ $sal->transport }}">
+                                                            <label for="transport-{{ $sal->id }}"
+                                                                class="form-label">Transport</label>
+                                                            <input type="text" class="form-control"
+                                                                id="transport-{{ $sal->id }}" name="transport"
+                                                                value="{{ $sal->transport }}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="attendace_bonus-{{ $sal->attendace_bonus }}" class="form-label">Attendace Bonus</label>
-                                                            <input type="text" class="form-control" id="attendace_bonus-{{ $sal->attendace_bonus }}"
-                                                                   name="attendace_bonus" value="{{ $sal->attendace_bonus }}">
+                                                            <label for="attendace_bonus-{{ $sal->attendace_bonus }}"
+                                                                class="form-label">Attendace Bonus</label>
+                                                            <input type="text" class="form-control"
+                                                                id="attendace_bonus-{{ $sal->attendace_bonus }}"
+                                                                name="attendace_bonus" value="{{ $sal->attendace_bonus }}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="deduction-{{ $sal->id }}" class="form-label">Deduction</label>
-                                                            <input type="text" class="form-control" id="deduction-{{ $sal->id }}"
-                                                                   name="deduction" value="{{ $sal->deduction }}">
+                                                            <label for="deduction-{{ $sal->id }}"
+                                                                class="form-label">Deduction</label>
+                                                            <input type="text" class="form-control"
+                                                                id="deduction-{{ $sal->id }}" name="deduction"
+                                                                value="{{ $sal->deduction }}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="net_salary-{{ $sal->id }}" class="form-label">Net Salary</label>
-                                                            <input type="text" class="form-control" id="net_salary-{{ $sal->id }}"
-                                                                   name="net_salary" value="{{ $sal->net_salary }}" readonly>
+                                                            <label for="net_salary-{{ $sal->id }}" class="form-label">Net
+                                                                Salary</label>
+                                                            <input type="text" class="form-control"
+                                                                id="net_salary-{{ $sal->id }}" name="net_salary"
+                                                                value="{{ $sal->net_salary }}" readonly>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
+                                                            data-bs-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Save Changes</button>
                                                     </div>
                                                 </form>
@@ -203,19 +215,19 @@
                             const pretty = new Date(s.month)
                                 .toLocaleString('default', { month: 'long', year: 'numeric' });
                             tbody.insertAdjacentHTML('beforeend', `
-                              <tr>
-                                <td>${s.user.name}</td>
-                                <td>${pretty}</td>
-                                <td>${s.basic}</td>
-                                <td>${s.allowance}</td>
-                                <td>${s.bonus}</td>
-                                <td>${s.ot}</td>
-                                <td>${s.transport}</td>
-                                <td>${s.attendace_bonus}</td>
-                                <td>${s.deduction}</td>
-                                <td>${s.net_salary}</td>
-                              </tr>
-                            `);
+                                  <tr>
+                                    <td>${s.user.name}</td>
+                                    <td>${pretty}</td>
+                                    <td>${s.basic}</td>
+                                    <td>${s.allowance}</td>
+                                    <td>${s.bonus}</td>
+                                    <td>${s.ot}</td>
+                                    <td>${s.transport}</td>
+                                    <td>${s.attendace_bonus}</td>
+                                    <td>${s.deduction}</td>
+                                    <td>${s.net_salary}</td>
+                                  </tr>
+                                `);
                         });
                     }
                     table.style.display = 'table';
