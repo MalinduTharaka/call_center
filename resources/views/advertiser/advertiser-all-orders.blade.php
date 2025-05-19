@@ -72,12 +72,13 @@
                                 <th>Name<br />Company</th>
                                 <th>O/N</th>
                                 <th>Contact</th>
-                                <th>Work<br />Type</th>
+                                
                                 <th>Page</th>
                                 <th>Work<br />Status</th>
                                 <th>Payment</th>
                                 <th>Cash</th>
                                 <th>Advertiser</th>
+                                <th>Work<br />Type</th>
                                 <th>Full Package</th>
                                 <th>FB Fee</th>
                                 <th>Service</th>

@@ -373,7 +373,7 @@
                                                                             @if ($order->workType && $order->workType->name != '') bg-dark @endif">
                                                                             {{ $order->workType?->name ?? '-' }}
                                                                         </span>
-                                                                        <select name="work_type" class="form-select edit-mode">
+                                                                        <select name="work_type_id" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'boosting')
@@ -644,7 +644,7 @@
                                                                             @if ($order->workType && $order->workType->name != '') bg-dark @endif">
                                                                             {{ $order->workType?->name ?? '-' }}
                                                                         </span>
-                                                                        <select name="work_type" class="form-select edit-mode">
+                                                                        <select name="work_type_id" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'designs')
@@ -870,7 +870,7 @@
                                                                             @if ($order->workType && $order->workType->name != '') bg-dark @endif">
                                                                             {{ $order->workType?->name ?? '-' }}
                                                                         </span>
-                                                                        <select name="work_type" class="form-select edit-mode">
+                                                                        <select name="work_type_id" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'video')

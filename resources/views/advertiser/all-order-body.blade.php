@@ -31,13 +31,7 @@
             <td>
                 <span>{{ $order->contact }}</span>
             </td>
-            <td>
-                <span
-                    class="badge fs-5
-                    @if ($order->workType && $order->workType->name != '') bg-dark @endif">
-                    {{ $order->workType?->name ?? '-' }}
-                </span>
-            </td>
+            
 
             <td>
                 <span class="badge fs-5 bg-dark display-mode">{{ $order->page }}</span>
@@ -107,6 +101,13 @@
                         @endif
                     @endforeach
                 </select>
+            </td>
+            <td>
+                <span
+                    class="badge fs-5
+                    @if ($order->workType && $order->workType->name != '') bg-dark @endif">
+                    {{ $order->workType?->name ?? '-' }}
+                </span>
             </td>
             <td>{{ $order->package_amt + $order->service + $order->tax }}</td>
             <td>{{ $order->package_amt }}</td>
