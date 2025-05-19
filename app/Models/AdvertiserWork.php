@@ -20,4 +20,9 @@ class AdvertiserWork extends Model
         'target',
         'wte_add_count',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

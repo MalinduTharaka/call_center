@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AdvertiserWorkEvent;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Package;
@@ -43,6 +44,8 @@ class AdvertiserAllOrdersController extends Controller
         if ($request->isJson()) {
             $request->merge($request->json()->all());
         }
+
+        event(new AdvertiserWorkEvent($id));
 
         // Only advertiser_id is required
         $request->validate([

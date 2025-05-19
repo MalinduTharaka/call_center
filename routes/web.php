@@ -10,6 +10,7 @@ use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\DesignersWorkDoneController;
 use App\Http\Controllers\DesignPaymentController;
 use App\Http\Controllers\AdvertiserController;
+use App\Http\Controllers\AdvertiserWorkController;
 use App\Http\Controllers\AssignEmployeesController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\IncomeController;
@@ -245,6 +246,10 @@ Route::middleware([
 
     //Pdf Maker Routes
     Route::get('/pdf-maker', [PDFGenController::class, 'index']);
+
+    //Advertiser Work Done
+    Route::get('/advertiser-works', [AdvertiserWorkController::class, 'index'])->name('advertiser-works.index');
+    Route::put('/advertiser-works/{advertiserWork}', [AdvertiserWorkController::class, 'update'])->name('advertiser-works.update');
 });
 
 
