@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container mt-2">
+    <div class=" mt-2">
         <h2>User Attendance Report</h2>
 
         <ul class="nav nav-tabs nav-justified nav-bordered mb-3" role="tablist">
