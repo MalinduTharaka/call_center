@@ -28,11 +28,6 @@ class VideoEditorsWorkDoneController extends Controller
             $query->whereDate('date', $request->date);
         }
 
-        // 3. Client Name → filter through the Order relationship
-        if ($request->filled('client_id')) {
-            $query->where('order_id', $request->client_id);
-        }
-
         // 4. User
         if ($request->filled('user_id')) {
             $query->where('user_id', $request->user_id);

@@ -22,19 +22,6 @@
                             value="{{ old('date', $request->date) }}">
                     </div>
 
-                    {{-- Client Name --}}
-                    <div class="col-auto">
-                        <label class="form-label">Client</label>
-                        <select name="client_id" class="form-select form-select-sm">
-                            <option value="">All</option>
-                            @foreach($clients as $client)
-                                <option value="{{ $client->id }}" {{ $request->client_id == $client->id ? 'selected' : '' }}>
-                                    {{ $client->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     {{-- User --}}
                     <div class="col-auto">
                         <label class="form-label">User</label>
