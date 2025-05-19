@@ -24,15 +24,6 @@
                             <p class="text-muted mb-0"> User Role :{{ Auth::user()->role }}</p>
                         </div>
                     </div>
-                    {{-- <div class="col-sm-6">
-                        <div class="d-flex justify-content-end align-items-center gap-2">
-                            <button type="button" class="btn btn-soft-danger">
-                                <i class="ri-settings-2-line align-text-bottom me-1 fs-16 lh-1"></i>
-                                Edit Profile
-                            </button>
-                            <a class="btn btn-soft-info" href="#"> <i class="ri-check-double-fill fs-18 me-1 lh-1"></i> Following</a>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
             <!--/ meta -->
@@ -58,16 +49,6 @@
                                     </a>
                                 </li>
                             @endif
-
-                            
-                            {{-- <li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
-                                    data-bs-target="#edit-profile" type="button" role="tab"
-                                    aria-controls="home" aria-selected="true"
-                                    href="#edit-profile">Settings</a></li>
-                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab"
-                                    data-bs-target="#projects" type="button" role="tab"
-                                    aria-controls="home" aria-selected="true"
-                                    href="#projects">Projects</a></li> --}}
                         </ul>
 
                         <div class="tab-content m-0 p-4">

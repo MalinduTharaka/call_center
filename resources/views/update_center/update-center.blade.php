@@ -103,7 +103,7 @@
                                                                     @csrf
                                                                     @method('put')
                                                                     <td>{{ $order->id }}</td>
-                                                                    <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                    <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                     <td>{{ $order->croUser->cc_name ?? '-' }}</td>
                                                                     <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                     <td>
@@ -315,7 +315,7 @@
                                                                 @csrf
                                                                 @method('put')
                                                                 <td>{{ $order->id }}</td>
-                                                                <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                 <td>{{ $order->croUser->cc_name ?? '-' }}</td>
                                                                 <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                 <td>
@@ -479,7 +479,7 @@
                                                                     @method('put')
                                                                     <td>{{ $order->id }}</td>
                                                                     <td>
-                                                                        <span>{{ $order->date->format('Y-m-d') }}</span>
+                                                                        <span>{{ $order->created_at->format('Y-m-d') }}</span>
                                                                     </td>
                                                                     <td>{{ $order->croUser->cc_name ?? '-' }}</td>
                                                                     <td>{{ $order->plUser->name ?? '-' }}</td>

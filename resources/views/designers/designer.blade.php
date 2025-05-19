@@ -101,7 +101,7 @@
                                     @method('put')
                                     <tr data-order-id="{{ $order->id }}">
                                         <td>{{ $order->id }}</td>
-                                        <td>{{ $order->date->format('Y-m-d') }}</td>
+                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                         <td>{{ $order->invoice }}</td>
                                         <td>
                                             <span

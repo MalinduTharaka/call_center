@@ -5,6 +5,7 @@ use App\Http\Controllers\ActorsWorkDoneController;
 use App\Http\Controllers\AddAccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvertiserAllOrdersController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CroWorkDoneController;
 use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\DesignersWorkDoneController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\PDFGenController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuotationManageController;
 use App\Http\Controllers\RefundController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SalaryRatesController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\TargetController;
@@ -247,6 +249,21 @@ Route::middleware([
     //Pdf Maker Routes
     Route::get('/pdf-maker', [PDFGenController::class, 'index']);
 
+    //Attendance Routes
+    Route::get('/attendance/today/view', [AttendanceController::class, 'indextodayattendance'])->name('attendance.today.index');
+    Route::put('/attendance/today/update/{id}', [AttendanceController::class, 'editTodayAtt'])->name('attendance.update.today');
+    Route::delete('/attendance/today/delete/{id}', [AttendanceController::class, 'deleteTodayAtt'])->name('attendance.delete.today');
+    Route::post('/addAttendance/add', [AttendanceController::class, 'addAttendanceAdd'])->name('attendance.add');
+    Route::get('/attendance/report/view', [AttendanceController::class, 'indexAttendanceReport'])->name('attendance.report');
+    Route::get('/attendance/this-month/{id}', [AttendanceController::class, 'thisMonth'])->name('attendance.thisMonth');
+    Route::post('/attendance/month/{id}', [AttendanceController::class, 'attendanceMonth'])->name('attendance.attendanceMonth');
+
+    //Salary Routes
+    Route::get('/salaries', [SalaryController::class, 'index'])->name('salary.index');
+    Route::get('/salaries/selected-month/{mo}/{yr}', [SalaryController::class, 'selectedMonth']);
+    Route::put('/salary/edit/{id}', [SalaryController::class, 'editSalary']);
+
+
     //Advertiser Work Done
     Route::get('/advertiser-works', [AdvertiserWorkController::class, 'index'])->name('advertiser-works.index');
     Route::put('/advertiser-works/{advertiserWork}', [AdvertiserWorkController::class, 'update'])->name('advertiser-works.update');
@@ -258,3 +275,4 @@ Route::post('/verify-device', [DeviceController::class, 'verifyDevice']);
 Route::get('/check-device', [DeviceController::class, 'checkDevice']);
 Route::get('/login/external', [OutsideAuthController::class, 'index']);
 Route::post('/outside-login/verify', [OutsideAuthController::class, 'verifyEmail'])->name('outside.login.verify');
+Route::get('/attendance/{id}', [AttendanceController::class, 'attendance'])->name('attendance');

@@ -107,7 +107,7 @@
                                 <tr data-order-id="{{ $order->id }}">
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->Designer->name}}</td>
-                                    <td>{{ $order->date }}</td>
+                                    <td>{{ $order->created_at }}</td>
                                     <td>
                                         <span class="badge fs-5 
                                                                             @if($order->ce == 'c') bg-primary

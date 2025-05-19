@@ -223,7 +223,7 @@
                                                                         </select>
                                                                     </td>
                                                                     <td>{{ $order->id }}</td>
-                                                                    <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                    <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                     <td>{{ $order->croUser->cc_name ?? '-' }}</td>
                                                                     <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                     <td>
@@ -373,7 +373,7 @@
                                                                             @if ($order->workType && $order->workType->name != '') bg-dark @endif">
                                                                             {{ $order->workType?->name ?? '-' }}
                                                                         </span>
-                                                                        <select name="work_type" class="form-select edit-mode">
+                                                                        <select name="work_type_id" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'boosting')
@@ -602,7 +602,7 @@
                                                                     @csrf
                                                                     @method('put')
                                                                     <td>{{ $order->id }}</td>
-                                                                    <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                    <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                     <td>{{ $order->croUser->cc_name ?? '-' }}</td>
                                                                     <td>{{ $order->plUser->name ?? '-' }}</td>
                                                                     <td>
@@ -644,7 +644,7 @@
                                                                             @if ($order->workType && $order->workType->name != '') bg-dark @endif">
                                                                             {{ $order->workType?->name ?? '-' }}
                                                                         </span>
-                                                                        <select name="work_type" class="form-select edit-mode">
+                                                                        <select name="work_type_id" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'designs')
@@ -812,7 +812,7 @@
                                                                     @method('put')
                                                                     <td>{{ $order->id }}</td>
                                                                     <td>
-                                                                        <span>{{ $order->date->format('Y-m-d') }}</span>
+                                                                        <span>{{ $order->created_at->format('Y-m-d') }}</span>
                                                                     </td>
                                                                     <td>{{ $order->croUser->cc_name ?? '-' }}</td>
                                                                     <td>{{ $order->plUser->name ?? '-' }}</td>
@@ -870,7 +870,7 @@
                                                                             @if ($order->workType && $order->workType->name != '') bg-dark @endif">
                                                                             {{ $order->workType?->name ?? '-' }}
                                                                         </span>
-                                                                        <select name="work_type" class="form-select edit-mode">
+                                                                        <select name="work_type_id" class="form-select edit-mode">
                                                                             <option value="" selected>Select</option>
                                                                             @foreach ($work_types as $work_type)
                                                                                 @if ($work_type->order_type == 'video')

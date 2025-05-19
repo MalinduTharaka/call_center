@@ -255,6 +255,7 @@
                                                             <th>Details</th>
                                                             <th>Add<br />Link</th>
                                                             <th>slip</th>
+                                                            <th>Updates</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -282,7 +283,7 @@
                                                                             </select>
                                                                         </td>
                                                                         <td>{{ $order->id }}</td>
-                                                                        <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                         <td>
                                                                             <span
                                                                                 class="badge fs-5
@@ -409,7 +410,7 @@
                                                                                 @if ($order->workType && $order->workType->name != '') bg-dark @endif">
                                                                                 {{ $order->workType?->name ?? '-' }}
                                                                             </span>
-                                                                            <select name="work_type" class="form-select edit-mode">
+                                                                            <select name="work_type_id" class="form-select edit-mode">
                                                                                 <option value="" selected>Select</option>
                                                                                 @foreach ($work_types as $work_type)
                                                                                     @if ($work_type->order_type == 'boosting')
@@ -464,6 +465,16 @@
                                                                             </button>
                                                                         </td>
                                                                         <td>
+                                                                        <button
+                                                                            type="button"
+                                                                            class="btn btn-primary update-sheet-btn"
+                                                                            data-id="{{ $order->id }}"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#updateSheetModal">
+                                                                            <i class=" ri-arrow-up-circle-fill"></i>
+                                                                        </button>
+                                                                        </td>
+                                                                        <td>
                                                                             <button type="button"
                                                                                 class="btn btn-primary edit-btn display-mode">Edit</button>
                                                                             <button type="button"
@@ -479,6 +490,7 @@
                                         </div> <!-- end col -->
                                     </div> <!-- end row -->
                                 </div>
+                                @include('includes.updates-model')
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function () {
                                         const modal = document.getElementById('viewSlipModal');
@@ -599,7 +611,7 @@
                                                                         @csrf
                                                                         @method('put')
                                                                         <td>{{ $order->id }}</td>
-                                                                        <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                         <td>
                                                                             <span
                                                                                 class="badge fs-5
@@ -626,7 +638,7 @@
                                                                                 @if ($order->workType && $order->workType->name != '') bg-dark @endif">
                                                                                 {{ $order->workType?->name ?? '-' }}
                                                                             </span>
-                                                                            <select name="work_type" class="form-select edit-mode">
+                                                                            <select name="work_type_id" class="form-select edit-mode">
                                                                                 <option value="" selected>Select</option>
                                                                                 @foreach ($work_types as $work_type)
                                                                                     @if ($work_type->order_type == 'designs')
@@ -780,7 +792,7 @@
                                                                         @csrf
                                                                         @method('put')
                                                                         <td>{{ $order->id }}</td>
-                                                                        <td>{{ $order->date->format('Y-m-d') }}</td>
+                                                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                         <td>
                                                                             <span
                                                                                 class="badge fs-5
@@ -817,7 +829,7 @@
                                                                                 @if ($order->workType && $order->workType->name != '') bg-dark @endif">
                                                                                 {{ $order->workType?->name ?? '-' }}
                                                                             </span>
-                                                                            <select name="work_type" class="form-select edit-mode">
+                                                                            <select name="work_type_id" class="form-select edit-mode">
                                                                                 <option value="" selected>Select</option>
                                                                                 @foreach ($work_types as $work_type)
                                                                                     @if ($work_type->order_type == 'video')
@@ -1218,4 +1230,21 @@
                 border-radius: 4px;
             }
         </style>
+        <script>
+  // jQuery version (if you're already using jQuery)
+  $('#updateSheetModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);        // Button that triggered the modal
+    var orderId = button.data('id');            // Extract info from data-* attributes
+    var modal = $(this);
+    modal.find('#order-id-input').val(orderId);
+  });
+
+  /* --- OR vanilla JS version --- */
+  var updateModal = document.getElementById('updateSheetModal');
+  updateModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;           // Element that triggered the modal
+    var orderId = button.getAttribute('data-id');
+    updateModal.querySelector('#order-id-input').value = orderId;
+  });
+</script>
 @endsection

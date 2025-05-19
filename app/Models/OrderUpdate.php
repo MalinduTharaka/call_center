@@ -26,13 +26,16 @@ class OrderUpdate extends Model
         'advertiser_id',
         'add_acc_id',
         'add_acc',
+        'advertiser_id_new',
+        'add_acc_id_new',
+        'upsheet_uid',
     ];
 
     protected $casts = [
         'date' => 'datetime',
     ];
 
-    // Optional relationship examples if needed:
+    // Relationships
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -43,13 +46,18 @@ class OrderUpdate extends Model
         return $this->belongsTo(User::class, 'advertiser_id');
     }
 
-    public function workType()
+    public function advertiserNew()
     {
-        return $this->belongsTo(WorkType::class, 'work_type');
+        return $this->belongsTo(User::class, 'advertiser_id_new');
     }
 
     public function plUser()
     {
         return $this->belongsTo(User::class, 'cro');
+    }
+
+    public function workType()
+    {
+        return $this->belongsTo(WorkType::class, 'work_type');
     }
 }

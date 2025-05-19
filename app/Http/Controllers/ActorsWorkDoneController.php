@@ -10,14 +10,47 @@ use Illuminate\Http\Request;
 
 class ActorsWorkDoneController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::all();
-        $entries = ActorsWork::with('user')->latest()->get();
-        $users   = User::all();
+        // keep your existing variables
+        $invoices  = Invoice::all();
+        $users     = User::all();
         $workTypes = WorkType::where('order_type', 'video')->get();
-        return view('call_center.actors-work-done', compact('entries', 'users', 'invoices','workTypes'));
+
+        // base query: eager‑load user, order by latest
+        $query = ActorsWork::with('user')->latest();
+
+        // 1) Month‑Year filter on created_at (YYYY‑MM)
+        if ($request->filled('month_year')) {
+            [$year, $month] = explode('-', $request->month_year);
+            $query->whereYear('date', $year)
+                  ->whereMonth('date', $month);
+        }
+
+        // 2) Exact date filter on your `date` column
+        if ($request->filled('date')) {
+            $query->whereDate('date', $request->date);
+        }
+
+        // 3) User filter
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+
+        // 4) Work Type filter
+        if ($request->filled('work_type')) {
+            $query->where('work_type', $request->work_type);
+        }
+
+        // finally get the entries
+        $entries = $query->get();
+
+        return view(
+            'call_center.actors-work-done',
+            compact('entries', 'users', 'invoices', 'workTypes', 'request')
+        );
     }
+
 
     public function store(Request $request)
     {

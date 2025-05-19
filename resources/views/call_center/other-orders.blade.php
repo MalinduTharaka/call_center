@@ -77,7 +77,7 @@
                                         @csrf
                                         @method('put')
                                         <td>{{ $order->id }}</td>
-                                        <td>{{ $order->date }}</td>
+                                        <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                         <td>
                                             <span class="badge fs-5
                                                 @if($order->ce == 'c') bg-primary
