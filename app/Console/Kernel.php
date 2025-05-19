@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\GenerateMonthlySalariesUCA::class,
 
         \App\Console\Commands\GenerateMonthlySalariesACC::class,   // ACC
+
+        \App\Console\Commands\GenerateCROSalary::class,
     ];
 
     /**
@@ -34,6 +36,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('salary:generate:acc')
             ->monthlyOn(1, '00:00')
             ->runInBackground();
+
+        $schedule->command('salary:generate-cro')->monthlyOn(1, '00:00');
     }
 
     /**

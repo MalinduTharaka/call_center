@@ -28,6 +28,7 @@
                                     <th>Bonus</th>
                                     <th>OT</th>
                                     <th>Transport</th>
+                                    <th>Attendance Bonus</th>
                                     <th>Deduction</th>
                                     <th>Net Salary</th>
                                     <th>Action</th>
@@ -43,6 +44,7 @@
                                         <td>{{ $sal->bonus }}</td>
                                         <td>{{ $sal->ot }}</td>
                                         <td>{{ $sal->transport }}</td>
+                                        <td>{{ $sal->attendace_bonus }}</td>
                                         <td>{{ $sal->deduction }}</td>
                                         <td>{{ $sal->net_salary }}</td>
                                         <td>
@@ -99,6 +101,11 @@
                                                             <label for="transport-{{ $sal->id }}" class="form-label">Transport</label>
                                                             <input type="text" class="form-control" id="transport-{{ $sal->id }}"
                                                                    name="transport" value="{{ $sal->transport }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="attendace_bonus-{{ $sal->attendace_bonus }}" class="form-label">Attendace Bonus</label>
+                                                            <input type="text" class="form-control" id="attendace_bonus-{{ $sal->attendace_bonus }}"
+                                                                   name="attendace_bonus" value="{{ $sal->attendace_bonus }}">
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="deduction-{{ $sal->id }}" class="form-label">Deduction</label>
@@ -162,6 +169,7 @@
                                     <th>Bonus</th>
                                     <th>OT</th>
                                     <th>Transport</th>
+                                    <th>Attendance Bonus</th>
                                     <th>Deduction</th>
                                     <th>Net Salary</th>
                                 </tr>
@@ -203,6 +211,7 @@
                                 <td>${s.bonus}</td>
                                 <td>${s.ot}</td>
                                 <td>${s.transport}</td>
+                                <td>${s.attendace_bonus}</td>
                                 <td>${s.deduction}</td>
                                 <td>${s.net_salary}</td>
                               </tr>
@@ -226,14 +235,15 @@
                 const bonus = parseFloat(modal.querySelector('[id^="bonus-"]')?.value || 0);
                 const ot = parseFloat(modal.querySelector('[id^="ot-"]')?.value || 0);
                 const transport = parseFloat(modal.querySelector('[id^="transport-"]')?.value || 0);
+                const attendace_bonus = parseFloat(modal.querySelector('[id^="attendace_bonus-"]')?.value || 0);
                 const deduction = parseFloat(modal.querySelector('[id^="deduction-"]')?.value || 0);
 
-                const net = basic + allowance + bonus + ot + transport - deduction;
+                const net = basic + allowance + bonus + ot + transport + attendace_bonus - deduction;
                 modal.querySelector('[id^="net_salary-"]').value = net.toFixed(2);
             }
 
             document.querySelectorAll('.modal').forEach(modal => {
-                const fields = modal.querySelectorAll('[id^="basic-"], [id^="allowance-"], [id^="bonus-"], [id^="ot-"], [id^="transport-"], [id^="deduction-"]');
+                const fields = modal.querySelectorAll('[id^="basic-"], [id^="allowance-"], [id^="bonus-"], [id^="ot-"], [id^="transport-"], [id^="attendace_bonus-"], [id^="deduction-"]');
                 fields.forEach(field => {
                     field.addEventListener('input', () => calculateNetSalary(modal));
                 });
