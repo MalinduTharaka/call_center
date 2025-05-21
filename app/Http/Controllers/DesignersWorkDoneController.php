@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\PostDesignersWork;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DesignersWorkDoneController extends Controller
@@ -35,7 +36,7 @@ class DesignersWorkDoneController extends Controller
 
         // Dropdowns
         $users    = User::orderBy('name')->get();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
 
         return view('call_center.designers-work-done', compact(
             'entries','users','invoices','request'

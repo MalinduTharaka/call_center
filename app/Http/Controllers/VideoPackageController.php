@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\TimeSlot;
 use App\Models\VideoPkg;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class VideoPackageController extends Controller
@@ -12,7 +13,7 @@ class VideoPackageController extends Controller
     public function index()
     {
         $timeSlots = TimeSlot::all();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $packages = VideoPkg::all();
         return view('video.video-package', compact('packages','invoices','timeSlots'));
     }

@@ -26,7 +26,7 @@ class RefundController extends Controller
 
         $orders = RefundOrder::whereBetween('date', [$from, $to])->orderBy('date', 'desc')->get();
         $users = User::all();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         return view('admin.admin-refund-orders', compact('orders', 'users', 'invoices'));
     }
 

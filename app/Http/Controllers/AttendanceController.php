@@ -55,7 +55,7 @@ class AttendanceController extends Controller
 
     public function indextodayattendance()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $users = User::all();
         $attendances = Attendance::whereDate('date', Carbon::today())->get();
 
@@ -94,7 +94,7 @@ class AttendanceController extends Controller
 
     public function indexAttendanceReport()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $users = User::all();
         return view('attendance.attendance-report', compact( 'invoices', 'users'));
     }

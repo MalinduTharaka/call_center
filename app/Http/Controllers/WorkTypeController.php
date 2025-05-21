@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\WorkType;
 
@@ -11,7 +12,7 @@ class WorkTypeController extends Controller
     public function index()
     {
         $worktypes = WorkType::all();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         return view('admin.work-type', compact('worktypes', 'invoices'));
     }
 

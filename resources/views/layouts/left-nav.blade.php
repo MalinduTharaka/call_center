@@ -75,13 +75,6 @@
                                     <span> Quotations </span>
                                 </a>
                             </li>
-                            <li class="side-nav-item">
-                                <a href="/incomes" class="side-nav-link">
-                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
-                                    <span> Income </span>
-                                </a>
-                            </li>
-
                         </ul>
                     </div>
                 </li>
@@ -309,6 +302,31 @@
                                 <a href="/salaries" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
                                     <span> Salary </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#idincome" aria-expanded="false" aria-controls="sidebarSalary"
+                        class="side-nav-link">
+                        <i class="ri-funds-fill"></i>
+                        <span> incomes </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarSalary">
+                        <ul class="side-nav-second-level">
+                            <li class="side-nav-item">
+                                <a href="/incomes" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span>Income </span>
+                                </a>
+                            </li>
+                            <li class="side-nav-item">
+                                <a href="/net/income/calculator" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span>Net Income </span>
                                 </a>
                             </li>
                         </ul>

@@ -1,39 +1,70 @@
 <div>
     <div class="row">
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">User Profile</h5>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <caption>Order Count This Month</caption>
-                        <table class="table table-bordered table-centered mb-0">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th>Boosting</th>
-                                    <th>Designs</th>
-                                    <th>Video</th>
-                                    <th>Other</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ $boosting_user->filter(fn($order) => \Carbon\Carbon::parse($order->created_at)->isCurrentMonth())->count() }}
-                                    </td>
-                                    <td>{{ $designs_user->filter(fn($order) => \Carbon\Carbon::parse($order->created_at)->isCurrentMonth())->count() }}
-                                    </td>
-                                    <td>{{ $video_user->filter(fn($order) => \Carbon\Carbon::parse($order->created_at)->isCurrentMonth())->count() }}
-                                    </td>
-                                    <td>{{ $other_orders_user->filter(fn($order) => \Carbon\Carbon::parse($order->created_at)->isCurrentMonth())->count() }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+        @if (Auth::user()->role == 'cro')
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">User Profile</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <caption>Order Count This Month</caption>
+                            <table class="table table-bordered table-centered mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>Boosting</th>
+                                        <th>Designs</th>
+                                        <th>Video</th>
+                                        <th>Other</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ $boosting_user->filter(fn($order) => \Carbon\Carbon::parse($order->created_at)->isCurrentMonth())->count() }}
+                                        </td>
+                                        <td>{{ $designs_user->filter(fn($order) => \Carbon\Carbon::parse($order->created_at)->isCurrentMonth())->count() }}
+                                        </td>
+                                        <td>{{ $video_user->filter(fn($order) => \Carbon\Carbon::parse($order->created_at)->isCurrentMonth())->count() }}
+                                        </td>
+                                        <td>{{ $other_orders_user->filter(fn($order) => \Carbon\Carbon::parse($order->created_at)->isCurrentMonth())->count() }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
+
+        @if (Auth::user()->role == 'adv')
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="m-0">Advertiser Works</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-centered mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>Today</th>
+                                        <th>This Month</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{$addcount_today}}</td>
+                                        <td>{{$addcount_month}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
 
         <div class="col-7">
             <div class="card mb-4">

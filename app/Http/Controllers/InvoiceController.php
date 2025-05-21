@@ -5,21 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\InvoiceId;
 use App\Models\WorkType;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Order;
-use App\Models\Notification;
-use App\Models\Package;
-use App\Models\Slip;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
     public function invoicesolo($id)
     {
+        $user = Auth::user();
+        // 2. Parse their from_date/to_date (and optionally normalize to full days)
+        $from = Carbon::parse($user->from_date)->startOfDay();
+        $to   = Carbon::parse($user->to_date)->endOfDay();
         $order = Order::findOrFail($id);
-        $invoices = Invoice::all();
+        $invoices = Invoice::whereBetween('date', [$from, $to])->get();
         $work_types = WorkType::all();
         return view('call_center.invoice-solo', compact('order', 'invoices', 'work_types'));
     }

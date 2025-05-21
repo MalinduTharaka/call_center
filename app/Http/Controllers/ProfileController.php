@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdvertiserWork;
 use App\Models\Attendance;
 use App\Models\Invoice;
 use App\Models\Order;
@@ -27,14 +28,7 @@ class ProfileController extends Controller
             ->whereMonth('date', Carbon::now()->month)
             ->get();
         // Fetch all your collections
-        $orders = Order::all();
-
-        $packages = Package::all();
-        $users = User::all();
-        $slips = Slip::all();
-        $invoices = Invoice::all();
-        $work_types = WorkType::all();
-        $video_pkgs = VideoPkg::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
 
         $user = Auth::user();
         $ccNum = $user->cc_num;
@@ -109,17 +103,17 @@ class ProfileController extends Controller
                 : $o->advance;
         });
 
+        $addcount_today = AdvertiserWork::where('date', Carbon::today())->sum('add_count'); 
+
+        $addcount_month = AdvertiserWork::whereMonth('date', Carbon::now()->month)
+            ->whereYear('date', Carbon::now()->year)
+            ->sum('add_count');
+
         return view('profile.user-profile', compact(
             'salaries',
             'attendances',
-            'orders',
             'other_orders',
-            'packages',
-            'users',
-            'slips',
             'invoices',
-            'work_types',
-            'video_pkgs',
             'boosting',
             'designs',
             'video',
@@ -131,7 +125,9 @@ class ProfileController extends Controller
             'boostingSummary',
             'designsSummary',
             'videoSummary',
-            'otherSummary'
+            'otherSummary',
+            'addcount_today',
+            'addcount_month',
         ));
     }
 }

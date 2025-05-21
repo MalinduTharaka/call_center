@@ -26,12 +26,10 @@ class AdvertiserAllOrdersController extends Controller
         $to = Carbon::parse($user->to_date)->endOfDay();
 
         $orders = Order::where('ps', '1')->where('order_type', 'boosting')->whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
-        $packages = Package::all();
         $users = User::all();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $work_types = WorkType::all();
-        $video_pkgs = VideoPkg::all();
-        return view('advertiser.advertiser-all-orders', compact('orders', 'packages', 'users', 'invoices', 'work_types', 'video_pkgs'));
+        return view('advertiser.advertiser-all-orders', compact('orders',  'users', 'invoices', 'work_types'));
     }
 
 

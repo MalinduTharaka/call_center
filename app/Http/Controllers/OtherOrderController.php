@@ -22,7 +22,7 @@ class OtherOrderController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
-        $invoices = Invoice::all();
+         $invoices = Invoice::where('due_date', Carbon::today())->get();
         $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])
         ->where('ps', '1')
         ->where( 'cc_id', Auth::user()->cc_num)

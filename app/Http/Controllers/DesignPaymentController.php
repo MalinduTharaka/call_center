@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\DesignPayment;
 use App\Models\Invoice;
 use App\Models\WorkType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DesignPaymentController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $payments  = DesignPayment::all();
         $workTypes = WorkType::where('order_type','designs')->get();
 

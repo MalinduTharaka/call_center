@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\WorkType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class VideoEditorsWorkDoneController extends Controller
@@ -48,7 +49,7 @@ class VideoEditorsWorkDoneController extends Controller
         $users       = User::orderBy('name')->get();
         $workTypes   = WorkType::where('order_type','video')->get();
         $statuses    = Order::select('work_status')->distinct()->pluck('work_status');
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
 
         // Pass along the `Request` so old inputs can be re‑populated
         return view('call_center.video-editors-work-done', compact(

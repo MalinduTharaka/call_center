@@ -12,7 +12,7 @@ class SalaryController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $users = User::all();
 
         $previousMonth = Carbon::now()->subMonth();

@@ -16,7 +16,7 @@ class IncomeController extends Controller
 
         // --- MONTHLY DATA ---
         // All invoices (if you still need these)
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
 
         // All paid orders (ps = 1) for the current month
         $ordersb_month = Order::where('ps', 1)

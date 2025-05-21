@@ -6,6 +6,7 @@ use App\Models\ActorsWork;
 use App\Models\Invoice;
 use App\Models\User;
 use App\Models\WorkType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ActorsWorkDoneController extends Controller
@@ -13,7 +14,7 @@ class ActorsWorkDoneController extends Controller
     public function index(Request $request)
     {
         // keep your existing variables
-        $invoices  = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $users     = User::all();
         $workTypes = WorkType::where('order_type', 'video')->get();
 

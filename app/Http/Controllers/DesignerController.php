@@ -30,12 +30,8 @@ class DesignerController extends Controller
             ->where( 'designer_id', Auth::user()->id)
             ->where('order_type', 'designs')
             ->orderBy('created_at', 'desc')->get();
-        $packages = Package::all();
-        $users = User::all();
-        $slips = Slip::all();
-        $invoices = Invoice::all();
-        $work_types = WorkType::all();
-        return view('designers.designer', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types'));
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
+        return view('designers.designer', compact('orders', 'invoices'));
     }
 
     public function updareDesigner(Request $request, $id)

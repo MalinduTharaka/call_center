@@ -6,6 +6,7 @@ use App\Models\AddCenter;
 use App\Models\CallCenter;
 use App\Models\Invoice;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 class AssignEmployeesController extends Controller
 {
@@ -13,7 +14,7 @@ class AssignEmployeesController extends Controller
         $users = User::all();
         $call_centers = CallCenter::all();
         $add_centers = AddCenter::all();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         return view('admin.assign-employees', compact('users', 'call_centers', 'add_centers', 'invoices'));
     }
 

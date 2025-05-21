@@ -27,13 +27,8 @@ class AccountantController extends Controller
         $orders = Order::whereBetween('created_at', [$from, $to])
         ->where('ps', '1')
         ->orderBy('created_at', 'desc')->get();
-        $packages = Package::all();
-        $users = User::all();
-        $slips = Slip::all();
-        $invoices = Invoice::all();
-        $work_types = WorkType::all();
-        $video_pkgs = VideoPkg::all();
-        return view('accountant.accountant', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs'));
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
+        return view('accountant.accountant', compact('orders', 'invoices'));
     }
     public function indexOR()
     {
@@ -45,13 +40,8 @@ class AccountantController extends Controller
         $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])
         ->where('ps', '1')
         ->orderBy('created_at', 'desc')->get();
-        $packages = Package::all();
-        $users = User::all();
-        $slips = Slip::all();
-        $invoices = Invoice::all();
-        $work_types = WorkType::all();
-        $video_pkgs = VideoPkg::all();
-        return view('accountant.accountantOR', compact( 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs', 'other_orders'));
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
+        return view('accountant.accountantOR', compact(   'invoices', 'other_orders'));
     }
 
     public function accUpdateB(Request $request, $id)

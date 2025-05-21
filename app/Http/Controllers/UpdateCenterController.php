@@ -29,11 +29,10 @@ class UpdateCenterController extends Controller
         ->orderBy('created_at', 'desc')->get();
         $packages = Package::all();
         $users = User::all();
-        $slips = Slip::all();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $work_types = WorkType::all();
         $video_pkgs = VideoPkg::all();
-        return view('update_center.update-center', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs'));
+        return view('update_center.update-center', compact('orders', 'packages', 'users', 'invoices', 'work_types', 'video_pkgs'));
     }
 
     public function updateVideoUC(Request $request, $id){

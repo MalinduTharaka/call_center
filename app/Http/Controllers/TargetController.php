@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\Target;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TargetController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $targets = Target::all();
         return view('call_center.target', compact('targets','invoices'));
     }

@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Package;
 
@@ -12,7 +13,7 @@ class PackageController extends Controller
     public function index()
     {
         $packages = Package::all();
-        $invoices = Invoice::all();
+         $invoices = Invoice::where('due_date', Carbon::today())->get();
         return view('admin.packages', compact('packages', 'invoices'));
     }
 

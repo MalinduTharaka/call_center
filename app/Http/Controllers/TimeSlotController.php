@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\TimeSlot;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TimeSlotController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $timeSlots = TimeSlot::latest()->get();
         return view('video.time-slots', compact('timeSlots','invoices'));
     }

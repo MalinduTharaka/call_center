@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\SalaryRate;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SalaryRatesController extends Controller
 {
     public function index(){
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $rates = SalaryRate::all();
         $users = User::all();
         return view('salary_rates.salary_rates', compact('invoices', 'rates', 'users'));

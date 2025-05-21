@@ -13,6 +13,7 @@ use App\Http\Controllers\DesignPaymentController;
 use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\AssignEmployeesController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\IncomeCalculatorController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceManageController;
@@ -261,6 +262,7 @@ Route::middleware([
     Route::get('/salaries', [SalaryController::class, 'index'])->name('salary.index');
     Route::get('/salaries/selected-month/{mo}/{yr}', [SalaryController::class, 'selectedMonth']);
     Route::put('/salary/edit/{id}', [SalaryController::class, 'editSalary']);
+    Route::get('/net/income/calculator', [IncomeCalculatorController::class, 'index'])->name('net.income.calculator');
 
 });
 

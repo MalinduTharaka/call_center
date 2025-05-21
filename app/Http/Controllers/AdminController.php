@@ -28,13 +28,10 @@ class AdminController extends Controller
         $orders = Order::whereBetween('created_at', [$from, $to])
         ->where('ps', '1')
         ->orderBy('created_at', 'desc')->get();
-        $packages = Package::all();
         $users = User::all();
-        $slips = Slip::all();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $work_types = WorkType::all();
-        $video_pkgs = VideoPkg::all();
-        return view('admin.admin-orders', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs'));
+        return view('admin.admin-orders', compact('orders', 'users', 'invoices', 'work_types'));
     }
 
     public function updateBoostingAD(Request $request, $id){
@@ -157,7 +154,7 @@ class AdminController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to   = Carbon::parse($user->to_date)->endOfDay();
 
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])->orderBy('date')
         ->where('ps', '1')
         ->orderBy('created_at', 'desc')->get();
@@ -201,7 +198,7 @@ class AdminController extends Controller
 
         $orders = OrderUpdate::whereBetween('date', [$from, $to])->orderBy('date', 'desc')->get();
         $users = User::all();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('due_date', Carbon::today())->get();
         $work_types = WorkType::all();
         return view('admin.update-sheet', compact('orders',  'users', 'invoices', 'work_types'));
     }

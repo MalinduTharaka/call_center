@@ -36,12 +36,11 @@ class OrderConroller extends Controller
         ->get();
         $packages = Package::all();
         $users = User::all();
-        $slips = Slip::all();
         $invoices = Invoice::all();
         $work_types = WorkType::all();
         $video_pkgs = VideoPkg::all();
         $other_orders = OtherOrder::all();
-        return view('call_center.new-orders', compact('orders', 'packages', 'users', 'slips', 'invoices', 'work_types', 'video_pkgs', 'other_orders'));
+        return view('call_center.new-orders', compact('orders', 'packages', 'users', 'invoices', 'work_types', 'video_pkgs', 'other_orders'));
     }
 
     public function store_solo(Request $request){
