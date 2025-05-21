@@ -309,13 +309,13 @@
                 </li>
 
                 <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#idincome" aria-expanded="false" aria-controls="sidebarSalary"
+                    <a data-bs-toggle="collapse" href="#idincome" aria-expanded="false" aria-controls="idincome"
                         class="side-nav-link">
                         <i class="ri-funds-fill"></i>
                         <span> incomes </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarSalary">
+                    <div class="collapse" id="idincome">
                         <ul class="side-nav-second-level">
                             <li class="side-nav-item">
                                 <a href="/incomes" class="side-nav-link">

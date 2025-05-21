@@ -21,7 +21,7 @@ class IncomeCalculatorController extends Controller
             ->where('ps', '1')
             ->where('order_type', 'boosting')
             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->selectRaw("SUM(CASE WHEN payment_status = 'done' THEN service ELSE advance END) as total")
+            ->selectRaw("SUM(service) as total")
             ->value('total');
 
         $designsAmountSum = DB::table('orders')

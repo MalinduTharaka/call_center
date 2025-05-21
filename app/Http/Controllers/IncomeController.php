@@ -19,7 +19,7 @@ class IncomeController extends Controller
         $invoices = Invoice::where('due_date', Carbon::today())->get();
 
         // All paid orders (ps = 1) for the current month
-        $ordersb_month = Order::where('ps', 1)
+        $ordersb_month = Order::where('ps', '1')
             ->where('order_type', 'boosting')
             ->whereYear('created_at', $today->year)
             ->whereMonth('created_at', $today->month)
