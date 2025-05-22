@@ -18,30 +18,46 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public function indexo(){
-        $user = Auth::user();
 
-        // 2. Parse their from_date/to_date (and optionally normalize to full days)
+    public function indexo(Request $request)
+    {
+        $user = Auth::user();
         $from = Carbon::parse($user->from_date)->startOfDay();
-        $to   = Carbon::parse($user->to_date)->endOfDay();
+        $to = Carbon::parse($user->to_date)->endOfDay();
 
         $orders = Order::whereBetween('created_at', [$from, $to])
-        ->where('ps', '1')
-        ->orderBy('created_at', 'desc')->get();
+            ->where('ps', '1')
+            ->orderBy('created_at', 'desc')
+            ->paginate(50); // paginate instead of get()
+
         $users = User::all();
         $invoices = Invoice::where('due_date', Carbon::today())->get();
         $work_types = WorkType::all();
+
+        if ($request->ajax()) {
+            $type = $request->input('type');
+            if ($type === 'boosting') {
+                return view('admin.partials.ad-boosting-orders', compact('orders', 'users', 'invoices', 'work_types'))->render();
+            } elseif ($type === 'designs') {
+                return view('admin.partials.ad-design-orders', compact('orders', 'users', 'invoices', 'work_types'))->render();
+            } elseif ($type === 'video') {
+                return view('admin.partials.ad-video-orders', compact('orders', 'users', 'invoices', 'work_types'))->render();
+            }
+        }
+
         return view('admin.admin-orders', compact('orders', 'users', 'invoices', 'work_types'));
     }
 
-    public function updateBoostingAD(Request $request, $id){
+
+    public function updateBoostingAD(Request $request, $id)
+    {
         $uc = Order::findOrFail($id);
         $uc->update([
             'add_acc' => $request->add_acc,
             'ce' => $request->ce,
             'name' => $request->name,
             'contact' => $request->contact,
-            'work_type_id' => $request->work_type,
+            'work_type_id' => $request->work_type_id,
             'page' => $request->page,
             'work_status' => $request->work_status,
             'payment_status' => $request->payment_status,
@@ -55,29 +71,29 @@ class AdminController extends Controller
         ]);
 
         $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
-        if($request->package_amt > $request->package_amtold){
+        if ($request->package_amt > $request->package_amtold) {
             $invoice->update([
                 'total' => $invoice->total + ($request->package_amt - $request->package_amtold)
             ]);
-        }else{
+        } else {
             $invoice->update([
                 'total' => $invoice->total - ($request->package_amtold - $request->package_amt)
             ]);
         }
-        if($request->service > $request->serviceold){
+        if ($request->service > $request->serviceold) {
             $invoice->update([
                 'total' => $invoice->total + ($request->service - $request->serviceold)
             ]);
-        }else{
+        } else {
             $invoice->update([
                 'total' => $invoice->total - ($request->serviceold - $request->service)
             ]);
         }
-        if($request->tax > $request->taxold){
+        if ($request->tax > $request->taxold) {
             $invoice->update([
                 'total' => $invoice->total + ($request->tax - $request->taxold)
             ]);
-        }else{
+        } else {
             $invoice->update([
                 'total' => $invoice->total - ($request->taxold - $request->tax)
             ]);
@@ -88,25 +104,27 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Boosting Order Update Done');
     }
 
-    public function updateDesignsAD(Request $request, $id){
+    public function updateDesignsAD(Request $request, $id)
+    {
         $uc = Order::findOrFail($id);
         $uc->update([
             'ce' => $request->ce,
             'name' => $request->name,
             'contact' => $request->contact,
-            'work_type_id' => $request->work_type,
+            'work_type_id' => $request->work_type_id,
             'work_status' => $request->work_status,
             'payment_status' => $request->payment_status,
+            'designer_id' => $request->designer_id,
             'amount' => $request->amount,
         ]);
 
 
         $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
-        if($request->amount > $request->amountold){
+        if ($request->amount > $request->amountold) {
             $invoice->update([
                 'total' => $invoice->total + ($request->amount - $request->amountold)
             ]);
-        }else{
+        } else {
             $invoice->update([
                 'total' => $invoice->total - ($request->amountold - $request->amount)
             ]);
@@ -115,7 +133,8 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Designs Order Update Done');
     }
 
-    public function updateVideoAD(Request $request, $id){
+    public function updateVideoAD(Request $request, $id)
+    {
         $uc = Order::findOrFail($id);
         $uc->update([
             'ce' => $request->ce,
@@ -123,47 +142,50 @@ class AdminController extends Controller
             'contact' => $request->contact,
             'amount' => $request->amount,
             'our_amount' => $request->our_amount,
-            'work_type_id' => $request->work_type,
+            'work_type_id' => $request->work_type_id,
             'script' => $request->script,
             'shoot' => $request->shoot,
             'work_status' => $request->work_status,
+            'editor_id'=> $request->editor_id,
             'payment_status' => $request->payment_status,
             'cash' => $request->cash,
         ]);
 
 
         $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
-        if($request->amount > $request->amountold){
+        if ($request->amount > $request->amountold) {
             $invoice->update([
                 'total' => $invoice->total + ($request->amount - $request->amountold)
             ]);
-        }else{
+        } else {
             $invoice->update([
                 'total' => $invoice->total - ($request->amountold - $request->amount)
             ]);
         }
-    
+
         return redirect()->back()->with('success', 'Video Order Update Done');
     }
-    
 
-    public function indexOR(){
+
+    public function indexOR()
+    {
         $user = Auth::user();
 
         // 2. Parse their from_date/to_date (and optionally normalize to full days)
         $from = Carbon::parse($user->from_date)->startOfDay();
-        $to   = Carbon::parse($user->to_date)->endOfDay();
+        $to = Carbon::parse($user->to_date)->endOfDay();
 
         $invoices = Invoice::where('due_date', Carbon::today())->get();
         $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])->orderBy('date')
-        ->where('ps', '1')
-        ->orderBy('created_at', 'desc')->get();
+            ->where('ps', '1')
+            ->orderBy('created_at', 'desc')->get();
         $slips = Slip::all();
         $users = User::all();
-        return view('admin.admin-ordersOR', compact('other_orders',  'users', 'slips', 'invoices'));
+        return view('admin.admin-ordersOR', compact('other_orders', 'users', 'slips', 'invoices'));
     }
 
-    public function updateOrAD(Request $request, $id){
+    public function updateOrAD(Request $request, $id)
+    {
         $uc = OtherOrder::findOrFail($id);
         $uc->update([
             'ce' => $request->ce,
@@ -177,11 +199,11 @@ class AdminController extends Controller
         ]);
 
         $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
-        if($request->amount > $request->amountold){
+        if ($request->amount > $request->amountold) {
             $invoice->update([
                 'total' => $invoice->total + ($request->amount - $request->amountold)
             ]);
-        }else{
+        } else {
             $invoice->update([
                 'total' => $invoice->total - ($request->amountold - $request->amount)
             ]);
@@ -189,21 +211,23 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Other Order Update Done');
     }
 
-    public function updateSheetView(){
+    public function updateSheetView()
+    {
         $user = Auth::user();
 
         // 2. Parse their from_date/to_date (and optionally normalize to full days)
         $from = Carbon::parse($user->from_date)->startOfDay();
-        $to   = Carbon::parse($user->to_date)->endOfDay();
+        $to = Carbon::parse($user->to_date)->endOfDay();
 
         $orders = OrderUpdate::whereBetween('date', [$from, $to])->orderBy('date', 'desc')->get();
         $users = User::all();
         $invoices = Invoice::where('due_date', Carbon::today())->get();
         $work_types = WorkType::all();
-        return view('admin.update-sheet', compact('orders',  'users', 'invoices', 'work_types'));
+        return view('admin.update-sheet', compact('orders', 'users', 'invoices', 'work_types'));
     }
 
-    public function BoostingUpdateSheet(Request $request){
+    public function BoostingUpdateSheet(Request $request)
+    {
         $order = Order::findOrFail($request->order_id);
         OrderUpdate::create([
             'order_id' => $request->order_id,
@@ -222,7 +246,8 @@ class AdminController extends Controller
         return redirect()->route('updatesheetView')->with('success', 'Order Added To update sheet');
     }
 
-    public function BoostingUpdateSheetEdit(Request $request, $id){
+    public function BoostingUpdateSheetEdit(Request $request, $id)
+    {
         $order = OrderUpdate::findOrFail($id);
         $order->update($request->all());
         return redirect()->route('updatesheetView')->with('success', 'update Done');

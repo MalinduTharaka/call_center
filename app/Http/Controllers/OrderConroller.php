@@ -24,80 +24,126 @@ class OrderConroller extends Controller
     public function index()
     {
         $user = Auth::user();
-
-        // 2. Parse their from_date/to_date (and optionally normalize to full days)
         $from = Carbon::parse($user->from_date)->startOfDay();
-        $to   = Carbon::parse($user->to_date)->endOfDay();
+        $to = Carbon::parse($user->to_date)->endOfDay();
 
         $orders = Order::whereBetween('created_at', [$from, $to])
-        ->where('ps', '1')
-        ->where( 'cro', Auth::user()->cc_num)
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->where('cro', $user->cc_num)
+            ->orderBy('created_at', 'desc')
+            ->paginate(50);
+
         $packages = Package::all();
         $users = User::all();
         $invoices = Invoice::all();
         $work_types = WorkType::all();
         $video_pkgs = VideoPkg::all();
         $other_orders = OtherOrder::all();
-        return view('call_center.new-orders', compact('orders', 'packages', 'users', 'invoices', 'work_types', 'video_pkgs', 'other_orders'));
-    }
 
-    public function store_solo(Request $request){
-    // Create the invoice
-    $invoice = Invoice::create([
-        'date' => $request->date,
-        'contact' => $request->contact,
-        'inv' => $request->inv,
-        'total' => $request->total,
-        'user_id' => Auth::id(),
-        'cc_num' => Auth::user()->cc_num,
-        'type' => $request->type,
-    ]);
+        if (request()->ajax()) {
+            $type = request()->input('type');
 
-    // Update the InvoiceId status to 'submitted'
-    $invrw = InvoiceId::findOrFail($request->inv_no);
-    $invrw->update(['status' => 'submitted']);
-
-    // Check if contact already exists in orders table
-    $isExistingContact = Order::where('contact', $request->contact)->exists();
-    $oldNewValue = $isExistingContact ? 'old' : 'new';
-
-    // Loop through each order in the request and save them
-    foreach ($request->orders as $orderData) {
-        $order = [
-            'order_type' => $orderData['order_type'],
-            'cro' => auth()->user()->cc_num,
-            'old_new' => $oldNewValue,
-            'date' => $request->date,
-            'name' => $request->name,
-            'contact' => $request->contact,
-            'invoice' => $request->inv,
-            'add_acc' => '4',
-            'work_type_id' => $orderData['work_type'],
-            'uid' => Auth::id(),
-        ];
-
-        // Set fields based on order type
-        if ($orderData['order_type'] === 'boosting') {
-            $order['package_amt'] = $orderData['package_amt'];
-            $order['tax'] = $orderData['tax'];
-            $order['service'] = $orderData['service'];
-        }elseif($orderData['order_type'] === 'video'){
-            $order['video_time'] = $orderData['time'];
-            $order['amount'] = $orderData['amount'];
-        } else {
-            $order['amount'] = $orderData['amount'];
+            if ($type === 'boosting') {
+                return view('call_center.partials.boosting-orders', compact(
+                    'orders',
+                    'packages',
+                    'users',
+                    'invoices',
+                    'work_types',
+                    'video_pkgs',
+                    'other_orders'
+                ))->render();
+            } elseif ($type === 'designs') {
+                return view('call_center.partials.design-orders', compact(
+                    'orders',
+                    'packages',
+                    'users',
+                    'invoices',
+                    'work_types',
+                    'video_pkgs',
+                    'other_orders'
+                ))->render();
+            } elseif ($type === 'video') {
+                return view('call_center.partials.video-orders', compact(
+                    'orders',
+                    'packages',
+                    'users',
+                    'invoices',
+                    'work_types',
+                    'video_pkgs',
+                    'other_orders'
+                ))->render();
+            }
         }
 
-        Order::create($order);
+        return view('call_center.new-orders', compact(
+            'orders',
+            'packages',
+            'users',
+            'invoices',
+            'work_types',
+            'video_pkgs',
+            'other_orders'
+        ));
     }
 
-    return redirect('/new/orders')->with('success', 'Orders created successfully');
+
+    public function store_solo(Request $request)
+    {
+        // Create the invoice
+        $invoice = Invoice::create([
+            'date' => $request->date,
+            'contact' => $request->contact,
+            'inv' => $request->inv,
+            'total' => $request->total,
+            'user_id' => Auth::id(),
+            'cc_num' => Auth::user()->cc_num,
+            'type' => $request->type,
+        ]);
+
+        // Update the InvoiceId status to 'submitted'
+        $invrw = InvoiceId::findOrFail($request->inv_no);
+        $invrw->update(['status' => 'submitted']);
+
+        // Check if contact already exists in orders table
+        $isExistingContact = Order::where('contact', $request->contact)->exists();
+        $oldNewValue = $isExistingContact ? 'old' : 'new';
+
+        // Loop through each order in the request and save them
+        foreach ($request->orders as $orderData) {
+            $order = [
+                'order_type' => $orderData['order_type'],
+                'cro' => auth()->user()->cc_num,
+                'old_new' => $oldNewValue,
+                'date' => $request->date,
+                'name' => $request->name,
+                'contact' => $request->contact,
+                'invoice' => $request->inv,
+                'add_acc' => '4',
+                'work_type_id' => $orderData['work_type'],
+                'uid' => Auth::id(),
+            ];
+
+            // Set fields based on order type
+            if ($orderData['order_type'] === 'boosting') {
+                $order['package_amt'] = $orderData['package_amt'];
+                $order['tax'] = $orderData['tax'];
+                $order['service'] = $orderData['service'];
+            } elseif ($orderData['order_type'] === 'video') {
+                $order['video_time'] = $orderData['time'];
+                $order['amount'] = $orderData['amount'];
+            } else {
+                $order['amount'] = $orderData['amount'];
+            }
+
+            Order::create($order);
+        }
+
+        return redirect('/new/orders')->with('success', 'Orders created successfully');
 
     }
 
-    public function store_two(Request $request) {
+    public function store_two(Request $request)
+    {
         // Create the invoice
         $invoice = Invoice::create([
             'date' => $request->date,
@@ -108,7 +154,7 @@ class OrderConroller extends Controller
             'cc_num' => Auth::user()->cc_num,
             'type' => $request->type
         ]);
-    
+
         // Update invoice ID status
         $invrw = InvoiceId::findOrFail($request->inv_no);
         $invrw->update(['status' => 'submitted']);
@@ -117,7 +163,7 @@ class OrderConroller extends Controller
         $isExistingContact = Order::where('contact', $request->contact)->exists();
         $oldNewValue = $isExistingContact ? 'old' : 'new';
 
-    
+
         // Process each order
         foreach ($request->orders as $orderData) {
             $order = [
@@ -132,28 +178,29 @@ class OrderConroller extends Controller
                 'work_type_id' => $orderData['work_type'],
                 'uid' => Auth::id(),
             ];
-    
+
             // Add type-specific fields
             if ($orderData['order_type'] === 'boosting') {
                 $order['package_amt'] = $orderData['package_amt'];
                 $order['tax'] = $orderData['tax'];
                 $order['service'] = $orderData['service'];
-            }elseif($orderData['order_type'] === 'video'){
+            } elseif ($orderData['order_type'] === 'video') {
                 $order['video_time'] = $orderData['time'];
                 $order['amount'] = $orderData['amount'];
             } else {
                 $order['amount'] = $orderData['amount'];
             }
-    
+
             Order::create($order);
         }
-    
+
         return redirect('/new/orders')->with('success', 'Orders created successfully');
-    
+
 
     }
-    
-    public function store_all(Request $request){
+
+    public function store_all(Request $request)
+    {
         // Create the invoice
         $invoice = Invoice::create([
             'date' => $request->date,
@@ -164,7 +211,7 @@ class OrderConroller extends Controller
             'cc_num' => Auth::user()->cc_num,
             'type' => $request->type
         ]);
-    
+
         // Update invoice ID status correctly
         $invrw = InvoiceId::findOrFail($request->inv_no);
         $invrw->update(['status' => 'submitted']);
@@ -173,7 +220,7 @@ class OrderConroller extends Controller
         $isExistingContact = Order::where('contact', $request->contact)->exists();
         $oldNewValue = $isExistingContact ? 'old' : 'new';
 
-    
+
         // Process each order submitted from the hidden inputs
         foreach ($request->orders as $orderData) {
             $order = [
@@ -188,31 +235,31 @@ class OrderConroller extends Controller
                 'work_type_id' => $orderData['work_type'],
                 'uid' => Auth::id(),
             ];
-    
+
             if ($orderData['order_type'] === 'boosting') {
                 $order['package_amt'] = $orderData['package_amt'];
                 $order['tax'] = $orderData['tax'];
                 $order['service'] = $orderData['service'];
-            }elseif($orderData['order_type'] === 'video'){
+            } elseif ($orderData['order_type'] === 'video') {
                 $order['video_time'] = $orderData['time'];
                 $order['amount'] = $orderData['amount'];
             } else {
                 $order['amount'] = $orderData['amount'];
             }
-    
+
             // Create order record
             Order::create($order);
         }
-    
+
         return redirect('/new/orders')->with('success', 'Order created successfully');
     }
-    
+
     public function updateBoostingOrders(Request $request, $id)
     {
         $order = Order::findOrFail($id);
         $order->update($request->all()); // Updates all fields from the request
 
-        if($request->payment_status == 'pending' || $request->payment_status == 'partial' || $request->payment_status == 'rejected'){
+        if ($request->payment_status == 'pending' || $request->payment_status == 'partial' || $request->payment_status == 'rejected') {
             $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
             $invoice->update(['status' => 'pending']);
             // $orders = Order::where('invoice', $request->inv)->firstOrFail();
@@ -227,19 +274,19 @@ class OrderConroller extends Controller
         $order = Order::findOrFail($id);
         $order->update($request->all()); // Updates all fields from the request
 
-        
 
-        if($request->payment_status == 'pending' || $request->payment_status == 'partial' || $request->payment_status == 'rejected'){
+
+        if ($request->payment_status == 'pending' || $request->payment_status == 'partial' || $request->payment_status == 'rejected') {
             $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
             $invoice->update(['status' => 'pending']);
             // $orders = Order::where('invoice', $request->inv)->firstOrFail();
             // $orders->update(['payment_status' => $request->payment_status]);
         }
-        
+
 
         return response()->json(['success' => 'Order updated successfully!']);
 
-        
+
 
     }
 
@@ -248,7 +295,7 @@ class OrderConroller extends Controller
         $order = Order::findOrFail($id);
         $order->update($request->all()); // Updates all fields from the request
 
-        if($request->payment_status == 'pending' || $request->payment_status == 'partial' || $request->payment_status == 'rejected'){
+        if ($request->payment_status == 'pending' || $request->payment_status == 'partial' || $request->payment_status == 'rejected') {
             $invoice = Invoice::where('inv', $request->inv)->firstOrFail();
             $invoice->update(['status' => 'pending']);
             // $orders = Order::where('invoice', $request->inv)->firstOrFail();
@@ -261,9 +308,9 @@ class OrderConroller extends Controller
     public function getOrderTypes($inv)
     {
         $orderTypes = Order::where('invoice', $inv)
-                        ->distinct()
-                        ->pluck('order_type')
-                        ->toArray();
+            ->distinct()
+            ->pluck('order_type')
+            ->toArray();
 
         return response()->json($orderTypes);
     }
