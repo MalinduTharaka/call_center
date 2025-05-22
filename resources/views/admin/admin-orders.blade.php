@@ -216,11 +216,11 @@
                                         const invoice = button.getAttribute('data-invoice');
 
                                         slipContent.innerHTML = `
-                                                <div class="text-center">
-                                                    <div class="spinner-border" role="status">
-                                                        <span class="visually-hidden">Loading...</span>
-                                                    </div>
-                                                </div>`;
+                                                    <div class="text-center">
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>`;
 
                                         fetch(`/orders/get-slips/${invoice}`)
                                             .then(response => response.json())
@@ -233,10 +233,10 @@
                                                 let content = '';
                                                 data.forEach(slip => {
                                                     content += `
-                                                            <div class="mb-3">
-                                                                <p><strong>Bank Name:</strong> ${slip.bank}</p>
-                                                                ${getSlipContent(slip)}
-                                                            </div>`;
+                                                                <div class="mb-3">
+                                                                    <p><strong>Bank Name:</strong> ${slip.bank}</p>
+                                                                    ${getSlipContent(slip)}
+                                                                </div>`;
                                                 });
                                                 slipContent.innerHTML = content;
                                             })
@@ -250,15 +250,15 @@
                                         const extension = slip.type.toLowerCase();
                                         if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
                                             return `<a href="${slip.path}" target="_blank">
-                                                            <img src="${slip.path}" alt="Slip Image" 
-                                                                 class="img-fluid rounded" 
-                                                                 style="width: 300px; height: 200px;">
-                                                        </a>`;
+                                                                <img src="${slip.path}" alt="Slip Image" 
+                                                                     class="img-fluid rounded" 
+                                                                     style="width: 300px; height: 200px;">
+                                                            </a>`;
                                         }
                                         if (extension === 'pdf') {
                                             return `<iframe src="${slip.path}" 
-                                                                width="100%" height="400px" 
-                                                                style="border: none;"></iframe>`;
+                                                                    width="100%" height="400px" 
+                                                                    style="border: none;"></iframe>`;
                                         }
                                         return '<p>Unsupported file type.</p>';
                                     }
@@ -499,56 +499,98 @@
         });
     </script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let currentlyEditing = null;
+        document.addEventListener('DOMContentLoaded', function () {
+            let currentlyEditingRow = null;
 
-            // Edit button functionality for all tabs
-            document.querySelectorAll('.edit-btn').forEach(button => {
-                button.addEventListener('click', function (e) {
-                    e
-                        .stopPropagation(); // Prevent this click from triggering the document click handler
-
-                    // If another row is being edited, revert it first
-                    if (currentlyEditing && currentlyEditing !== this.closest('tr')) {
-                        currentlyEditing.classList.remove('editing');
-                    }
-
-                    const row = this.closest('tr');
-                    row.classList.add('editing');
-                    currentlyEditing = row;
-                });
-            });
-
-            // Done button functionality for all tabs
-            document.querySelectorAll('.done-btnb, .done-btnd, .done-btnv').forEach(button => {
-                button.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    const row = this.closest('tr');
-                    const form = row.querySelector('form');
-                    form.submit();
-                    row.classList.remove('editing');
-                    currentlyEditing = null;
-                });
-            });
-
-            // Click anywhere to cancel edit mode
+            // Close edit mode when clicking outside
             document.addEventListener('click', function (e) {
-                if (currentlyEditing && !currentlyEditing.contains(e.target)) {
-                    currentlyEditing.classList.remove('editing');
-                    currentlyEditing = null;
+                if (!currentlyEditingRow) return;
+
+                const clickedInside = currentlyEditingRow.contains(e.target) ||
+                    e.target.classList.contains('edit-btn');
+
+                if (!clickedInside) {
+                    currentlyEditingRow.classList.remove('editing');
+                    currentlyEditingRow = null;
                 }
             });
 
-            // Prevent clicks inside edit forms from bubbling up
-            document.querySelectorAll('.edit-mode').forEach(element => {
-                element.addEventListener('click', function (e) {
+            // Edit button handler
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('edit-btn')) {
                     e.stopPropagation();
-                });
-            });
 
-            // Rest of your existing JavaScript...
+                    if (currentlyEditingRow) {
+                        currentlyEditingRow.classList.remove('editing');
+                    }
+
+                    const row = e.target.closest('tr');
+                    row.classList.add('editing');
+                    currentlyEditingRow = row;
+                }
+            });
         });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('click', function (e) {
+        let endpoint = null;
+
+        if (e.target.classList.contains('done-btnb')) endpoint = 'boosting';
+        else if (e.target.classList.contains('done-btnd')) endpoint = 'designs';
+        else if (e.target.classList.contains('done-btnv')) endpoint = 'video';
+
+        if (endpoint) {
+            const row = e.target.closest('tr');
+            const orderId = row.dataset.orderId;
+
+            const payload = {};
+            row.querySelectorAll('input, select, textarea').forEach(input => {
+                if (input.name) {
+                    payload[input.name] = input.value;
+                }
+            });
+
+            payload['_method'] = 'PUT'; // Laravel spoofing
+
+            fetch(`/orders/${endpoint}/update/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to update');
+                return res.json();
+            })
+            .then(data => {
+                showAlert('Updated successfully', 'success');
+                row.classList.remove('editing');
+                setTimeout(() => location.reload(), 800);
+            })
+            .catch(err => {
+                console.error(err);
+                showAlert('Update failed', 'danger');
+            });
+        }
+    });
+
+    function showAlert(message, type) {
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${type} alert-dismissible fade show`;
+        alert.innerHTML = `
+            <strong>${type === 'success' ? 'Success' : 'Error'}:</strong> ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.body.prepend(alert);
+        setTimeout(() => alert.remove(), 3000);
+    }
+});
+</script>
+
 
     <style>
         /* Fixed height scrollable tables with sticky headers */

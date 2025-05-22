@@ -31,7 +31,7 @@ class AdminController extends Controller
             ->paginate(50); // paginate instead of get()
 
         $users = User::all();
-        $invoices = Invoice::where('due_date', Carbon::today())->get();
+        $invoices = Invoice::all();
         $work_types = WorkType::all();
 
         if ($request->ajax()) {
@@ -175,7 +175,7 @@ class AdminController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to = Carbon::parse($user->to_date)->endOfDay();
 
-        $invoices = Invoice::where('due_date', Carbon::today())->get();
+        $invoices = Invoice::all();
         $other_orders = OtherOrder::whereBetween('created_at', [$from, $to])->orderBy('date')
             ->where('ps', '1')
             ->orderBy('created_at', 'desc')->get();

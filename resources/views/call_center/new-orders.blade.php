@@ -278,11 +278,11 @@
                                         const invoice = button.getAttribute('data-invoice');
 
                                         slipContent.innerHTML = `
-                                                <div class="text-center">
-                                                    <div class="spinner-border" role="status">
-                                                        <span class="visually-hidden">Loading...</span>
-                                                    </div>
-                                                </div>`;
+                                                            <div class="text-center">
+                                                                <div class="spinner-border" role="status">
+                                                                    <span class="visually-hidden">Loading...</span>
+                                                                </div>
+                                                            </div>`;
 
                                         fetch(`/orders/get-slips/${invoice}`)
                                             .then(response => response.json())
@@ -295,10 +295,10 @@
                                                 let content = '';
                                                 data.forEach(slip => {
                                                     content += `
-                                                            <div class="mb-3">
-                                                                <p><strong>Bank Name:</strong> ${slip.bank}</p>
-                                                                ${getSlipContent(slip)}
-                                                            </div>`;
+                                                                        <div class="mb-3">
+                                                                            <p><strong>Bank Name:</strong> ${slip.bank}</p>
+                                                                            ${getSlipContent(slip)}
+                                                                        </div>`;
                                                 });
                                                 slipContent.innerHTML = content;
                                             })
@@ -312,15 +312,15 @@
                                         const extension = slip.type.toLowerCase();
                                         if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
                                             return `<a href="${slip.path}" target="_blank">
-                                                            <img src="${slip.path}" alt="Slip Image" 
-                                                                 class="img-fluid rounded" 
-                                                                 style="width: 300px; height: 200px;">
-                                                        </a>`;
+                                                                        <img src="${slip.path}" alt="Slip Image" 
+                                                                             class="img-fluid rounded" 
+                                                                             style="width: 300px; height: 200px;">
+                                                                    </a>`;
                                         }
                                         if (extension === 'pdf') {
                                             return `<iframe src="${slip.path}" 
-                                                                width="100%" height="400px" 
-                                                                style="border: none;"></iframe>`;
+                                                                            width="100%" height="400px" 
+                                                                            style="border: none;"></iframe>`;
                                         }
                                         return '<p>Unsupported file type.</p>';
                                     }
@@ -476,81 +476,147 @@
                                         });
 
                                         // Edit button handler
-                                        document.querySelectorAll('.edit-btn').forEach(button => {
-                                            button.addEventListener('click', function (e) {
+                                        document.addEventListener('click', function (e) {
+                                            if (e.target.classList.contains('edit-btn')) {
                                                 e.stopPropagation();
+
                                                 if (currentlyEditingRow) {
                                                     currentlyEditingRow.classList.remove('editing');
                                                 }
-                                                const row = this.closest('tr');
+
+                                                const row = e.target.closest('tr');
                                                 row.classList.add('editing');
                                                 currentlyEditingRow = row;
-                                            });
-                                        });
-
-                                        // Generic done button handler
-                                        function handleDoneButton(endpoint) {
-                                            return function (e) {
-                                                e.stopPropagation();
-                                                const row = this.closest('tr');
-                                                submitForm(row, endpoint);
                                             }
-                                        }
-
-                                        // Assign handlers to all done buttons
-                                        document.querySelectorAll('.done-btnb').forEach(btn => {
-                                            btn.addEventListener('click', handleDoneButton('boosting'));
                                         });
-                                        document.querySelectorAll('.done-btnd').forEach(btn => {
-                                            btn.addEventListener('click', handleDoneButton('designs'));
-                                        });
-                                        document.querySelectorAll('.done-btnv').forEach(btn => {
-                                            btn.addEventListener('click', handleDoneButton('video'));
-                                        });
+                                    });
+                                </script>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        document.addEventListener('click', function (e) {
+                                            if (e.target.classList.contains('done-btnb')) {
+                                                const row = e.target.closest('tr');
+                                                const orderId = row.dataset.orderId;
+                                                const endpoint = 'boosting'; // adjust for designs/video
 
-                                        // Form submission function
-                                        function submitForm(row, endpoint) {
-                                            const orderId = row.dataset.orderId;
-                                            const formData = new FormData(row.querySelector('form'));
-
-                                            fetch(`/orders/${endpoint}/update/${orderId}`, {
-                                                method: 'POST',
-                                                headers: {
-                                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                                                    'X-Requested-With': 'XMLHttpRequest'
-                                                },
-                                                body: formData
-                                            })
-                                                .then(response => {
-                                                    if (!response.ok) throw new Error(response.statusText);
-                                                    return response.json();
-                                                })
-                                                .then(data => {
-                                                    row.classList.remove('editing');
-                                                    currentlyEditingRow = null;
-                                                    showAlert('Updated successfully', 'success');
-                                                    setTimeout(() => location.reload(), 1500);
-                                                })
-                                                .catch(error => {
-                                                    console.error('Error:', error);
-                                                    showAlert('Update failed', 'danger');
+                                                const payload = {};
+                                                row.querySelectorAll('input, select, textarea').forEach(input => {
+                                                    payload[input.name] = input.value;
                                                 });
-                                        }
 
-                                        // Alert functions
+                                                // Add _method manually for Laravel PUT spoofing
+                                                payload['_method'] = 'PUT';
+
+                                                fetch(`/orders/${endpoint}/update/${orderId}`, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                                        'X-Requested-With': 'XMLHttpRequest'
+                                                    },
+                                                    body: JSON.stringify(payload)
+                                                })
+                                                    .then(res => {
+                                                        if (!res.ok) throw new Error('Update failed');
+                                                        return res.json();
+                                                    })
+                                                    .then(data => {
+                                                        showAlert('Updated successfully', 'success');
+                                                        row.classList.remove('editing');
+                                                        setTimeout(() => location.reload(), 1000);
+                                                    })
+                                                    .catch(error => {
+                                                        console.error(error);
+                                                        showAlert('Update failed', 'danger');
+                                                    });
+                                            }
+                                            if (e.target.classList.contains('done-btnd')) {
+                                                const row = e.target.closest('tr');
+                                                const orderId = row.dataset.orderId;
+                                                const endpoint = 'designs'; // adjust for designs/video
+
+                                                const payload = {};
+                                                row.querySelectorAll('input, select, textarea').forEach(input => {
+                                                    payload[input.name] = input.value;
+                                                });
+
+                                                // Add _method manually for Laravel PUT spoofing
+                                                payload['_method'] = 'PUT';
+
+                                                fetch(`/orders/${endpoint}/update/${orderId}`, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                                        'X-Requested-With': 'XMLHttpRequest'
+                                                    },
+                                                    body: JSON.stringify(payload)
+                                                })
+                                                    .then(res => {
+                                                        if (!res.ok) throw new Error('Update failed');
+                                                        return res.json();
+                                                    })
+                                                    .then(data => {
+                                                        showAlert('Updated successfully', 'success');
+                                                        row.classList.remove('editing');
+                                                        setTimeout(() => location.reload(), 1000);
+                                                    })
+                                                    .catch(error => {
+                                                        console.error(error);
+                                                        showAlert('Update failed', 'danger');
+                                                    });
+                                            }
+                                            if (e.target.classList.contains('done-btnv')) {
+                                                const row = e.target.closest('tr');
+                                                const orderId = row.dataset.orderId;
+                                                const endpoint = 'video'; // adjust for designs/video
+
+                                                const payload = {};
+                                                row.querySelectorAll('input, select, textarea').forEach(input => {
+                                                    payload[input.name] = input.value;
+                                                });
+
+                                                // Add _method manually for Laravel PUT spoofing
+                                                payload['_method'] = 'PUT';
+
+                                                fetch(`/orders/${endpoint}/update/${orderId}`, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                                        'X-Requested-With': 'XMLHttpRequest'
+                                                    },
+                                                    body: JSON.stringify(payload)
+                                                })
+                                                    .then(res => {
+                                                        if (!res.ok) throw new Error('Update failed');
+                                                        return res.json();
+                                                    })
+                                                    .then(data => {
+                                                        showAlert('Updated successfully', 'success');
+                                                        row.classList.remove('editing');
+                                                        setTimeout(() => location.reload(), 1000);
+                                                    })
+                                                    .catch(error => {
+                                                        console.error(error);
+                                                        showAlert('Update failed', 'danger');
+                                                    });
+                                            }
+                                        });
+
                                         function showAlert(message, type) {
                                             const alertBox = document.createElement('div');
                                             alertBox.className = `alert alert-${type} alert-dismissible fade show`;
                                             alertBox.innerHTML = `
-                                                                    <strong>${type.charAt(0).toUpperCase() + type.slice(1)}!</strong> ${message}
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                                                `;
-
+                                                    <strong>${type === 'success' ? 'Success' : 'Error'}!</strong> ${message}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                `;
                                             document.body.prepend(alertBox);
                                             setTimeout(() => alertBox.remove(), 3000);
                                         }
                                     });
                                 </script>
+
                             </div> <!-- tab-content -->
                         </div> <!-- end #basicwizard-->
                     </div> <!-- end card-body -->
