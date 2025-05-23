@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('work_status')->nullable();
             $table->text('update')->nullable();
             $table->unsignedBigInteger('advertiser_id')->nullable();
-            $table->string('add_acc_id')->nullable();
+            $table->text('add_acc_id')->nullable();
             $table->string('add_acc')->nullable();
             $table->timestamps();
         });

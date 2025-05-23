@@ -12,12 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('order_updates', function (Blueprint $table) {
-            // Modify column type
-            $table->text('add_acc_id')->change();
 
             // Add new columns
             $table->unsignedBigInteger('advertiser_id_new')->nullable()->after('advertiser_id');
-            $table->text('add_acc_id_new')->nullable()->after('add_acc_id');
+            $table->text('add_acc_id_new')->nullable()->after('add_acc_id')->nullable();
             $table->unsignedBigInteger('upsheet_uid')->nullable()->after('add_acc_id_new');
 
             // Change default of work_status

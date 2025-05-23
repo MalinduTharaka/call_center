@@ -55,10 +55,6 @@ Route::middleware([
 
     //Order Routes
     Route::get('/new/orders', [OrderConroller::class, 'index'])->name('new.orders');
-    // Route::post('/store/boosting', [OrderConroller::class, 'storeB']);
-    // Route::post('/store/designs', [OrderConroller::class, 'storeA']);
-    // Route::post('/store/video', [OrderConroller::class, 'storeV']);
-    // Route::post('/store/order', [OrderConroller::class, 'store']);
     Route::post('/order/store/solo', [OrderConroller::class, 'store_solo'])->name('order.store.solo');
     Route::post('/order/store/two', [OrderConroller::class, 'store_two'])->name('order.store.two');
     Route::post('/order/store/all', [OrderConroller::class, 'store_all'])->name('order.store.all');
@@ -91,9 +87,6 @@ Route::middleware([
     Route::delete('/packages/delete/{id}', [PackageController::class, 'deletepkg']) ->name('packages.delete');
 
     //Invoice Routes
-    // Route::get('/invoice-solo/{id}', [InvoiceController::class, 'invoicesolo'])->name('invoicesolo');
-    // Route::get('/invoice-two/{id1}/{id2}', [InvoiceController::class, 'invoicetwo'])->name('invoicetwo');
-    // Route::get('/invoice-all/{id1}/{id2}/{id3}', [InvoiceController::class, 'invoiceall'])->name('invoiceall');
     Route::post('/new_invoice', [InvoiceController::class, 'new_invoice']);
 
     //Slip Routes
@@ -139,9 +132,9 @@ Route::middleware([
     Route::get('/qutToInv/{inv}', [QuotationManageController::class, 'qutToInv'])->name('qutToInv');
 
     //Advertiser Routes
-    Route::get('/advertisers/manage', [AdvertiserController::class, 'index'])->name('advertisers.index');
-    Route::get('/advertisers/design/view', [AdvertiserController::class, 'advertiserDesignView'])->name('advertisers.designView');
-    Route::put('/advertisers/update/{id}', [AdvertiserController::class, 'updateAdv'])->name('advertisers.update');
+    // Route::get('/advertisers/manage', [AdvertiserController::class, 'index'])->name('advertisers.index');
+    // Route::get('/advertisers/design/view', [AdvertiserController::class, 'advertiserDesignView'])->name('advertisers.designView');
+    // Route::put('/advertisers/update/{id}', [AdvertiserController::class, 'updateAdv'])->name('advertisers.update');
     Route::get('/advertisers_all_order/manage', [AdvertiserAllOrdersController::class, 'index'])->name('advertisers.index');
     Route::put('/advertisers_all_order/update/{id}', [AdvertiserAllOrdersController::class, 'updateAdvAll'])->name('advertisers.update');
     Route::get('/advertisers_all_order/body', [AdvertiserAllOrdersController::class, 'body'])->name('advertisers_all_order.body');

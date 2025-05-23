@@ -7,107 +7,6 @@
     <div class="offcanvas-body p-0">
         <div data-simplebar class="h-100">
             <div class="p-3">
-                <h5 class="mb-3 fs-16 fw-bold">Color Scheme</h5>
-
-                <div class="row">
-                    <div class="col-4">
-                        <div class="form-check form-switch card-switch mb-1">
-                            <input class="form-check-input" type="checkbox" name="data-bs-theme" id="layout-color-light" value="light">
-                            <label class="form-check-label" for="layout-color-light">
-                                <img src="{{ asset('assets/images/layouts/light.png')}}" alt="" class="img-fluid">
-                            </label>
-                        </div>
-                        <h5 class="font-14 text-center text-muted mt-2">Light</h5>
-                    </div>
-
-                    <div class="col-4">
-                        <div class="form-check form-switch card-switch mb-1">
-                            <input class="form-check-input" type="checkbox" name="data-bs-theme" id="layout-color-dark" value="dark">
-                            <label class="form-check-label" for="layout-color-dark">
-                                <img src="{{ asset('assets/images/layouts/dark.png')}}" alt="" class="img-fluid">
-                            </label>
-                        </div>
-                        <h5 class="font-14 text-center text-muted mt-2">Dark</h5>
-                    </div>
-                </div>
-
-                <div id="layout-width">
-                    <h5 class="my-3 fs-16 fw-bold">Layout Mode</h5>
-
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-check form-switch card-switch mb-1">
-                                <input class="form-check-input" type="checkbox" name="data-layout-mode" id="layout-mode-fluid" value="fluid">
-                                <label class="form-check-label" for="layout-mode-fluid">
-                                    <img src="{{ asset('assets/images/layouts/light.png')}}" alt="" class="img-fluid">
-                                </label>
-                            </div>
-                            <h5 class="font-14 text-center text-muted mt-2">Fluid</h5>
-                        </div>
-
-                        <div class="col-4">
-                            <div id="layout-boxed">
-                                <div class="form-check form-switch card-switch mb-1">
-                                    <input class="form-check-input" type="checkbox" name="data-layout-mode" id="layout-mode-boxed" value="boxed">
-                                    <label class="form-check-label" for="layout-mode-boxed">
-                                        <img src="{{ asset('assets/images/layouts/boxed.png')}}" alt="" class="img-fluid">
-                                    </label>
-                                </div>
-                                <h5 class="font-14 text-center text-muted mt-2">Boxed</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h5 class="my-3 fs-16 fw-bold">Topbar Color</h5>
-
-                <div class="row">
-                    <div class="col-4">
-                        <div class="form-check form-switch card-switch mb-1">
-                            <input class="form-check-input" type="checkbox" name="data-topbar-color" id="topbar-color-light" value="light">
-                            <label class="form-check-label" for="topbar-color-light">
-                                <img src="{{ asset('assets/images/layouts/light.png')}}" alt="" class="img-fluid">
-                            </label>
-                        </div>
-                        <h5 class="font-14 text-center text-muted mt-2">Light</h5>
-                    </div>
-
-                    <div class="col-4">
-                        <div class="form-check form-switch card-switch mb-1">
-                            <input class="form-check-input" type="checkbox" name="data-topbar-color" id="topbar-color-dark" value="dark">
-                            <label class="form-check-label" for="topbar-color-dark">
-                                <img src="{{ asset('assets/images/layouts/topbar-dark.png')}}" alt="" class="img-fluid">
-                            </label>
-                        </div>
-                        <h5 class="font-14 text-center text-muted mt-2">Dark</h5>
-                    </div>
-                </div>
-
-                <div>
-                    <h5 class="my-3 fs-16 fw-bold">Menu Color</h5>
-
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-check form-switch card-switch mb-1">
-                                <input class="form-check-input" type="checkbox" name="data-menu-color" id="leftbar-color-light" value="light">
-                                <label class="form-check-label" for="leftbar-color-light">
-                                    <img src="{{ asset('assets/images/layouts/sidebar-light.png')}}" alt="" class="img-fluid">
-                                </label>
-                            </div>
-                            <h5 class="font-14 text-center text-muted mt-2">Light</h5>
-                        </div>
-
-                        <div class="col-4">
-                            <div class="form-check form-switch card-switch mb-1">
-                                <input class="form-check-input" type="checkbox" name="data-menu-color" id="leftbar-color-dark" value="dark">
-                                <label class="form-check-label" for="leftbar-color-dark">
-                                    <img src="{{ asset('assets/images/layouts/light.png')}}" alt="" class="img-fluid">
-                                </label>
-                            </div>
-                            <h5 class="font-14 text-center text-muted mt-2">Dark</h5>
-                        </div>
-                    </div>
-                </div>
 
                 <div id="sidebar-size">
                     <h5 class="my-3 fs-16 fw-bold">Sidebar Size</h5>
@@ -153,18 +52,6 @@
                             </div>
                             <h5 class="font-14 text-center text-muted mt-2">Full Layout</h5>
                         </div>
-                    </div>
-                </div>
-
-                <div id="layout-position">
-                    <h5 class="my-3 fs-16 fw-bold">Layout Position</h5>
-
-                    <div class="btn-group checkbox" role="group">
-                        <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-fixed" value="fixed">
-                        <label class="btn btn-soft-primary w-sm" for="layout-position-fixed">Fixed</label>
-
-                        <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-scrollable" value="scrollable">
-                        <label class="btn btn-soft-primary w-sm ms-0" for="layout-position-scrollable">Scrollable</label>
                     </div>
                 </div>
             </div>

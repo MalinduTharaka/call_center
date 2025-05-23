@@ -20,16 +20,13 @@ class AdvertiserAllOrdersController extends Controller
     {
 
         $user = Auth::user();
-
         // 2. Parse their from_date/to_date (and optionally normalize to full days)
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to = Carbon::parse($user->to_date)->endOfDay();
-
         $orders = Order::where('ps', '1')->where('order_type', 'boosting')->whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
-        $users = User::all();
+        $users = User::whereIn('role', ['adv', 'admin'])->get();
         $invoices = Invoice::where('due_date', Carbon::today())->get();
-        $work_types = WorkType::all();
-        return view('advertiser.advertiser-all-orders', compact('orders',  'users', 'invoices', 'work_types'));
+        return view('advertiser.advertiser-all-orders', compact('orders',  'users', 'invoices'));
     }
 
 
@@ -95,10 +92,6 @@ class AdvertiserAllOrdersController extends Controller
         ]);
     }
 
-
-
-
-
     public function body()
     {
         $user = Auth::user();
@@ -136,7 +129,7 @@ class AdvertiserAllOrdersController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-        $users = User::all();
+        $users = User::whereIn('role', ['adv', 'admin'])->get();
         return view('advertiser.all-order-body', compact('orders', 'users'));
     }
 

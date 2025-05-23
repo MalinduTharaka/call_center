@@ -94,11 +94,9 @@
                 <select name="advertiser_id" class="form-select edit-mode">
                     <option value="" selected>Select</option>
                     @foreach ($users as $user)
-                        @if ($user->role == 'adv' || $user->role == 'admin')
                             <option value="{{ $user->id }}" @if ($order->advertiser_id == $user->id) selected @endif>
                                 {{ $user->name }}
                             </option>
-                        @endif
                     @endforeach
                 </select>
             </td>
