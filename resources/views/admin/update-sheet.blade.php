@@ -21,10 +21,6 @@
     </script>
 
     <style>
-        /* tr[data-add-acc="1"] { background-color: #f8d7da; }
-        tr[data-add-acc="2"] { background-color: rgb(146, 217, 247); }
-        tr[data-add-acc="3"] { background-color: rgb(245, 247, 129); } */
-
         tr .edit-mode { display: none; }
         tr.editing .edit-mode { display: block; }
         tr.editing .display-mode { display: none; }
@@ -44,9 +40,15 @@
 
     <div class="row mt-3">
         <div class="card-header">
-            <h4 class="header-title mb-0">Update Sheet</h4>
+            <h2 class="header-title m-2">Update Sheet</h2>
         </div>
         <div class="col-12">
+            <div class="col-3 mb-3">
+                <div class="add-group">
+                    <button class="btn btn-success add-btn btn-lg" data-bs-toggle="modal" data-bs-target="#updatesheetadd">Add Update</button>
+                </div>
+                @include('includes.add-update-sheet-modal')
+            </div>
             <div class="col-3 mb-3">
                 <div class="input-group">
                     <input type="text" class="form-control search-input" placeholder="Search orders..."
@@ -58,10 +60,20 @@
                 <table class="table table-hover table-centered table-bordered border-primary mb-0">
                     <thead class="table-dark border-primary">
                         <tr>
-                            <th>ID</th><th>Slip<br>Upload<br>Date</th><th>CRO</th><th>Invoice</th>
-                            <th>Name<br>Company</th><th>Contact</th><th>Page</th><th>Work<br>Status</th>
-                            <th>Advertiser</th><th>U. Advertiser</th><th>Work<br>Type</th>
-                            <th>Add<br>Link</th><th>Update<br>Add<br>Link</th><th>Update</th><th>Action</th>
+                            <th>ID</th>
+                            <th>Slip<br>Upload<br>Date</th>
+                            <th>CRO</th><th>Invoice</th>
+                            <th>Name<br>Company</th>
+                            <th>Contact</th>
+                            <th>Page</th>
+                            <th>Work<br>Status</th>
+                            <th>Advertiser</th>
+                            <th>U. Advertiser</th>
+                            <th>Work<br>Type</th>
+                            <th>Add<br>Link</th>
+                            <th>Update<br>Add<br>Link</th>
+                            <th>Update</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,9 +89,10 @@
                                 <td>{{ $order->date->format('Y-m-d') }}</td>
                                 <td>{{ $order->plUser->name ?? '-' }}</td>
                                 <td>{{ $order->invoice_id }}</td>
-                                <td style="max-width:150px; word-wrap:break-word;">
+                                <td style="max-width:150px; word-break: break-word; white-space: normal;">
                                     {{ $order->name }}
                                 </td>
+
                                 <td>{{ $order->contact }}</td>
 
                                 {{-- Page --}}

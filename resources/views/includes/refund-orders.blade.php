@@ -45,7 +45,8 @@
 </div>
 <!-- Script section -->
 <script>
-  const orders = @json($orders); // orders must include id and invoice
+  const orders = @json($orders->items());
+ // orders must include id and invoice
 
   $(function () {
     // Initialize Select2 when modal opens

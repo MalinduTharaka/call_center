@@ -132,9 +132,6 @@ Route::middleware([
     Route::get('/qutToInv/{inv}', [QuotationManageController::class, 'qutToInv'])->name('qutToInv');
 
     //Advertiser Routes
-    // Route::get('/advertisers/manage', [AdvertiserController::class, 'index'])->name('advertisers.index');
-    // Route::get('/advertisers/design/view', [AdvertiserController::class, 'advertiserDesignView'])->name('advertisers.designView');
-    // Route::put('/advertisers/update/{id}', [AdvertiserController::class, 'updateAdv'])->name('advertisers.update');
     Route::get('/advertisers_all_order/manage', [AdvertiserAllOrdersController::class, 'index'])->name('advertisers.index');
     Route::put('/advertisers_all_order/update/{id}', [AdvertiserAllOrdersController::class, 'updateAdvAll'])->name('advertisers.update');
     Route::get('/advertisers_all_order/body', [AdvertiserAllOrdersController::class, 'body'])->name('advertisers_all_order.body');
@@ -179,6 +176,7 @@ Route::middleware([
     // Designers work done
     Route::get('/designer-work', [DesignersWorkDoneController::class, 'index'])->name('designer.work.index');
 
+    // CRO work done
     Route::get('/cro-work', [CroWorkDoneController::class, 'index'])->name('cro.work.index');
 
     //Profile Routes
@@ -222,6 +220,7 @@ Route::middleware([
     Route::post('/admin/update/sheet/add', [AdminController::class, 'BoostingUpdateSheet']);
     Route::get('/update/sheet', [AdminController::class, 'updateSheetView'])->name('updatesheetView');
     Route::put('/update/sheet/update/{id}', [AdminController::class, 'BoostingUpdateSheetEdit']);
+    Route::post('/update/sheet/manual/add', [AdminController::class, 'BoostingUpdateSheetManualAdd']);
     
     //Payment Edit Routes
     Route::put('/edit/payment/orders/{inv}', [AdminController::class, 'updatepaymentO']);

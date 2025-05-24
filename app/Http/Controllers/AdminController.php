@@ -146,7 +146,7 @@ class AdminController extends Controller
             'script' => $request->script,
             'shoot' => $request->shoot,
             'work_status' => $request->work_status,
-            'editor_id'=> $request->editor_id,
+            'editor_id' => $request->editor_id,
             'payment_status' => $request->payment_status,
             'cash' => $request->cash,
         ]);
@@ -219,10 +219,10 @@ class AdminController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = OrderUpdate::whereBetween('date', [$from, $to])->orderBy('date', 'desc')->get();
-        $users = User::all();
+        $orders = OrderUpdate::whereBetween('date', [$from, $to])->orderBy('created_at', 'desc')->get();
+        $users = User::whereIn('role', ['adv', 'admin'])->get();
         $invoices = Invoice::where('due_date', Carbon::today())->get();
-        $work_types = WorkType::all();
+        $work_types = WorkType::where('order_type', 'boosting')->get();
         return view('admin.update-sheet', compact('orders', 'users', 'invoices', 'work_types'));
     }
 
@@ -252,4 +252,25 @@ class AdminController extends Controller
         $order->update($request->all());
         return redirect()->route('updatesheetView')->with('success', 'update Done');
     }
+
+    public function BoostingUpdateSheetManualAdd(Request $request)
+    {
+        OrderUpdate::create([
+            'order_id' => $request->order_id,
+            'invoice_id' => $request->invoice_id,
+            'date' => Carbon::now(),
+            'name' => $request->name,
+            'cro' => Auth::user()->id,
+            'contact' => $request->contact,
+            'work_type' => $request->work_type,
+            'page' => $request->page,
+            'update' => $request->update,
+            'advertiser_id' => $request->advertiser_id,
+            'advertiser_id_new' => $request->advertiser_id_new,
+            'add_acc_id' => $request->add_acc_id,
+            'add_acc_id_new' => $request->add_acc_id_new,
+        ]);
+        return redirect()->back()->with('success', 'Order Added To update sheet');
+    }
+
 }

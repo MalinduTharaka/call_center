@@ -216,11 +216,11 @@
                                         const invoice = button.getAttribute('data-invoice');
 
                                         slipContent.innerHTML = `
-                                                    <div class="text-center">
-                                                        <div class="spinner-border" role="status">
-                                                            <span class="visually-hidden">Loading...</span>
-                                                        </div>
-                                                    </div>`;
+                                                            <div class="text-center">
+                                                                <div class="spinner-border" role="status">
+                                                                    <span class="visually-hidden">Loading...</span>
+                                                                </div>
+                                                            </div>`;
 
                                         fetch(`/orders/get-slips/${invoice}`)
                                             .then(response => response.json())
@@ -233,10 +233,10 @@
                                                 let content = '';
                                                 data.forEach(slip => {
                                                     content += `
-                                                                <div class="mb-3">
-                                                                    <p><strong>Bank Name:</strong> ${slip.bank}</p>
-                                                                    ${getSlipContent(slip)}
-                                                                </div>`;
+                                                                        <div class="mb-3">
+                                                                            <p><strong>Bank Name:</strong> ${slip.bank}</p>
+                                                                            ${getSlipContent(slip)}
+                                                                        </div>`;
                                                 });
                                                 slipContent.innerHTML = content;
                                             })
@@ -250,15 +250,15 @@
                                         const extension = slip.type.toLowerCase();
                                         if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
                                             return `<a href="${slip.path}" target="_blank">
-                                                                <img src="${slip.path}" alt="Slip Image" 
-                                                                     class="img-fluid rounded" 
-                                                                     style="width: 300px; height: 200px;">
-                                                            </a>`;
+                                                                        <img src="${slip.path}" alt="Slip Image" 
+                                                                             class="img-fluid rounded" 
+                                                                             style="width: 300px; height: 200px;">
+                                                                    </a>`;
                                         }
                                         if (extension === 'pdf') {
                                             return `<iframe src="${slip.path}" 
-                                                                    width="100%" height="400px" 
-                                                                    style="border: none;"></iframe>`;
+                                                                            width="100%" height="400px" 
+                                                                            style="border: none;"></iframe>`;
                                         }
                                         return '<p>Unsupported file type.</p>';
                                     }
@@ -413,6 +413,10 @@
             @include('includes.design-view')
         @endif
     @endforeach
+    <script>
+        // Declare globally
+        let searchActive = false;
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -477,25 +481,20 @@
             function performSearch(inputElement) {
                 const searchTerm = inputElement.value.trim().toLowerCase();
                 const targetTable = document.querySelector(inputElement.dataset.targetTable);
+                searchActive = !!searchTerm;
 
                 if (targetTable) {
                     const rows = targetTable.querySelectorAll('tbody tr');
-
                     rows.forEach(row => {
                         const cells = row.querySelectorAll('td');
-                        let found = false;
-
-                        cells.forEach(cell => {
-                            const cellText = cell.textContent.toLowerCase();
-                            if (cellText.includes(searchTerm)) {
-                                found = true;
-                            }
-                        });
-
+                        const found = Array.from(cells).some(cell =>
+                            cell.textContent.toLowerCase().includes(searchTerm)
+                        );
                         row.style.display = found ? '' : 'none';
                     });
                 }
             }
+
         });
     </script>
     <script>
@@ -532,64 +531,64 @@
         });
     </script>
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-    document.addEventListener('click', function (e) {
-        let endpoint = null;
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('click', function (e) {
+                let endpoint = null;
 
-        if (e.target.classList.contains('done-btnb')) endpoint = 'boosting';
-        else if (e.target.classList.contains('done-btnd')) endpoint = 'designs';
-        else if (e.target.classList.contains('done-btnv')) endpoint = 'video';
+                if (e.target.classList.contains('done-btnb')) endpoint = 'boosting';
+                else if (e.target.classList.contains('done-btnd')) endpoint = 'designs';
+                else if (e.target.classList.contains('done-btnv')) endpoint = 'video';
 
-        if (endpoint) {
-            const row = e.target.closest('tr');
-            const orderId = row.dataset.orderId;
+                if (endpoint) {
+                    const row = e.target.closest('tr');
+                    const orderId = row.dataset.orderId;
 
-            const payload = {};
-            row.querySelectorAll('input, select, textarea').forEach(input => {
-                if (input.name) {
-                    payload[input.name] = input.value;
+                    const payload = {};
+                    row.querySelectorAll('input, select, textarea').forEach(input => {
+                        if (input.name) {
+                            payload[input.name] = input.value;
+                        }
+                    });
+
+                    payload['_method'] = 'PUT'; // Laravel spoofing
+
+                    fetch(`/orders/${endpoint}/update/${orderId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify(payload)
+                    })
+                        .then(res => {
+                            if (!res.ok) throw new Error('Failed to update');
+                            return res.json();
+                        })
+                        .then(data => {
+                            showAlert('Updated successfully', 'success');
+                            row.classList.remove('editing');
+                            setTimeout(() => location.reload(), 800);
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            showAlert('Update failed', 'danger');
+                        });
                 }
             });
 
-            payload['_method'] = 'PUT'; // Laravel spoofing
-
-            fetch(`/orders/${endpoint}/update/${orderId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => {
-                if (!res.ok) throw new Error('Failed to update');
-                return res.json();
-            })
-            .then(data => {
-                showAlert('Updated successfully', 'success');
-                row.classList.remove('editing');
-                setTimeout(() => location.reload(), 800);
-            })
-            .catch(err => {
-                console.error(err);
-                showAlert('Update failed', 'danger');
-            });
-        }
-    });
-
-    function showAlert(message, type) {
-        const alert = document.createElement('div');
-        alert.className = `alert alert-${type} alert-dismissible fade show`;
-        alert.innerHTML = `
-            <strong>${type === 'success' ? 'Success' : 'Error'}:</strong> ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-        document.body.prepend(alert);
-        setTimeout(() => alert.remove(), 3000);
-    }
-});
-</script>
+            function showAlert(message, type) {
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${type} alert-dismissible fade show`;
+                alert.innerHTML = `
+                    <strong>${type === 'success' ? 'Success' : 'Error'}:</strong> ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                document.body.prepend(alert);
+                setTimeout(() => alert.remove(), 3000);
+            }
+        });
+    </script>
 
 
     <style>
@@ -651,42 +650,86 @@ document.addEventListener('DOMContentLoaded', function () {
     </script>
 
     <script>
-        let pages = { boosting: 1, designs: 1, video: 1 };
-        let isLoading = false;
+        document.addEventListener('DOMContentLoaded', function () {
+            const pages = { boosting: 1, designs: 1, video: 1 };
+            const isLoading = { boosting: false, designs: false, video: false };
+            const noMoreData = { boosting: false, designs: false, video: false };
 
-        document.addEventListener('scroll', function () {
-            const bottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 300;
-            if (!isLoading && bottom) {
-                const activeTab = document.querySelector('.tab-pane.active');
-                if (!activeTab) return;
-                let type = '';
-                if (activeTab.id === 'basictab1') type = 'boosting';
-                else if (activeTab.id === 'basictab2') type = 'designs';
-                else if (activeTab.id === 'basictab3') type = 'video';
+            const tabTypeMap = {
+                basictab1: 'boosting',
+                basictab2: 'designs',
+                basictab3: 'video'
+            };
 
-                loadMoreOrders(type, activeTab);
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                const tableContainer = pane.querySelector('.table-responsive');
+                if (!tableContainer) return;
+
+                tableContainer.addEventListener('scroll', function () {
+                    const tabId = pane.id;
+                    const type = tabTypeMap[tabId];
+
+                    if (searchActive || !type || isLoading[type] || noMoreData[type]) return;
+
+                    const nearBottom = tableContainer.scrollTop + tableContainer.clientHeight >= tableContainer.scrollHeight - 100;
+                    if (nearBottom) {
+                        const tbody = tableContainer.querySelector('tbody');
+                        if (tbody) {
+                            loadMore(type, tbody);
+                        }
+                    }
+                });
+            });
+
+            function showSpinner(tbody) {
+                if (!tbody.querySelector('.loading-spinner')) {
+                    tbody.insertAdjacentHTML('beforeend', `
+                            <tr class="loading-spinner">
+                                <td colspan="100%" class="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        `);
+                }
+            }
+
+            function hideSpinner(tbody) {
+                const spinner = tbody.querySelector('.loading-spinner');
+                if (spinner) spinner.remove();
+            }
+
+            function loadMore(type, tbody) {
+                isLoading[type] = true;
+                pages[type]++;
+                showSpinner(tbody);
+
+                fetch(`?page=${pages[type]}&type=${type}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(res => res.text())
+                    .then(html => {
+                        hideSpinner(tbody);
+                        if (html.trim() === '') {
+                            noMoreData[type] = true;
+                            tbody.insertAdjacentHTML('beforeend', `
+                                    <tr class="no-more-data">
+                                        <td colspan="100%" class="text-center text-muted">No more records</td>
+                                    </tr>
+                                `);
+                        } else {
+                            tbody.insertAdjacentHTML('beforeend', html);
+                            isLoading[type] = false;
+                        }
+                    })
+                    .catch(err => {
+                        console.error(`Failed to load ${type} data:`, err);
+                        hideSpinner(tbody);
+                        isLoading[type] = false;
+                    });
             }
         });
-
-        function loadMoreOrders(type, tab) {
-            isLoading = true;
-            pages[type]++;
-            const tableBody = tab.querySelector('tbody');
-            const url = `?page=${pages[type]}&type=${type}`;
-
-            fetch(url, {
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            })
-                .then(res => res.text())
-                .then(html => {
-                    tableBody.insertAdjacentHTML('beforeend', html);
-                    isLoading = false;
-                })
-                .catch(err => {
-                    console.error('Failed to load more orders:', err);
-                    isLoading = false;
-                });
-        }
     </script>
 
 @endsection

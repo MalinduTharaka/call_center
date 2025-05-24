@@ -34,10 +34,10 @@ class OrderConroller extends Controller
 
         $packages = Package::all();
         $users = User::all();
-        $invoices = Invoice::all();
+        $invoices = Invoice::where('user_id', Auth::user()->id)->get();
         $work_types = WorkType::all();
         $video_pkgs = VideoPkg::all();
-        $other_orders = OtherOrder::all();
+        $other_orders = OtherOrder::where('user_id', Auth::user()->id)->get();
 
         if (request()->ajax()) {
             $type = request()->input('type');
@@ -49,8 +49,6 @@ class OrderConroller extends Controller
                     'users',
                     'invoices',
                     'work_types',
-                    'video_pkgs',
-                    'other_orders'
                 ))->render();
             } elseif ($type === 'designs') {
                 return view('call_center.partials.design-orders', compact(
@@ -59,8 +57,6 @@ class OrderConroller extends Controller
                     'users',
                     'invoices',
                     'work_types',
-                    'video_pkgs',
-                    'other_orders'
                 ))->render();
             } elseif ($type === 'video') {
                 return view('call_center.partials.video-orders', compact(
@@ -70,7 +66,6 @@ class OrderConroller extends Controller
                     'invoices',
                     'work_types',
                     'video_pkgs',
-                    'other_orders'
                 ))->render();
             }
         }
