@@ -1,9 +1,6 @@
 @foreach ($orders as $order)
                                                         @if ($order->order_type == 'designs')
                                                             <tr data-order-id="{{ $order->id }}">
-                                                                <form action="/admin/orders/updateD/{{ $order->id }}" method="post">
-                                                                    @csrf
-                                                                    @method('put')
                                                                     <td>{{ $order->id }}</td>
                                                                     <td>{{ $order->created_at->format('Y-m-d') }}</td>
                                                                     <td>{{ $order->croUser->cc_name ?? '-' }}</td>
@@ -157,7 +154,6 @@
                                                                         <button type="button"
                                                                             class="btn btn-primary done-btnd edit-mode">Done</button>
                                                                     </td>
-                                                                </form>
                                                             </tr>
                                                         @endif
                                                     @endforeach

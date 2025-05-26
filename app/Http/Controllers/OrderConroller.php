@@ -30,7 +30,7 @@ class OrderConroller extends Controller
         $orders = Order::whereBetween('created_at', [$from, $to])
             ->where('cro', $user->cc_num)
             ->orderBy('created_at', 'desc')
-            ->paginate(50);
+            ->paginate(100);
 
         $packages = Package::all();
         $users = User::all();
@@ -45,27 +45,17 @@ class OrderConroller extends Controller
             if ($type === 'boosting') {
                 return view('call_center.partials.boosting-orders', compact(
                     'orders',
-                    'packages',
-                    'users',
-                    'invoices',
                     'work_types',
                 ))->render();
             } elseif ($type === 'designs') {
                 return view('call_center.partials.design-orders', compact(
                     'orders',
-                    'packages',
-                    'users',
-                    'invoices',
                     'work_types',
                 ))->render();
             } elseif ($type === 'video') {
                 return view('call_center.partials.video-orders', compact(
                     'orders',
-                    'packages',
-                    'users',
-                    'invoices',
                     'work_types',
-                    'video_pkgs',
                 ))->render();
             }
         }

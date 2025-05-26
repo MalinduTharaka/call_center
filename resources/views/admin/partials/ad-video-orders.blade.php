@@ -1,9 +1,6 @@
 @foreach ($orders as $order)
                                                         @if ($order->order_type == 'video')
                                                             <tr data-order-id="{{ $order->id }}">
-                                                                <form action="/admin/orders/updateV/{{ $order->id }}" method="post">
-                                                                    @csrf
-                                                                    @method('put')
                                                                     <td>{{ $order->id }}</td>
                                                                     <td>
                                                                         <span>{{ $order->created_at->format('Y-m-d') }}</span>
@@ -220,7 +217,6 @@
                                                                         <button type="button"
                                                                             class="btn btn-primary done-btnv edit-mode">Done</button>
                                                                     </td>
-                                                                </form>
                                                             </tr>
                                                         @endif
                                                     @endforeach

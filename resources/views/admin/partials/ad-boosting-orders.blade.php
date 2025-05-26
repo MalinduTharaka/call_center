@@ -1,9 +1,6 @@
 @foreach ($orders as $order)
     @if ($order->order_type == 'boosting')
         <tr class="fw-semibold" data-order-id="{{ $order->id }}" data-add-acc="{{ $order->add_acc }}">
-            <form action="/admin/orders/updateB/{{ $order->id }}" method="post">
-                @csrf
-                @method('put')
                 <td>
                     <span class="display-mode">
                         @if ($order->add_acc == '1') Urgent
@@ -233,7 +230,6 @@
                     <button type="button" class="btn btn-primary edit-btn display-mode">Edit</button>
                     <button type="button" class="btn btn-primary done-btnb edit-mode">Done</button>
                 </td>
-            </form>
         </tr>
     @endif
 @endforeach

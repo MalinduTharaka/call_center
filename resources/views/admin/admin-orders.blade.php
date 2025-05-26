@@ -152,7 +152,7 @@
                         </ul>
 
                         <div class="tab-content b-0 mb-0">
-                            <div class="tab-pane tab-panebtn" id="basictab1">
+                            <div class="tab-pane tab-panebtn" id="basictab1" style="display: block;">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="col-3 mb-3">
@@ -216,11 +216,11 @@
                                         const invoice = button.getAttribute('data-invoice');
 
                                         slipContent.innerHTML = `
-                                                            <div class="text-center">
-                                                                <div class="spinner-border" role="status">
-                                                                    <span class="visually-hidden">Loading...</span>
-                                                                </div>
-                                                            </div>`;
+                                                                <div class="text-center">
+                                                                    <div class="spinner-border" role="status">
+                                                                        <span class="visually-hidden">Loading...</span>
+                                                                    </div>
+                                                                </div>`;
 
                                         fetch(`/orders/get-slips/${invoice}`)
                                             .then(response => response.json())
@@ -233,10 +233,10 @@
                                                 let content = '';
                                                 data.forEach(slip => {
                                                     content += `
-                                                                        <div class="mb-3">
-                                                                            <p><strong>Bank Name:</strong> ${slip.bank}</p>
-                                                                            ${getSlipContent(slip)}
-                                                                        </div>`;
+                                                                            <div class="mb-3">
+                                                                                <p><strong>Bank Name:</strong> ${slip.bank}</p>
+                                                                                ${getSlipContent(slip)}
+                                                                            </div>`;
                                                 });
                                                 slipContent.innerHTML = content;
                                             })
@@ -250,15 +250,15 @@
                                         const extension = slip.type.toLowerCase();
                                         if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
                                             return `<a href="${slip.path}" target="_blank">
-                                                                        <img src="${slip.path}" alt="Slip Image" 
-                                                                             class="img-fluid rounded" 
-                                                                             style="width: 300px; height: 200px;">
-                                                                    </a>`;
+                                                                            <img src="${slip.path}" alt="Slip Image" 
+                                                                                 class="img-fluid rounded" 
+                                                                                 style="width: 300px; height: 200px;">
+                                                                        </a>`;
                                         }
                                         if (extension === 'pdf') {
                                             return `<iframe src="${slip.path}" 
-                                                                            width="100%" height="400px" 
-                                                                            style="border: none;"></iframe>`;
+                                                                                width="100%" height="400px" 
+                                                                                style="border: none;"></iframe>`;
                                         }
                                         return '<p>Unsupported file type.</p>';
                                     }
@@ -286,7 +286,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane tab-panebtn" id="basictab2">
+                            <div class="tab-pane tab-panebtn" id="basictab2" style="display: none;">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="col-3 mb-3">
@@ -329,7 +329,7 @@
                                 </div> <!-- end row -->
                             </div>
 
-                            <div class="tab-pane tab-panebtn" id="basictab3">
+                            <div class="tab-pane tab-panebtn" id="basictab3" style="display: none;">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="col-3 mb-3">
@@ -422,20 +422,25 @@
         document.addEventListener("DOMContentLoaded", function () {
             // Function to activate tabs
             function activateTab(tabHash) {
-                // Remove active classes from all tabs and panes
-                document.querySelectorAll('.nav-link, .tab-panebtn').forEach(el => {
-                    el.classList.remove('active', 'show');
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
                 });
 
-                // Activate matching tab
-                const tabLink = document.querySelector(`[href="${tabHash}"]`);
-                if (tabLink) {
-                    tabLink.classList.add('active');
-                    // Activate corresponding pane
-                    const pane = document.querySelector(tabHash);
-                    if (pane) pane.classList.add('active', 'show');
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.style.display = 'none';
+                    pane.classList.remove('active', 'show');
+                });
+
+                const activeLink = document.querySelector(`[href="${tabHash}"]`);
+                if (activeLink) activeLink.classList.add('active');
+
+                const activePane = document.querySelector(tabHash);
+                if (activePane) {
+                    activePane.style.display = 'block';
+                    activePane.classList.add('active', 'show');
                 }
             }
+
 
             // Set default tab if no hash exists
             if (!window.location.hash) {
@@ -581,9 +586,9 @@
                 const alert = document.createElement('div');
                 alert.className = `alert alert-${type} alert-dismissible fade show`;
                 alert.innerHTML = `
-                    <strong>${type === 'success' ? 'Success' : 'Error'}:</strong> ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                `;
+                        <strong>${type === 'success' ? 'Success' : 'Error'}:</strong> ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    `;
                 document.body.prepend(alert);
                 setTimeout(() => alert.remove(), 3000);
             }
@@ -651,6 +656,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            let searchActive = false;
+
             const pages = { boosting: 1, designs: 1, video: 1 };
             const isLoading = { boosting: false, designs: false, video: false };
             const noMoreData = { boosting: false, designs: false, video: false };
@@ -661,6 +668,18 @@
                 basictab3: 'video'
             };
 
+            // Auto-load 2 more pages (page 2 and 3) on load
+            Object.keys(pages).forEach(type => {
+                const paneId = Object.entries(tabTypeMap).find(([k, v]) => v === type)?.[0];
+                const pane = document.getElementById(paneId);
+                const tbody = pane?.querySelector('tbody');
+                if (tbody) {
+                    loadInitialPages(type, tbody, 2); // load 2 pages initially
+                    tbody.dataset.loaded = true;
+                }
+            });
+
+            // Lazy loading on scroll
             document.querySelectorAll('.tab-pane').forEach(pane => {
                 const tableContainer = pane.querySelector('.table-responsive');
                 if (!tableContainer) return;
@@ -681,28 +700,37 @@
                 });
             });
 
-            function showSpinner(tbody) {
-                if (!tbody.querySelector('.loading-spinner')) {
-                    tbody.insertAdjacentHTML('beforeend', `
-                            <tr class="loading-spinner">
-                                <td colspan="100%" class="text-center">
-                                    <div class="spinner-border" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        `);
-                }
-            }
+            function loadInitialPages(type, tbody, count) {
+                if (count <= 0 || noMoreData[type]) return;
 
-            function hideSpinner(tbody) {
-                const spinner = tbody.querySelector('.loading-spinner');
-                if (spinner) spinner.remove();
+                pages[type]++;
+                isLoading[type] = true;
+                showSpinner(tbody);
+
+                fetch(`?page=${pages[type]}&type=${type}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(res => res.text())
+                    .then(html => {
+                        hideSpinner(tbody);
+                        if (html.trim() === '') {
+                            noMoreData[type] = true;
+                        } else {
+                            tbody.insertAdjacentHTML('beforeend', html);
+                            isLoading[type] = false;
+                            loadInitialPages(type, tbody, count - 1); // recursive load
+                        }
+                    })
+                    .catch(err => {
+                        console.error(`Failed to preload ${type} data:`, err);
+                        hideSpinner(tbody);
+                        isLoading[type] = false;
+                    });
             }
 
             function loadMore(type, tbody) {
-                isLoading[type] = true;
                 pages[type]++;
+                isLoading[type] = true;
                 showSpinner(tbody);
 
                 fetch(`?page=${pages[type]}&type=${type}`, {
@@ -714,14 +742,14 @@
                         if (html.trim() === '') {
                             noMoreData[type] = true;
                             tbody.insertAdjacentHTML('beforeend', `
-                                    <tr class="no-more-data">
-                                        <td colspan="100%" class="text-center text-muted">No more records</td>
-                                    </tr>
-                                `);
+                            <tr class="no-more-data">
+                                <td colspan="100%" class="text-center text-muted">No more records</td>
+                            </tr>
+                        `);
                         } else {
                             tbody.insertAdjacentHTML('beforeend', html);
-                            isLoading[type] = false;
                         }
+                        isLoading[type] = false;
                     })
                     .catch(err => {
                         console.error(`Failed to load ${type} data:`, err);
@@ -729,7 +757,27 @@
                         isLoading[type] = false;
                     });
             }
+
+            function showSpinner(tbody) {
+                if (!tbody.querySelector('.loading-spinner')) {
+                    tbody.insertAdjacentHTML('beforeend', `
+                    <tr class="loading-spinner">
+                        <td colspan="100%" class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </td>
+                    </tr>
+                `);
+                }
+            }
+
+            function hideSpinner(tbody) {
+                const spinner = tbody.querySelector('.loading-spinner');
+                if (spinner) spinner.remove();
+            }
         });
     </script>
+
 
 @endsection

@@ -28,7 +28,7 @@ class AdminController extends Controller
         $orders = Order::whereBetween('created_at', [$from, $to])
             ->where('ps', '1')
             ->orderBy('created_at', 'desc')
-            ->paginate(50); // paginate instead of get()
+            ->paginate(100); // paginate instead of get()
 
         $users = User::all();
         $invoices = Invoice::all();
@@ -37,11 +37,11 @@ class AdminController extends Controller
         if ($request->ajax()) {
             $type = $request->input('type');
             if ($type === 'boosting') {
-                return view('admin.partials.ad-boosting-orders', compact('orders', 'users', 'invoices', 'work_types'))->render();
+                return view('admin.partials.ad-boosting-orders', compact('orders', 'users', 'work_types'))->render();
             } elseif ($type === 'designs') {
-                return view('admin.partials.ad-design-orders', compact('orders', 'users', 'invoices', 'work_types'))->render();
+                return view('admin.partials.ad-design-orders', compact('orders', 'users', 'work_types'))->render();
             } elseif ($type === 'video') {
-                return view('admin.partials.ad-video-orders', compact('orders', 'users', 'invoices', 'work_types'))->render();
+                return view('admin.partials.ad-video-orders', compact('orders', 'users', 'work_types'))->render();
             }
         }
 

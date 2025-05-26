@@ -33,6 +33,7 @@
                         <div class="mb-3 col-6">
                             <label for="contact" class="form-label">Work Type</label>
                             <select name="work_type" class="form-select">
+                                <option value="" selected>Select Work Type</option>
                                 @foreach($work_types as $wt)
                                     <option value="{{ $wt->id }}">
                                         {{ $wt->name }}
@@ -43,6 +44,7 @@
                         <div class="mb-3 col-6">
                             <label for="contact" class="form-label">Page</label>
                             <select name="page" class="form-select">
+                                <option value="" selected>Select Page</option>
                                 <option value="new">new</option>
                                 <option value="our">our</option>
                                 <option value="existing">existing</option>
@@ -63,6 +65,7 @@
                         <div class="mb-3 col-6">
                             <label for="contact" class="form-label">Advertiser</label>
                             <select name="advertiser_id" class="form-select">
+                                <option value="" selected>Select Advertisers</option>
                                 @foreach($users as $user)
                                     @if(in_array($user->role, ['adv', 'admin']))
                                         <option value="{{ $user->id }}">
@@ -75,7 +78,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="contact" class="form-label">Add Link</label>
-                        <input type="url" name="add_acc_id" id="add_acc_id" class="form-control" required
+                        <input type="url" name="add_acc_id" id="add_acc_id" class="form-control"
                             oninvalid="this.setCustomValidity('Please enter a valid URL')"
                             oninput="this.setCustomValidity('')" />
 

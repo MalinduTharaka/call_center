@@ -278,11 +278,11 @@
                                         const invoice = button.getAttribute('data-invoice');
 
                                         slipContent.innerHTML = `
-                                                                        <div class="text-center">
-                                                                            <div class="spinner-border" role="status">
-                                                                                <span class="visually-hidden">Loading...</span>
-                                                                            </div>
-                                                                        </div>`;
+                                                                            <div class="text-center">
+                                                                                <div class="spinner-border" role="status">
+                                                                                    <span class="visually-hidden">Loading...</span>
+                                                                                </div>
+                                                                            </div>`;
 
                                         fetch(`/orders/get-slips/${invoice}`)
                                             .then(response => response.json())
@@ -295,10 +295,10 @@
                                                 let content = '';
                                                 data.forEach(slip => {
                                                     content += `
-                                                                                    <div class="mb-3">
-                                                                                        <p><strong>Bank Name:</strong> ${slip.bank}</p>
-                                                                                        ${getSlipContent(slip)}
-                                                                                    </div>`;
+                                                                                        <div class="mb-3">
+                                                                                            <p><strong>Bank Name:</strong> ${slip.bank}</p>
+                                                                                            ${getSlipContent(slip)}
+                                                                                        </div>`;
                                                 });
                                                 slipContent.innerHTML = content;
                                             })
@@ -312,15 +312,15 @@
                                         const extension = slip.type.toLowerCase();
                                         if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
                                             return `<a href="${slip.path}" target="_blank">
-                                                                                    <img src="${slip.path}" alt="Slip Image" 
-                                                                                         class="img-fluid rounded" 
-                                                                                         style="width: 300px; height: 200px;">
-                                                                                </a>`;
+                                                                                        <img src="${slip.path}" alt="Slip Image" 
+                                                                                             class="img-fluid rounded" 
+                                                                                             style="width: 300px; height: 200px;">
+                                                                                    </a>`;
                                         }
                                         if (extension === 'pdf') {
                                             return `<iframe src="${slip.path}" 
-                                                                                        width="100%" height="400px" 
-                                                                                        style="border: none;"></iframe>`;
+                                                                                            width="100%" height="400px" 
+                                                                                            style="border: none;"></iframe>`;
                                         }
                                         return '<p>Unsupported file type.</p>';
                                     }
@@ -608,9 +608,9 @@
                                             const alertBox = document.createElement('div');
                                             alertBox.className = `alert alert-${type} alert-dismissible fade show`;
                                             alertBox.innerHTML = `
-                                                                <strong>${type === 'success' ? 'Success' : 'Error'}!</strong> ${message}
-                                                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                                            `;
+                                                                    <strong>${type === 'success' ? 'Success' : 'Error'}!</strong> ${message}
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                                `;
                                             document.body.prepend(alertBox);
                                             setTimeout(() => alertBox.remove(), 3000);
                                         }
@@ -777,13 +777,22 @@
             const pages = { boosting: 1, designs: 1, video: 1 };
             const noMoreData = { boosting: false, designs: false, video: false };
             const isLoading = { boosting: false, designs: false, video: false };
-
             const tabTypeMap = {
                 basictab1: 'boosting',
                 basictab2: 'designs',
                 basictab3: 'video'
             };
 
+            // Automatically load pages 2 to 10 for all types on load
+            Object.entries(tabTypeMap).forEach(([tabId, type]) => {
+                const pane = document.getElementById(tabId);
+                const tbody = pane?.querySelector('tbody');
+                if (tbody) {
+                    loadInitialPages(type, tbody, 4); // 1 is already rendered
+                }
+            });
+
+            // Attach scroll listener for all tables
             document.querySelectorAll('.table-responsive').forEach(container => {
                 container.addEventListener('scroll', function () {
                     const tabPane = container.closest('.tab-pane');
@@ -791,8 +800,8 @@
 
                     const tabId = tabPane.id;
                     const type = tabTypeMap[tabId];
-                    if (searchActive || !type || isLoading[type] || noMoreData[type]) return;
 
+                    if (searchActive || !type || isLoading[type] || noMoreData[type]) return;
 
                     const nearBottom = container.scrollTop + container.clientHeight >= container.scrollHeight - 100;
 
@@ -805,25 +814,32 @@
                 });
             });
 
-            function showSpinner(tableBody) {
-                if (!tableBody.querySelector('.loading-spinner')) {
-                    tableBody.insertAdjacentHTML('beforeend', `
-                                <tr class="loading-spinner">
-                                    <td colspan="100%" class="text-center">
-                                        <div class="spinner-border" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            `);
-                }
-            }
+            function loadInitialPages(type, tbody, count) {
+                if (count <= 0 || noMoreData[type]) return;
 
-            function hideSpinner(tableBody) {
-                const spinner = tableBody.querySelector('.loading-spinner');
-                if (spinner) {
-                    spinner.remove();
-                }
+                pages[type]++;
+                isLoading[type] = true;
+                showSpinner(tbody);
+
+                fetch(`?page=${pages[type]}&type=${type}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(res => res.text())
+                    .then(html => {
+                        hideSpinner(tbody);
+                        if (html.trim() === '') {
+                            noMoreData[type] = true;
+                        } else {
+                            tbody.insertAdjacentHTML('beforeend', html);
+                            isLoading[type] = false;
+                            loadInitialPages(type, tbody, count - 1); // next page
+                        }
+                    })
+                    .catch(err => {
+                        console.error(`Failed to preload ${type}:`, err);
+                        hideSpinner(tbody);
+                        isLoading[type] = false;
+                    });
             }
 
             function loadMore(type, tableBody) {
@@ -831,24 +847,23 @@
                 pages[type]++;
                 showSpinner(tableBody);
 
-                const url = `?page=${pages[type]}&type=${type}`;
-                fetch(url, {
+                fetch(`?page=${pages[type]}&type=${type}`, {
                     headers: { 'X-Requested-With': 'XMLHttpRequest' }
                 })
                     .then(response => response.text())
                     .then(html => {
                         hideSpinner(tableBody);
                         if (html.trim() === '') {
-                            noMoreData[type] = true; // Prevent further requests
+                            noMoreData[type] = true;
                             tableBody.insertAdjacentHTML('beforeend', `
-                                        <tr class="no-more-data">
-                                            <td colspan="100%" class="text-center text-muted">No more records</td>
-                                        </tr>
-                                    `);
+                                <tr class="no-more-data">
+                                    <td colspan="100%" class="text-center text-muted">No more records</td>
+                                </tr>
+                            `);
                         } else {
                             tableBody.insertAdjacentHTML('beforeend', html);
-                            isLoading[type] = false;
                         }
+                        isLoading[type] = false;
                     })
                     .catch(err => {
                         console.error('Error loading more data:', err);
@@ -856,6 +871,26 @@
                         isLoading[type] = false;
                     });
             }
+
+            function showSpinner(tbody) {
+                if (!tbody.querySelector('.loading-spinner')) {
+                    tbody.insertAdjacentHTML('beforeend', `
+                        <tr class="loading-spinner">
+                            <td colspan="100%" class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                }
+            }
+
+            function hideSpinner(tbody) {
+                const spinner = tbody.querySelector('.loading-spinner');
+                if (spinner) spinner.remove();
+            }
         });
     </script>
+
 @endsection
