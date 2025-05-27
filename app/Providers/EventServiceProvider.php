@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\AdvertiserWorkEvent::class => [
             \App\Listeners\AdvertiserWorkTableUpdateListner::class,
         ],
+         \App\Events\AdvertiserEndWorkEvent::class => [
+        \App\Listeners\UpdateAdvertiserOffTimeListener::class,
+    ],
     ];
 
     /**

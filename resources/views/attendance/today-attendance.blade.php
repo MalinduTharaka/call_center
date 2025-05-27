@@ -104,11 +104,13 @@
                                                     <div class="modal-body">
                                                         <div class="mb-3">
                                                             <label for="Employee" class="form-label">Employee Name</label>
-                                                            <input type="text" class="form-control" id="Employee"
-                                                                value="{{ $attendance->User->name }}" disabled>
+                                                            <input type="text" class="form-control" id="Employee" 
+                                                                value="{{ $attendance->User->name }}" >
+                                                            <input type="text" class="form-control" id="Employee" name="user_id"
+                                                                value="{{ $attendance->user_id }}" >
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="date" class="form-label">Date</label>
+                                                            <label for="date" class="form-label">Date</label>/
                                                             <input type="date" class="form-control" id="date" name="date"
                                                                 value="{{ $attendance->date }}" disabled>
                                                         </div>
