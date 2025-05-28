@@ -79,12 +79,12 @@ Route::middleware([
 
     //Package Routes
     Route::get('/packages', [PackageController::class, 'index']);
-    Route::post  ('/packages/store',[PackageController::class, 'storepkg']) ->name('packages.store');
+    Route::post('/packages/store', [PackageController::class, 'storepkg'])->name('packages.store');
 
-    Route::put   ('/packages/update', [PackageController::class, 'updatepkg']) ->name('packages.update');
+    Route::put('/packages/update', [PackageController::class, 'updatepkg'])->name('packages.update');
 
     // delete
-    Route::delete('/packages/delete/{id}', [PackageController::class, 'deletepkg']) ->name('packages.delete');
+    Route::delete('/packages/delete/{id}', [PackageController::class, 'deletepkg'])->name('packages.delete');
 
     //Invoice Routes
     Route::post('/new_invoice', [InvoiceController::class, 'new_invoice']);
@@ -180,10 +180,10 @@ Route::middleware([
     Route::get('/cro-work', [CroWorkDoneController::class, 'index'])->name('cro.work.index');
 
     //Profile Routes
-    Route::get('/profile', [ProfileController::class,'index']);
+    Route::get('/profile', [ProfileController::class, 'index']);
 
     //Designer Routes
-    Route::get('/designers', [DesignerController::class,'index']);
+    Route::get('/designers', [DesignerController::class, 'index']);
     Route::put('/orders/update/designers/{id}', [DesignerController::class, 'updareDesigner'])->name('orders.update.designer');
     Route::put('/design/upload/{id}', [DesignerController::class, 'DesignImageUpload'])->name('design.upload');
 
@@ -221,7 +221,7 @@ Route::middleware([
     Route::get('/update/sheet', [AdminController::class, 'updateSheetView'])->name('updatesheetView');
     Route::put('/update/sheet/update/{id}', [AdminController::class, 'BoostingUpdateSheetEdit']);
     Route::post('/update/sheet/manual/add', [AdminController::class, 'BoostingUpdateSheetManualAdd']);
-    
+
     //Payment Edit Routes
     Route::put('/edit/payment/orders/{inv}', [AdminController::class, 'updatepaymentO']);
     Route::put('/edit/payment/or/{inv}', [AdminController::class, 'updatepaymentOR']);
@@ -237,6 +237,8 @@ Route::middleware([
     Route::get('/refund/orders/OR/view', [RefundController::class, 'indexOR']);
     Route::post('/refund/orders', [RefundController::class, 'refundOrders']);
     Route::post('/refund/orders/OR', [RefundController::class, 'refundOtherOrders']);
+    Route::get('/orders/by-invoice', [RefundController::class, 'getOrdersByInvoice']);
+
 
     //Pdf Maker Routes
     Route::get('/pdf-maker', [PDFGenController::class, 'index']);

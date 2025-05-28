@@ -214,4 +214,17 @@ class RefundController extends Controller
             ->with('success', 'Refund(s) processed successfully.');
     }
 
+
+    // In OrderController.php
+    public function getOrdersByInvoice(Request $request)
+    {
+        $invoice = $request->query('invoice');
+
+        $ordersrefunds = Order::where('invoice', $invoice)
+            ->select('id', 'invoice') // Only select required fields
+            ->get();
+
+        return response()->json($ordersrefunds);
+    }
+
 }

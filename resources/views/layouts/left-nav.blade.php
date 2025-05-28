@@ -1,7 +1,7 @@
 <div class="leftside-menu">
 
     <!-- Brand Logo Light -->
-    <a href="index.html" class="logo logo-light">
+    <a class="logo logo-light">
         <span class="logo-lg">
             <img src="{{ asset('logos/wishwaads.jpg') }}" alt="logo" style="height: 60px; width: auto;">
 
@@ -12,7 +12,7 @@
     </a>
 
     <!-- Brand Logo Dark -->
-    <a href="index.html" class="logo logo-dark">
+    <a class="logo logo-dark">
         <span class="logo-lg">
             <img src="{{ asset('logos/wishwaads.jpg') }}" alt="logo" style="height: 60px; width: auto;">
 

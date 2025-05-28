@@ -5,7 +5,7 @@
             <!-- Topbar Brand Logo -->
             <div class="logo-topbar">
                 <!-- Logo light -->
-                <a href="index.html" class="logo-light">
+                <a class="logo-light">
                     <span class="logo-lg">
                         <img src="{{ asset('logos/wishwaads.jpg')}}" alt="logo" style="height: 60px; width: auto;">
                     </span>
@@ -15,7 +15,7 @@
                 </a>
 
                 <!-- Logo Dark -->
-                <a href="index.html" class="logo-dark">
+                <a class="logo-dark">
                     <span class="logo-lg">
                         <img src="{{ asset('logos/wishwaads.jpg')}}" alt="dark logo" style="height: 60px; width: auto;">
                     </span>

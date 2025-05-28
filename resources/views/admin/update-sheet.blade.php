@@ -60,12 +60,11 @@
                 <table class="table table-hover table-centered table-bordered border-primary mb-0">
                     <thead class="table-dark border-primary">
                         <tr>
-                            <th>ID</th>
-                            <th>Slip<br>Upload<br>Date</th>
-                            <th>CRO</th><th>Invoice</th>
+                            <th>Invoice</th>
+                            <th>Date</th>
+                            <th>CRO</th>
                             <th>Name<br>Company</th>
                             <th>Contact</th>
-                            <th>Page</th>
                             <th>Work<br>Status</th>
                             <th>Advertiser</th>
                             <th>U. Advertiser</th>
@@ -85,10 +84,9 @@
                             <form action="{{ url('update/sheet/update', $order->id) }}" method="post">
                                 @csrf @method('put')
 
-                                <td>{{ $order->order_id }}</td>
-                                <td>{{ $order->date->format('Y-m-d') }}</td>
-                                <td>{{ $order->plUser->name ?? '-' }}</td>
                                 <td>{{ $order->invoice_id }}</td>
+                                <td>{{ $order->created_at->format('Y-m-d') }}</td>
+                                <td>{{ $order->plUser->name ?? '-' }}</td>
                                 <td style="max-width:150px; word-break: break-word; white-space: normal;">
                                     {{ $order->name }}
                                 </td>
@@ -96,19 +94,6 @@
                                 <td>{{ $order->contact }}</td>
 
                                 {{-- Page --}}
-                                <td>
-                                    <span class="badge fs-5 bg-dark display-mode">
-                                        {{ $order->page ?: '-' }}
-                                    </span>
-                                    <select name="page" class="form-select edit-mode">
-                                        <option value="" disabled {{ old('page', $order->page) == '' ? 'selected' : '' }}>
-                                            Select
-                                        </option>
-                                        <option value="new"      {{ old('page', $order->page) == 'new' ? 'selected' : '' }}>new</option>
-                                        <option value="our"      {{ old('page', $order->page) == 'our' ? 'selected' : '' }}>our</option>
-                                        <option value="existing" {{ old('page', $order->page) == 'existing' ? 'selected' : '' }}>existing</option>
-                                    </select>
-                                </td>
 
                                 {{-- Work Status --}}
                                 <td>
@@ -207,19 +192,19 @@
                                 </td>
 
                                 {{-- Update Notes --}}
-                                <td>
+                                <td style="width: 150px; max-width: 300px; white-space: normal; word-wrap: break-word;">
                                     @if (Auth::user()->role != 'adv')
                                         <span class="display-mode">{{ $order->update }}</span>
                                         <textarea name="update" class="form-control edit-mode" rows="3">{{ old('update', $order->update) }}</textarea>
                                     @else
-                                    <span">{{ $order->update }}</span>
+                                    <span>{{ $order->update }}</span>
                                     @endif
                                 </td>
 
                                 {{-- Actions --}}
                                 <td>
                                     <button type="button" class="btn btn-primary edit-btn display-mode">Edit</button>
-                                    <button type="submit" class="btn btn-success edit-mode">Save</button>
+                                    <button type="submit" class="btn btn-success edit-mode">Done</button>
                                 </td>
                             </form>
                         </tr>
