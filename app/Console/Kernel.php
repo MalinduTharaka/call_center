@@ -18,6 +18,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\GenerateMonthlySalariesACC::class,   // ACC
 
         \App\Console\Commands\GenerateCROSalary::class,
+
+        \App\Console\Commands\CalculateAdvertiserSalary::class,
     ];
 
     /**
@@ -38,6 +40,9 @@ class Kernel extends ConsoleKernel
             ->runInBackground();
 
         $schedule->command('salary:generate-cro')->monthlyOn(1, '00:00');
+
+        // $schedule->command('salary:calculate-advertisers')->monthlyOn(1, '00:00');
+        $schedule->command('salary:calculate-advertisers')->monthlyOn(1, '00:00');
     }
 
     /**
