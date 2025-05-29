@@ -27,38 +27,63 @@ class OrderConroller extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::whereBetween('created_at', [$from, $to])
-            ->where('cro', $user->cc_num)
-            ->orderBy('created_at', 'desc')
-            ->paginate(100);
+        $query = Order::whereBetween('created_at', [$from, $to])
+            ->where('cro', $user->cc_num);
+
+        // Server-side filters
+        if (request()->filled('id')) {
+            $query->where('id', request('id'));
+        }
+
+        if (request()->filled('name')) {
+            $query->where('name', 'like', '%' . request('name') . '%');
+        }
+
+        if (request()->filled('contact')) {
+            $query->where('contact', 'like', '%' . request('contact') . '%');
+        }
+
+        if (request()->filled('invoice')) {
+            $query->where('invoice', 'like', '%' . request('invoice') . '%');
+        }
+
+        if (request()->filled('payment_status')) {
+            $query->where('payment_status', request('payment_status'));
+        }
+
+        if (request()->filled('old_new')) {
+            $query->where('old_new', request('old_new'));
+        }
+
+        if (request()->filled('work_status')) {
+            $query->where('work_status', request('work_status'));
+        }
+
+        if (request()->filled('work_type_id')) {
+            $query->where('work_type_id', request('work_type_id'));
+        }
+
+        $orders = $query->orderBy('created_at', 'desc')->paginate(100)->withQueryString();
+        $work_types = WorkType::all();
+
+        // For AJAX lazy load
+        if (request()->ajax()) {
+            $type = request('type');
+            if ($type === 'boosting') {
+                return view('call_center.partials.boosting-orders', compact('orders', 'work_types'))->render();
+            } elseif ($type === 'designs') {
+                return view('call_center.partials.design-orders', compact('orders', 'work_types'))->render();
+            } elseif ($type === 'video') {
+                return view('call_center.partials.video-orders', compact('orders', 'work_types'))->render();
+            }
+        }
 
         $packages = Package::all();
         $users = User::all();
-        $invoices = Invoice::where('user_id', Auth::user()->id)->get();
-        $work_types = WorkType::all();
+        $invoices = Invoice::where('user_id', $user->id)->get();
         $video_pkgs = VideoPkg::all();
-        $other_orders = OtherOrder::where('user_id', Auth::user()->id)->get();
+        $other_orders = OtherOrder::where('user_id', $user->id)->get();
 
-        if (request()->ajax()) {
-            $type = request()->input('type');
-
-            if ($type === 'boosting') {
-                return view('call_center.partials.boosting-orders', compact(
-                    'orders',
-                    'work_types',
-                ))->render();
-            } elseif ($type === 'designs') {
-                return view('call_center.partials.design-orders', compact(
-                    'orders',
-                    'work_types',
-                ))->render();
-            } elseif ($type === 'video') {
-                return view('call_center.partials.video-orders', compact(
-                    'orders',
-                    'work_types',
-                ))->render();
-            }
-        }
 
         return view('call_center.new-orders', compact(
             'orders',
@@ -70,6 +95,7 @@ class OrderConroller extends Controller
             'other_orders'
         ));
     }
+
 
 
     public function store_solo(Request $request)

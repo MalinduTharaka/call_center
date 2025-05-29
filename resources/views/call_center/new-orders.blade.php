@@ -223,11 +223,79 @@
                             <div class="tab-pane tab-panebtn" id="basictab1">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="col-3 mb-3">
+                                        <div class="col-12 mb-3">
                                             <div class="input-group">
-                                                <input type="text" class="form-control search-input"
-                                                    placeholder="Search orders..." data-target-table="#basictab1 table">
-                                                <button class="btn btn-primary search-btn">Search</button>
+                                                <form method="GET" action="{{ route('new.orders') }}"
+                                                    class="row mb-3">
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="id" class="form-control"
+                                                            placeholder="Order ID" value="{{ request('id') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name" value="{{ request('name') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="contact" class="form-control"
+                                                            placeholder="Contact" value="{{ request('contact') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="invoice" class="form-control"
+                                                            placeholder="Invoice" value="{{ request('invoice') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="payment_status" class="form-select">
+                                                            <option value="">Payment Status</option>
+                                                            <option value="done"
+                                                                @selected(request('payment_status') === 'done')>Done</option>
+                                                            <option value="pending"
+                                                                @selected(request('payment_status') === 'pending')>Pending
+                                                            </option>
+                                                            <option value="rejected"
+                                                                @selected(request('payment_status') === 'rejected')>Rejected
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="work_status" class="form-select">
+                                                            <option value="">Work Status</option>
+                                                            <option value="done" @selected(request('work_status') === 'done')>
+                                                                Done</option>
+                                                            <option value="pending"
+                                                                @selected(request('work_status') === 'pending')>Pending
+                                                            </option>
+                                                            <!-- add more if needed -->
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <select name="old_new" class="form-select">
+                                                            <option value="">Old/New</option>
+                                                            <option value="old" @selected(request('old_new') === 'old')>Old
+                                                            </option>
+                                                            <option value="new" @selected(request('old_new') === 'new')>New
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <select name="work_type_id" class="form-select">
+                                                            <option value="">Work Type</option>
+                                                            @foreach($work_types as $type)
+                                                                <option value="{{ $type->id }}"
+                                                                    @selected(request('work_type_id') == $type->id)>
+                                                                    {{ $type->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <a href="{{ route('new.orders') }}"
+                                                            class="btn btn-secondary w-100">Clear</a>
+                                                    </div>
+                                                </form>
+
                                             </div>
                                         </div>
                                         <div class="table-responsive">
@@ -281,11 +349,11 @@
                                         const invoice = button.getAttribute('data-invoice');
 
                                         slipContent.innerHTML = `
-                                                                            <div class="text-center">
-                                                                                <div class="spinner-border" role="status">
-                                                                                    <span class="visually-hidden">Loading...</span>
-                                                                                </div>
-                                                                            </div>`;
+                                                                                <div class="text-center">
+                                                                                    <div class="spinner-border" role="status">
+                                                                                        <span class="visually-hidden">Loading...</span>
+                                                                                    </div>
+                                                                                </div>`;
 
                                         fetch(`/orders/get-slips/${invoice}`)
                                             .then(response => response.json())
@@ -298,10 +366,10 @@
                                                 let content = '';
                                                 data.forEach(slip => {
                                                     content += `
-                                                                                        <div class="mb-3">
-                                                                                            <p><strong>Bank Name:</strong> ${slip.bank}</p>
-                                                                                            ${getSlipContent(slip)}
-                                                                                        </div>`;
+                                                                                            <div class="mb-3">
+                                                                                                <p><strong>Bank Name:</strong> ${slip.bank}</p>
+                                                                                                ${getSlipContent(slip)}
+                                                                                            </div>`;
                                                 });
                                                 slipContent.innerHTML = content;
                                             })
@@ -315,15 +383,15 @@
                                         const extension = slip.type.toLowerCase();
                                         if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
                                             return `<a href="${slip.path}" target="_blank">
-                                                                                        <img src="${slip.path}" alt="Slip Image" 
-                                                                                             class="img-fluid rounded" 
-                                                                                             style="width: 300px; height: 200px;">
-                                                                                    </a>`;
+                                                                                            <img src="${slip.path}" alt="Slip Image" 
+                                                                                                 class="img-fluid rounded" 
+                                                                                                 style="width: 300px; height: 200px;">
+                                                                                        </a>`;
                                         }
                                         if (extension === 'pdf') {
                                             return `<iframe src="${slip.path}" 
-                                                                                            width="100%" height="400px" 
-                                                                                            style="border: none;"></iframe>`;
+                                                                                                width="100%" height="400px" 
+                                                                                                style="border: none;"></iframe>`;
                                         }
                                         return '<p>Unsupported file type.</p>';
                                     }
@@ -354,11 +422,78 @@
                             <div class="tab-pane tab-panebtn" id="basictab2">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="col-3 mb-3">
+                                        <div class="col-12 mb-3">
                                             <div class="input-group">
-                                                <input type="text" class="form-control search-input"
-                                                    placeholder="Search orders..." data-target-table="#basictab2 table">
-                                                <button class="btn btn-primary search-btn">Search</button>
+                                                <form method="GET" action="{{ route('new.orders') }}"
+                                                    class="row mb-3">
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="id" class="form-control"
+                                                            placeholder="Order ID" value="{{ request('id') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name" value="{{ request('name') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="contact" class="form-control"
+                                                            placeholder="Contact" value="{{ request('contact') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="invoice" class="form-control"
+                                                            placeholder="Invoice" value="{{ request('invoice') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="payment_status" class="form-select">
+                                                            <option value="">Payment Status</option>
+                                                            <option value="done"
+                                                                @selected(request('payment_status') === 'done')>Done</option>
+                                                            <option value="pending"
+                                                                @selected(request('payment_status') === 'pending')>Pending
+                                                            </option>
+                                                            <option value="rejected"
+                                                                @selected(request('payment_status') === 'rejected')>Rejected
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="work_status" class="form-select">
+                                                            <option value="">Work Status</option>
+                                                            <option value="done" @selected(request('work_status') === 'done')>
+                                                                Done</option>
+                                                            <option value="pending"
+                                                                @selected(request('work_status') === 'pending')>Pending
+                                                            </option>
+                                                            <!-- add more if needed -->
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <select name="old_new" class="form-select">
+                                                            <option value="">Old/New</option>
+                                                            <option value="old" @selected(request('old_new') === 'old')>Old
+                                                            </option>
+                                                            <option value="new" @selected(request('old_new') === 'new')>New
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <select name="work_type_id" class="form-select">
+                                                            <option value="">Work Type</option>
+                                                            @foreach($work_types as $type)
+                                                                <option value="{{ $type->id }}"
+                                                                    @selected(request('work_type_id') == $type->id)>
+                                                                    {{ $type->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <a href="{{ route('new.orders') }}"
+                                                            class="btn btn-secondary w-100">Clear</a>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="table-responsive">
@@ -396,11 +531,78 @@
                             <div class="tab-pane tab-panebtn" id="basictab3">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="col-3 mb-3">
+                                        <div class="col-12 mb-3">
                                             <div class="input-group">
-                                                <input type="text" class="form-control search-input"
-                                                    placeholder="Search orders..." data-target-table="#basictab3 table">
-                                                <button class="btn btn-primary search-btn">Search</button>
+                                                <form method="GET" action="{{ route('new.orders') }}"
+                                                    class="row mb-3">
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="id" class="form-control"
+                                                            placeholder="Order ID" value="{{ request('id') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name" value="{{ request('name') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="contact" class="form-control"
+                                                            placeholder="Contact" value="{{ request('contact') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="invoice" class="form-control"
+                                                            placeholder="Invoice" value="{{ request('invoice') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="payment_status" class="form-select">
+                                                            <option value="">Payment Status</option>
+                                                            <option value="done"
+                                                                @selected(request('payment_status') === 'done')>Done</option>
+                                                            <option value="pending"
+                                                                @selected(request('payment_status') === 'pending')>Pending
+                                                            </option>
+                                                            <option value="rejected"
+                                                                @selected(request('payment_status') === 'rejected')>Rejected
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="work_status" class="form-select">
+                                                            <option value="">Work Status</option>
+                                                            <option value="done" @selected(request('work_status') === 'done')>
+                                                                Done</option>
+                                                            <option value="pending"
+                                                                @selected(request('work_status') === 'pending')>Pending
+                                                            </option>
+                                                            <!-- add more if needed -->
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <select name="old_new" class="form-select">
+                                                            <option value="">Old/New</option>
+                                                            <option value="old" @selected(request('old_new') === 'old')>Old
+                                                            </option>
+                                                            <option value="new" @selected(request('old_new') === 'new')>New
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <select name="work_type_id" class="form-select">
+                                                            <option value="">Work Type</option>
+                                                            @foreach($work_types as $type)
+                                                                <option value="{{ $type->id }}"
+                                                                    @selected(request('work_type_id') == $type->id)>
+                                                                    {{ $type->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                                                    </div>
+                                                    <div class="col-md-2 mt-2">
+                                                        <a href="{{ route('new.orders') }}"
+                                                            class="btn btn-secondary w-100">Clear</a>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="table-responsive">
@@ -611,9 +813,9 @@
                                             const alertBox = document.createElement('div');
                                             alertBox.className = `alert alert-${type} alert-dismissible fade show`;
                                             alertBox.innerHTML = `
-                                                                    <strong>${type === 'success' ? 'Success' : 'Error'}!</strong> ${message}
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                                                `;
+                                                                        <strong>${type === 'success' ? 'Success' : 'Error'}!</strong> ${message}
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                                    `;
                                             document.body.prepend(alertBox);
                                             setTimeout(() => alertBox.remove(), 3000);
                                         }
@@ -632,9 +834,10 @@
             @include('includes.design-view')
         @endif
     @endforeach
+    {{--
     <script>
         let searchActive = false;
-    </script>
+    </script> --}}
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -677,6 +880,7 @@
     </script>
 
     <!-- Add this JavaScript at the end of your existing script -->
+    {{--
     <script>
         // Search functionality
         // Search functionality
@@ -717,7 +921,7 @@
             }
 
         });
-    </script>
+    </script> --}}
 
     <style>
         /* Fixed height scrollable tables with sticky headers */
@@ -776,168 +980,175 @@
         });
     </script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const pages = { boosting: 1, designs: 1, video: 1 };
-            const noMoreData = { boosting: false, designs: false, video: false };
-            const isLoading = { boosting: false, designs: false, video: false };
-            const tabTypeMap = {
-                basictab1: 'boosting',
-                basictab2: 'designs',
-                basictab3: 'video'
-            };
+document.addEventListener("DOMContentLoaded", function () {
+    // Detect if search is active via query parameters
+    const searchActive = new URLSearchParams(window.location.search).toString() !== '';
+    const pages = { boosting: 1, designs: 1, video: 1 };
+    const noMoreData = { boosting: false, designs: false, video: false };
+    const isLoading = { boosting: false, designs: false, video: false };
+    const tabTypeMap = {
+        basictab1: 'boosting',
+        basictab2: 'designs',
+        basictab3: 'video'
+    };
 
-            // Automatically load pages 2 to 10 for all types on load
-            Object.entries(tabTypeMap).forEach(([tabId, type]) => {
-                const pane = document.getElementById(tabId);
-                const tbody = pane?.querySelector('tbody');
-                if (tbody) {
-                    loadInitialPages(type, tbody, 4); // 1 is already rendered
-                }
-            });
+    // Skip lazy loading logic completely if in search mode
+    if (searchActive) {
+        console.log("Search active — lazy loading disabled.");
+        return;
+    }
 
-            // Attach scroll listener for all tables
-            document.querySelectorAll('.table-responsive').forEach(container => {
-                container.addEventListener('scroll', function () {
-                    const tabPane = container.closest('.tab-pane');
-                    if (!tabPane) return;
-
-                    const tabId = tabPane.id;
-                    const type = tabTypeMap[tabId];
-
-                    if (searchActive || !type || isLoading[type] || noMoreData[type]) return;
-
-                    const nearBottom = container.scrollTop + container.clientHeight >= container.scrollHeight - 100;
-
-                    if (nearBottom) {
-                        const tableBody = container.querySelector('tbody');
-                        if (tableBody) {
-                            loadMore(type, tableBody);
-                        }
-                    }
-                });
-            });
-
-            function loadInitialPages(type, tbody, count) {
-                if (count <= 0 || noMoreData[type]) return;
-
-                pages[type]++;
-                isLoading[type] = true;
-                showSpinner(tbody);
-
-                fetch(`?page=${pages[type]}&type=${type}`, {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                })
-                    .then(res => res.text())
-                    .then(html => {
-                        hideSpinner(tbody);
-                        if (html.trim() === '') {
-                            noMoreData[type] = true;
-                        } else {
-                            tbody.insertAdjacentHTML('beforeend', html);
-                            isLoading[type] = false;
-                            loadInitialPages(type, tbody, count - 1); // next page
-                        }
-                    })
-                    .catch(err => {
-                        console.error(`Failed to preload ${type}:`, err);
-                        hideSpinner(tbody);
-                        isLoading[type] = false;
-                    });
-            }
-
-            function loadMore(type, tableBody) {
-                isLoading[type] = true;
-                pages[type]++;
-                showSpinner(tableBody);
-
-                fetch(`?page=${pages[type]}&type=${type}`, {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                })
-                    .then(response => response.text())
-                    .then(html => {
-                        hideSpinner(tableBody);
-                        if (html.trim() === '') {
-                            noMoreData[type] = true;
-                            tableBody.insertAdjacentHTML('beforeend', `
-                                <tr class="no-more-data">
-                                    <td colspan="100%" class="text-center text-muted">No more records</td>
-                                </tr>
-                            `);
-                        } else {
-                            tableBody.insertAdjacentHTML('beforeend', html);
-                        }
-                        isLoading[type] = false;
-                    })
-                    .catch(err => {
-                        console.error('Error loading more data:', err);
-                        hideSpinner(tableBody);
-                        isLoading[type] = false;
-                    });
-            }
-
-            function showSpinner(tbody) {
-                if (!tbody.querySelector('.loading-spinner')) {
-                    tbody.insertAdjacentHTML('beforeend', `
-                        <tr class="loading-spinner">
-                            <td colspan="100%" class="text-center">
-                                <div class="spinner-border" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </td>
-                        </tr>
-                    `);
-                }
-            }
-
-            function hideSpinner(tbody) {
-                const spinner = tbody.querySelector('.loading-spinner');
-                if (spinner) spinner.remove();
-            }
-        });
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        function updateRowCounts() {
-            const tabMap = {
-                'boosting-count': '#basictab1',
-                'designs-count': '#basictab2',
-                'video-count': '#basictab3'
-            };
-
-            Object.entries(tabMap).forEach(([counterId, tabSelector]) => {
-                const table = document.querySelector(`${tabSelector} table`);
-                if (!table) return;
-
-                const visibleRows = table.querySelectorAll('tbody tr:not([style*="display: none"])');
-                document.getElementById(counterId).textContent = visibleRows.length;
-            });
+    // Preload pages 2–5
+    Object.entries(tabTypeMap).forEach(([tabId, type]) => {
+        const pane = document.getElementById(tabId);
+        const tbody = pane?.querySelector('tbody');
+        if (tbody) {
+            loadInitialPages(type, tbody, 4); // Load 4 extra pages
         }
+    });
 
-        // Initial run
-        updateRowCounts();
+    // Lazy load on scroll
+    document.querySelectorAll('.table-responsive').forEach(container => {
+        container.addEventListener('scroll', function () {
+            const tabPane = container.closest('.tab-pane');
+            if (!tabPane) return;
 
-        // Re-run after any change that could affect row visibility
-        const observer = new MutationObserver(() => updateRowCounts());
+            const tabId = tabPane.id;
+            const type = tabTypeMap[tabId];
+            if (!type || isLoading[type] || noMoreData[type]) return;
 
-        document.querySelectorAll('.tab-pane tbody').forEach(tbody => {
-            observer.observe(tbody, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
-        });
-
-        // Also run on manual filtering, AJAX injection, tab switch, etc.
-        document.querySelectorAll('.search-btn, .search-input').forEach(el => {
-            el.addEventListener('input', updateRowCounts);
-            el.addEventListener('click', updateRowCounts);
-            el.addEventListener('change', updateRowCounts);
-        });
-
-        // Run on tab switch
-        document.querySelectorAll('.nav-link').forEach(tab => {
-            tab.addEventListener('click', function () {
-                setTimeout(updateRowCounts, 200);
-            });
+            const nearBottom = container.scrollTop + container.clientHeight >= container.scrollHeight - 100;
+            if (nearBottom) {
+                const tableBody = container.querySelector('tbody');
+                if (tableBody) {
+                    loadMore(type, tableBody);
+                }
+            }
         });
     });
+
+    function loadInitialPages(type, tbody, count) {
+        if (count <= 0 || noMoreData[type]) return;
+
+        pages[type]++;
+        isLoading[type] = true;
+        showSpinner(tbody);
+
+        fetch(`?page=${pages[type]}&type=${type}`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+            .then(res => res.text())
+            .then(html => {
+                hideSpinner(tbody);
+                if (html.trim() === '') {
+                    noMoreData[type] = true;
+                } else {
+                    tbody.insertAdjacentHTML('beforeend', html);
+                    isLoading[type] = false;
+                    loadInitialPages(type, tbody, count - 1); // recursively load more
+                }
+            })
+            .catch(err => {
+                console.error(`Failed to preload ${type}:`, err);
+                hideSpinner(tbody);
+                isLoading[type] = false;
+            });
+    }
+
+    function loadMore(type, tableBody) {
+        pages[type]++;
+        isLoading[type] = true;
+        showSpinner(tableBody);
+
+        fetch(`?page=${pages[type]}&type=${type}`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+            .then(res => res.text())
+            .then(html => {
+                hideSpinner(tableBody);
+                if (html.trim() === '') {
+                    noMoreData[type] = true;
+                    tableBody.insertAdjacentHTML('beforeend', `
+                        <tr class="no-more-data">
+                            <td colspan="100%" class="text-center text-muted">No more records</td>
+                        </tr>
+                    `);
+                } else {
+                    tableBody.insertAdjacentHTML('beforeend', html);
+                }
+                isLoading[type] = false;
+            })
+            .catch(err => {
+                console.error(`Failed to load more ${type} data:`, err);
+                hideSpinner(tableBody);
+                isLoading[type] = false;
+            });
+    }
+
+    function showSpinner(tbody) {
+        if (!tbody.querySelector('.loading-spinner')) {
+            tbody.insertAdjacentHTML('beforeend', `
+                <tr class="loading-spinner">
+                    <td colspan="100%" class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </td>
+                </tr>
+            `);
+        }
+    }
+
+    function hideSpinner(tbody) {
+        const spinner = tbody.querySelector('.loading-spinner');
+        if (spinner) spinner.remove();
+    }
+});
 </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function updateRowCounts() {
+                const tabMap = {
+                    'boosting-count': '#basictab1',
+                    'designs-count': '#basictab2',
+                    'video-count': '#basictab3'
+                };
+
+                Object.entries(tabMap).forEach(([counterId, tabSelector]) => {
+                    const table = document.querySelector(`${tabSelector} table`);
+                    if (!table) return;
+
+                    const visibleRows = table.querySelectorAll('tbody tr:not([style*="display: none"])');
+                    document.getElementById(counterId).textContent = visibleRows.length;
+                });
+            }
+
+            // Initial run
+            updateRowCounts();
+
+            // Re-run after any change that could affect row visibility
+            const observer = new MutationObserver(() => updateRowCounts());
+
+            document.querySelectorAll('.tab-pane tbody').forEach(tbody => {
+                observer.observe(tbody, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+            });
+
+            // Also run on manual filtering, AJAX injection, tab switch, etc.
+            document.querySelectorAll('.search-btn, .search-input').forEach(el => {
+                el.addEventListener('input', updateRowCounts);
+                el.addEventListener('click', updateRowCounts);
+                el.addEventListener('change', updateRowCounts);
+            });
+
+            // Run on tab switch
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    setTimeout(updateRowCounts, 200);
+                });
+            });
+        });
+    </script>
 
 
 @endsection
