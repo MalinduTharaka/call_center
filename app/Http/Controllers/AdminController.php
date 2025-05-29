@@ -25,10 +25,40 @@ class AdminController extends Controller
         $from = Carbon::parse($user->from_date)->startOfDay();
         $to = Carbon::parse($user->to_date)->endOfDay();
 
-        $orders = Order::whereBetween('created_at', [$from, $to])
+        $query = Order::whereBetween('created_at', [$from, $to])
             ->where('ps', '1')
-            ->orderBy('created_at', 'desc')
-            ->paginate(100); // paginate instead of get()
+            ->orderBy('created_at', 'desc');
+
+        // Detect if a search is active
+        $searchActive = $request->filled(['id', 'contact', 'name', 'invoice', 'payment_status', 'work_status', 'work_type', 'old_new']);
+
+        // Apply filters if search is active
+        if ($request->filled('id')) {
+            $query->where('id', $request->id);
+        }
+        if ($request->filled('contact')) {
+            $query->where('contact', 'LIKE', '%' . $request->contact . '%');
+        }
+        if ($request->filled('name')) {
+            $query->where('name', 'LIKE', '%' . $request->name . '%');
+        }
+        if ($request->filled('invoice')) {
+            $query->where('invoice', 'LIKE', '%' . $request->invoice . '%');
+        }
+        if ($request->filled('payment_status')) {
+            $query->where('payment_status', $request->payment_status);
+        }
+        if ($request->filled('work_status')) {
+            $query->where('work_status', $request->work_status);
+        }
+        if ($request->filled('old_new')) {
+            $query->where('old_new', $request->old_new);
+        }
+        if ($request->filled('work_type')) {
+            $query->where('work_type_id', $request->work_type);
+        }
+
+        $orders = $query->paginate(100); // Do not use infinite/lazy pagination during search
 
         $users = User::all();
         $invoices = Invoice::all();
@@ -47,6 +77,8 @@ class AdminController extends Controller
 
         return view('admin.admin-orders', compact('orders', 'users', 'invoices', 'work_types'));
     }
+
+
 
 
     public function updateBoostingAD(Request $request, $id)

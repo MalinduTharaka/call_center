@@ -89,7 +89,7 @@
                     <div class="collapse" id="sidebarProfiles">
                         <ul class="side-nav-second-level">
                             <li class="side-nav-item">
-                                <a href="/admin/orders" class="side-nav-link">
+                                <a href="/admin/orders#basictab1" class="side-nav-link">
                                     {{-- <i class="ri-dashboard-3-line"></i> --}}
                                     <span> Admin Orders All Access </span>
                                 </a>

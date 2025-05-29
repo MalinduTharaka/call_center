@@ -202,16 +202,19 @@
                             <li class="nav-item">
                                 <a href="#basictab1" class="nav-link rounded-0 py-2">
                                     <span class="d-none d-sm-inline">Boosting</span>
+                                    <span class="badge bg-secondary ms-1 fs-4" id="boosting-count">0</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#basictab2" class="nav-link rounded-0 py-2">
                                     <span class="d-none d-sm-inline">Designs</span>
+                                    <span class="badge bg-secondary ms-1 fs-4" id="designs-count">0</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#basictab3" class="nav-link rounded-0 py-2">
                                     <span class="d-none d-sm-inline">Video</span>
+                                    <span class="badge bg-secondary ms-1 fs-4" id="video-count">0</span>
                                 </a>
                             </li>
                         </ul>
@@ -892,5 +895,49 @@
             }
         });
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function updateRowCounts() {
+            const tabMap = {
+                'boosting-count': '#basictab1',
+                'designs-count': '#basictab2',
+                'video-count': '#basictab3'
+            };
+
+            Object.entries(tabMap).forEach(([counterId, tabSelector]) => {
+                const table = document.querySelector(`${tabSelector} table`);
+                if (!table) return;
+
+                const visibleRows = table.querySelectorAll('tbody tr:not([style*="display: none"])');
+                document.getElementById(counterId).textContent = visibleRows.length;
+            });
+        }
+
+        // Initial run
+        updateRowCounts();
+
+        // Re-run after any change that could affect row visibility
+        const observer = new MutationObserver(() => updateRowCounts());
+
+        document.querySelectorAll('.tab-pane tbody').forEach(tbody => {
+            observer.observe(tbody, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+        });
+
+        // Also run on manual filtering, AJAX injection, tab switch, etc.
+        document.querySelectorAll('.search-btn, .search-input').forEach(el => {
+            el.addEventListener('input', updateRowCounts);
+            el.addEventListener('click', updateRowCounts);
+            el.addEventListener('change', updateRowCounts);
+        });
+
+        // Run on tab switch
+        document.querySelectorAll('.nav-link').forEach(tab => {
+            tab.addEventListener('click', function () {
+                setTimeout(updateRowCounts, 200);
+            });
+        });
+    });
+</script>
+
 
 @endsection

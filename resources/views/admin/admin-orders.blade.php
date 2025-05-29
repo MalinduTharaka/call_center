@@ -137,29 +137,108 @@
                             <li class="nav-item">
                                 <a href="#basictab1" class="nav-link rounded-0 py-2">
                                     <span class="d-none d-sm-inline">Boosting</span>
+                                    <span class="badge bg-secondary ms-1 fs-4" id="boosting-count">0</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#basictab2" class="nav-link rounded-0 py-2">
                                     <span class="d-none d-sm-inline">Designs</span>
+                                    <span class="badge bg-secondary ms-1 fs-4" id="designs-count">0</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#basictab3" class="nav-link rounded-0 py-2">
                                     <span class="d-none d-sm-inline">Video</span>
+                                    <span class="badge bg-secondary ms-1 fs-4" id="video-count">0</span>
                                 </a>
                             </li>
                         </ul>
+
 
                         <div class="tab-content b-0 mb-0">
                             <div class="tab-pane tab-panebtn" id="basictab1" style="display: block;">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="col-3 mb-3">
+                                        <div class="col-12 mb-3">
                                             <div class="input-group">
-                                                <input type="text" class="form-control search-input"
-                                                    placeholder="Search orders..." data-target-table="#basictab1 table">
-                                                <button class="btn btn-primary search-btn">Search</button>
+                                                <form method="GET" action="{{ route('admin.orders') }}" class="row g-3">
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="id" class="form-control"
+                                                            placeholder="Order ID" value="{{ request('id') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="contact" class="form-control"
+                                                            placeholder="Contact" value="{{ request('contact') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name" value="{{ request('name') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="invoice" class="form-control"
+                                                            placeholder="Invoice" value="{{ request('invoice') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="payment_status" class="form-select">
+                                                            <option value="">Payment Status</option>
+                                                            <option value="done"
+                                                                @selected(request('payment_status') == 'done')>Done</option>
+                                                            <option value="partial"
+                                                                @selected(request('payment_status') == 'partial')>Partial
+                                                            </option>
+                                                            <option value="pending"
+                                                                @selected(request('payment_status') == 'pending')>Pending
+                                                            </option>
+                                                            <option value="rejected"
+                                                                @selected(request('payment_status') == 'rejected')>Rejected
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="work_status" class="form-select">
+                                                            <option value="">Work Status</option>
+                                                            <option value="done" @selected(request('work_status') == 'done')>
+                                                                Done</option>
+                                                            <option value="pending"
+                                                                @selected(request('work_status') == 'pending')>Pending
+                                                            </option>
+                                                            <option value="send to customer"
+                                                                @selected(request('work_status') == 'send to customer')>Send
+                                                                to Customer</option>
+                                                            <option value="send to designer"
+                                                                @selected(request('work_status') == 'send to designer')>Send
+                                                                to Designer</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="work_type" class="form-select">
+                                                            <option value="">Work Type</option>
+                                                            @foreach ($work_types as $type)
+                                                                @if ($type->order_type == 'boosting')
+                                                                    <option value="{{ $type->id }}"
+                                                                        @selected(request('work_type') == $type->id)>{{ $type->name }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="old_new" class="form-select">
+                                                            <option value="">Old/New</option>
+                                                            <option value="old" @selected(request('old_new') == 'old')>Old
+                                                            </option>
+                                                            <option value="new" @selected(request('old_new') == 'new')>New
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 d-flex align-items-end">
+                                                        <button class="btn btn-primary me-2" type="submit">Search</button>
+                                                        <a href="{{ route('admin.orders') }}"
+                                                            class="btn btn-secondary">Clear</a>
+                                                    </div>
+
+                                                </form>
+
                                             </div>
                                         </div>
                                         <div class="table-responsive">
@@ -216,11 +295,11 @@
                                         const invoice = button.getAttribute('data-invoice');
 
                                         slipContent.innerHTML = `
-                                                                <div class="text-center">
-                                                                    <div class="spinner-border" role="status">
-                                                                        <span class="visually-hidden">Loading...</span>
-                                                                    </div>
-                                                                </div>`;
+                                                                                            <div class="text-center">
+                                                                                                <div class="spinner-border" role="status">
+                                                                                                    <span class="visually-hidden">Loading...</span>
+                                                                                                </div>
+                                                                                            </div>`;
 
                                         fetch(`/orders/get-slips/${invoice}`)
                                             .then(response => response.json())
@@ -233,10 +312,10 @@
                                                 let content = '';
                                                 data.forEach(slip => {
                                                     content += `
-                                                                            <div class="mb-3">
-                                                                                <p><strong>Bank Name:</strong> ${slip.bank}</p>
-                                                                                ${getSlipContent(slip)}
-                                                                            </div>`;
+                                                                                                        <div class="mb-3">
+                                                                                                            <p><strong>Bank Name:</strong> ${slip.bank}</p>
+                                                                                                            ${getSlipContent(slip)}
+                                                                                                        </div>`;
                                                 });
                                                 slipContent.innerHTML = content;
                                             })
@@ -250,15 +329,15 @@
                                         const extension = slip.type.toLowerCase();
                                         if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
                                             return `<a href="${slip.path}" target="_blank">
-                                                                            <img src="${slip.path}" alt="Slip Image" 
-                                                                                 class="img-fluid rounded" 
-                                                                                 style="width: 300px; height: 200px;">
-                                                                        </a>`;
+                                                                                                        <img src="${slip.path}" alt="Slip Image" 
+                                                                                                             class="img-fluid rounded" 
+                                                                                                             style="width: 300px; height: 200px;">
+                                                                                                    </a>`;
                                         }
                                         if (extension === 'pdf') {
                                             return `<iframe src="${slip.path}" 
-                                                                                width="100%" height="400px" 
-                                                                                style="border: none;"></iframe>`;
+                                                                                                            width="100%" height="400px" 
+                                                                                                            style="border: none;"></iframe>`;
                                         }
                                         return '<p>Unsupported file type.</p>';
                                     }
@@ -289,11 +368,77 @@
                             <div class="tab-pane tab-panebtn" id="basictab2" style="display: none;">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="col-3 mb-3">
+                                        <div class="col-12 mb-3">
                                             <div class="input-group">
-                                                <input type="text" class="form-control search-input"
-                                                    placeholder="Search orders..." data-target-table="#basictab2 table">
-                                                <button class="btn btn-primary search-btn">Search</button>
+                                                <form method="GET" action="{{ route('admin.orders') }}" class="row g-3">
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="id" class="form-control"
+                                                            placeholder="Order ID" value="{{ request('id') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="contact" class="form-control"
+                                                            placeholder="Contact" value="{{ request('contact') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name" value="{{ request('name') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="invoice" class="form-control"
+                                                            placeholder="Invoice" value="{{ request('invoice') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="payment_status" class="form-select">
+                                                            <option value="">Payment Status</option>
+                                                            <option value="done"
+                                                                @selected(request('payment_status') == 'done')>Done</option>
+                                                            <option value="partial"
+                                                                @selected(request('payment_status') == 'partial')>Partial
+                                                            </option>
+                                                            <option value="pending"
+                                                                @selected(request('payment_status') == 'pending')>Pending
+                                                            </option>
+                                                            <option value="rejected"
+                                                                @selected(request('payment_status') == 'rejected')>Rejected
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="work_status" class="form-select">
+                                                            <option value="">Work Status</option>
+                                                            <option value="done" @selected(request('work_status') == 'done')>
+                                                                Done</option>
+                                                            <option value="pending"
+                                                                @selected(request('work_status') == 'pending')>Pending
+                                                            </option>
+                                                            <option value="send to customer"
+                                                                @selected(request('work_status') == 'send to customer')>Send
+                                                                to Customer</option>
+                                                            <option value="send to designer"
+                                                                @selected(request('work_status') == 'send to designer')>Send
+                                                                to Designer</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="work_type" class="form-select">
+                                                            <option value="">Work Type</option>
+                                                            @foreach ($work_types as $type)
+                                                                @if ($type->order_type == 'designs')
+                                                                    <option value="{{ $type->id }}"
+                                                                        @selected(request('work_type') == $type->id)>{{ $type->name }}
+                                                                    </option>
+                                                                @endif
+
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 d-flex align-items-end">
+                                                        <button class="btn btn-primary me-2" type="submit">Search</button>
+                                                        <a href="{{ route('admin.orders') }}"
+                                                            class="btn btn-secondary">Clear</a>
+                                                    </div>
+
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="table-responsive">
@@ -332,11 +477,76 @@
                             <div class="tab-pane tab-panebtn" id="basictab3" style="display: none;">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="col-3 mb-3">
+                                        <div class="col-12 mb-3">
                                             <div class="input-group">
-                                                <input type="text" class="form-control search-input"
-                                                    placeholder="Search orders..." data-target-table="#basictab3 table">
-                                                <button class="btn btn-primary search-btn">Search</button>
+                                                <form method="GET" action="{{ route('admin.orders') }}" class="row g-3">
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="id" class="form-control"
+                                                            placeholder="Order ID" value="{{ request('id') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="contact" class="form-control"
+                                                            placeholder="Contact" value="{{ request('contact') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name" value="{{ request('name') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" name="invoice" class="form-control"
+                                                            placeholder="Invoice" value="{{ request('invoice') }}">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="payment_status" class="form-select">
+                                                            <option value="">Payment Status</option>
+                                                            <option value="done"
+                                                                @selected(request('payment_status') == 'done')>Done</option>
+                                                            <option value="partial"
+                                                                @selected(request('payment_status') == 'partial')>Partial
+                                                            </option>
+                                                            <option value="pending"
+                                                                @selected(request('payment_status') == 'pending')>Pending
+                                                            </option>
+                                                            <option value="rejected"
+                                                                @selected(request('payment_status') == 'rejected')>Rejected
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="work_status" class="form-select">
+                                                            <option value="">Work Status</option>
+                                                            <option value="done" @selected(request('work_status') == 'done')>
+                                                                Done</option>
+                                                            <option value="pending"
+                                                                @selected(request('work_status') == 'pending')>Pending
+                                                            </option>
+                                                            <option value="send to customer"
+                                                                @selected(request('work_status') == 'send to customer')>Send
+                                                                to Customer</option>
+                                                            <option value="send to designer"
+                                                                @selected(request('work_status') == 'send to designer')>Send
+                                                                to Designer</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="work_type" class="form-select">
+                                                            <option value="">Work Type</option>
+                                                            @foreach ($work_types as $type)
+                                                                @if ($type->order_type == 'video')
+                                                                    <option value="{{ $type->id }}"
+                                                                        @selected(request('work_type') == $type->id)>{{ $type->name }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 d-flex align-items-end">
+                                                        <button class="btn btn-primary me-2" type="submit">Search</button>
+                                                        <a href="{{ route('admin.orders') }}"
+                                                            class="btn btn-secondary">Clear</a>
+                                                    </div>
+
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="table-responsive">
@@ -420,7 +630,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Function to activate tabs
             function activateTab(tabHash) {
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.classList.remove('active');
@@ -441,66 +650,21 @@
                 }
             }
 
+            const storedTab = localStorage.getItem('activeTab');
+            const hash = window.location.hash || storedTab || '#basictab1';
 
-            // Set default tab if no hash exists
-            if (!window.location.hash) {
-                window.location.hash = '#basictab1';
-            } else {
-                activateTab(window.location.hash);
-            }
+            activateTab(hash);
 
-            // Update tabs when hash changes
-            window.addEventListener('hashchange', () => {
-                activateTab(window.location.hash);
-            });
-
-            // Handle manual tab clicks
-            document.querySelectorAll('.nav-link[data-bs-toggle="tab"]').forEach(tab => {
+            // Update storage on manual tab click
+            document.querySelectorAll('.nav-link').forEach(tab => {
                 tab.addEventListener('click', function (e) {
-                    window.location.hash = this.getAttribute('href');
+                    const target = this.getAttribute('href');
+                    localStorage.setItem('activeTab', target);
+                    activateTab(target); // Optional immediate switch
                 });
             });
         });
-    </script>
-    <script>
-        // Search functionality
-        // Search functionality
-        document.addEventListener("DOMContentLoaded", function () {
-            // Handle search button clicks
-            document.querySelectorAll('.search-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    const input = this.closest('.input-group').querySelector('.search-input');
-                    performSearch(input);
-                });
-            });
 
-            // Handle Enter key in search inputs
-            document.querySelectorAll('.search-input').forEach(input => {
-                input.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        performSearch(this);
-                    }
-                });
-            });
-
-            function performSearch(inputElement) {
-                const searchTerm = inputElement.value.trim().toLowerCase();
-                const targetTable = document.querySelector(inputElement.dataset.targetTable);
-                searchActive = !!searchTerm;
-
-                if (targetTable) {
-                    const rows = targetTable.querySelectorAll('tbody tr');
-                    rows.forEach(row => {
-                        const cells = row.querySelectorAll('td');
-                        const found = Array.from(cells).some(cell =>
-                            cell.textContent.toLowerCase().includes(searchTerm)
-                        );
-                        row.style.display = found ? '' : 'none';
-                    });
-                }
-            }
-
-        });
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -586,9 +750,9 @@
                 const alert = document.createElement('div');
                 alert.className = `alert alert-${type} alert-dismissible fade show`;
                 alert.innerHTML = `
-                        <strong>${type === 'success' ? 'Success' : 'Error'}:</strong> ${message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    `;
+                                                    <strong>${type === 'success' ? 'Success' : 'Error'}:</strong> ${message}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                `;
                 document.body.prepend(alert);
                 setTimeout(() => alert.remove(), 3000);
             }
@@ -656,7 +820,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let searchActive = false;
+            // Automatically detect if any search filters are active
+            const searchParams = new URLSearchParams(window.location.search);
+            const filterKeys = [
+                'id', 'contact', 'name', 'invoice',
+                'payment_status', 'work_status', 'work_type', 'old_new'
+            ];
+
+            const searchActive = filterKeys.some(key => {
+                const value = searchParams.get(key);
+                return value !== null && value.trim() !== '';
+            });
 
             const pages = { boosting: 1, designs: 1, video: 1 };
             const isLoading = { boosting: false, designs: false, video: false };
@@ -668,37 +842,41 @@
                 basictab3: 'video'
             };
 
-            // Auto-load 2 more pages (page 2 and 3) on load
-            Object.keys(pages).forEach(type => {
-                const paneId = Object.entries(tabTypeMap).find(([k, v]) => v === type)?.[0];
-                const pane = document.getElementById(paneId);
-                const tbody = pane?.querySelector('tbody');
-                if (tbody) {
-                    loadInitialPages(type, tbody, 2); // load 2 pages initially
-                    tbody.dataset.loaded = true;
-                }
-            });
-
-            // Lazy loading on scroll
-            document.querySelectorAll('.tab-pane').forEach(pane => {
-                const tableContainer = pane.querySelector('.table-responsive');
-                if (!tableContainer) return;
-
-                tableContainer.addEventListener('scroll', function () {
-                    const tabId = pane.id;
-                    const type = tabTypeMap[tabId];
-
-                    if (searchActive || !type || isLoading[type] || noMoreData[type]) return;
-
-                    const nearBottom = tableContainer.scrollTop + tableContainer.clientHeight >= tableContainer.scrollHeight - 100;
-                    if (nearBottom) {
-                        const tbody = tableContainer.querySelector('tbody');
-                        if (tbody) {
-                            loadMore(type, tbody);
-                        }
+            // Auto-load 2 more pages only if no search is active
+            if (!searchActive) {
+                Object.keys(pages).forEach(type => {
+                    const paneId = Object.entries(tabTypeMap).find(([k, v]) => v === type)?.[0];
+                    const pane = document.getElementById(paneId);
+                    const tbody = pane?.querySelector('tbody');
+                    if (tbody) {
+                        loadInitialPages(type, tbody, 2);
+                        tbody.dataset.loaded = true;
                     }
                 });
-            });
+            }
+
+            // Lazy loading on scroll (disabled if search is active)
+            if (!searchActive) {
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    const tableContainer = pane.querySelector('.table-responsive');
+                    if (!tableContainer) return;
+
+                    tableContainer.addEventListener('scroll', function () {
+                        const tabId = pane.id;
+                        const type = tabTypeMap[tabId];
+
+                        if (!type || isLoading[type] || noMoreData[type]) return;
+
+                        const nearBottom = tableContainer.scrollTop + tableContainer.clientHeight >= tableContainer.scrollHeight - 100;
+                        if (nearBottom) {
+                            const tbody = tableContainer.querySelector('tbody');
+                            if (tbody) {
+                                loadMore(type, tbody);
+                            }
+                        }
+                    });
+                });
+            }
 
             function loadInitialPages(type, tbody, count) {
                 if (count <= 0 || noMoreData[type]) return;
@@ -718,7 +896,7 @@
                         } else {
                             tbody.insertAdjacentHTML('beforeend', html);
                             isLoading[type] = false;
-                            loadInitialPages(type, tbody, count - 1); // recursive load
+                            loadInitialPages(type, tbody, count - 1);
                         }
                     })
                     .catch(err => {
@@ -742,10 +920,10 @@
                         if (html.trim() === '') {
                             noMoreData[type] = true;
                             tbody.insertAdjacentHTML('beforeend', `
-                            <tr class="no-more-data">
-                                <td colspan="100%" class="text-center text-muted">No more records</td>
-                            </tr>
-                        `);
+                                            <tr class="no-more-data">
+                                                <td colspan="100%" class="text-center text-muted">No more records</td>
+                                            </tr>
+                                        `);
                         } else {
                             tbody.insertAdjacentHTML('beforeend', html);
                         }
@@ -761,14 +939,14 @@
             function showSpinner(tbody) {
                 if (!tbody.querySelector('.loading-spinner')) {
                     tbody.insertAdjacentHTML('beforeend', `
-                    <tr class="loading-spinner">
-                        <td colspan="100%" class="text-center">
-                            <div class="spinner-border" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </td>
-                    </tr>
-                `);
+                                        <tr class="loading-spinner">
+                                            <td colspan="100%" class="text-center">
+                                                <div class="spinner-border" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `);
                 }
             }
 
@@ -778,6 +956,51 @@
             }
         });
     </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function updateRowCounts() {
+            const tabMap = {
+                'boosting-count': '#basictab1',
+                'designs-count': '#basictab2',
+                'video-count': '#basictab3'
+            };
+
+            Object.entries(tabMap).forEach(([counterId, tabSelector]) => {
+                const table = document.querySelector(`${tabSelector} table`);
+                if (!table) return;
+
+                const visibleRows = table.querySelectorAll('tbody tr:not([style*="display: none"])');
+                document.getElementById(counterId).textContent = visibleRows.length;
+            });
+        }
+
+        // Initial run
+        updateRowCounts();
+
+        // Re-run after any change that could affect row visibility
+        const observer = new MutationObserver(() => updateRowCounts());
+
+        document.querySelectorAll('.tab-pane tbody').forEach(tbody => {
+            observer.observe(tbody, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+        });
+
+        // Also run on manual filtering, AJAX injection, tab switch, etc.
+        document.querySelectorAll('.search-btn, .search-input').forEach(el => {
+            el.addEventListener('input', updateRowCounts);
+            el.addEventListener('click', updateRowCounts);
+            el.addEventListener('change', updateRowCounts);
+        });
+
+        // Run on tab switch
+        document.querySelectorAll('.nav-link').forEach(tab => {
+            tab.addEventListener('click', function () {
+                setTimeout(updateRowCounts, 200);
+            });
+        });
+    });
+</script>
+
 
 
 @endsection
