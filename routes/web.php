@@ -135,6 +135,7 @@ Route::middleware([
     Route::get('/advertisers_all_order/manage', [AdvertiserAllOrdersController::class, 'index'])->name('advertisers.index');
     Route::put('/advertisers_all_order/update/{id}', [AdvertiserAllOrdersController::class, 'updateAdvAll'])->name('advertisers.update');
     Route::get('/advertisers_all_order/body', [AdvertiserAllOrdersController::class, 'body'])->name('advertisers_all_order.body');
+    Route::get('/advertisers/design/view', [AdvertiserController::class, 'advertiserDesignView']);
 
 
     //Other Order Routes
