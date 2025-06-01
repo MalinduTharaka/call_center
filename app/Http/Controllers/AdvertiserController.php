@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AdvertiserWorkEvent;
+use App\Listeners\AdvertiserWorkTableUpdateListner;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Package;
@@ -35,7 +37,12 @@ class AdvertiserController extends Controller
     public function updateAdv(Request $request, $id){
         $advertiser = Order::findOrFail($id);
         $advertiser->update($request->all());
+
+
+
         return redirect()->back()->with('success', 'Add Updated Successfully');
+
+
     }
 
 

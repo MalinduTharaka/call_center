@@ -163,6 +163,12 @@
                                     <span> Designers Work </span>
                                 </a>
                             </li>
+                            <li class="side-nav-item">
+                                <a href="/advertiser-works" class="side-nav-link">
+                                    {{-- <i class="ri-dashboard-3-line"></i> --}}
+                                    <span> Advertisers Work </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

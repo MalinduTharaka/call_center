@@ -13,6 +13,12 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\DesignersPaymentsUpdateEvent::class => [
             \App\Listeners\DesignersPaymentUpdateListner::class,
         ],
+        \App\Events\AdvertiserWorkEvent::class => [
+            \App\Listeners\AdvertiserWorkTableUpdateListner::class,
+        ],
+         \App\Events\AdvertiserEndWorkEvent::class => [
+        \App\Listeners\UpdateAdvertiserOffTimeListener::class,
+    ],
     ];
 
     /**

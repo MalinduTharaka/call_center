@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AdvertiserEndWorkEvent;
 use App\Models\Attendance;
 use App\Models\Invoice;
 use App\Models\User;
@@ -51,6 +52,8 @@ class AttendanceController extends Controller
                 'message' => 'Arrival time recorded successfully.',
             ]);
         }
+
+        
     }
 
     public function indextodayattendance()
@@ -70,6 +73,10 @@ class AttendanceController extends Controller
             'arr_time' => $request->arr_time,
             'leave_time' => $request->leave_time,
         ]);
+        $userId = $request->user_id;
+        $endTime = $request->leave_time;
+        // dd($endTime);
+        event(new AdvertiserEndWorkEvent($userId, $endTime));
         return redirect()->back()->with('success', 'Attendance added successfully');
     }
 
@@ -80,6 +87,10 @@ class AttendanceController extends Controller
             'arr_time' => $request->arr_time,
             'leave_time' => $request->leave_time,
         ]);
+        $userId = $request->user_id;
+        $endTime = $request->leave_time;
+
+        event(new AdvertiserEndWorkEvent($userId, $endTime));
 
         return redirect()->back()->with('success', 'Attendance updated successfully');
     }

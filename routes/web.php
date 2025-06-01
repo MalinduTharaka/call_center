@@ -11,6 +11,7 @@ use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\DesignersWorkDoneController;
 use App\Http\Controllers\DesignPaymentController;
 use App\Http\Controllers\AdvertiserController;
+use App\Http\Controllers\AdvertiserWorkController;
 use App\Http\Controllers\AssignEmployeesController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\IncomeCalculatorController;
@@ -259,6 +260,10 @@ Route::middleware([
     Route::put('/salary/edit/{id}', [SalaryController::class, 'editSalary']);
     Route::get('/net/income/calculator', [IncomeCalculatorController::class, 'index'])->name('net.income.calculator');
 
+
+    //Advertiser Work Done
+    Route::get('/advertiser-works', [AdvertiserWorkController::class, 'index'])->name('advertiser-works.index');
+    Route::put('/advertiser-works/{advertiserWork}', [AdvertiserWorkController::class, 'update'])->name('advertiser-works.update');
 });
 
 
