@@ -40,7 +40,7 @@ class AdvertiserAllOrdersController extends Controller
             $request->merge($request->json()->all());
         }
 
-        event(new AdvertiserWorkEvent($id));
+        event(args: new AdvertiserWorkEvent($id));
 
         // Only advertiser_id is required
         $request->validate([
