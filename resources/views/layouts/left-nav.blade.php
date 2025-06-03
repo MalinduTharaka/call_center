@@ -271,8 +271,8 @@
                 </li>
 
                 <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarAttendance" aria-expanded="false" aria-controls="sidebarAttendance"
-                        class="side-nav-link">
+                    <a data-bs-toggle="collapse" href="#sidebarAttendance" aria-expanded="false"
+                        aria-controls="sidebarAttendance" class="side-nav-link">
                         <i class="ri-pencil-ruler-2-line"></i>
                         <span> Attendances </span>
                         <span class="menu-arrow"></span>
@@ -294,7 +294,7 @@
                         </ul>
                     </div>
                 </li>
-                
+
                 <li class="side-nav-item">
                     <a data-bs-toggle="collapse" href="#sidebarSalary" aria-expanded="false" aria-controls="sidebarSalary"
                         class="side-nav-link">
@@ -338,7 +338,7 @@
                         </ul>
                     </div>
                 </li>
-                
+
             @elseif (Auth::user()->role == 'cro')
 
                 <li class="side-nav-item">
@@ -391,6 +391,12 @@
                     <a href="/update-center" class="side-nav-link">
                         <i class="ri-dashboard-3-line"></i>
                         <span> Update Center </span>
+                    </a>
+                </li>
+                <li class="side-nav-item">
+                    <a href="/update/sheet" class="side-nav-link">
+                        <i class="ri-dashboard-3-line"></i>
+                        <span> UpdateSheet </span>
                     </a>
                 </li>
                 <li class="side-nav-item">

@@ -22,7 +22,7 @@
                             <th class="text-center">#</th>
                             <th>User</th>
                             <th>Add Count</th>
-                            <th>Add Count at 5 PM</th>
+                            <th>Add Count at 7 PM</th>
                             <th>Target</th>
                             <th>Target Complete Time</th>
                             <th>Off Time</th>
@@ -41,7 +41,7 @@
                                 <td>{{ $work->target }}</td>
                                 <td>{{ $work->complete_time }}</td>
                                 <td>{{ $work->off_time }}</td>
-                                <td>{{ $work->ot }}</td>
+                                <td>{{ $work->ot/60 }}</td>
                                 <td>{{ $work->date }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal"

@@ -107,7 +107,7 @@
                                                             <input type="text" class="form-control" id="Employee" 
                                                                 value="{{ $attendance->User->name }}" >
                                                             <input type="text" class="form-control" id="Employee" name="user_id"
-                                                                value="{{ $attendance->user_id }}" >
+                                                                value="{{ $attendance->user_id }}" hidden>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="date" class="form-label">Date</label>/

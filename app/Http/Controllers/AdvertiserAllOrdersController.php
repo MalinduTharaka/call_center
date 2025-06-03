@@ -27,7 +27,7 @@ class AdvertiserAllOrdersController extends Controller
         $orders = Order::where('ps', '1')->where('order_type', 'boosting')->whereBetween('created_at', [$from, $to])->orderBy('created_at', 'desc')->get();
         $users = User::whereIn('role', ['adv', 'admin'])->get();
         $invoices = Invoice::where('due_date', Carbon::today())->get();
-        return view('advertiser.advertiser-all-orders', compact('orders',  'users', 'invoices'));
+        return view('advertiser.advertiser-all-orders', compact('orders', 'users', 'invoices'));
     }
 
 
@@ -40,7 +40,7 @@ class AdvertiserAllOrdersController extends Controller
             $request->merge($request->json()->all());
         }
 
-        event(args: new AdvertiserWorkEvent($id));
+
 
         // Only advertiser_id is required
         $request->validate([
@@ -72,7 +72,10 @@ class AdvertiserAllOrdersController extends Controller
         // --- END NEW
 
         // Build update array dynamically
-        $data = ['advertiser_id' => $request->input('advertiser_id')];
+        $data = [
+            'advertiser_id' => $request->input('advertiser_id'),
+            'due_date' => Carbon::now()
+        ];
         if ($request->filled('work_status')) {
             $data['work_status'] = $request->input('work_status');
         }
@@ -89,6 +92,8 @@ class AdvertiserAllOrdersController extends Controller
         $order->update($data);
         $order->load('advertiser');
 
+        event(new AdvertiserWorkEvent($id));
+
         return response()->json([
             'success' => true,
             'order' => $order,
@@ -104,33 +109,33 @@ class AdvertiserAllOrdersController extends Controller
         $cacheKey = 'advertiser_orders_' . $user->id . '_' . $from->timestamp . '_' . $to->timestamp;
 
         $orders = Order::select([
-                'id',
-                'ce',
-                'invoice',  
-                'uid',
-                'name',
-                'old_new',
-                'contact',
-                'work_type_id',
-                'page',
-                'work_status',
-                'payment_status',
-                'cash',
-                'advertiser_id',
-                'package_amt',
-                'service',
-                'tax',
-                'advance',
-                'details',
-                'add_acc_id',
-                'created_at',
-                'add_acc'
-            ])
-                ->whereBetween('created_at', [$from, $to])
-                ->where('ps', '1')
-                ->where('order_type', 'boosting')
-                ->orderBy('created_at', 'desc')
-                ->get();
+            'id',
+            'ce',
+            'invoice',
+            'uid',
+            'name',
+            'old_new',
+            'contact',
+            'work_type_id',
+            'page',
+            'work_status',
+            'payment_status',
+            'cash',
+            'advertiser_id',
+            'package_amt',
+            'service',
+            'tax',
+            'advance',
+            'details',
+            'add_acc_id',
+            'created_at',
+            'add_acc'
+        ])
+            ->whereBetween('created_at', [$from, $to])
+            ->where('ps', '1')
+            ->where('order_type', 'boosting')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         $users = User::whereIn('role', ['adv', 'admin'])->get();
         return view('advertiser.all-order-body', compact('orders', 'users'));

@@ -64,7 +64,7 @@ class CalculateAdvertiserSalary extends Command
 
             $bonusTotal = $works->sum(function ($work) use ($advertiserRate) {
                 $completeTime = Carbon::parse($work->complete_time);
-                $cutoffTime = Carbon::parse($work->date . ' 17:00:00');
+                $cutoffTime = Carbon::parse($work->date . ' 19:00:00');
 
                 if ($completeTime->lessThan($cutoffTime)) {
                     $diff = max(0, $work->wte_add_count - $work->target);
