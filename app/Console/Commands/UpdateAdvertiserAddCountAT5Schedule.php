@@ -14,21 +14,18 @@ class UpdateAdvertiserAddCountAT5Schedule extends Command
      *
      * @var string
      */
-   protected $signature = 'advertiser:update-wte';
+    protected $signature = 'advertiser:update-wte';
 
     /**
      * The console command description.
      *
      * @var string
      */
-   protected $description = 'Update wte_add_count with add_count for today\'s advertiser work records';
+    protected $description = 'Update wte_add_count with add_count for today\'s advertiser work records';
 
     /**
      * Execute the console command.
      */
-
-        
-
     public function handle()
     {
         $today = Carbon::today()->toDateString();
@@ -38,6 +35,10 @@ class UpdateAdvertiserAddCountAT5Schedule extends Command
                 'wte_add_count' => DB::raw('add_count')
             ]);
 
-        $this->info('wte_add_count updated for today\'s records.');
+        if ($this->output) {
+            $this->info("wte_add_count updated for $today's records.");
+        }
+
+        return 0;
     }
 }

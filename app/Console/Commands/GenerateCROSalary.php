@@ -16,21 +16,33 @@ class GenerateCROSalary extends Command
 
     public function handle()
     {
-        $lastMonth = Carbon::now()->subMonth()->toDateString(); // e.g. 2025-04-01
+        $lastMonth = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d'); // Use consistent format for month
 
         $users = User::where('role', 'cro')->get();
 
+        if ($users->isEmpty()) {
+            if ($this->output) {
+                $this->info("No CRO users found.");
+            }
+            return 0;
+        }
+
+        $salaryRate = SalaryRate::where('role', 'cro')->first();
+        if (!$salaryRate) {
+            if ($this->output) {
+                $this->error("No SalaryRate found for role = cro");
+            }
+            return 1;
+        }
+
         foreach ($users as $user) {
-            $salaryRate = SalaryRate::where('role', 'cro')->first();
-            if (!$salaryRate) continue;
+            $bonus = 0;
 
             $works = CallCenterWork::with('target')
                 ->where('user_id', $user->id)
                 ->whereMonth('month', Carbon::parse($lastMonth)->month)
                 ->whereYear('month', Carbon::parse($lastMonth)->year)
                 ->get();
-
-            $bonus = 0;
 
             foreach ($works as $work) {
                 $target = $work->target;
@@ -46,27 +58,30 @@ class GenerateCROSalary extends Command
                 }
             }
 
-            // Create salary record
             Salary::updateOrCreate(
                 [
                     'user_id' => $user->id,
                     'month' => $lastMonth
                 ],
                 [
-                    'basic' => $salaryRate->basic,
-                    'allowance' => $salaryRate->allowance,
-                    'transport' => $salaryRate->transport,
+                    'basic'           => $salaryRate->basic,
+                    'allowance'       => $salaryRate->allowance,
+                    'transport'       => $salaryRate->transport,
                     'attendace_bonus' => $salaryRate->at_bonus,
-                    'bonus' => $bonus,
-                    'ot' => 0,
-                    'leave' => 0,
-                    'late' => 0,
-                    'deduction' => 0,
-                    'net_salary' => $salaryRate->basic + $salaryRate->allowance + $salaryRate->transport + $salaryRate->at_bonus + $bonus,
+                    'bonus'           => $bonus,
+                    'ot'              => 0,
+                    'leave'           => 0,
+                    'late'            => 0,
+                    'deduction'       => 0,
+                    'net_salary'      => $salaryRate->basic + $salaryRate->allowance + $salaryRate->transport + $salaryRate->at_bonus + $bonus,
                 ]
             );
         }
 
-        $this->info("CRO salaries generated for $lastMonth.");
+        if ($this->output) {
+            $this->info("CRO salaries generated for $lastMonth.");
+        }
+
+        return 0;
     }
 }

@@ -29,18 +29,19 @@ class GenerateMonthlySalariesUCA extends Command
      */
     public function handle()
     {
-        // Decide which month to record—for "last month" when you run on the 1st, or "this month" when run on the last day.
-        // Here we assume this command will run at 00:00 on the 1st of each month to record the previous month:
+        // Decide which month to record
         $salaryForMonth = Carbon::now()
-            ->subMonth()           // go back 1 month
-            ->endOfMonth()       // jump to the 1st of that month
-            ->format('Y-m-d');   // e.g. "2025-04-01"
+            ->subMonth()
+            ->endOfMonth()
+            ->format('Y-m-d');
 
-        // Fetch the rate row for UCA once
+        // Fetch the rate row for UCA
         $rate = SalaryRate::where('role', 'uca')->first();
 
         if (!$rate) {
-            $this->error('No SalaryRate found for role = uca');
+            if ($this->output) {
+                $this->error('No SalaryRate found for role = uca');
+            }
             return 1;
         }
 
@@ -54,7 +55,9 @@ class GenerateMonthlySalariesUCA extends Command
                 ->exists();
 
             if ($exists) {
-                $this->info("Skipped user {$user->id}: already has salary for {$salaryForMonth}");
+                if ($this->output) {
+                    $this->info("Skipped user {$user->id}: already has salary for {$salaryForMonth}");
+                }
                 continue;
             }
 
@@ -65,12 +68,13 @@ class GenerateMonthlySalariesUCA extends Command
                 'basic' => $rate->basic,
                 'allowance' => $rate->allowance,
                 'transport' => $rate->transport,
-                // you can default the rest to zero or null
                 'attendace_bonus' => 0,
                 'net_salary' => $rate->basic + $rate->allowance + $rate->transport,
             ]);
 
-            $this->info("Created salary for user {$user->id} for {$salaryForMonth}");
+            if ($this->output) {
+                $this->info("Created salary for user {$user->id} for {$salaryForMonth}");
+            }
         }
 
         return 0;
