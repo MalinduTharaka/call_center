@@ -253,6 +253,9 @@ Route::middleware([
     Route::get('/attendance/report/view', [AttendanceController::class, 'indexAttendanceReport'])->name('attendance.report');
     Route::get('/attendance/this-month/{id}', [AttendanceController::class, 'thisMonth'])->name('attendance.thisMonth');
     Route::post('/attendance/month/{id}', [AttendanceController::class, 'attendanceMonth'])->name('attendance.attendanceMonth');
+    Route::get('/attendance/get/{userId}/{date}', [AttendanceController::class, 'getAttendance']);
+    Route::post('/attendance/update', [AttendanceController::class, 'updateAttendance']);
+
 
     //Salary Routes
     Route::get('/salaries', [SalaryController::class, 'index'])->name('salary.index');

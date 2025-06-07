@@ -53,7 +53,7 @@ class AttendanceController extends Controller
             ]);
         }
 
-        
+
     }
 
     public function indextodayattendance()
@@ -107,17 +107,19 @@ class AttendanceController extends Controller
     {
         $invoices = Invoice::where('due_date', Carbon::today())->get();
         $users = User::all();
-        return view('attendance.attendance-report', compact( 'invoices', 'users'));
+        return view('attendance.attendance-report', compact('invoices', 'users'));
     }
 
-    public function thisMonth($id){
+    public function thisMonth($id)
+    {
         $attendances = Attendance::where('user_id', $id)
             ->whereMonth('date', Carbon::now()->month)
             ->get();
 
         return response()->json($attendances);
     }
-    public function attendanceMonth(Request $request, $id){
+    public function attendanceMonth(Request $request, $id)
+    {
         $attendances = Attendance::where('user_id', $id)
             ->whereMonth('date', $request->month)
             ->whereYear('date', $request->year)
@@ -125,4 +127,20 @@ class AttendanceController extends Controller
 
         return response()->json($attendances);
     }
+    public function getAttendance($userId, $date)
+    {
+        $record = Attendance::where('user_id', $userId)->where('date', $date)->first();
+        return response()->json($record ?? ['arr_time' => null, 'leave_time' => null]);
+    }
+
+    public function updateAttendance(Request $request)
+    {
+        $attendance = Attendance::updateOrCreate(
+            ['user_id' => $request->user_id, 'date' => $request->date],
+            ['arr_time' => $request->arr_time, 'leave_time' => $request->leave_time]
+        );
+
+        return response()->json(['status' => 'success', 'data' => $attendance]);
+    }
+
 }
