@@ -179,6 +179,35 @@
                                                             placeholder="Invoice" value="{{ request('invoice') }}">
                                                     </div>
                                                     <div class="col-md-2">
+                                                        <select name="uid" class="form-select">
+                                                            <option value="">CRO</option>
+                                                            @foreach ($users as $user)
+                                                                @if ($user->role == 'cro')
+                                                                    <option value="{{ $user->id }}"
+                                                                        @selected(request('uid') == $user->id)>
+                                                                        {{ $user->name }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <select name="advertiser_id" class="form-select">
+                                                            <option value="">Advertiser</option>
+                                                            @foreach ($users as $user)
+                                                                @if ($user->role == 'adv' || $user->role == 'admin')
+                                                                    <option value="{{ $user->id }}"
+                                                                        @selected(request('advertiser_id') == $user->id)>
+                                                                        {{ $user->name }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+
+                                                    <div class="col-md-2">
                                                         <select name="payment_status" class="form-select">
                                                             <option value="">Payment Status</option>
                                                             <option value="done"
@@ -330,6 +359,20 @@
                                                             placeholder="Invoice" value="{{ request('invoice') }}">
                                                     </div>
                                                     <div class="col-md-2">
+                                                        <select name="uid" class="form-select">
+                                                            <option value="">CRO</option>
+                                                            @foreach ($users as $user)
+                                                                @if ($user->role == 'cro')
+                                                                    <option value="{{ $user->id }}"
+                                                                        @selected(request('uid') == $user->id)>
+                                                                        {{ $user->name }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2">
                                                         <select name="payment_status" class="form-select">
                                                             <option value="">Payment Status</option>
                                                             <option value="done"
@@ -438,6 +481,20 @@
                                                         <input type="text" name="invoice" class="form-control"
                                                             placeholder="Invoice" value="{{ request('invoice') }}">
                                                     </div>
+                                                    <div class="col-md-2">
+                                                        <select name="uid" class="form-select">
+                                                            <option value="">CRO</option>
+                                                            @foreach ($users as $user)
+                                                                @if ($user->role == 'cro')
+                                                                    <option value="{{ $user->id }}"
+                                                                        @selected(request('uid') == $user->id)>
+                                                                        {{ $user->name }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
                                                     <div class="col-md-2">
                                                         <select name="payment_status" class="form-select">
                                                             <option value="">Payment Status</option>
@@ -606,291 +663,304 @@
             border-radius: 4px;
         }
     </style>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Auto-dismiss alerts
-    setTimeout(function () {
-        let alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => {
-            let bsAlert = new bootstrap.Alert(alert);
-            bsAlert.close();
-        });
-    }, 1000);
-
-    // Tab activation with fallback
-    function activateTab(tabHash) {
-        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-        document.querySelectorAll('.tab-pane').forEach(pane => {
-            pane.style.display = 'none';
-            pane.classList.remove('active', 'show');
-        });
-        if (!tabHash || tabHash === '#' || !document.querySelector(tabHash)) {
-            tabHash = '#basictab1';
-        }
-        const activeLink = document.querySelector(`[href="${tabHash}"]`);
-        const activePane = document.querySelector(tabHash);
-        if (activeLink) activeLink.classList.add('active');
-        if (activePane) {
-            activePane.style.display = 'block';
-            activePane.classList.add('active', 'show');
-        }
-    }
-
-    const storedTab = localStorage.getItem('activeTab');
-    let hash = window.location.hash || storedTab || '#basictab1';
-    activateTab(hash);
-
-    document.querySelectorAll('.nav-link').forEach(tab => {
-        tab.addEventListener('click', function () {
-            const target = this.getAttribute('href');
-            localStorage.setItem('activeTab', target);
-            activateTab(target);
-        });
-    });
-
-    // Row inline edit
-    let currentlyEditingRow = null;
-    document.addEventListener('click', function (e) {
-        if (currentlyEditingRow && !currentlyEditingRow.contains(e.target) && !e.target.classList.contains('edit-btn')) {
-            currentlyEditingRow.classList.remove('editing');
-            currentlyEditingRow = null;
-        }
-        if (e.target.classList.contains('edit-btn')) {
-            e.stopPropagation();
-            if (currentlyEditingRow) currentlyEditingRow.classList.remove('editing');
-            const row = e.target.closest('tr');
-            row.classList.add('editing');
-            currentlyEditingRow = row;
-        }
-    });
-
-    // Save row update
-    document.addEventListener('click', function (e) {
-        let endpoint = null;
-        if (e.target.classList.contains('done-btnb')) endpoint = 'boosting';
-        else if (e.target.classList.contains('done-btnd')) endpoint = 'designs';
-        else if (e.target.classList.contains('done-btnv')) endpoint = 'video';
-
-        if (endpoint) {
-            const row = e.target.closest('tr');
-            const orderId = row.dataset.orderId;
-            const payload = {};
-            row.querySelectorAll('input, select, textarea').forEach(input => {
-                if (input.name) payload[input.name] = input.value;
-            });
-            payload['_method'] = 'PUT';
-
-            fetch(`/orders/${endpoint}/update/${orderId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => {
-                if (!res.ok) throw new Error('Failed to update');
-                return res.json();
-            })
-            .then(() => {
-                showAlert('Updated successfully', 'success');
-                row.classList.remove('editing');
-                setTimeout(() => location.reload(), 800);
-            })
-            .catch(() => showAlert('Update failed', 'danger'));
-        }
-    });
-
-    function showAlert(message, type) {
-        const alert = document.createElement('div');
-        alert.className = `alert alert-${type} alert-dismissible fade show`;
-        alert.innerHTML = `
-            <strong>${type === 'success' ? 'Success' : 'Error'}:</strong> ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-        document.body.prepend(alert);
-        setTimeout(() => alert.remove(), 3000);
-    }
-
-    // Modal slip viewer
-    const modal = document.getElementById('viewSlipModal');
-    const slipContent = document.getElementById('slipContent');
-    modal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const invoice = button.getAttribute('data-invoice');
-        slipContent.innerHTML = `<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>`;
-        fetch(`/orders/get-slips/${invoice}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length === 0) {
-                    slipContent.innerHTML = '<p>No slips uploaded for this order.</p>';
-                    return;
-                }
-                let content = '';
-                data.forEach(slip => {
-                    const ext = slip.type.toLowerCase();
-                    const slipView = ['jpg','jpeg','png','gif'].includes(ext)
-                        ? `<a href="${slip.path}" target="_blank"><img src="${slip.path}" alt="Slip Image" class="img-fluid rounded" style="width: 300px; height: 200px;"></a>`
-                        : ext === 'pdf'
-                            ? `<iframe src="${slip.path}" width="100%" height="400px" style="border: none;"></iframe>`
-                            : '<p>Unsupported file type.</p>';
-                    content += `<div class="mb-3"><p><strong>Bank Name:</strong> ${slip.bank}</p>${slipView}</div>`;
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Auto-dismiss alerts
+            setTimeout(function () {
+                let alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    let bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
                 });
-                slipContent.innerHTML = content;
-            })
-            .catch(() => {
-                slipContent.innerHTML = '<p>Error loading slips. Please try again.</p>';
-            });
-    });
+            }, 1000);
 
-    // jQuery and vanilla fallback for modal update
-    $('#updateSheetModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var orderId = button.data('id');
-        $(this).find('#order-id-input').val(orderId);
-    });
-    const updateModal = document.getElementById('updateSheetModal');
-    if (updateModal) {
-        updateModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const orderId = button.getAttribute('data-id');
-            updateModal.querySelector('#order-id-input').value = orderId;
-        });
-    }
-
-    // Row Count after filtering
-    function updateRowCounts() {
-        const tabMap = {
-            'boosting-count': '#basictab1',
-            'designs-count': '#basictab2',
-            'video-count': '#basictab3'
-        };
-        Object.entries(tabMap).forEach(([counterId, tabSelector]) => {
-            const table = document.querySelector(`${tabSelector} table`);
-            if (!table) return;
-            const visibleRows = table.querySelectorAll('tbody tr:not([style*="display: none"])');
-            document.getElementById(counterId).textContent = visibleRows.length;
-        });
-    }
-
-    updateRowCounts();
-    const observer = new MutationObserver(updateRowCounts);
-    document.querySelectorAll('.tab-pane tbody').forEach(tbody => {
-        observer.observe(tbody, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
-    });
-    document.querySelectorAll('.search-btn, .search-input').forEach(el => {
-        el.addEventListener('input', updateRowCounts);
-        el.addEventListener('click', updateRowCounts);
-        el.addEventListener('change', updateRowCounts);
-    });
-    document.querySelectorAll('.nav-link').forEach(tab => {
-        tab.addEventListener('click', () => setTimeout(updateRowCounts, 200));
-    });
-
-    // Lazy loading with search awareness
-    const searchParams = new URLSearchParams(window.location.search);
-    const filterKeys = ['id', 'contact', 'name', 'invoice', 'payment_status', 'work_status', 'work_type', 'old_new'];
-    const searchActive = filterKeys.some(key => {
-        const value = searchParams.get(key);
-        return value !== null && value.trim() !== '';
-    });
-
-    const pages = { boosting: 1, designs: 1, video: 1 };
-    const isLoading = { boosting: false, designs: false, video: false };
-    const noMoreData = { boosting: false, designs: false, video: false };
-    const tabTypeMap = {
-        basictab1: 'boosting',
-        basictab2: 'designs',
-        basictab3: 'video'
-    };
-
-    if (!searchActive) {
-        Object.keys(pages).forEach(type => {
-            const paneId = Object.entries(tabTypeMap).find(([k, v]) => v === type)?.[0];
-            const pane = document.getElementById(paneId);
-            const tbody = pane?.querySelector('tbody');
-            if (tbody) {
-                loadInitialPages(type, tbody, 2);
-                tbody.dataset.loaded = true;
+            // Tab activation with fallback
+            function activateTab(tabHash) {
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.style.display = 'none';
+                    pane.classList.remove('active', 'show');
+                });
+                if (!tabHash || tabHash === '#' || !document.querySelector(tabHash)) {
+                    tabHash = '#basictab1';
+                }
+                const activeLink = document.querySelector(`[href="${tabHash}"]`);
+                const activePane = document.querySelector(tabHash);
+                if (activeLink) activeLink.classList.add('active');
+                if (activePane) {
+                    activePane.style.display = 'block';
+                    activePane.classList.add('active', 'show');
+                }
             }
-        });
 
-        document.querySelectorAll('.tab-pane').forEach(pane => {
-            const tableContainer = pane.querySelector('.table-responsive');
-            if (!tableContainer) return;
-            tableContainer.addEventListener('scroll', function () {
-                const tabId = pane.id;
-                const type = tabTypeMap[tabId];
-                if (!type || isLoading[type] || noMoreData[type]) return;
+            const storedTab = localStorage.getItem('activeTab');
+            let hash = window.location.hash || storedTab || '#basictab1';
+            activateTab(hash);
 
-                const nearBottom = tableContainer.scrollTop + tableContainer.clientHeight >= tableContainer.scrollHeight - 100;
-                if (nearBottom) {
-                    const tbody = tableContainer.querySelector('tbody');
-                    if (tbody) loadMore(type, tbody);
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const target = this.getAttribute('href');
+                    localStorage.setItem('activeTab', target);
+                    activateTab(target);
+                });
+            });
+
+            // Row inline edit
+            let currentlyEditingRow = null;
+            document.addEventListener('click', function (e) {
+                if (currentlyEditingRow && !currentlyEditingRow.contains(e.target) && !e.target.classList.contains('edit-btn')) {
+                    currentlyEditingRow.classList.remove('editing');
+                    currentlyEditingRow = null;
+                }
+                if (e.target.classList.contains('edit-btn')) {
+                    e.stopPropagation();
+                    if (currentlyEditingRow) currentlyEditingRow.classList.remove('editing');
+                    const row = e.target.closest('tr');
+                    row.classList.add('editing');
+                    currentlyEditingRow = row;
                 }
             });
-        });
-    }
 
-    function loadInitialPages(type, tbody, count) {
-        if (count <= 0 || noMoreData[type]) return;
-        pages[type]++;
-        isLoading[type] = true;
-        showSpinner(tbody);
-        fetch(`?page=${pages[type]}&type=${type}`, {
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        })
-        .then(res => res.text())
-        .then(html => {
-            hideSpinner(tbody);
-            if (html.trim() === '') {
-                noMoreData[type] = true;
-            } else {
-                tbody.insertAdjacentHTML('beforeend', html);
-                isLoading[type] = false;
-                loadInitialPages(type, tbody, count - 1);
+            // Save row update
+            document.addEventListener('click', function (e) {
+                let endpoint = null;
+                if (e.target.classList.contains('done-btnb')) endpoint = 'boosting';
+                else if (e.target.classList.contains('done-btnd')) endpoint = 'designs';
+                else if (e.target.classList.contains('done-btnv')) endpoint = 'video';
+
+                if (endpoint) {
+                    const row = e.target.closest('tr');
+                    const orderId = row.dataset.orderId;
+                    const payload = {};
+                    row.querySelectorAll('input, select, textarea').forEach(input => {
+                        if (input.name) payload[input.name] = input.value;
+                    });
+                    payload['_method'] = 'PUT';
+
+                    fetch(`/orders/${endpoint}/update/${orderId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify(payload)
+                    })
+                        .then(res => {
+                            if (!res.ok) throw new Error('Failed to update');
+                            return res.json();
+                        })
+                        .then(() => {
+                            showAlert('Updated successfully', 'success');
+                            row.classList.remove('editing');
+                            setTimeout(() => location.reload(), 800);
+                        })
+                        .catch(() => showAlert('Update failed', 'danger'));
+                }
+            });
+
+            function showAlert(message, type) {
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${type} alert-dismissible fade show`;
+                alert.innerHTML = `
+                        <strong>${type === 'success' ? 'Success' : 'Error'}:</strong> ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    `;
+                document.body.prepend(alert);
+                setTimeout(() => alert.remove(), 3000);
             }
-        })
-        .catch(err => {
-            console.error(`Failed to preload ${type} data:`, err);
-            hideSpinner(tbody);
-            isLoading[type] = false;
-        });
-    }
 
-    function loadMore(type, tbody) {
-        pages[type]++;
-        isLoading[type] = true;
-        showSpinner(tbody);
-        fetch(`?page=${pages[type]}&type=${type}`, {
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        })
-        .then(res => res.text())
-        .then(html => {
-            hideSpinner(tbody);
-            if (html.trim() === '') {
-                noMoreData[type] = true;
-                tbody.insertAdjacentHTML('beforeend', `
-                    <tr class="no-more-data">
-                        <td colspan="100%" class="text-center text-muted">No more records</td>
-                    </tr>
-                `);
-            } else {
-                tbody.insertAdjacentHTML('beforeend', html);
+            // Modal slip viewer
+            const modal = document.getElementById('viewSlipModal');
+            const slipContent = document.getElementById('slipContent');
+            modal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const invoice = button.getAttribute('data-invoice');
+                slipContent.innerHTML = `<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>`;
+                fetch(`/orders/get-slips/${invoice}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length === 0) {
+                            slipContent.innerHTML = '<p>No slips uploaded for this order.</p>';
+                            return;
+                        }
+                        let content = '';
+                        data.forEach(slip => {
+                            const ext = slip.type.toLowerCase();
+                            const slipView = ['jpg', 'jpeg', 'png', 'gif'].includes(ext)
+                                ? `<a href="${slip.path}" target="_blank"><img src="${slip.path}" alt="Slip Image" class="img-fluid rounded" style="width: 300px; height: 200px;"></a>`
+                                : ext === 'pdf'
+                                    ? `<iframe src="${slip.path}" width="100%" height="400px" style="border: none;"></iframe>`
+                                    : '<p>Unsupported file type.</p>';
+                            content += `<div class="mb-3"><p><strong>Bank Name:</strong> ${slip.bank}</p>${slipView}</div>`;
+                        });
+                        slipContent.innerHTML = content;
+                    })
+                    .catch(() => {
+                        slipContent.innerHTML = '<p>Error loading slips. Please try again.</p>';
+                    });
+            });
+
+            // jQuery and vanilla fallback for modal update
+            $('#updateSheetModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var orderId = button.data('id');
+                $(this).find('#order-id-input').val(orderId);
+            });
+            const updateModal = document.getElementById('updateSheetModal');
+            if (updateModal) {
+                updateModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const orderId = button.getAttribute('data-id');
+                    updateModal.querySelector('#order-id-input').value = orderId;
+                });
             }
-            isLoading[type] = false;
-        })
-        .catch(err => {
-            console.error(`Failed to load ${type} data:`, err);
-            hideSpinner(tbody);
-            isLoading[type] = false;
-        });
-    }
 
-    function showSpinner(tbody) {
-        if (!tbody.querySelector('.loading-spinner')) {
-            tbody.insertAdjacentHTML('beforeend', `
+            // Row Count after filtering
+            function updateRowCounts() {
+                const tabMap = {
+                    'boosting-count': '#basictab1',
+                    'designs-count': '#basictab2',
+                    'video-count': '#basictab3'
+                };
+                Object.entries(tabMap).forEach(([counterId, tabSelector]) => {
+                    const table = document.querySelector(`${tabSelector} table`);
+                    if (!table) return;
+                    const visibleRows = table.querySelectorAll('tbody tr:not([style*="display: none"])');
+                    document.getElementById(counterId).textContent = visibleRows.length;
+                });
+            }
+
+            updateRowCounts();
+            const observer = new MutationObserver(updateRowCounts);
+            document.querySelectorAll('.tab-pane tbody').forEach(tbody => {
+                observer.observe(tbody, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+            });
+            document.querySelectorAll('.search-btn, .search-input').forEach(el => {
+                el.addEventListener('input', updateRowCounts);
+                el.addEventListener('click', updateRowCounts);
+                el.addEventListener('change', updateRowCounts);
+            });
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.addEventListener('click', () => setTimeout(updateRowCounts, 200));
+            });
+
+            // Lazy loading with search awareness
+            const searchParams = new URLSearchParams(window.location.search);
+            const filterKeys = ['id', 'contact', 'name', 'invoice', 'payment_status', 'work_status', 'work_type', 'old_new', 'uid', 'advertiser_id'];
+            const searchActive = filterKeys.some(key => {
+                const value = searchParams.get(key);
+                return value !== null && value.trim() !== '';
+            });
+
+            // Existing code above this stays unchanged...
+
+            // Lazy loading with search awareness + filters
+            const pages = { boosting: 1, designs: 1, video: 1 };
+            const isLoading = { boosting: false, designs: false, video: false };
+            const noMoreData = { boosting: false, designs: false, video: false };
+            const tabTypeMap = {
+                basictab1: 'boosting',
+                basictab2: 'designs',
+                basictab3: 'video'
+            };
+
+            // Load initial pages on tab activation
+            Object.keys(pages).forEach(type => {
+                const paneId = Object.entries(tabTypeMap).find(([k, v]) => v === type)?.[0];
+                const pane = document.getElementById(paneId);
+                const tbody = pane?.querySelector('tbody');
+                if (tbody) {
+                    loadInitialPages(type, tbody, 2); // Preload 2 pages
+                    tbody.dataset.loaded = true;
+                }
+            });
+
+            // Scroll listener per tab
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                const tableContainer = pane.querySelector('.table-responsive');
+                if (!tableContainer) return;
+                tableContainer.addEventListener('scroll', function () {
+                    const tabId = pane.id;
+                    const type = tabTypeMap[tabId];
+                    if (!type || isLoading[type] || noMoreData[type]) return;
+
+                    const nearBottom = tableContainer.scrollTop + tableContainer.clientHeight >= tableContainer.scrollHeight - 100;
+                    if (nearBottom) {
+                        const tbody = tableContainer.querySelector('tbody');
+                        if (tbody) loadMore(type, tbody);
+                    }
+                });
+            });
+
+            function loadInitialPages(type, tbody, count) {
+                if (count <= 0 || noMoreData[type]) return;
+                pages[type]++;
+                isLoading[type] = true;
+                showSpinner(tbody);
+
+                const params = new URLSearchParams(window.location.search);
+                params.set('page', pages[type]);
+                params.set('type', type);
+
+                fetch(`?${params.toString()}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(res => res.text())
+                    .then(html => {
+                        hideSpinner(tbody);
+                        if (html.trim() === '') {
+                            noMoreData[type] = true;
+                        } else {
+                            tbody.insertAdjacentHTML('beforeend', html);
+                            isLoading[type] = false;
+                            loadInitialPages(type, tbody, count - 1); // Load next
+                        }
+                    })
+                    .catch(err => {
+                        console.error(`Failed to preload ${type} data:`, err);
+                        hideSpinner(tbody);
+                        isLoading[type] = false;
+                    });
+            }
+
+            function loadMore(type, tbody) {
+                pages[type]++;
+                isLoading[type] = true;
+                showSpinner(tbody);
+
+                const params = new URLSearchParams(window.location.search);
+                params.set('page', pages[type]);
+                params.set('type', type);
+
+                fetch(`?${params.toString()}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(res => res.text())
+                    .then(html => {
+                        hideSpinner(tbody);
+                        if (html.trim() === '') {
+                            noMoreData[type] = true;
+                            tbody.insertAdjacentHTML('beforeend', `
+                        <tr class="no-more-data">
+                            <td colspan="100%" class="text-center text-muted">No more records</td>
+                        </tr>
+                    `);
+                        } else {
+                            tbody.insertAdjacentHTML('beforeend', html);
+                        }
+                        isLoading[type] = false;
+                    })
+                    .catch(err => {
+                        console.error(`Failed to load ${type} data:`, err);
+                        hideSpinner(tbody);
+                        isLoading[type] = false;
+                    });
+            }
+
+            function showSpinner(tbody) {
+                if (!tbody.querySelector('.loading-spinner')) {
+                    tbody.insertAdjacentHTML('beforeend', `
                 <tr class="loading-spinner">
                     <td colspan="100%" class="text-center">
                         <div class="spinner-border" role="status">
@@ -899,15 +969,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     </td>
                 </tr>
             `);
-        }
-    }
+                }
+            }
 
-    function hideSpinner(tbody) {
-        const spinner = tbody.querySelector('.loading-spinner');
-        if (spinner) spinner.remove();
-    }
-});
-</script>
+            function hideSpinner(tbody) {
+                const spinner = tbody.querySelector('.loading-spinner');
+                if (spinner) spinner.remove();
+            }
+
+        });
+    </script>
 
 
 

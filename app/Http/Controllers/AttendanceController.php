@@ -11,10 +11,10 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    public function attendance($id)
+    public function attendance(Request $request, $id)
     {
         $today = Carbon::today()->toDateString();
-        $now = Carbon::now()->toTimeString();
+        $now = $request->input('time') ?? Carbon::now()->toTimeString();
 
         $attendance = Attendance::where('user_id', $id)
             ->whereDate('date', $today)
@@ -52,9 +52,8 @@ class AttendanceController extends Controller
                 'message' => 'Arrival time recorded successfully.',
             ]);
         }
-
-
     }
+
 
     public function indextodayattendance()
     {

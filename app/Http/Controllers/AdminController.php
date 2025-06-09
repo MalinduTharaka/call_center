@@ -57,8 +57,16 @@ class AdminController extends Controller
         if ($request->filled('work_type')) {
             $query->where('work_type_id', $request->work_type);
         }
+        if ($request->filled('uid')) {
+            $query->where('uid', $request->uid);
+        }
+        if ($request->filled('advertiser_id')) {
+            $query->where('advertiser_id', $request->advertiser_id);
+        }
 
-        $orders = $query->paginate(100); // Do not use infinite/lazy pagination during search
+        $perPage = 100;
+        $orders = $query->paginate($perPage);
+        // Do not use infinite/lazy pagination during search
 
         $users = User::all();
         $invoices = Invoice::all();
@@ -77,9 +85,6 @@ class AdminController extends Controller
 
         return view('admin.admin-orders', compact('orders', 'users', 'invoices', 'work_types'));
     }
-
-
-
 
     public function updateBoostingAD(Request $request, $id)
     {
