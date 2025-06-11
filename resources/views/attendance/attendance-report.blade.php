@@ -92,11 +92,11 @@
 
                     <div class="mb-3">
                         <label for="arr_time" class="form-label">Arrival Time</label>
-                        <input type="time" id="arr_time" name="arr_time" class="form-control">
+                        <input type="time" id="arr_time" name="arr_time" class="form-control" step="1">
                     </div>
                     <div class="mb-3">
                         <label for="leave_time" class="form-label">Leave Time</label>
-                        <input type="time" id="leave_time" name="leave_time" class="form-control">
+                        <input type="time" id="leave_time" name="leave_time" class="form-control" step="1">
                     </div>
                 </div>
                 <div class="modal-footer">
