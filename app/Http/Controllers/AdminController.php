@@ -63,6 +63,12 @@ class AdminController extends Controller
         if ($request->filled('advertiser_id')) {
             $query->where('advertiser_id', $request->advertiser_id);
         }
+        if ($request->filled('designer_id')) {
+            $query->where('designer_id', $request->designer_id);
+        }
+        if ($request->filled('editor_id')) {
+            $query->where('editor_id', $request->editor_id);
+        }
 
         $perPage = 100;
         $orders = $query->paginate($perPage);

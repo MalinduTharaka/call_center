@@ -359,6 +359,19 @@
                                                             placeholder="Invoice" value="{{ request('invoice') }}">
                                                     </div>
                                                     <div class="col-md-2">
+                                                        <select name="designer_id" class="form-select">
+                                                            <option value="">Designer</option>
+                                                            @foreach ($users as $user)
+                                                                @if ($user->role == 'dsg')
+                                                                    <option value="{{ $user->id }}"
+                                                                        @selected(request('designer_id') == $user->id)>
+                                                                        {{ $user->name }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
                                                         <select name="uid" class="form-select">
                                                             <option value="">CRO</option>
                                                             @foreach ($users as $user)
@@ -509,6 +522,19 @@
                                                             <option value="rejected"
                                                                 @selected(request('payment_status') == 'rejected')>Rejected
                                                             </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select name="editor_id" class="form-select">
+                                                            <option value="">Editor</option>
+                                                            @foreach ($users as $user)
+                                                                @if ($user->role == 'vde')
+                                                                    <option value="{{ $user->id }}"
+                                                                        @selected(request('editor_id') == $user->id)>
+                                                                        {{ $user->name }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="col-md-2">

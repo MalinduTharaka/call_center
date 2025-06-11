@@ -21,7 +21,7 @@ class DesignersWorkDoneController extends Controller
             // incoming format is "YYYY-MM"
             [$year, $month] = explode('-', $request->month_year);
             $query->whereYear('created_at', $year)
-                  ->whereMonth('created_at', $month);
+                ->whereMonth('created_at', $month);
         }
 
         // User filter
@@ -35,11 +35,36 @@ class DesignersWorkDoneController extends Controller
         $entries = $query->orderBy('created_at', 'desc')->get();
 
         // Dropdowns
-        $users    = User::orderBy('name')->get();
+        $users = User::orderBy('name')->get();
         $invoices = Invoice::where('due_date', Carbon::today())->get();
 
         return view('call_center.designers-work-done', compact(
-            'entries','users','invoices','request'
+            'entries',
+            'users',
+            'invoices',
+            'request'
         ));
     }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        $entry = PostDesignersWork::findOrFail($id);
+        $entry->amount = $request->amount;
+        $entry->save();
+
+        return redirect()->route('designer.work.index')->with('success', 'Amount updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $entry = PostDesignersWork::findOrFail($id);
+        $entry->delete();
+
+        return redirect()->route('designer.work.index')->with('success', 'Entry deleted successfully.');
+    }
+
 }

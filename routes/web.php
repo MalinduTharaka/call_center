@@ -177,6 +177,9 @@ Route::middleware([
 
     // Designers work done
     Route::get('/designer-work', [DesignersWorkDoneController::class, 'index'])->name('designer.work.index');
+    Route::put('/designer-work/{id}', [DesignersWorkDoneController::class, 'update'])->name('designer.work.update');
+    Route::delete('/designer-work/{id}', [DesignersWorkDoneController::class, 'destroy'])->name('designer.work.destroy');
+
 
     // CRO work done
     Route::get('/cro-work', [CroWorkDoneController::class, 'index'])->name('cro.work.index');
