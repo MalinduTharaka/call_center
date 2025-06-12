@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\AdvertiserEndWorkEvent;
+use App\Models\AdvertiserWork;
 use App\Models\Attendance;
 use App\Models\Invoice;
 use App\Models\User;
@@ -20,15 +21,48 @@ class AttendanceController extends Controller
             ->whereDate('date', $today)
             ->first();
 
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found.',
+            ]);
+        }
+
         if ($attendance) {
             if (!empty($attendance->arr_time) && is_null($attendance->leave_time)) {
-                $attendance->update([
-                    'leave_time' => $now,
-                ]);
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Leave time recorded successfully.',
-                ]);
+                $arrTime = Carbon::parse($attendance->arr_time);
+                $currentTime = Carbon::parse($now);
+
+                if ($arrTime->diffInMinutes($currentTime) > 60) {
+                    $attendance->update([
+                        'leave_time' => $now,
+                    ]);
+
+                    // ✅ Update AdvertiserWork if user is advertiser (role == 'adv')
+                    if ($user->role === 'adv') {
+                        $advertiserWork = AdvertiserWork::where('user_id', $id)
+                            ->whereDate('date', $today)
+                            ->first();
+
+                        if ($advertiserWork) {
+                            $advertiserWork->update([
+                                'off_time' => $now,
+                            ]);
+                        }
+                    }
+
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Leave time recorded successfully.',
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Cannot record leave time. Less than 1 hour since arrival.',
+                    ]);
+                }
             } elseif (!empty($attendance->arr_time) && !is_null($attendance->leave_time)) {
                 return response()->json([
                     'status' => 'info',
@@ -47,12 +81,15 @@ class AttendanceController extends Controller
                 'arr_time' => $now,
                 'leave_time' => null,
             ]);
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Arrival time recorded successfully.',
             ]);
         }
     }
+
+
 
 
     public function indextodayattendance()

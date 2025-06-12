@@ -278,4 +278,3 @@ Route::post('/verify-device', [DeviceController::class, 'verifyDevice']);
 Route::get('/check-device', [DeviceController::class, 'checkDevice']);
 Route::get('/login/external', [OutsideAuthController::class, 'index']);
 Route::post('/outside-login/verify', [OutsideAuthController::class, 'verifyEmail'])->name('outside.login.verify');
-Route::post('/attendance/{id}', [AttendanceController::class, 'attendance'])->name('attendance');
