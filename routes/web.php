@@ -265,6 +265,8 @@ Route::middleware([
     Route::get('/salaries/selected-month/{mo}/{yr}', [SalaryController::class, 'selectedMonth']);
     Route::put('/salary/edit/{id}', [SalaryController::class, 'editSalary']);
     Route::get('/net/income/calculator', [IncomeCalculatorController::class, 'index'])->name('net.income.calculator');
+    Route::post('/net/income/save', [IncomeCalculatorController::class, 'store'])->name('net.income.save');
+
 
 
     //Advertiser Work Done

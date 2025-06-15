@@ -18,10 +18,10 @@
             align-items: center;
             justify-content: center;
             flex: 1 1 0;
-            min-height: 120px;
+            min-height: 80px;
             border-radius: 12px;
             padding: 1rem;
-            font-size: 1.1rem;
+            font-size: .8rem;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
@@ -70,12 +70,12 @@
             justify-content: center;
             border-radius: 12px;
             padding: 1rem;
-            font-size: 1.1rem;
+            font-size: 0.8rem;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
             transition: transform .15s ease;
-            margin: .5rem;
+            margin: .2rem;
             position: relative;
             border: none;
         }

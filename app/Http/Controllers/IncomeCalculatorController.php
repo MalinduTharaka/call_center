@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\NetIncome;
 use App\Models\Order;
 use App\Models\OtherOrder;
 use Carbon\Carbon;
@@ -72,4 +73,33 @@ class IncomeCalculatorController extends Controller
             'videoEditorSalaries' => $videoEditorSalaries,
         ]);
     }
+
+    public function store(Request $request)
+{
+    $data = $request->validate([
+        'month' => 'required|date',
+        'service' => 'required|numeric',
+        'designs' => 'required|numeric',
+        'video' => 'required|numeric',
+        'other' => 'required|numeric',
+        'salary' => 'required|numeric',
+        'act_payment' => 'required|numeric',
+        'dsg_payment' => 'required|numeric',
+        'vde_payment' => 'required|numeric',
+        'water_bill' => 'required|numeric',
+        'ecb_bill' => 'required|numeric',
+        'int_bill' => 'required|numeric',
+        'rent' => 'required|numeric',
+        'other_business' => 'required|numeric',
+        'other_deductions' => 'required|numeric',
+        'net_income' => 'required|numeric',
+    ]);
+
+    NetIncome::updateOrCreate(
+        ['month' => $data['month']],
+        $data
+    );
+
+    return response()->json(['success' => true]);
+}
 }
